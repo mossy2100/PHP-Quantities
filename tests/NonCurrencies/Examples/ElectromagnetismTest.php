@@ -92,7 +92,7 @@ class ElectromagnetismTest extends TestCase
     public function testAcMainsPeriod50Hz(): void
     {
         $mains = new Frequency(50, 'Hz');
-        $period = $mains->inv();
+        $period = $mains->recip();
 
         $this->assertInstanceOf(Time::class, $period);
         // 1/50 = 0.02 s = 20 ms
@@ -108,7 +108,7 @@ class ElectromagnetismTest extends TestCase
     public function testAcMainsPeriod60Hz(): void
     {
         $mains = new Frequency(60, 'Hz');
-        $period = $mains->inv();
+        $period = $mains->recip();
 
         $this->assertInstanceOf(Time::class, $period);
         // 1/60 ≈ 16.67 ms

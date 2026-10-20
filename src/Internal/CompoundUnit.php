@@ -230,7 +230,7 @@ class CompoundUnit implements UnitInterface
 
             // Copy unit terms from the denominator to the numerator.
             foreach ($denUnit->unitTerms as $denUnitTerm) {
-                $numUnit->addUnitTerm($denUnitTerm->inv());
+                $numUnit->addUnitTerm($denUnitTerm->recip());
             }
 
             return $numUnit;
@@ -381,9 +381,9 @@ class CompoundUnit implements UnitInterface
      *
      * @return self A new instance with inverted exponents (e.g. m⋅s⁻¹ → m⁻¹⋅s).
      */
-    public function inv(): self
+    public function recip(): self
     {
-        $unitTerms = array_values(array_map(static fn (UnitTerm $unitTerm) => $unitTerm->inv(), $this->unitTerms));
+        $unitTerms = array_values(array_map(static fn (UnitTerm $unitTerm) => $unitTerm->recip(), $this->unitTerms));
 
         /** @var list<UnitTerm> $unitTerms */
         return new self($unitTerms);
@@ -590,7 +590,7 @@ class CompoundUnit implements UnitInterface
         // Get the negative terms as a string.
         $negTermsStr = implode(
             $ascii ? '*' : '⋅',
-            array_map(static fn (UnitTerm $unitTerm) => $unitTerm->inv()->format($ascii), $negTerms)
+            array_map(static fn (UnitTerm $unitTerm) => $unitTerm->recip()->format($ascii), $negTerms)
         );
         if (count($negTerms) > 1) {
             $negTermsStr = "($negTermsStr)";
@@ -716,7 +716,7 @@ class CompoundUnit implements UnitInterface
 
             if ($i > 0 && $parts[$i - 1] === '/') {
                 // If dividing, invert and add the unit term.
-                $new->addUnitTerm($unitTerm->inv());
+                $new->addUnitTerm($unitTerm->recip());
             } else {
                 // If multiplying, add the unit term.
                 $new->addUnitTerm($unitTerm);
@@ -734,7 +734,7 @@ class CompoundUnit implements UnitInterface
      * If the resulting exponent is zero, the term is removed entirely.
      *
      * Private to preserve deep immutability: external callers must build compound units via the constructor or
-     * use arithmetic methods like mul() / inv() / pow(), which return new instances.
+     * use arithmetic methods like mul() / recip() / pow(), which return new instances.
      *
      * @param UnitTerm $newUnitTerm The unit term to add.
      */

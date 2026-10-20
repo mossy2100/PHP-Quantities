@@ -557,49 +557,49 @@ class CompoundUnitTest extends TestCase
 
     #endregion
 
-    #region inv() tests
+    #region recip() tests
 
-    public function testInvSingleUnit(): void
+    public function testRecipSingleUnit(): void
     {
         $du = CompoundUnit::parse('m');
-        $inv = $du->inv();
+        $recip = $du->recip();
 
-        $this->assertSame('m-1', $inv->format(true));
-        $this->assertSame('L-1', $inv->dimension);
+        $this->assertSame('m-1', $recip->format(true));
+        $this->assertSame('L-1', $recip->dimension);
     }
 
-    public function testInvUnitWithExponent(): void
+    public function testRecipUnitWithExponent(): void
     {
         $du = CompoundUnit::parse('m2');
-        $inv = $du->inv();
+        $recip = $du->recip();
 
-        $this->assertSame('m-2', $inv->format(true));
+        $this->assertSame('m-2', $recip->format(true));
     }
 
-    public function testInvCompoundUnit(): void
+    public function testRecipCompoundUnit(): void
     {
         $du = CompoundUnit::parse('m/s');
-        $inv = $du->inv();
+        $recip = $du->recip();
 
         // m⋅s⁻¹ inverted is m⁻¹⋅s
-        $this->assertSame('s/m', $inv->format(true));
+        $this->assertSame('s/m', $recip->format(true));
     }
 
-    public function testInvDoesNotModifyOriginal(): void
+    public function testRecipDoesNotModifyOriginal(): void
     {
         $du = CompoundUnit::parse('m');
-        $inv = $du->inv();
+        $recip = $du->recip();
 
         $this->assertSame('m', $du->format(true));
-        $this->assertSame('m-1', $inv->format(true));
+        $this->assertSame('m-1', $recip->format(true));
     }
 
-    public function testInvEmpty(): void
+    public function testRecipEmpty(): void
     {
         $du = new CompoundUnit();
-        $inv = $du->inv();
+        $recip = $du->recip();
 
-        $this->assertSame('', $inv->format(true));
+        $this->assertSame('', $recip->format(true));
     }
 
     #endregion

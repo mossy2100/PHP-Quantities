@@ -17,7 +17,7 @@ $diff = $a->sub($b);       // 50 m
 $scaled = $a->mul(2.0);    // 200 m
 $halved = $a->div(2.0);    // 50 m
 $neg = $a->neg();           // -100 m
-$inv = $a->inv();           // 0.01 m-1
+$recip = $a->recip();      // 0.01 m-1
 ```
 
 For full method signatures and parameter details, see the [Quantity reference](../Reference/Quantity.md#arithmetic-methods).
@@ -95,7 +95,7 @@ This applies whenever `mul()` or `div()` produces a result with multiple terms o
 
 ---
 
-## inv()
+## recip()
 
 Invert a quantity (1/x). Both the value and unit are inverted:
 
@@ -103,7 +103,7 @@ Invert a quantity (1/x). Both the value and unit are inverted:
 use OceanMoon\Quantities\QuantityType\Time;
 
 $time = new Time(4, 's');
-$inv = $time->inv();  // 0.25 s-1 (Frequency)
+$recip = $time->recip();  // 0.25 s-1 (Frequency)
 ```
 
 Throws `DivisionByZeroError` if the value is zero.
@@ -165,7 +165,7 @@ $result = $length->mul(2)->add(new Length(5, 'm'))->sub(new Length(3, 'm'));
 
 The result type of `add()`, `sub()`, `neg()`, or `abs()` is always the same type as the calling object — the dimension cannot change.
 
-The result type of `mul()`, `div()`, `inv()`, or `pow()` is determined automatically. If the result quantity's dimension matches a registered quantity type, the correct subclass is returned. Otherwise, a base `Quantity` object is returned:
+The result type of `mul()`, `div()`, `recip()`, or `pow()` is determined automatically. If the result quantity's dimension matches a registered quantity type, the correct subclass is returned. Otherwise, a base `Quantity` object is returned:
 
 ```php
 use OceanMoon\Quantities\PhysicalConstant;

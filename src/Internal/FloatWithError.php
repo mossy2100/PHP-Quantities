@@ -114,7 +114,7 @@ class FloatWithError implements Stringable
      * @return self A new FloatWithError with the inverse and propagated error.
      * @throws DivisionByZeroError If attempting to invert zero.
      */
-    public function inv(): self
+    public function recip(): self
     {
         if ($this->value === 0.0) {
             throw new DivisionByZeroError('Cannot invert zero.');

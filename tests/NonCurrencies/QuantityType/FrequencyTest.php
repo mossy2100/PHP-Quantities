@@ -558,7 +558,7 @@ final class FrequencyTest extends TestCase
         // T = 1/f
         // Period of 50 Hz = 1/50 = 0.02 s = 20 ms
         $freq = new Frequency(50, 'Hz');
-        $period = $freq->inv();
+        $period = $freq->recip();
 
         $this->assertInstanceOf(Time::class, $period);
         $this->assertSame(0.02, $period->value);

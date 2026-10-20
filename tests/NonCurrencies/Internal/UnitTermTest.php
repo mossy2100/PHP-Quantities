@@ -699,13 +699,13 @@ final class UnitTermTest extends TestCase
     #region Transformation method tests
 
     /**
-     * Test inv() negates exponent.
+     * Test recip() negates exponent.
      */
-    public function testInvNegatesExponent(): void
+    public function testRecipNegatesExponent(): void
     {
         $term = new UnitTerm('m', 'k', 2);
 
-        $inverted = $term->inv();
+        $inverted = $term->recip();
 
         $this->assertSame(-2, $inverted->exponent);
         $this->assertSame('k', $inverted->prefix?->asciiSymbol);
@@ -713,13 +713,13 @@ final class UnitTermTest extends TestCase
     }
 
     /**
-     * Test inv() returns new instance.
+     * Test recip() returns new instance.
      */
-    public function testInvReturnsNewInstance(): void
+    public function testRecipReturnsNewInstance(): void
     {
         $term = new UnitTerm('m', null, 2);
 
-        $inverted = $term->inv();
+        $inverted = $term->recip();
 
         $this->assertNotSame($term, $inverted);
     }

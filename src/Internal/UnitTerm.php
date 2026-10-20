@@ -365,7 +365,7 @@ class UnitTerm implements UnitInterface
      *
      * @return self A new instance with the inverse exponent (e.g. m² → m⁻²).
      */
-    public function inv(): self
+    public function recip(): self
     {
         return new self($this->unit, $this->prefix, -$this->exponent);
     }

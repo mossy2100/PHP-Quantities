@@ -660,15 +660,15 @@ class Quantity implements Stringable
     }
 
     /**
-     * Invert this Quantity (1/x) or divide a scalar by this Quantity (n/x).
+     * Invert this Quantity (1/x).
      *
      * @return self A new Quantity with the value and unit inverted.
      * @throws DivisionByZeroError If the value is zero.
      * @example
      *   $length = new Length(10, 'm');
-     *   $inv = $length->inv();  // Length(0.1, 'm^-1')
+     *   $recip = $length->recip();  // Length(0.1, 'm^-1')
      */
-    public function inv(): self
+    public function recip(): self
     {
         // Guards.
         if ($this->value === 0.0) {
@@ -676,7 +676,7 @@ class Quantity implements Stringable
         }
 
         // Invert the value and unit.
-        return self::create(1.0 / $this->value, $this->compoundUnit->inv());
+        return self::create(1.0 / $this->value, $this->compoundUnit->recip());
     }
 
     #endregion
@@ -810,7 +810,7 @@ class Quantity implements Stringable
         }
 
         // Multiply by the inverse.
-        return $this->mul($other->inv());
+        return $this->mul($other->recip());
     }
 
     #endregion

@@ -498,10 +498,10 @@ Negate this measurement.
 **Returns:**
 - `static` - A new Quantity with negated value.
 
-### inv()
+### recip()
 
 ```php
-public function inv(): self
+public function recip(): self
 ```
 
 Invert this quantity (1/x).

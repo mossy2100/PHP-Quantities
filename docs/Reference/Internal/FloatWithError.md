@@ -125,10 +125,10 @@ Negate this value. Error magnitude is unchanged.
 **Returns:**
 - `FloatWithError` - A new instance with the negated value and the same error.
 
-### inv()
+### recip()
 
 ```php
-public function inv(): self
+public function recip(): self
 ```
 
 Return the multiplicative inverse (1/value). Relative error is preserved.

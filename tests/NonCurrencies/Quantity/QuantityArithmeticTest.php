@@ -412,38 +412,38 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region inv() tests
+    #region recip() tests
 
     /**
-     * Test inv() basic case.
+     * Test recip() basic case.
      */
-    public function testInv(): void
+    public function testRecip(): void
     {
         $time = new Time(2, 's');
-        $frequency = $time->inv();
+        $frequency = $time->recip();
 
         $this->assertSame(0.5, $frequency->value);
         $this->assertSame('s-1', $frequency->compoundUnit->asciiSymbol);
     }
 
     /**
-     * Test inv() on zero throws exception.
+     * Test recip() on zero throws exception.
      */
-    public function testInvZeroThrowsException(): void
+    public function testRecipZeroThrowsException(): void
     {
         $this->expectException(DivisionByZeroError::class);
 
         $time = new Time(0, 's');
-        $time->inv();
+        $time->recip();
     }
 
     /**
-     * Test inv() on a negative value.
+     * Test recip() on a negative value.
      */
-    public function testInvNegative(): void
+    public function testRecipNegative(): void
     {
         $time = new Time(-4, 's');
-        $result = $time->inv();
+        $result = $time->recip();
 
         $this->assertSame(-0.25, $result->value);
         $this->assertSame('s-1', $result->compoundUnit->asciiSymbol);

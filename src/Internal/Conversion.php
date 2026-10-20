@@ -137,7 +137,7 @@ class Conversion implements Stringable
         $m1 = $this->factor;
 
         // m = 1 / m1
-        $m = $m1->inv();
+        $m = $m1->recip();
 
         // Swap the units when inverting.
         return new self($this->destUnit, $this->srcUnit, $m);
@@ -279,7 +279,7 @@ class Conversion implements Stringable
         $m2 = $other->factor;
 
         // m = 1 / (m1 * m2)
-        $m = $m1->mul($m2)->inv();
+        $m = $m1->mul($m2)->recip();
 
         // Result is source->dest.
         return new self($this->destUnit, $other->srcUnit, $m);

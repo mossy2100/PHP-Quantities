@@ -76,7 +76,7 @@ $force = $force->toSiBase();  // 124550... kg⋅m/s²
 // Arithmetic operations
 $total = $distance->add(new Length(500, 'm'));      // 5.5 km
 $doubled = $distance->mul(2.0);                     // 10 km
-$period = new Frequency(2.4, 'GHz')->inv()->toSi(); // 416.7... ps
+$period = new Frequency(2.4, 'GHz')->recip()->toSi(); // 416.7... ps
 
 // Physical constants
 $h = PhysicalConstant::planck();

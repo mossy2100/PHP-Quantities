@@ -472,11 +472,11 @@ class FloatWithErrorTest extends TestCase
     /**
      * Test inverse calculates 1/x correctly.
      */
-    public function testInvCalculatesReciprocal(): void
+    public function testRecipCalculatesReciprocal(): void
     {
         $num = new FloatWithError(4.0, 0.04); // Absolute error 0.04 gives 1% relative error
 
-        $result = $num->inv();
+        $result = $num->recip();
 
         $this->assertSame(0.25, $result->value);
         // Relative error unchanged at 1%, so absolute error ≈ 0.0025 plus rounding
@@ -486,36 +486,36 @@ class FloatWithErrorTest extends TestCase
     /**
      * Test inverse with exact integer.
      */
-    public function testInvWithExactInteger(): void
+    public function testRecipWithExactInteger(): void
     {
         $num = new FloatWithError(2);
 
-        $result = $num->inv();
+        $result = $num->recip();
 
         $this->assertSame(0.5, $result->value);
-        // 0.5 is exact, but inv() adds rounding error due to conditional
+        // 0.5 is exact, but recip() adds rounding error due to conditional
         $this->assertGreaterThanOrEqual(0.0, $result->absoluteError);
     }
 
     /**
      * Test inverse of zero throws exception.
      */
-    public function testInvOfZeroThrows(): void
+    public function testRecipOfZeroThrows(): void
     {
         $num = new FloatWithError(0.0, 0.0);
 
         $this->expectException(DivisionByZeroError::class);
-        $num->inv();
+        $num->recip();
     }
 
     /**
      * Test inverse of inverse returns approximate original.
      */
-    public function testInvOfInv(): void
+    public function testRecipOfRecip(): void
     {
         $num = new FloatWithError(10);
 
-        $result = $num->inv()->inv();
+        $result = $num->recip()->recip();
 
         $this->assertSame(10.0, $result->value);
     }

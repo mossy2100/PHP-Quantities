@@ -245,10 +245,10 @@ Check if this UnitTerm equals another. Compares by ASCII symbol.
 
 ## Unary arithmetic methods
 
-### inv()
+### recip()
 
 ```php
-public function inv(): self
+public function recip(): self
 ```
 
 Return a new UnitTerm with the exponent negated.
@@ -258,7 +258,7 @@ Return a new UnitTerm with the exponent negated.
 **Examples:**
 ```php
 $perSecond = new UnitTerm('s', null, -1);
-$second = $perSecond->inv();
+$second = $perSecond->recip();
 echo $second->exponent; // 1
 ```
 

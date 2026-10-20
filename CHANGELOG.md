@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- **`Quantity::inv()` is renamed `recip()` (breaking),** matching `Complex::recip()` and `Rational::recip()` in
+  `oceanmoon/math`. So is `inv()` on the internal `CompoundUnit`, `UnitTerm` and `FloatWithError` classes.
+  `Conversion::inv()` is unchanged, since it inverts the direction of a conversion.
+
+---
+
 ## [2.0.0] - 2026-06-18
 
 ### Changed

@@ -124,7 +124,7 @@ echo $cmbr->to('degC');  // -270.425 °C
 
 ### Arithmetic
 
-Before calling arithmetic methods that involve multiplication or division (e.g. `inv()`, `mul()`, `div()`), convert offset-scale temperatures to an absolute scale first using `toAbsoluteScale()`. Without this, the result is physically meaningless because Celsius and Fahrenheit have arbitrary zero points.
+Before calling arithmetic methods that involve multiplication or division (e.g. `recip()`, `mul()`, `div()`), convert offset-scale temperatures to an absolute scale first using `toAbsoluteScale()`. Without this, the result is physically meaningless because Celsius and Fahrenheit have arbitrary zero points.
 
 ```php
 // "Twice as hot" as 20 °C — must work in Kelvin.

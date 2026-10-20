@@ -19,7 +19,7 @@ Key behaviors:
 - Automatic term combination for like units
 - Multiple parsing formats (multiplication, division, parentheses)
 - Dimension code calculation from component terms
-- Immutable transformations (`inv`, `mul`, `pow`, `toSiBase`, `toEnglishBase`)
+- Immutable transformations (`recip`, `mul`, `pow`, `toSiBase`, `toEnglishBase`)
 - Equatable via the `Equatable` trait
 
 ---
@@ -253,10 +253,10 @@ Check if this compound unit equals another. Compares by ASCII symbol.
 
 ## Unary arithmetic methods
 
-### inv()
+### recip()
 
 ```php
-public function inv(): self
+public function recip(): self
 ```
 
 Return a new CompoundUnit with all exponents negated.
@@ -266,7 +266,7 @@ Return a new CompoundUnit with all exponents negated.
 **Examples:**
 ```php
 $velocity = CompoundUnit::parse('m/s');
-$invVelocity = $velocity->inv(); // s/m
+$recipVelocity = $velocity->recip(); // s/m
 ```
 
 ---
@@ -290,7 +290,7 @@ Multiply this CompoundUnit by another, combining unit terms. Same-unit exponents
 ```php
 $length = CompoundUnit::parse('m');
 $time = CompoundUnit::parse('s');
-$velocity = $length->mul($time->inv()); // m/s
+$velocity = $length->mul($time->recip()); // m/s
 ```
 
 ---
@@ -484,7 +484,7 @@ $length = CompoundUnit::parse('m');
 $time = CompoundUnit::parse('s');
 
 // Calculate velocity unit: m/s
-$velocity = $length->mul($time->inv());
+$velocity = $length->mul($time->recip());
 echo $velocity->asciiSymbol; // 'm/s'
 
 // Square it for area
