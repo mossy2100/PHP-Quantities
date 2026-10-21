@@ -2,7 +2,7 @@
 
 Represents data/information quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -57,7 +57,7 @@ $inGiB = $disk->to('GiB');  // 931.323 GiB
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Data;
+use Mossy2100\Quantities\QuantityType\Data;
 
 // File sizes (metric)
 $file = new Data(4.7, 'GB');

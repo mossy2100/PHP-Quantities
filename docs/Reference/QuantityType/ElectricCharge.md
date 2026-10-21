@@ -2,7 +2,7 @@
 
 Represents electric charge quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -44,7 +44,7 @@ One *coulomb* is the charge transported by a current of one *ampere* in one *sec
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\ElectricCharge;
+use Mossy2100\Quantities\QuantityType\ElectricCharge;
 
 // Battery capacity
 $battery = new ElectricCharge(5000, 'mA*h');

@@ -366,8 +366,8 @@ Convert to string using Unicode format.
 ### Building compound units
 
 ```php
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\UnitTerm;
 
 // Build velocity: m/s
 $meter = new UnitTerm('m');
@@ -385,7 +385,7 @@ echo $acceleration->asciiSymbol; // 'm/s2'
 ### Working with prefixes
 
 ```php
-use OceanMoon\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Internal\UnitTerm;
 
 $km2 = new UnitTerm('m', 'k', 2);
 
@@ -404,7 +404,7 @@ echo $m2->asciiSymbol; // 'm2'
 ### Parsing and validation
 
 ```php
-use OceanMoon\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Internal\UnitTerm;
 
 // Parse with various formats
 $term1 = UnitTerm::parse('km2');

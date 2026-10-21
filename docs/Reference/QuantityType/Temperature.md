@@ -2,7 +2,7 @@
 
 Represents temperature quantities with special handling for offset-based conversions.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -174,7 +174,7 @@ echo $t->toAbsoluteScale();   // 491.67 °R  (cloned)
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Temperature;
+use Mossy2100\Quantities\QuantityType\Temperature;
 
 // Create temperatures
 $bodyTemp = new Temperature(98.6, 'degF');

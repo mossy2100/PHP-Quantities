@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Quantity;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
 use DomainException;
-use OceanMoon\Core\Traits\Asserts\FloatAssertions;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Temperature;
+use Mossy2100\Core\Traits\Asserts\FloatAssertions;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Temperature;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RoundingMode;

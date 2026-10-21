@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Quantity;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
-use OceanMoon\Core\Traits\Asserts\FloatAssertions;
-use OceanMoon\Quantities\Internal\QuantityType;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\QuantityType\Angle;
-use OceanMoon\Quantities\QuantityType\Area;
-use OceanMoon\Quantities\QuantityType\Energy;
-use OceanMoon\Quantities\QuantityType\Force;
-use OceanMoon\Quantities\QuantityType\Frequency;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
-use OceanMoon\Quantities\QuantityType\Time;
-use OceanMoon\Quantities\QuantityType\Volume;
+use Mossy2100\Core\Traits\Asserts\FloatAssertions;
+use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Angle;
+use Mossy2100\Quantities\QuantityType\Area;
+use Mossy2100\Quantities\QuantityType\Energy;
+use Mossy2100\Quantities\QuantityType\Force;
+use Mossy2100\Quantities\QuantityType\Frequency;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Volume;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

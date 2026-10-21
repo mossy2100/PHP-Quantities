@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\Currencies\ExchangeRateServices;
+namespace Mossy2100\Quantities\Tests\Currencies\ExchangeRateServices;
 
 use DomainException;
-use OceanMoon\Quantities\Currencies\ExchangeRateServices\ExchangeRateApiService;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\ExchangeRateApiService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

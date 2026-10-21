@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\QuantityType;
+namespace Mossy2100\Quantities\QuantityType;
 
 use LogicException;
+use Mossy2100\Quantities\Currencies\CurrencyService;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Quantity;
 use NumberFormatter;
-use OceanMoon\Quantities\Currencies\CurrencyService;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Quantity;
 use Override;
 use RuntimeException;
 

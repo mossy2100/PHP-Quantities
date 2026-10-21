@@ -2,7 +2,7 @@
 
 Categorizes units of measurement by their measurement system.
 
-**Namespace:** `OceanMoon\Quantities\Internal`
+**Namespace:** `Mossy2100\Quantities\Internal`
 
 ---
 

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Services;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Services;
 
 use DomainException;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Services\PrefixService;
-use OceanMoon\Quantities\Services\QuantityTypeService;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Services\UnitService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

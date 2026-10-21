@@ -2,7 +2,7 @@
 
 Exchange rate service using the Fixer.io API.
 
-**Namespace:** `OceanMoon\Quantities\Currencies\ExchangeRateServices`
+**Namespace:** `Mossy2100\Quantities\Currencies\ExchangeRateServices`
 **Implements:** [`ExchangeRateServiceInterface`](ExchangeRateServiceInterface.md)
 
 ---

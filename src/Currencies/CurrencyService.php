@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Currencies;
+namespace Mossy2100\Quantities\Currencies;
 
 use DateTimeInterface;
 use DomainException;
 use Locale;
 use LogicException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Core\Stringify;
-use OceanMoon\Quantities\Currencies\ExchangeRateServices\ExchangeRateServiceInterface;
-use OceanMoon\Quantities\Internal\Converter;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Services\ConversionService;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Stringify;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\ExchangeRateServiceInterface;
+use Mossy2100\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Services\ConversionService;
+use Mossy2100\Quantities\Services\UnitService;
 use ParseError;
 use RuntimeException;
 use SimpleXMLElement;

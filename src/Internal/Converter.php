@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Internal;
+namespace Mossy2100\Quantities\Internal;
 
 use DomainException;
 use LogicException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Core\Floats;
-use OceanMoon\Quantities\Currencies\CurrencyService;
-use OceanMoon\Quantities\Exceptions\DimensionMismatchException;
-use OceanMoon\Quantities\Services\ConversionService;
-use OceanMoon\Quantities\Services\DimensionService;
-use OceanMoon\Quantities\Services\QuantityTypeService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Floats;
+use Mossy2100\Quantities\Currencies\CurrencyService;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\Services\ConversionService;
+use Mossy2100\Quantities\Services\DimensionService;
+use Mossy2100\Quantities\Services\QuantityTypeService;
 
 /**
  * Manages unit conversions for a measurement type.

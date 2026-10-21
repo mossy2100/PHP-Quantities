@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Examples;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Examples;
 
-use OceanMoon\Core\Traits\Asserts\FloatAssertions;
-use OceanMoon\Quantities\PhysicalConstant;
-use OceanMoon\Quantities\QuantityType\Acceleration;
-use OceanMoon\Quantities\QuantityType\Force;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
-use OceanMoon\Quantities\QuantityType\Time;
+use Mossy2100\Core\Traits\Asserts\FloatAssertions;
+use Mossy2100\Quantities\PhysicalConstant;
+use Mossy2100\Quantities\QuantityType\Acceleration;
+use Mossy2100\Quantities\QuantityType\Force;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Time;
 use PHPUnit\Framework\TestCase;
 
 /**

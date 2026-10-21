@@ -2,7 +2,7 @@
 
 Represents luminous intensity quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -34,7 +34,7 @@ Kcd = 683 lm/W
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\LuminousIntensity;
+use Mossy2100\Quantities\QuantityType\LuminousIntensity;
 
 // LEDs
 $led = new LuminousIntensity(100, 'mcd');

@@ -2,7 +2,7 @@
 
 Exception thrown when an operation requires matching dimensions but receives different ones.
 
-**Namespace:** `OceanMoon\Quantities\Exceptions`
+**Namespace:** `Mossy2100\Quantities\Exceptions`
 **Extends:** `DomainException`
 
 ---
@@ -73,9 +73,9 @@ The second dimension code, or null if unknown.
 ## Examples
 
 ```php
-use OceanMoon\Quantities\Exceptions\DimensionMismatchException;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
 
 try {
     $length = new Length(100, 'm');

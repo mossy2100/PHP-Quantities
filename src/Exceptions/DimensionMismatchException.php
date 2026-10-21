@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Exceptions;
+namespace Mossy2100\Quantities\Exceptions;
 
 use DomainException;
-use OceanMoon\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Services\QuantityTypeService;
 use Throwable;
 
 /**

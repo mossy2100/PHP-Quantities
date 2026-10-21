@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Services;
+namespace Mossy2100\Quantities\Services;
 
 use DomainException;
 use LogicException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Quantities\Exceptions\DimensionMismatchException;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\Conversion;
-use OceanMoon\Quantities\Internal\Converter;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitInterface;
-use OceanMoon\Quantities\Internal\UnitSystem;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\Conversion;
+use Mossy2100\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitInterface;
+use Mossy2100\Quantities\Internal\UnitSystem;
 
 /**
  * Services for unit conversions.

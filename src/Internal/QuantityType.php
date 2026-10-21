@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Internal;
+namespace Mossy2100\Quantities\Internal;
 
 use InvalidArgumentException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\Services\DimensionService;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\Services\DimensionService;
+use Mossy2100\Quantities\Services\UnitService;
 
 /**
  * Represents a quantity type.

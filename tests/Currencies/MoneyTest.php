@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\Currencies;
+namespace Mossy2100\Quantities\Tests\Currencies;
 
-use OceanMoon\Quantities\Currencies\CurrencyService;
-use OceanMoon\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
-use OceanMoon\Quantities\Internal\Converter;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\QuantityType\Money;
-use OceanMoon\Quantities\Services\UnitService;
-use OceanMoon\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
+use Mossy2100\Quantities\Currencies\CurrencyService;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
+use Mossy2100\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\QuantityType\Money;
+use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

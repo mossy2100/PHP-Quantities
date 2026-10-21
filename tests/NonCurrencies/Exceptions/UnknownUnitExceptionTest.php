@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Exceptions;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Exceptions;
 
 use DomainException;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\QuantityType;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\QuantityType;
 
-use OceanMoon\Core\Traits\Asserts\FloatAssertions;
-use OceanMoon\Quantities\QuantityType\Acceleration;
-use OceanMoon\Quantities\QuantityType\Force;
-use OceanMoon\Quantities\QuantityType\Mass;
-use OceanMoon\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
+use Mossy2100\Core\Traits\Asserts\FloatAssertions;
+use Mossy2100\Quantities\QuantityType\Acceleration;
+use Mossy2100\Quantities\QuantityType\Force;
+use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

@@ -2,7 +2,7 @@
 
 Static service for managing unit conversions across all dimensions.
 
-**Namespace:** `OceanMoon\Quantities\Services`
+**Namespace:** `Mossy2100\Quantities\Services`
 
 ---
 
@@ -160,8 +160,8 @@ Find a conversion between two units, discovering new paths if necessary. Unlike 
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\Internal\Conversion;
-use OceanMoon\Quantities\Services\ConversionService;
+use Mossy2100\Quantities\Internal\Conversion;
+use Mossy2100\Quantities\Services\ConversionService;
 
 // Check for a known conversion
 if (ConversionService::has('m', 'ft')) {

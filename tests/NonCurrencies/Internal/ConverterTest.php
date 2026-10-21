@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
 use DomainException;
 use LogicException;
-use OceanMoon\Quantities\Exceptions\DimensionMismatchException;
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\Conversion;
-use OceanMoon\Quantities\Internal\Converter;
-use OceanMoon\Quantities\Internal\FloatWithError;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Services\ConversionService;
-use OceanMoon\Quantities\Services\QuantityTypeService;
-use OceanMoon\Quantities\Services\UnitService;
-use OceanMoon\Quantities\Tests\NonCurrencies\Fixtures\UnregisteredQuantity;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\Conversion;
+use Mossy2100\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\FloatWithError;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Services\ConversionService;
+use Mossy2100\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Tests\NonCurrencies\Fixtures\UnregisteredQuantity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

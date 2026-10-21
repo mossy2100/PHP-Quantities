@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities;
+namespace Mossy2100\Quantities;
 
 use DivisionByZeroError;
 use DomainException;
 use InvalidArgumentException;
 use LogicException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Core\Floats;
-use OceanMoon\Core\Numbers;
-use OceanMoon\Core\Traits\Comparison\ApproxComparable;
-use OceanMoon\Quantities\Exceptions\DimensionMismatchException;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\QuantityType;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitInterface;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Internal\UnitTerm;
-use OceanMoon\Quantities\Services\ConversionService;
-use OceanMoon\Quantities\Services\DimensionService;
-use OceanMoon\Quantities\Services\PrefixService;
-use OceanMoon\Quantities\Services\QuantityTypeService;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Floats;
+use Mossy2100\Core\Numbers;
+use Mossy2100\Core\Traits\Comparison\ApproxComparable;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitInterface;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Services\ConversionService;
+use Mossy2100\Quantities\Services\DimensionService;
+use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Services\UnitService;
 use Override;
 use RoundingMode;
 use Stringable;

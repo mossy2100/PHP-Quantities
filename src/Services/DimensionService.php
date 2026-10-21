@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Services;
+namespace Mossy2100\Quantities\Services;
 
 use LogicException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Core\Numbers;
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\UnitTerm;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Numbers;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\UnitTerm;
 
 /**
  * Utility class for working with physical dimension codes.

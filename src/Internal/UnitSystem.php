@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Internal;
+namespace Mossy2100\Quantities\Internal;
 
 /**
  * Systems of units.

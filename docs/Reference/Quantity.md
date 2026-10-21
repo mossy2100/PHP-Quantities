@@ -2,7 +2,7 @@
 
 Base class for physical measurements with units.
 
-**Namespace:** `OceanMoon\Quantities`
+**Namespace:** `Mossy2100\Quantities`
 
 ---
 
@@ -85,8 +85,8 @@ The `Quantity` constructor cannot be called directly — use a specific subclass
 
 **Examples:**
 ```php
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
 
 $length = new Length(100, 'm');
 $mass = new Mass(5.5, 'kg');
@@ -120,7 +120,7 @@ Determines the quantity dimension from the unit, and refers to [QuantityTypeServ
 
 **Examples:**
 ```php
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Quantity;
 
 // Creates a Length object.
 $length = Quantity::create(100, 'm');

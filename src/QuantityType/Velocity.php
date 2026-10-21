@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\QuantityType;
+namespace Mossy2100\Quantities\QuantityType;
 
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Quantity;
 use Override;
 
 /**

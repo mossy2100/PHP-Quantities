@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\QuantityType;
+namespace Mossy2100\Quantities\QuantityType;
 
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Quantity;
 
 /**
  * Represents acceleration quantities.

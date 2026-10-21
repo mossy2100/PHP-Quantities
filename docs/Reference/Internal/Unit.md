@@ -147,7 +147,7 @@ Create a new Unit instance.
 **Examples:**
 
 ```php
-use OceanMoon\Quantities\Internal\Unit;use OceanMoon\Quantities\Internal\UnitSystem;use OceanMoon\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Internal\Unit;use Mossy2100\Quantities\Internal\UnitSystem;use Mossy2100\Quantities\Services\PrefixService;
 
 // Basic SI unit
 $meter = new Unit(
@@ -291,7 +291,7 @@ Convert the unit to a string using the Unicode symbol.
 ### Accessing unit properties
 
 ```php
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Services\UnitService;
 
 $unit = UnitService::getBySymbol('N');
 
@@ -303,7 +303,7 @@ echo $unit->dimension;   // 'MLT-2'
 ### Working with prefixes
 
 ```php
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Services\UnitService;
 
 $meter = UnitService::getBySymbol('m');
 

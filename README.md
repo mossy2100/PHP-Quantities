@@ -1,4 +1,4 @@
-# OceanMoon PHP Quantities
+# Mossy2100 PHP Quantities
 
 This package enables calculations and conversions with physical and non-physical quantities, including support for SI and other systems of units (including data and currencies), metric and binary prefixes, parsing, and formatting.
 
@@ -34,27 +34,27 @@ Key capabilities include:
 ## Requirements
 
 - PHP ^8.4
-- oceanmoon/core
+- mossy2100/core
 
 ---
 ## Installation
 
 ```bash
-composer require oceanmoon/quantities
+composer require mossy2100/quantities
 ```
 
 ---
 ## Quick start
 
 ```php
-use OceanMoon\Quantities\PhysicalConstant;
-use OceanMoon\Quantities\QuantityType\Angle;
-use OceanMoon\Quantities\QuantityType\Force;
-use OceanMoon\Quantities\QuantityType\Frequency;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
-use OceanMoon\Quantities\QuantityType\Money;
-use OceanMoon\Quantities\QuantityType\Temperature;
+use Mossy2100\Quantities\PhysicalConstant;
+use Mossy2100\Quantities\QuantityType\Angle;
+use Mossy2100\Quantities\QuantityType\Force;
+use Mossy2100\Quantities\QuantityType\Frequency;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Money;
+use Mossy2100\Quantities\QuantityType\Temperature;
 
 // Create measurements
 $distance = new Length(5, 'km');

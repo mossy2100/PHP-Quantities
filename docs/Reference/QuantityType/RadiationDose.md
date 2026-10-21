@@ -2,7 +2,7 @@
 
 Represents radiation dose quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -64,7 +64,7 @@ Sv = m²·s⁻² = J/kg
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\RadiationDose;
+use Mossy2100\Quantities\QuantityType\RadiationDose;
 
 // Medical imaging
 $xray = new RadiationDose(0.1, 'mGy');

@@ -10,8 +10,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- **Renamed the package from `oceanmoon/quantities` to `mossy2100/quantities`, and the namespace from
+  `OceanMoon\Quantities` to `Mossy2100\Quantities` (breaking),** matching the author's GitHub and Packagist name.
+  Update `composer.json` and any `use` statements. It depends on `mossy2100/core`.
 - **`Quantity::inv()` is renamed `recip()` (breaking),** matching `Complex::recip()` and `Rational::recip()` in
-  `oceanmoon/math`. So is `inv()` on the internal `CompoundUnit`, `UnitTerm` and `FloatWithError` classes.
+  `mossy2100/math`. So is `inv()` on the internal `CompoundUnit`, `UnitTerm` and `FloatWithError` classes.
   `Conversion::inv()` is unchanged, since it inverts the direction of a conversion.
 
 ---

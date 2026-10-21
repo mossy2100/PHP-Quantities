@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Fixtures;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Fixtures;
 
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Quantity;
 
 /**
  * An unregistered Quantity subclass for testing error paths.

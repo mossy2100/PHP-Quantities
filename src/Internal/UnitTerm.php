@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Internal;
+namespace Mossy2100\Quantities\Internal;
 
 use DomainException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Core\Integers;
-use OceanMoon\Core\Traits\Comparison\Equatable;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\Services\DimensionService;
-use OceanMoon\Quantities\Services\PrefixService;
-use OceanMoon\Quantities\Services\QuantityTypeService;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Integers;
+use Mossy2100\Core\Traits\Comparison\Equatable;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\Services\DimensionService;
+use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Services\UnitService;
 use Override;
 
 /**

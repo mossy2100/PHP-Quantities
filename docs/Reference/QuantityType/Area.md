@@ -2,7 +2,7 @@
 
 Represents area quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -38,7 +38,7 @@ The `Area` class handles area measurements. Most area units are derived from len
 Square length units are automatically supported through unit arithmetic:
 
 ```php
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Quantity;
 
 // Square meters
 $room = new Quantity(25, 'm2');
@@ -56,8 +56,8 @@ $screen = new Quantity(15.6 * 9, 'in2');
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Area;
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Area;
+use Mossy2100\Quantities\Quantity;
 
 // Named area units
 $farm = new Area(100, 'ha');

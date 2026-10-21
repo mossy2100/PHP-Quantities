@@ -2,7 +2,7 @@
 
 Registry of quantity types keyed by dimension code.
 
-**Namespace:** `OceanMoon\Quantities\Services`
+**Namespace:** `Mossy2100\Quantities\Services`
 
 ---
 
@@ -100,7 +100,7 @@ Get the quantity type matching a given dimension code. The dimension code is nor
 $qtyType = QuantityTypeService::getByDimension('L');
 echo $qtyType->name;      // 'length'
 echo $qtyType->dimension;  // 'L'
-echo $qtyType->class;      // 'OceanMoon\Quantities\QuantityType\Length'
+echo $qtyType->class;      // 'Mossy2100\Quantities\QuantityType\Length'
 
 // Normalizes dimension codes.
 $qtyType = QuantityTypeService::getByDimension('LT-1');

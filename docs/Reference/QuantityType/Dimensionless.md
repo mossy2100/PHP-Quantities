@@ -2,7 +2,7 @@
 
 Represents dimensionless quantities (ratios, percentages, concentrations).
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -51,8 +51,8 @@ The `Dimensionless` class handles quantities that have no physical dimension, su
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Dimensionless;
-use OceanMoon\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Dimensionless;
+use Mossy2100\Quantities\QuantityType\Time;
 
 // Discount
 $discount = new Dimensionless(25, '%');

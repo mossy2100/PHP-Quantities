@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
 use Error;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitTerm;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\Services\UnitService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

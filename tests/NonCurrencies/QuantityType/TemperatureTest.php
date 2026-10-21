@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\QuantityType;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\QuantityType;
 
-use OceanMoon\Core\Traits\Asserts\FloatAssertions;
-use OceanMoon\Quantities\Exceptions\DimensionMismatchException;
-use OceanMoon\Quantities\Internal\Conversion;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\QuantityType\Temperature;
-use OceanMoon\Quantities\Services\ConversionService;
-use OceanMoon\Quantities\Services\UnitService;
-use OceanMoon\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
+use Mossy2100\Core\Traits\Asserts\FloatAssertions;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\Internal\Conversion;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Temperature;
+use Mossy2100\Quantities\Services\ConversionService;
+use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

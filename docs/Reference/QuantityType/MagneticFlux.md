@@ -2,7 +2,7 @@
 
 Represents magnetic flux quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -42,7 +42,7 @@ Wb = kg·m²·s⁻²·A⁻¹ = V·s = T·m²
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\MagneticFlux;
+use Mossy2100\Quantities\QuantityType\MagneticFlux;
 
 // Magnetic components
 $sensor = new MagneticFlux(100, 'uWb');

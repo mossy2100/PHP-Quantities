@@ -2,7 +2,7 @@
 
 Exchange rate service using the ExchangeRate-API.
 
-**Namespace:** `OceanMoon\Quantities\Currencies\ExchangeRateServices`
+**Namespace:** `Mossy2100\Quantities\Currencies\ExchangeRateServices`
 **Implements:** [`ExchangeRateServiceInterface`](ExchangeRateServiceInterface.md)
 
 ---

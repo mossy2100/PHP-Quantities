@@ -2,7 +2,7 @@
 
 Represents acceleration quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -18,7 +18,7 @@ The `Acceleration` class handles acceleration measurements. This class has no de
 Acceleration units are automatically supported through unit arithmetic:
 
 ```php
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Quantity;
 
 // Meters per second squared
 $gravity = new Quantity(9.80665, 'm/s2');
@@ -35,7 +35,7 @@ $car = new Quantity(3.6, 'km/(h*s)');  // Equivalent to 1 m/s²
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Quantity;
 
 // Earth's gravity
 $g = new Quantity(9.80665, 'm/s2');

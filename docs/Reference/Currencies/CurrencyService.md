@@ -2,7 +2,7 @@
 
 Static service for managing currency units and exchange rate conversions.
 
-**Namespace:** `OceanMoon\Quantities\Currencies`
+**Namespace:** `Mossy2100\Quantities\Currencies`
 
 ---
 
@@ -30,7 +30,7 @@ The package includes adapters for several exchange rate APIs, all of which have 
 | `CurrencyLayerService`     | Yes              | 170                | [currencylayer.com](https://currencylayer.com/)           |
 | `FixerService`             | Yes              | 170                | [fixer.io](https://fixer.io/)                            |
 
-All services are in the `OceanMoon\Quantities\Currencies\ExchangeRateServices` namespace.
+All services are in the `Mossy2100\Quantities\Currencies\ExchangeRateServices` namespace.
 
 `FrankfurterService` is the simplest option — no API key, no signup. It uses European Central Bank data and covers ~30 major currencies. The other services require a free API key but support 160+ currencies, including precious metals (XAU, XAG) and some cryptocurrencies.
 
@@ -302,8 +302,8 @@ Get the path to the currency conversions data file.
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\Currencies\CurrencyService;
-use OceanMoon\Quantities\Currencies\ExchangeRateServices\OpenExchangeRatesService;
+use Mossy2100\Quantities\Currencies\CurrencyService;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\OpenExchangeRatesService;
 
 // Initialize with an exchange rate service.
 CurrencyService::init(

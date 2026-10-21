@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
 use InvalidArgumentException;
-use OceanMoon\Quantities\Internal\QuantityType;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
-use OceanMoon\Quantities\QuantityType\Time;
-use OceanMoon\Quantities\Tests\NonCurrencies\Fixtures\UnregisteredQuantity;
+use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\Tests\NonCurrencies\Fixtures\UnregisteredQuantity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;

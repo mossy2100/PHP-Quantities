@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Services;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Services;
 
 use DomainException;
 use LogicException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Quantities\Internal\QuantityType;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\QuantityType\Area;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
-use OceanMoon\Quantities\QuantityType\Time;
-use OceanMoon\Quantities\QuantityType\Velocity;
-use OceanMoon\Quantities\Services\QuantityTypeService;
-use OceanMoon\Quantities\Tests\NonCurrencies\Fixtures\TestQuantity;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Area;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Velocity;
+use Mossy2100\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Tests\NonCurrencies\Fixtures\TestQuantity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;

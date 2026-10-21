@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Internal;
+namespace Mossy2100\Quantities\Internal;
 
 use DivisionByZeroError;
-use OceanMoon\Core\Floats;
+use Mossy2100\Core\Floats;
 use Stringable;
 
 /**

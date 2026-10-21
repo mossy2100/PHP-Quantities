@@ -2,7 +2,7 @@
 
 Represents illuminance quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -44,7 +44,7 @@ One *lux* equals one *lumen* per square meter.
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Illuminance;
+use Mossy2100\Quantities\QuantityType\Illuminance;
 
 // Office lighting
 $office = new Illuminance(500, 'lx');

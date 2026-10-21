@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Internal;
+namespace Mossy2100\Quantities\Internal;
 
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
 use Stringable;
 
 /**

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\Currencies\ExchangeRateServices;
+namespace Mossy2100\Quantities\Tests\Currencies\ExchangeRateServices;
 
-use OceanMoon\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

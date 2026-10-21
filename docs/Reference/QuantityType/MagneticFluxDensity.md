@@ -2,7 +2,7 @@
 
 Represents magnetic flux density (magnetic field strength) quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -42,7 +42,7 @@ T = kg·s⁻²·A⁻¹ = Wb/m² = V·s/m²
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\MagneticFluxDensity;
+use Mossy2100\Quantities\QuantityType\MagneticFluxDensity;
 
 // Earth's magnetic field
 $earth = new MagneticFluxDensity(50, 'uT');

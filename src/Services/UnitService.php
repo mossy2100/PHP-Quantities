@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Services;
+namespace Mossy2100\Quantities\Services;
 
 use DomainException;
 use InvalidArgumentException;
-use OceanMoon\Quantities\Internal\QuantityType;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitSystem;
 
 /**
  * Registry of units with lookup, filtering, and loading by system.

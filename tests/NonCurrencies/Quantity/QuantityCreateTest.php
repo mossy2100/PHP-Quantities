@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Quantity;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
 use DomainException;
 use LogicException;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\QuantityType\Angle;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Mass;
-use OceanMoon\Quantities\QuantityType\Temperature;
-use OceanMoon\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Angle;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Temperature;
+use Mossy2100\Quantities\QuantityType\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

@@ -13,9 +13,9 @@ Some quantities are naturally expressed as a combination of units — angles in 
 The `toParts()` method breaks a quantity into integer components for each part unit, with only the smallest unit having a fractional value. By default it uses the [built-in part units](#built-in-part-units) for the quantity type.
 
 ```php
-use OceanMoon\Quantities\QuantityType\Angle;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Angle;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Time;
 
 // Angle uses ['deg', 'arcmin', 'arcsec'] by default.
 $angle = new Angle(45.504200, 'deg');
@@ -140,9 +140,9 @@ echo $length;  // 1.6764 m
 The `formatParts()` method produces a human-readable string, using the built-in part units for the quantity type:
 
 ```php
-use OceanMoon\Quantities\QuantityType\Angle;
-use OceanMoon\Quantities\QuantityType\Length;
-use OceanMoon\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Angle;
+use Mossy2100\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\QuantityType\Time;
 
 // Angle (default parts: deg, arcmin, arcsec).
 $angle = new Angle(45.5083333333, 'deg');
@@ -203,7 +203,7 @@ echo $height->formatParts(partUnitSymbols: ['ft', 'in']);     // 5ft 8in
 Mass has no built-in part units (the choice between imperial stones, US customary tons, and so on is application-specific), but the `Mass` class exposes both common lists as constants:
 
 ```php
-use OceanMoon\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Mass;
 
 Mass::IMP_PART_UNITS;  // ['LT', 'st', 'lb', 'oz']
 Mass::US_PART_UNITS;   // ['tn', 'lb', 'oz', 'gr']

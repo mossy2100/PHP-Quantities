@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Fixtures;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Fixtures;
 
-use OceanMoon\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Time;
 
 /**
  * A Time subclass with a wrong-dimension unit in its default part unit symbols.

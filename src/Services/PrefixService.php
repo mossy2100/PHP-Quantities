@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Services;
+namespace Mossy2100\Quantities\Services;
 
 use DomainException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Core\Floats;
-use OceanMoon\Quantities\Internal\Prefix;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Floats;
+use Mossy2100\Quantities\Internal\Prefix;
 
 /**
  * Utility class for working with SI and binary prefixes.

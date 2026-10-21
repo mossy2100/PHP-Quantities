@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\Currencies;
+namespace Mossy2100\Quantities\Tests\Currencies;
 
 use DomainException;
 use LogicException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Quantities\Currencies\CurrencyService;
-use OceanMoon\Quantities\Currencies\ExchangeRateServices\ExchangeRateServiceInterface;
-use OceanMoon\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Currencies\CurrencyService;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\ExchangeRateServiceInterface;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;

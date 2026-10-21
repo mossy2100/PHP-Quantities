@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Examples;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Examples;
 
-use OceanMoon\Core\Traits\Asserts\FloatAssertions;
-use OceanMoon\Quantities\QuantityType\Capacitance;
-use OceanMoon\Quantities\QuantityType\ElectricCharge;
-use OceanMoon\Quantities\QuantityType\ElectricCurrent;
-use OceanMoon\Quantities\QuantityType\Energy;
-use OceanMoon\Quantities\QuantityType\Frequency;
-use OceanMoon\Quantities\QuantityType\Power;
-use OceanMoon\Quantities\QuantityType\Resistance;
-use OceanMoon\Quantities\QuantityType\Time;
-use OceanMoon\Quantities\QuantityType\Voltage;
+use Mossy2100\Core\Traits\Asserts\FloatAssertions;
+use Mossy2100\Quantities\QuantityType\Capacitance;
+use Mossy2100\Quantities\QuantityType\ElectricCharge;
+use Mossy2100\Quantities\QuantityType\ElectricCurrent;
+use Mossy2100\Quantities\QuantityType\Energy;
+use Mossy2100\Quantities\QuantityType\Frequency;
+use Mossy2100\Quantities\QuantityType\Power;
+use Mossy2100\Quantities\QuantityType\Resistance;
+use Mossy2100\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Voltage;
 use PHPUnit\Framework\TestCase;
 
 /**

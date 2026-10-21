@@ -2,7 +2,7 @@
 
 Represents energy quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -55,7 +55,7 @@ $inBaseUnits = $energy->to('kg*m2*s-2');  // 1
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Energy;
+use Mossy2100\Quantities\QuantityType\Energy;
 
 // SI units
 $work = new Energy(500, 'J');

@@ -2,7 +2,7 @@
 
 Exchange rate service using the Frankfurter API, backed by European Central Bank data.
 
-**Namespace:** `OceanMoon\Quantities\Currencies\ExchangeRateServices`
+**Namespace:** `Mossy2100\Quantities\Currencies\ExchangeRateServices`
 **Implements:** [`ExchangeRateServiceInterface`](ExchangeRateServiceInterface.md)
 
 ---

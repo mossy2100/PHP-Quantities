@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities;
+namespace Mossy2100\Quantities;
 
 use DomainException;
-use OceanMoon\Core\Floats;
+use Mossy2100\Core\Floats;
 
 /**
  * Provides access to physical constants as Quantity objects.

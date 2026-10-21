@@ -2,7 +2,7 @@
 
 Represents frequency and radioactivity quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -65,7 +65,7 @@ Bq = s⁻¹
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Frequency;
+use Mossy2100\Quantities\QuantityType\Frequency;
 
 // Sound frequencies
 $middleC = new Frequency(261.63, 'Hz');

@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
 use DomainException;
 use InvalidArgumentException;
-use OceanMoon\Core\Exceptions\FormatException;
-use OceanMoon\Quantities\Exceptions\UnknownUnitException;
-use OceanMoon\Quantities\Internal\Converter;
-use OceanMoon\Quantities\Internal\Prefix;
-use OceanMoon\Quantities\Internal\QuantityType;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Internal\UnitSystem;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\Services\PrefixService;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
+use Mossy2100\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\Prefix;
+use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Services\UnitService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use stdClass;

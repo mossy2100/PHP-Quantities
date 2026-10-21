@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Traits;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Traits;
 
-use OceanMoon\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Internal\UnitSystem;
 
 /**
  * Trait providing assertions for validating unit and conversion definition array shapes.

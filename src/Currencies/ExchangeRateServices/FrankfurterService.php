@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Currencies\ExchangeRateServices;
+namespace Mossy2100\Quantities\Currencies\ExchangeRateServices;
 
 use Override;
 use RuntimeException;

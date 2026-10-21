@@ -2,7 +2,7 @@
 
 Utility class for working with physical dimension codes.
 
-**Namespace:** `OceanMoon\Quantities\Services`
+**Namespace:** `Mossy2100\Quantities\Services`
 
 ---
 
@@ -282,7 +282,7 @@ $du = DimensionService::getBaseCompoundUnit('MLT-2', false);
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\Services\DimensionService;
+use Mossy2100\Quantities\Services\DimensionService;
 
 // Validate user input.
 if (DimensionService::isValid($userDimension)) {

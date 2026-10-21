@@ -444,8 +444,8 @@ Convert to string using Unicode format.
 ### Building compound units
 
 ```php
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\UnitTerm;
 
 // Build Newton: kg*m/s2
 $newton = new CompoundUnit([
@@ -462,7 +462,7 @@ echo $newton->dimension;     // 'T-2LM'
 ### Parsing and validation
 
 ```php
-use OceanMoon\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\CompoundUnit;
 
 // Parse various formats
 $unit1 = CompoundUnit::parse('kg*m/s2');
@@ -478,7 +478,7 @@ if ($unit1->isSi()) {
 ### Arithmetic with units
 
 ```php
-use OceanMoon\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\CompoundUnit;
 
 $length = CompoundUnit::parse('m');
 $time = CompoundUnit::parse('s');

@@ -313,7 +313,7 @@ Remove all conversions involving a given unit. Used when unloading a unit from t
 ### Basic conversion
 
 ```php
-use OceanMoon\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\Converter;
 
 // Convert length
 $length = Converter::getInstance('L');
@@ -328,7 +328,7 @@ echo "$km km"; // 1 km
 ### Working with compound units
 
 ```php
-use OceanMoon\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\Converter;
 
 // Force conversion
 $force = Converter::getInstance('MLT-2');
@@ -338,7 +338,7 @@ $newtons = $force->convert(1, 'lbf', 'N');
 ### Cross-system conversions
 
 ```php
-use OceanMoon\Quantities\Internal\Converter;
+use Mossy2100\Quantities\Internal\Converter;
 
 $volume = Converter::getInstance('L3');
 $liters = $volume->convert(1, 'imp gal', 'L');

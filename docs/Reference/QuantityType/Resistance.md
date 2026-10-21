@@ -2,7 +2,7 @@
 
 Represents electrical resistance quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -57,7 +57,7 @@ How to type capital Omega:
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Resistance;
+use Mossy2100\Quantities\QuantityType\Resistance;
 
 // Standard resistors
 $r1 = new Resistance(470, 'ohm');

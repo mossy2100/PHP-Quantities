@@ -2,7 +2,7 @@
 
 Provides access to fundamental physical constants as Quantity objects.
 
-**Namespace:** `OceanMoon\Quantities`
+**Namespace:** `Mossy2100\Quantities`
 
 ---
 
@@ -360,9 +360,9 @@ foreach ($all as $symbol => $quantity) {
 ### Using constants in calculations
 
 ```php
-use OceanMoon\Quantities\PhysicalConstant;
-use OceanMoon\Quantities\Quantity;
-use OceanMoon\Quantities\QuantityType\Frequency;
+use Mossy2100\Quantities\PhysicalConstant;
+use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Frequency;
 
 // Calculate photon energy: E = h * f
 $h = PhysicalConstant::planck();

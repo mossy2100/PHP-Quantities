@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
 use DomainException;
-use OceanMoon\Quantities\Exceptions\DimensionMismatchException;
-use OceanMoon\Quantities\Internal\CompoundUnit;
-use OceanMoon\Quantities\Internal\Conversion;
-use OceanMoon\Quantities\Internal\FloatWithError;
-use OceanMoon\Quantities\Internal\Unit;
-use OceanMoon\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Internal\Conversion;
+use Mossy2100\Quantities\Internal\FloatWithError;
+use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Services\UnitService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

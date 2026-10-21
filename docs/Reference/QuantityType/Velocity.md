@@ -2,7 +2,7 @@
 
 Represents velocity/speed quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -46,7 +46,7 @@ The *knot* is defined as one *nautical mile* per hour:
 Velocity units are automatically supported through unit arithmetic:
 
 ```php
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\Quantity;
 
 // Meters per second
 $speed = new Quantity(10, 'm/s');
@@ -65,8 +65,8 @@ $inKmh = $highway->to('km/h');  // 112.65 km/h
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Velocity;
-use OceanMoon\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType\Velocity;
+use Mossy2100\Quantities\Quantity;
 
 // Nautical speed
 $ship = new Velocity(20, 'kn');

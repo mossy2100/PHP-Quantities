@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OceanMoon\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
 use DivisionByZeroError;
-use OceanMoon\Core\Floats;
-use OceanMoon\Quantities\Internal\FloatWithError;
+use Mossy2100\Core\Floats;
+use Mossy2100\Quantities\Internal\FloatWithError;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

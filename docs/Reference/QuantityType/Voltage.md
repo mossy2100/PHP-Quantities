@@ -2,7 +2,7 @@
 
 Represents voltage/electric potential quantities.
 
-**Namespace:** `OceanMoon\Quantities\QuantityType`
+**Namespace:** `Mossy2100\Quantities\QuantityType`
 **Extends:** [`Quantity`](../Quantity.md)
 
 ---
@@ -42,7 +42,7 @@ V = kg·m²·s⁻³·A⁻¹ = W/A = J/C
 ## Usage examples
 
 ```php
-use OceanMoon\Quantities\QuantityType\Voltage;
+use Mossy2100\Quantities\QuantityType\Voltage;
 
 // Batteries
 $aa = new Voltage(1.5, 'V');

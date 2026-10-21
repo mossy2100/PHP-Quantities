@@ -118,8 +118,8 @@ Create a new QuantityType instance.
 
 **Examples:**
 ```php
-use OceanMoon\Quantities\Internal\QuantityType;
-use OceanMoon\Quantities\QuantityType\Length;
+use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\QuantityType\Length;
 
 $length = new QuantityType('length', 'L', Length::class);
 ```
@@ -131,8 +131,8 @@ $length = new QuantityType('length', 'L', Length::class);
 ### Registering quantity types
 
 ```php
-use OceanMoon\Quantities\Services\QuantityTypeService;
-use OceanMoon\Quantities\QuantityType\DynamicViscosity;
+use Mossy2100\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\QuantityType\DynamicViscosity;
 
 // Register a custom quantity type
 QuantityTypeService::add('dynamic viscosity', 'ML-1T-1', DynamicViscosity::class);
@@ -144,7 +144,7 @@ QuantityTypeService::setClass('currency', MyCurrencyClass::class);
 ### Looking up quantity types
 
 ```php
-use OceanMoon\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Services\QuantityTypeService;
 
 // Get quantity type by dimension
 $lengthType = QuantityTypeService::getByDimension('L');
