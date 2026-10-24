@@ -10,6 +10,7 @@ use Locale;
 use LogicException;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Stringify;
+use Mossy2100\Core\StringifyOptions;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\ExchangeRateServiceInterface;
 use Mossy2100\Quantities\Internal\Converter;
 use Mossy2100\Quantities\Internal\UnitSystem;
@@ -223,7 +224,7 @@ class CurrencyService
 
             declare(strict_types=1);
             PHP;
-        $output .= "\n\nreturn " . Stringify::stringify($unitData, true) . ";\n";
+        $output .= "\n\nreturn " . Stringify::stringify($unitData, StringifyOptions::pretty()) . ";\n";
 
         // Save it.
         file_put_contents(self::getUnitsFilePath(), $output);
@@ -389,7 +390,7 @@ class CurrencyService
 
             declare(strict_types=1);
             PHP;
-        $output .= "\n\nreturn " . Stringify::stringify($conversionData, true) . ";\n";
+        $output .= "\n\nreturn " . Stringify::stringify($conversionData, StringifyOptions::pretty()) . ";\n";
 
         // Save it.
         file_put_contents(self::getConversionsFilePath(), $output);
