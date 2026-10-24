@@ -601,7 +601,7 @@ class Quantity implements Stringable
     public function compare(mixed $other): int
     {
         $otherValue = $this->preCompare($other);
-        return Numbers::sign($this->value <=> $otherValue);
+        return $this->value <=> $otherValue;
     }
 
     /**
