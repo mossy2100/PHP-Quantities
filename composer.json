@@ -53,7 +53,7 @@
         "report": "vendor/bin/phpcs -q --report=summary",
         "analyze": "scripts/analyze",
         "test": "scripts/test",
-        "coverage": "php8.4 scripts/coverage-check.php",
+        "coverage": "@php scripts/coverage-check.php",
         "quality": [
             "@fix",
             "@check",

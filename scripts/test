@@ -41,4 +41,5 @@ args=(
     --testsuite="$suite"
 )
 
-exec php8.4 "${args[@]}"
+# Composer sets PHP_BINARY to the PHP it runs under.
+exec "${PHP_BINARY:-php}" "${args[@]}"
