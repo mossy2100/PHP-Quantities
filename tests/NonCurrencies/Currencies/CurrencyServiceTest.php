@@ -16,6 +16,8 @@ use Mossy2100\Quantities\Services\UnitService;
 use Mossy2100\Quantities\Tests\NonCurrencies\Fixtures\FakeExchangeRateService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use ReflectionClassConstant;
+use ReflectionProperty;
 use RuntimeException;
 
 /**
@@ -54,6 +56,9 @@ final class CurrencyServiceTest extends TestCase
         CurrencyService::setLocale(null);
         CurrencyService::setAutoRefreshTtl(null);
         CurrencyService::resetDataDir();
+        $defaultUrl = new ReflectionClassConstant(CurrencyService::class, 'ISO_4217_URL')->getValue();
+        assert(is_string($defaultUrl));
+        self::setIso4217Url($defaultUrl);
         UnitService::reset();
         Converter::removeAllInstances();
 
@@ -419,6 +424,21 @@ final class CurrencyServiceTest extends TestCase
     }
 
     /**
+     * Test refreshRatesIfStale() reads the local rates' metadata if nothing has loaded it yet.
+     */
+    public function testRefreshRatesIfStaleLoadsLocalRatesMetadata(): void
+    {
+        $this->writeConversionsFile(gmdate('Y-m-d H:i:s') . ' UTC', 'Fake', [['USD', 'EUR', 0.5]]);
+        $service = new FakeExchangeRateService();
+        CurrencyService::init($service, autoRefreshTtl: 3600);
+
+        CurrencyService::refreshRatesIfStale();
+
+        $this->assertSame(0, $service->fetchCount);
+        $this->assertNotNull(CurrencyService::getRatesFetchedAt());
+    }
+
+    /**
      * Test a failed auto-refresh throws rather than using the cached rates.
      */
     public function testAutoRefreshFailureThrows(): void
@@ -498,6 +518,58 @@ final class CurrencyServiceTest extends TestCase
 
         $this->assertFileDoesNotExist(CurrencyService::getConversionsFilePath());
         $this->assertNull(CurrencyService::getRatesFetchedAt());
+    }
+
+    #endregion
+
+    #region Method refreshUnits() tests.
+
+    /**
+     * Test refreshUnits() filters and sorts the ISO 4217 currencies, writes the data files, and loads the new units.
+     */
+    public function testRefreshUnitsWritesFilteredCurrencies(): void
+    {
+        self::setIso4217Url(__DIR__ . '/../Fixtures/Iso4217Sample.xml');
+
+        $data = CurrencyService::refreshUnits();
+
+        // Funds, XB* bond units, XTS, XXX and entries without a code are skipped, each currency appears once, and SDR
+        // is renamed.
+        $this->assertSame([
+            'Australian Dollar' => 'AUD',
+            'Boliviano' => 'BOB',
+            'Euro' => 'EUR',
+            'Special Drawing Right' => 'XDR',
+            'Test Currency' => 'XQZ',
+        ], $data['currencies']);
+        $this->assertFileExists(CurrencyService::getXmlFilePath());
+        $this->assertSame($data, CurrencyService::getUnits());
+        $this->assertSame('Test Currency', UnitService::getBySymbol('XQZ')?->name);
+    }
+
+    /**
+     * Test refreshUnits() throws when the ISO 4217 XML can't be fetched.
+     */
+    public function testRefreshUnitsThrowsWhenFetchFails(): void
+    {
+        $url = __DIR__ . '/no-such-file.xml';
+        self::setIso4217Url($url);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage("Failed to fetch ISO 4217 XML from '$url'.");
+        CurrencyService::refreshUnits();
+    }
+
+    /**
+     * Test refreshUnits() throws when the response isn't valid XML.
+     */
+    public function testRefreshUnitsThrowsForInvalidXml(): void
+    {
+        self::setIso4217Url('data:text/plain,not xml');
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Failed to parse ISO 4217 XML.');
+        CurrencyService::refreshUnits();
     }
 
     #endregion
@@ -690,6 +762,16 @@ final class CurrencyServiceTest extends TestCase
     private function writeDataFile(string $fileName, array $data): void
     {
         file_put_contents($this->dataDir . '/' . $fileName, '<?php return ' . var_export($data, true) . ';');
+    }
+
+    /**
+     * Set the URL that refreshUnits() fetches the ISO 4217 XML from.
+     *
+     * @param string $url The URL or file path.
+     */
+    private static function setIso4217Url(string $url): void
+    {
+        new ReflectionProperty(CurrencyService::class, 'iso4217Url')->setValue(null, $url);
     }
 
     /**

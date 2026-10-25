@@ -373,9 +373,7 @@ class UnitService
 
         // Collect unit definitions.
         foreach (QuantityTypeService::getAll() as $qtyType) {
-            $unitDefinitions = $qtyType->unitDefinitions;
-            assert(is_array($unitDefinitions));
-            foreach ($unitDefinitions as $name => $definition) {
+            foreach ($qtyType->unitDefinitions as $name => $definition) {
                 $definitions[$name] = $definition;
             }
         }

@@ -102,6 +102,11 @@ class CurrencyService
      */
     private static ?string $ratesServiceName = null;
 
+    /**
+     * The URL to fetch the ISO 4217 XML from. Tests point this at a local fixture file.
+     */
+    private static string $iso4217Url = self::ISO_4217_URL;
+
     #endregion
 
     #region Unit data methods
@@ -149,11 +154,9 @@ class CurrencyService
     public static function refreshUnits(): array
     {
         // Fetch the official ISO 4217 XML.
-        $xmlContent = @file_get_contents(self::ISO_4217_URL);
+        $xmlContent = @file_get_contents(self::$iso4217Url);
         if ($xmlContent === false) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException("Failed to fetch ISO 4217 XML from '" . self::ISO_4217_URL . "'.");
-            // @codeCoverageIgnoreEnd
+            throw new RuntimeException("Failed to fetch ISO 4217 XML from '" . self::$iso4217Url . "'.");
         }
 
         // Save the XML for reference, it's useful for debugging.
@@ -162,9 +165,7 @@ class CurrencyService
         // Convert to SimpleXML.
         $xml = @simplexml_load_string($xmlContent);
         if (!$xml instanceof SimpleXMLElement) {
-            // @codeCoverageIgnoreStart
             throw new RuntimeException('Failed to parse ISO 4217 XML.');
-            // @codeCoverageIgnoreEnd
         }
 
         $currencies = [];
@@ -701,7 +702,7 @@ class CurrencyService
      */
     private static function buildUnitsFile(array $unitData, int $fetchedAt): string
     {
-        $url = self::ISO_4217_URL;
+        $url = self::$iso4217Url;
         $datetime = gmdate(DateTimeInterface::COOKIE, $fetchedAt);
         $className = self::class;
         $output = <<<PHP

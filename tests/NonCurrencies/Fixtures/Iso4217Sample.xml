@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ISO_4217 Pblshd="2026-01-01">
+    <CcyTbl>
+        <CcyNtry><CtryNm>ANTARCTICA</CtryNm><CcyNm>No universal currency</CcyNm></CcyNtry>
+        <CcyNtry><CtryNm>AUSTRALIA</CtryNm><CcyNm>Australian Dollar</CcyNm><Ccy>AUD</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>AUSTRIA</CtryNm><CcyNm>Euro</CcyNm><Ccy>EUR</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>BELGIUM</CtryNm><CcyNm>Euro</CcyNm><Ccy>EUR</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>BOLIVIA</CtryNm><CcyNm>Boliviano</CcyNm><Ccy>BOB</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>BOLIVIA</CtryNm><CcyNm IsFund="true">Mvdol</CcyNm><Ccy>BOV</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>ZZ01_Bond Markets Unit European_EURCO</CtryNm><CcyNm>Bond Markets Unit European Composite Unit (EURCO)</CcyNm><Ccy>XBA</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>INTERNATIONAL MONETARY FUND (IMF)</CtryNm><CcyNm>SDR (Special Drawing Right)</CcyNm><Ccy>XDR</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>ZZ06_Testing_Code</CtryNm><CcyNm>Codes specifically reserved for testing purposes</CcyNm><Ccy>XTS</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>ZZ07_No_Currency</CtryNm><CcyNm>The codes assigned for transactions where no currency is involved</CcyNm><Ccy>XXX</Ccy></CcyNtry>
+        <CcyNtry><CtryNm>TEST LAND</CtryNm><CcyNm>Test Currency</CcyNm><Ccy>XQZ</Ccy></CcyNtry>
+    </CcyTbl>
+</ISO_4217>

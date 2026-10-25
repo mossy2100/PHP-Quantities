@@ -59,7 +59,9 @@ class QuantityType
     /**
      * The default unit definitions for this quantity type.
      *
-     * @var ?array<string, array{
+     * These aren't cached, since they can change, e.g. when CurrencyService::refreshUnits() updates the currencies.
+     *
+     * @var array<string, array{
      *      asciiSymbol: string,
      *      unicodeSymbol?: string,
      *      prefixGroup?: int,
@@ -68,13 +70,8 @@ class QuantityType
      *      dimension: string
      *  }>
      */
-    private(set) ?array $unitDefinitions = null {
+    public array $unitDefinitions {
         get {
-            // Return the cached value if it exists.
-            if ($this->unitDefinitions !== null) {
-                return $this->unitDefinitions;
-            }
-
             // Load the unit definitions from the Quantity subclass.
             $unitDefinitions = $this->class::getUnitDefinitions();
 
@@ -83,9 +80,7 @@ class QuantityType
                 $unitDefinitions[$unitName]['dimension'] = $this->dimension;
             }
 
-            // Cache the result in the backing value and return it.
-            $this->unitDefinitions = $unitDefinitions;
-            return $this->unitDefinitions;
+            return $unitDefinitions;
         }
     }
 

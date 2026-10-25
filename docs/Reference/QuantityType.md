@@ -56,10 +56,12 @@ The setter validates that the value is a subclass of `Quantity`.
 ### unitDefinitions
 
 ```php
-private(set) array $unitDefinitions { get; }
+public array $unitDefinitions { get; }
 ```
 
-The unit definitions for this quantity type, lazy-loaded from the associated Quantity subclass via `getUnitDefinitions()`. The dimension code is injected into each definition. Results are cached after first access.
+The unit definitions for this quantity type, loaded from the associated Quantity subclass via `getUnitDefinitions()`.
+The dimension code is injected into each definition. They aren't cached, so they reflect any change, e.g. after
+`CurrencyService::refreshUnits()`.
 
 Type: `array<string, array{asciiSymbol: string, unicodeSymbol?: string, prefixGroup?: int, alternateSymbol?: string, systems: list<UnitSystem>, dimension: string}>`
 
