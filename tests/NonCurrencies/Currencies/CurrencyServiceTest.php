@@ -121,9 +121,7 @@ final class CurrencyServiceTest extends TestCase
     {
         $service = new FakeExchangeRateService();
         CurrencyService::setExchangeRateService($service);
-        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [
-            ['USD', 'EUR', 0.5],
-        ]);
+        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [['USD', 'EUR', 0.5]]);
 
         $this->assertEqualsWithDelta(50.0, new Money(100, 'USD')->to('EUR')->value, 1e-9);
         $this->assertSame(0, $service->fetchCount);
@@ -153,17 +151,13 @@ final class CurrencyServiceTest extends TestCase
     {
         $this->writeDataFile('CurrencyUnits.php', [
             'whenFetched' => '2026-10-25 00:00:00 UTC',
-            'currencies'  => [
-                'US Dollar' => 'USD',
-            ],
+            'currencies' => ['US Dollar' => 'USD'],
         ]);
 
         $data = CurrencyService::getUnits();
 
         $this->assertSame('2026-10-25 00:00:00 UTC', $data['whenFetched']);
-        $this->assertSame([
-            'US Dollar' => 'USD',
-        ], $data['currencies']);
+        $this->assertSame(['US Dollar' => 'USD'], $data['currencies']);
     }
 
     /**
@@ -193,9 +187,7 @@ final class CurrencyServiceTest extends TestCase
     {
         $this->writeDataFile('CurrencyUnits.php', [
             'whenFetched' => '2026-10-25 00:00:00 UTC',
-            'currencies'  => [
-                'US Dollar' => 42,
-            ],
+            'currencies' => ['US Dollar' => 42],
         ]);
 
         $this->assertSame('2026-10-19 20:44:45 UTC', CurrencyService::getUnits()['whenFetched']);
@@ -218,17 +210,13 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetConversionsReturnsLocalRates(): void
     {
-        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [
-            ['USD', 'EUR', 0.9],
-        ]);
+        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [['USD', 'EUR', 0.9]]);
 
         $data = CurrencyService::getConversions();
 
         $this->assertNotNull($data);
         $this->assertSame('Fake', $data['serviceName']);
-        $this->assertSame([
-            ['USD', 'EUR', 0.9],
-        ], $data['definitions']);
+        $this->assertSame([['USD', 'EUR', 0.9]], $data['definitions']);
     }
 
     /**
@@ -256,9 +244,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetConversionsReturnsNullWhenDefinitionInvalid(): void
     {
-        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [
-            ['USD', 'EUR'],
-        ]);
+        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [['USD', 'EUR']]);
 
         $this->assertNull(CurrencyService::getConversions());
     }
@@ -268,10 +254,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetConversionsAcceptsIntegerRate(): void
     {
-        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [
-            ['USD', 'JPY', 150],
-            ['USD', 'EUR', 0.9],
-        ]);
+        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [['USD', 'JPY', 150], ['USD', 'EUR', 0.9]]);
 
         $data = CurrencyService::getConversions();
 
@@ -284,9 +267,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetConversionsReturnsNullWhenRateNotNumber(): void
     {
-        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [
-            ['USD', 'EUR', '0.9'],
-        ]);
+        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [['USD', 'EUR', '0.9']]);
 
         $this->assertNull(CurrencyService::getConversions());
     }
@@ -296,9 +277,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testAutoRefreshKeepsRatesWithIntegerRate(): void
     {
-        $this->writeConversionsFile(gmdate('Y-m-d H:i:s') . ' UTC', 'Fake', [
-            ['USD', 'JPY', 150],
-        ]);
+        $this->writeConversionsFile(gmdate('Y-m-d H:i:s') . ' UTC', 'Fake', [['USD', 'JPY', 150]]);
         $service = new FakeExchangeRateService();
         CurrencyService::init($service, autoRefreshTtl: 3600);
 
@@ -343,9 +322,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testRefreshRatesReplacesOldRates(): void
     {
-        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [
-            ['USD', 'EUR', 0.5],
-        ]);
+        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [['USD', 'EUR', 0.5]]);
         $this->assertEqualsWithDelta(50.0, new Money(100, 'USD')->to('EUR')->value, 1e-9);
 
         CurrencyService::setExchangeRateService(new FakeExchangeRateService());
@@ -420,9 +397,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testAutoRefreshFetchesWhenRatesStale(): void
     {
-        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [
-            ['USD', 'EUR', 0.5],
-        ]);
+        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [['USD', 'EUR', 0.5]]);
         $service = new FakeExchangeRateService();
         CurrencyService::init($service, autoRefreshTtl: 3600);
 
@@ -435,9 +410,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testAutoRefreshFetchesWhenServiceChanged(): void
     {
-        $this->writeConversionsFile(gmdate('Y-m-d H:i:s') . ' UTC', 'Other', [
-            ['USD', 'EUR', 0.5],
-        ]);
+        $this->writeConversionsFile(gmdate('Y-m-d H:i:s') . ' UTC', 'Other', [['USD', 'EUR', 0.5]]);
         $service = new FakeExchangeRateService();
         CurrencyService::init($service, autoRefreshTtl: 3600);
 
@@ -450,9 +423,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testAutoRefreshFailureThrows(): void
     {
-        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [
-            ['USD', 'EUR', 0.5],
-        ]);
+        $this->writeConversionsFile('2000-01-01 00:00:00 UTC', 'Fake', [['USD', 'EUR', 0.5]]);
         CurrencyService::init(new FakeExchangeRateService(fail: true), autoRefreshTtl: 3600);
 
         $this->expectException(RuntimeException::class);
@@ -502,9 +473,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetRatesFetchedAtReadsRatesFile(): void
     {
-        $this->writeConversionsFile('2026-10-25 01:02:03 UTC', 'Fake', [
-            ['USD', 'EUR', 0.9],
-        ]);
+        $this->writeConversionsFile('2026-10-25 01:02:03 UTC', 'Fake', [['USD', 'EUR', 0.9]]);
 
         $this->assertEquals(
             new DateTimeImmutable('2026-10-25 01:02:03 UTC'),
@@ -543,9 +512,7 @@ final class CurrencyServiceTest extends TestCase
         file_put_contents(CurrencyService::getXmlFilePath(), '<ISO_4217/>');
         $this->writeDataFile('CurrencyUnits.php', [
             'whenFetched' => '2026-10-25 00:00:00 UTC',
-            'currencies'  => [
-                'US Dollar' => 'USD',
-            ],
+            'currencies' => ['US Dollar' => 'USD'],
         ]);
 
         CurrencyService::deleteUnits();

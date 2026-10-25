@@ -26,19 +26,15 @@ class Frequency extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'hertz'     => [
+            'hertz' => [
                 'asciiSymbol' => 'Hz',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
             'becquerel' => [
                 'asciiSymbol' => 'Bq',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -51,10 +47,7 @@ class Frequency extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['Hz', 's-1', 1],
-            ['Bq', 's-1', 1],
-        ];
+        return [['Hz', 's-1', 1], ['Bq', 's-1', 1]];
     }
 
     #endregion

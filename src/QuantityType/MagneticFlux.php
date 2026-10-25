@@ -26,9 +26,7 @@ class MagneticFlux extends Quantity
             'weber' => [
                 'asciiSymbol' => 'Wb',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class MagneticFlux extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['Wb', 'kg*m2*s-2*A-1', 1],
-        ];
+        return [['Wb', 'kg*m2*s-2*A-1', 1]];
     }
 
     #endregion

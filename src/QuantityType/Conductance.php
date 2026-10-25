@@ -26,9 +26,7 @@ class Conductance extends Quantity
             'siemens' => [
                 'asciiSymbol' => 'S',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class Conductance extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['S', 'kg-1*m-2*s3*A2', 1],
-        ];
+        return [['S', 'kg-1*m-2*s3*A2', 1]];
     }
 
     #endregion

@@ -547,18 +547,9 @@ final class QuantityTypeServiceTest extends TestCase
     public function testSiBaseDimensionsProperties(): void
     {
         $siBase = [
-            'L' => [
-                'name'  => 'length',
-                'class' => Length::class,
-            ],
-            'M' => [
-                'name'  => 'mass',
-                'class' => Mass::class,
-            ],
-            'T' => [
-                'name'  => 'time',
-                'class' => Time::class,
-            ],
+            'L' => ['name' => 'length', 'class' => Length::class],
+            'M' => ['name' => 'mass', 'class' => Mass::class],
+            'T' => ['name' => 'time', 'class' => Time::class],
         ];
 
         foreach ($siBase as $dimension => $expected) {

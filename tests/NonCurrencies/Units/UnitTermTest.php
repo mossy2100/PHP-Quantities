@@ -1105,9 +1105,7 @@ final class UnitTermTest extends TestCase
             name: 'unregistered test',
             asciiSymbol: 'Xur',
             dimension: 'L5T3',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
         UnitService::add($unit);
 
@@ -1224,9 +1222,7 @@ final class UnitTermTest extends TestCase
             name: 'unexpandable test',
             asciiSymbol: 'Xut',
             dimension: 'ML2T-2',
-            systems: [
-                UnitSystem::Si,
-            ]
+            systems: [UnitSystem::Si]
         );
         UnitService::add($unit);
 

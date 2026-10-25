@@ -24,20 +24,12 @@ class Force extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'newton'      => [
+            'newton' => [
                 'asciiSymbol' => 'N',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
-            'pound force' => [
-                'asciiSymbol' => 'lbf',
-                'systems'     => [
-                    UnitSystem::Imperial,
-                    UnitSystem::UsCustomary,
-                ],
-            ],
+            'pound force' => ['asciiSymbol' => 'lbf', 'systems' => [UnitSystem::Imperial, UnitSystem::UsCustomary]],
         ];
     }
 
@@ -52,11 +44,7 @@ class Force extends Quantity
         return [
             ['N', 'kg*m/s2', 1],
             // g₀ (standard gravity) = (9.80665 m/s²) / (0.3048 m/ft).
-            [
-                'lbf',
-                'lb*ft/s2',
-                PhysicalConstant::EARTH_GRAVITY / 0.3048,
-            ],
+            ['lbf', 'lb*ft/s2', PhysicalConstant::EARTH_GRAVITY / 0.3048],
         ];
     }
 

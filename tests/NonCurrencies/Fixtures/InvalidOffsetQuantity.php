@@ -17,34 +17,20 @@ class InvalidOffsetQuantity extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'bad offset unit' => [
-                'asciiSymbol' => 'bou',
-                'systems'     => [
-                    UnitSystem::Custom,
-                ],
-            ],
-            'bad zero unit'   => [
-                'asciiSymbol' => 'bzu',
-                'systems'     => [
-                    UnitSystem::Custom,
-                ],
-            ],
+            'bad offset unit' => ['asciiSymbol' => 'bou', 'systems' => [UnitSystem::Custom]],
+            'bad zero unit' => ['asciiSymbol' => 'bzu', 'systems' => [UnitSystem::Custom]],
         ];
     }
 
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['bou', 'bzu', 2.0],
-        ];
+        return [['bou', 'bzu', 2.0]];
     }
 
     #[Override]
     public static function getOffsetDefinitions(): array
     {
-        return [
-            ['bou', 'bzu', 10.0],
-        ];
+        return [['bou', 'bzu', 10.0]];
     }
 }

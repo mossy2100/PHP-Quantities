@@ -27,55 +27,18 @@ class Time extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'second'  => [
+            'second' => [
                 'asciiSymbol' => 's',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
-            'minute'  => [
-                'asciiSymbol' => 'min',
-                'systems'     => [
-                    UnitSystem::SiAccepted,
-                ],
-            ],
-            'hour'    => [
-                'asciiSymbol' => 'h',
-                'systems'     => [
-                    UnitSystem::SiAccepted,
-                ],
-            ],
-            'day'     => [
-                'asciiSymbol' => 'd',
-                'systems'     => [
-                    UnitSystem::SiAccepted,
-                ],
-            ],
-            'week'    => [
-                'asciiSymbol' => 'w',
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
-            ],
-            'month'   => [
-                'asciiSymbol' => 'mo',
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
-            ],
-            'year'    => [
-                'asciiSymbol' => 'y',
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
-            ],
-            'century' => [
-                'asciiSymbol' => 'c',
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
-            ],
+            'minute' => ['asciiSymbol' => 'min', 'systems' => [UnitSystem::SiAccepted]],
+            'hour' => ['asciiSymbol' => 'h', 'systems' => [UnitSystem::SiAccepted]],
+            'day' => ['asciiSymbol' => 'd', 'systems' => [UnitSystem::SiAccepted]],
+            'week' => ['asciiSymbol' => 'w', 'systems' => [UnitSystem::Common]],
+            'month' => ['asciiSymbol' => 'mo', 'systems' => [UnitSystem::Common]],
+            'year' => ['asciiSymbol' => 'y', 'systems' => [UnitSystem::Common]],
+            'century' => ['asciiSymbol' => 'c', 'systems' => [UnitSystem::Common]],
         ];
     }
 
@@ -126,12 +89,12 @@ class Time extends Quantity
         // Convert the DateInterval to an array of parts and create a Time instance.
         return self::fromParts([
             'sign' => $interval->invert ? -1 : 1,
-            'y'    => $interval->y,
-            'mo'   => $interval->m,
-            'd'    => $interval->d,
-            'h'    => $interval->h,
-            'min'  => $interval->i,
-            's'    => $interval->s + $interval->f,
+            'y' => $interval->y,
+            'mo' => $interval->m,
+            'd' => $interval->d,
+            'h' => $interval->h,
+            'min' => $interval->i,
+            's' => $interval->s + $interval->f,
         ]);
     }
 

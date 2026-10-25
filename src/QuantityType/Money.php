@@ -28,9 +28,7 @@ class Money extends Quantity
         $currencies = CurrencyService::getUnits()['currencies'];
         return array_map(static fn ($code) => [
             'asciiSymbol' => $code,
-            'systems'     => [
-                UnitSystem::Financial,
-            ],
+            'systems' => [UnitSystem::Financial],
         ], $currencies);
     }
 

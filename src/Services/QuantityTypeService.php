@@ -65,146 +65,44 @@ class QuantityTypeService
      */
     private const array DEFAULT_QUANTITY_TYPES = [
         // Dimensionless
-        'dimensionless'         => [
-            'dimension' => '',
-            'class'     => Dimensionless::class,
-        ],
+        'dimensionless' => ['dimension' => '', 'class' => Dimensionless::class],
 
         // Base dimensions
-        'length'                => [
-            'dimension' => 'L',
-            'class'     => Length::class,
-        ],
-        'mass'                  => [
-            'dimension' => 'M',
-            'class'     => Mass::class,
-        ],
-        'time'                  => [
-            'dimension' => 'T',
-            'class'     => Time::class,
-        ],
-        'electric current'      => [
-            'dimension' => 'I',
-            'class'     => ElectricCurrent::class,
-        ],
-        'temperature'           => [
-            'dimension' => 'H',
-            'class'     => Temperature::class,
-        ],
-        'amount of substance'   => [
-            'dimension' => 'N',
-            'class'     => AmountOfSubstance::class,
-        ],
-        'luminous intensity'    => [
-            'dimension' => 'J',
-            'class'     => LuminousIntensity::class,
-        ],
-        'angle'                 => [
-            'dimension' => 'A',
-            'class'     => Angle::class,
-        ],
-        'data'                  => [
-            'dimension' => 'D',
-            'class'     => Data::class,
-        ],
-        'money'                 => [
-            'dimension' => 'C',
-            'class'     => Money::class,
-        ],
+        'length' => ['dimension' => 'L', 'class' => Length::class],
+        'mass' => ['dimension' => 'M', 'class' => Mass::class],
+        'time' => ['dimension' => 'T', 'class' => Time::class],
+        'electric current' => ['dimension' => 'I', 'class' => ElectricCurrent::class],
+        'temperature' => ['dimension' => 'H', 'class' => Temperature::class],
+        'amount of substance' => ['dimension' => 'N', 'class' => AmountOfSubstance::class],
+        'luminous intensity' => ['dimension' => 'J', 'class' => LuminousIntensity::class],
+        'angle' => ['dimension' => 'A', 'class' => Angle::class],
+        'data' => ['dimension' => 'D', 'class' => Data::class],
+        'money' => ['dimension' => 'C', 'class' => Money::class],
 
         // Compound unit dimensions
-        'solid angle'           => [
-            'dimension' => 'A2',
-            'class'     => SolidAngle::class,
-        ],
-        'area'                  => [
-            'dimension' => 'L2',
-            'class'     => Area::class,
-        ],
-        'volume'                => [
-            'dimension' => 'L3',
-            'class'     => Volume::class,
-        ],
-        'velocity'              => [
-            'dimension' => 'T-1L',
-            'class'     => Velocity::class,
-        ],
-        'acceleration'          => [
-            'dimension' => 'T-2L',
-            'class'     => Acceleration::class,
-        ],
-        'density'               => [
-            'dimension' => 'L-3M',
-            'class'     => Density::class,
-        ],
-        'frequency'             => [
-            'dimension' => 'T-1',
-            'class'     => Frequency::class,
-        ],
-        'force'                 => [
-            'dimension' => 'T-2LM',
-            'class'     => Force::class,
-        ],
-        'pressure'              => [
-            'dimension' => 'T-2L-1M',
-            'class'     => Pressure::class,
-        ],
-        'energy'                => [
-            'dimension' => 'T-2L2M',
-            'class'     => Energy::class,
-        ],
-        'power'                 => [
-            'dimension' => 'T-3L2M',
-            'class'     => Power::class,
-        ],
-        'electric charge'       => [
-            'dimension' => 'TI',
-            'class'     => ElectricCharge::class,
-        ],
-        'voltage'               => [
-            'dimension' => 'T-3L2MI-1',
-            'class'     => Voltage::class,
-        ],
-        'capacitance'           => [
-            'dimension' => 'T4L-2M-1I2',
-            'class'     => Capacitance::class,
-        ],
-        'resistance'            => [
-            'dimension' => 'T-3L2MI-2',
-            'class'     => Resistance::class,
-        ],
-        'conductance'           => [
-            'dimension' => 'T3L-2M-1I2',
-            'class'     => Conductance::class,
-        ],
-        'magnetic flux'         => [
-            'dimension' => 'T-2L2MI-1',
-            'class'     => MagneticFlux::class,
-        ],
-        'magnetic flux density' => [
-            'dimension' => 'T-2MI-1',
-            'class'     => MagneticFluxDensity::class,
-        ],
-        'inductance'            => [
-            'dimension' => 'T-2L2MI-2',
-            'class'     => Inductance::class,
-        ],
-        'luminous flux'         => [
-            'dimension' => 'JA2',
-            'class'     => LuminousFlux::class,
-        ],
-        'illuminance'           => [
-            'dimension' => 'L-2JA2',
-            'class'     => Illuminance::class,
-        ],
-        'absorbed dose'         => [
-            'dimension' => 'T-2L2',
-            'class'     => RadiationDose::class,
-        ],
-        'catalytic activity'    => [
-            'dimension' => 'T-1N',
-            'class'     => CatalyticActivity::class,
-        ],
+        'solid angle' => ['dimension' => 'A2', 'class' => SolidAngle::class],
+        'area' => ['dimension' => 'L2', 'class' => Area::class],
+        'volume' => ['dimension' => 'L3', 'class' => Volume::class],
+        'velocity' => ['dimension' => 'T-1L', 'class' => Velocity::class],
+        'acceleration' => ['dimension' => 'T-2L', 'class' => Acceleration::class],
+        'density' => ['dimension' => 'L-3M', 'class' => Density::class],
+        'frequency' => ['dimension' => 'T-1', 'class' => Frequency::class],
+        'force' => ['dimension' => 'T-2LM', 'class' => Force::class],
+        'pressure' => ['dimension' => 'T-2L-1M', 'class' => Pressure::class],
+        'energy' => ['dimension' => 'T-2L2M', 'class' => Energy::class],
+        'power' => ['dimension' => 'T-3L2M', 'class' => Power::class],
+        'electric charge' => ['dimension' => 'TI', 'class' => ElectricCharge::class],
+        'voltage' => ['dimension' => 'T-3L2MI-1', 'class' => Voltage::class],
+        'capacitance' => ['dimension' => 'T4L-2M-1I2', 'class' => Capacitance::class],
+        'resistance' => ['dimension' => 'T-3L2MI-2', 'class' => Resistance::class],
+        'conductance' => ['dimension' => 'T3L-2M-1I2', 'class' => Conductance::class],
+        'magnetic flux' => ['dimension' => 'T-2L2MI-1', 'class' => MagneticFlux::class],
+        'magnetic flux density' => ['dimension' => 'T-2MI-1', 'class' => MagneticFluxDensity::class],
+        'inductance' => ['dimension' => 'T-2L2MI-2', 'class' => Inductance::class],
+        'luminous flux' => ['dimension' => 'JA2', 'class' => LuminousFlux::class],
+        'illuminance' => ['dimension' => 'L-2JA2', 'class' => Illuminance::class],
+        'absorbed dose' => ['dimension' => 'T-2L2', 'class' => RadiationDose::class],
+        'catalytic activity' => ['dimension' => 'T-1N', 'class' => CatalyticActivity::class],
     ];
 
     #endregion

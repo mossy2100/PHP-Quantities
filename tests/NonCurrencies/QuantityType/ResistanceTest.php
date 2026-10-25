@@ -58,11 +58,11 @@ final class ResistanceTest extends TestCase
     public static function ohmSymbolProvider(): array
     {
         return [
-            'ASCII'              => ['ohm', 1.0],
-            'Unicode (U+03A9)'   => ["\u{03A9}", 1.0],
+            'ASCII' => ['ohm', 1.0],
+            'Unicode (U+03A9)' => ["\u{03A9}", 1.0],
             'alternate (U+2126)' => ["\u{2126}", 1.0],
-            'prefixed ASCII'     => ['kohm', 1000.0],
-            'prefixed Unicode'   => ["k\u{03A9}", 1000.0],
+            'prefixed ASCII' => ['kohm', 1000.0],
+            'prefixed Unicode' => ["k\u{03A9}", 1000.0],
             'prefixed alternate' => ["k\u{2126}", 1000.0],
         ];
     }

@@ -199,10 +199,7 @@ class CurrencyService
         // Construct the data array.
         ksort($currencies);
         $now = time();
-        $unitData = [
-            'whenFetched' => gmdate(self::DATETIME_FORMAT, $now),
-            'currencies'  => $currencies,
-        ];
+        $unitData = ['whenFetched' => gmdate(self::DATETIME_FORMAT, $now), 'currencies' => $currencies];
 
         // Save it.
         self::writeFile(self::getUnitsFilePath(), self::buildUnitsFile($unitData, $now));

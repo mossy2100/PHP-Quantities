@@ -26,9 +26,7 @@ class SolidAngle extends Quantity
             'steradian' => [
                 'asciiSymbol' => 'sr',
                 'prefixGroup' => PrefixService::GROUP_SMALL_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class SolidAngle extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['sr', 'rad2', 1],
-        ];
+        return [['sr', 'rad2', 1]];
     }
 
     #endregion

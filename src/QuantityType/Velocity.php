@@ -21,14 +21,7 @@ class Velocity extends Quantity
     #[Override]
     public static function getUnitDefinitions(): array
     {
-        return [
-            'knot' => [
-                'asciiSymbol' => 'kn',
-                'systems'     => [
-                    UnitSystem::Nautical,
-                ],
-            ],
-        ];
+        return ['knot' => ['asciiSymbol' => 'kn', 'systems' => [UnitSystem::Nautical]]];
     }
 
     /**
@@ -39,9 +32,7 @@ class Velocity extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['kn', 'nmi*h-1', 1],
-        ];
+        return [['kn', 'nmi*h-1', 1]];
     }
 
     #endregion

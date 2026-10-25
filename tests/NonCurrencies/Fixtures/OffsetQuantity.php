@@ -19,35 +19,20 @@ class OffsetQuantity extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'offset test unit' => [
-                'asciiSymbol' => 'otu',
-                'systems'     => [
-                    UnitSystem::Custom,
-                ],
-            ],
-            'zero test unit'   => [
-                'asciiSymbol' => 'ztu',
-                'systems'     => [
-                    UnitSystem::Custom,
-                ],
-            ],
+            'offset test unit' => ['asciiSymbol' => 'otu', 'systems' => [UnitSystem::Custom]],
+            'zero test unit' => ['asciiSymbol' => 'ztu', 'systems' => [UnitSystem::Custom]],
         ];
     }
 
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['otu', 'ztu', 1.0],
-            ['ztu', 'm4', 2.0],
-        ];
+        return [['otu', 'ztu', 1.0], ['ztu', 'm4', 2.0]];
     }
 
     #[Override]
     public static function getOffsetDefinitions(): array
     {
-        return [
-            ['otu', 'ztu', 10.0],
-        ];
+        return [['otu', 'ztu', 10.0]];
     }
 }

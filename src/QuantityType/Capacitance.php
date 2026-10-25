@@ -26,9 +26,7 @@ class Capacitance extends Quantity
             'farad' => [
                 'asciiSymbol' => 'F',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class Capacitance extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['F', 'kg-1*m-2*s4*A2', 1],
-        ];
+        return [['F', 'kg-1*m-2*s4*A2', 1]];
     }
 
     #endregion

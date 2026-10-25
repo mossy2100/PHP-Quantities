@@ -26,9 +26,7 @@ class MagneticFluxDensity extends Quantity
             'tesla' => [
                 'asciiSymbol' => 'T',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class MagneticFluxDensity extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['T', 'kg*s-2*A-1', 1],
-        ];
+        return [['T', 'kg*s-2*A-1', 1]];
     }
 
     #endregion

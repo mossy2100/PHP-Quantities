@@ -44,13 +44,11 @@ class Resistance extends Quantity
     {
         return [
             'ohm' => [
-                'asciiSymbol'     => 'ohm',
-                'unicodeSymbol'   => 'Ω',
+                'asciiSymbol' => 'ohm',
+                'unicodeSymbol' => 'Ω',
                 'alternateSymbol' => 'Ω',
-                'prefixGroup'     => PrefixService::GROUP_METRIC,
-                'systems'         => [
-                    UnitSystem::Si,
-                ],
+                'prefixGroup' => PrefixService::GROUP_METRIC,
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -63,9 +61,7 @@ class Resistance extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['ohm', 'kg*m2*s-3*A-2', 1],
-        ];
+        return [['ohm', 'kg*m2*s-3*A-2', 1]];
     }
 
     #endregion

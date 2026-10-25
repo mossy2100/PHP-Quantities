@@ -26,9 +26,7 @@ class Voltage extends Quantity
             'volt' => [
                 'asciiSymbol' => 'V',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class Voltage extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['V', 'kg*m2*s-3*A-1', 1],
-        ];
+        return [['V', 'kg*m2*s-3*A-1', 1]];
     }
 
     #endregion

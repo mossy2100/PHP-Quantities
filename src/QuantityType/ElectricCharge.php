@@ -26,9 +26,7 @@ class ElectricCharge extends Quantity
             'coulomb' => [
                 'asciiSymbol' => 'C',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class ElectricCharge extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['C', 's*A', 1],
-        ];
+        return [['C', 's*A', 1]];
     }
 
     #endregion

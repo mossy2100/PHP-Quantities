@@ -39,62 +39,33 @@ class Angle extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'radian'         => [
+            'radian' => [
                 'asciiSymbol' => 'rad',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
-            'degree'         => [
-                'asciiSymbol'   => 'deg',
-                'unicodeSymbol' => '°',
-                'systems'       => [
-                    UnitSystem::SiAccepted,
-                ],
-            ],
-            'arcminute'      => [
-                'asciiSymbol'     => 'arcmin',
-                'unicodeSymbol'   => '′',
+            'degree' => ['asciiSymbol' => 'deg', 'unicodeSymbol' => '°', 'systems' => [UnitSystem::SiAccepted]],
+            'arcminute' => [
+                'asciiSymbol' => 'arcmin',
+                'unicodeSymbol' => '′',
                 'alternateSymbol' => "'",
-                'systems'         => [
-                    UnitSystem::SiAccepted,
-                ],
+                'systems' => [UnitSystem::SiAccepted],
             ],
-            'arcsecond'      => [
-                'asciiSymbol'     => 'arcsec',
-                'unicodeSymbol'   => '″',
+            'arcsecond' => [
+                'asciiSymbol' => 'arcsec',
+                'unicodeSymbol' => '″',
                 'alternateSymbol' => '"',
-                'systems'         => [
-                    UnitSystem::SiAccepted,
-                ],
+                'systems' => [UnitSystem::SiAccepted],
             ],
-            'milliarcsecond' => [
-                'asciiSymbol' => 'mas',
-                'systems'     => [
-                    UnitSystem::Scientific,
-                ],
-            ],
+            'milliarcsecond' => ['asciiSymbol' => 'mas', 'systems' => [UnitSystem::Scientific]],
             'microarcsecond' => [
-                'asciiSymbol'     => 'uas',
-                'unicodeSymbol'   => 'µas', // U+00B5 MICRO SIGN
+                'asciiSymbol' => 'uas',
+                'unicodeSymbol' => 'µas', // U+00B5 MICRO SIGN
                 'alternateSymbol' => 'μas', // U+03BC GREEK SMALL LETTER MU
-                'systems'         => [
-                    UnitSystem::Scientific,
-                ],
+                'systems' => [UnitSystem::Scientific],
             ],
-            'gradian'        => [
-                'asciiSymbol' => 'grad',
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
-            ],
-            'turn'           => [
-                'asciiSymbol' => 'turn',
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
-            ],
+            'gradian' => ['asciiSymbol' => 'grad', 'systems' => [UnitSystem::Common]],
+            'turn' => ['asciiSymbol' => 'turn', 'systems' => [UnitSystem::Common]],
         ];
     }
 

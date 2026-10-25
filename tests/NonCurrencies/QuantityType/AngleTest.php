@@ -677,11 +677,7 @@ final class AngleTest extends TestCase
      */
     public function testFromParts(): void
     {
-        $angle = Angle::fromParts([
-            'deg'    => 45,
-            'arcmin' => 30,
-            'arcsec' => 15,
-        ]);
+        $angle = Angle::fromParts(['deg' => 45, 'arcmin' => 30, 'arcsec' => 15]);
 
         // 45 + 30/60 + 15/3600 = 45.504166...
         $this->assertApproxEqual(45.504166666666666, $angle->value);
@@ -693,9 +689,7 @@ final class AngleTest extends TestCase
      */
     public function testFromPartsDegreesOnly(): void
     {
-        $angle = Angle::fromParts([
-            'deg' => 90,
-        ]);
+        $angle = Angle::fromParts(['deg' => 90]);
 
         $this->assertSame(90.0, $angle->value);
     }
@@ -705,11 +699,7 @@ final class AngleTest extends TestCase
      */
     public function testFromPartsNegative(): void
     {
-        $angle = Angle::fromParts([
-            'deg'    => 45,
-            'arcmin' => 30,
-            'sign'   => -1,
-        ]);
+        $angle = Angle::fromParts(['deg' => 45, 'arcmin' => 30, 'sign' => -1]);
 
         // -(45 + 30/60) = -45.5
         $this->assertSame(-45.5, $angle->value);
@@ -721,10 +711,7 @@ final class AngleTest extends TestCase
     public function testFromPartsNegativeValueUsesSign(): void
     {
         // Negative values in parts are handled via the 'sign' key
-        $angle = Angle::fromParts([
-            'deg'  => 45,
-            'sign' => -1,
-        ]);
+        $angle = Angle::fromParts(['deg' => 45, 'sign' => -1]);
 
         $this->assertSame(-45.0, $angle->value);
     }
@@ -734,9 +721,7 @@ final class AngleTest extends TestCase
      */
     public function testFromPartsDefaultResultUnit(): void
     {
-        $angle = Angle::fromParts([
-            'deg' => 45,
-        ]);
+        $angle = Angle::fromParts(['deg' => 45]);
 
         // Default result unit for Angle is 'deg'
         $this->assertSame('deg', $angle->compoundUnit->asciiSymbol);
@@ -832,11 +817,7 @@ final class AngleTest extends TestCase
      */
     public function testPartsRoundTrip(): void
     {
-        $angle = Angle::fromParts([
-            'deg'    => 45,
-            'arcmin' => 30,
-            'arcsec' => 15,
-        ]);
+        $angle = Angle::fromParts(['deg' => 45, 'arcmin' => 30, 'arcsec' => 15]);
         $formatted = $angle->formatParts(precision: 0);
 
         $this->assertSame('45° 30′ 15″', $formatted);

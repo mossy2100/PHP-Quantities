@@ -505,10 +505,7 @@ final class MassTest extends TestCase
      */
     public function testFromPartsCreatesMassQuantity(): void
     {
-        $mass = Mass::fromParts([
-            'lb' => 2,
-            'oz' => 8,
-        ]);
+        $mass = Mass::fromParts(['lb' => 2, 'oz' => 8]);
 
         $this->assertInstanceOf(Mass::class, $mass);
         // 2 lb + 8 oz = 2 lb + 0.5 lb = 2.5 lb.
@@ -522,10 +519,7 @@ final class MassTest extends TestCase
     public function testFromPartsCrossSystem(): void
     {
         // Mix metric and imperial units.
-        $mass = Mass::fromParts([
-            'lb' => 1,
-            'kg' => 1,
-        ]);
+        $mass = Mass::fromParts(['lb' => 1, 'kg' => 1]);
 
         $this->assertInstanceOf(Mass::class, $mass);
         // A metric part means the result is in kg: 1 lb (= 0.45359237 kg) + 1 kg = 1.45359237 kg.
@@ -538,11 +532,7 @@ final class MassTest extends TestCase
      */
     public function testFromPartsWithSign(): void
     {
-        $mass = Mass::fromParts([
-            'lb'   => 3,
-            'oz'   => 4,
-            'sign' => -1,
-        ]);
+        $mass = Mass::fromParts(['lb' => 3, 'oz' => 4, 'sign' => -1]);
 
         $this->assertInstanceOf(Mass::class, $mass);
         // -(3 lb + 4 oz) = -(3 + 0.25) = -3.25 lb.
@@ -609,10 +599,7 @@ final class MassTest extends TestCase
      */
     public function testFromPartsImperial(): void
     {
-        $mass = Mass::fromParts([
-            'st' => 11,
-            'lb' => 3,
-        ]);
+        $mass = Mass::fromParts(['st' => 11, 'lb' => 3]);
 
         $this->assertInstanceOf(Mass::class, $mass);
         $this->assertSame('lb', $mass->compoundUnit->asciiSymbol);
@@ -684,10 +671,7 @@ final class MassTest extends TestCase
      */
     public function testFromPartsUsCustomary(): void
     {
-        $mass = Mass::fromParts([
-            'lb' => 3,
-            'oz' => 4,
-        ]);
+        $mass = Mass::fromParts(['lb' => 3, 'oz' => 4]);
 
         $this->assertInstanceOf(Mass::class, $mass);
         $this->assertSame('lb', $mass->compoundUnit->asciiSymbol);

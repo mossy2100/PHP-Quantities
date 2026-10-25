@@ -26,9 +26,7 @@ class CatalyticActivity extends Quantity
             'katal' => [
                 'asciiSymbol' => 'kat',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class CatalyticActivity extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['kat', 'mol*s-1', 1],
-        ];
+        return [['kat', 'mol*s-1', 1]];
     }
 
     #endregion

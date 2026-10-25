@@ -26,9 +26,7 @@ class Inductance extends Quantity
             'henry' => [
                 'asciiSymbol' => 'H',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class Inductance extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['H', 'kg*m2*s-2*A-2', 1],
-        ];
+        return [['H', 'kg*m2*s-2*A-2', 1]];
     }
 
     #endregion

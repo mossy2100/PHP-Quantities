@@ -31,10 +31,7 @@ class FakeExchangeRateService implements ExchangeRateServiceInterface
     public function __construct(
         private readonly string $name = 'Fake',
         private readonly bool $fail = false,
-        private readonly array $definitions = [
-            ['USD', 'EUR', 0.9],
-            ['USD', 'GBP', 0.8],
-        ]
+        private readonly array $definitions = [['USD', 'EUR', 0.9], ['USD', 'GBP', 0.8]]
     ) {
     }
 

@@ -20,8 +20,6 @@ class UnknownDestQuantity extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['m', 'zzzdest', 1.0],
-        ];
+        return [['m', 'zzzdest', 1.0]];
     }
 }

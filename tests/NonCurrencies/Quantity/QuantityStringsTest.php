@@ -153,8 +153,8 @@ final class QuantityStringsTest extends TestCase
     public static function providerGenericParseMultiPart(): array
     {
         return [
-            'angle'  => ['12° 30′ 36″', Angle::class, 12.51, 'deg'],
-            'time'   => ['1h 30min 15s', Time::class, 5415.0, 's'],
+            'angle' => ['12° 30′ 36″', Angle::class, 12.51, 'deg'],
+            'time' => ['1h 30min 15s', Time::class, 5415.0, 's'],
             'length' => ['5ft 6in', Length::class, 5.5, 'ft'],
         ];
     }
@@ -219,13 +219,13 @@ final class QuantityStringsTest extends TestCase
     public static function providerGenericParseMalformed(): array
     {
         return [
-            'plus sign'           => ['+5 m'],
+            'plus sign' => ['+5 m'],
             'thousands separator' => ['1,000 m'],
-            'double slash'        => ['1 m//s'],
-            'mixed dimensions'    => ['3 h 2 kg'],
-            'space in a part'     => ['5 m 3 cm'],
-            'no units'            => ['5 3'],
-            'unregistered type'   => ['1m*kg 2m*kg'],
+            'double slash' => ['1 m//s'],
+            'mixed dimensions' => ['3 h 2 kg'],
+            'space in a part' => ['5 m 3 cm'],
+            'no units' => ['5 3'],
+            'unregistered type' => ['1m*kg 2m*kg'],
         ];
     }
 

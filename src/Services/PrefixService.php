@@ -51,178 +51,46 @@ class PrefixService
      * }>
      */
     private const array PREFIX_DEFINITIONS = [
-        'quecto' => [
-            'multiplier'  => 1e-30,
+        'quecto' => ['multiplier' => 1e-30, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'q'],
+        'ronto' => ['multiplier' => 1e-27, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'r'],
+        'yocto' => ['multiplier' => 1e-24, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'y'],
+        'zepto' => ['multiplier' => 1e-21, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'z'],
+        'atto' => ['multiplier' => 1e-18, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'a'],
+        'femto' => ['multiplier' => 1e-15, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'f'],
+        'pico' => ['multiplier' => 1e-12, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'p'],
+        'nano' => ['multiplier' => 1e-9, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'n'],
+        'micro' => [
+            'multiplier' => 1e-6,
             'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'q',
-        ],
-        'ronto'  => [
-            'multiplier'  => 1e-27,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'r',
-        ],
-        'yocto'  => [
-            'multiplier'  => 1e-24,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'y',
-        ],
-        'zepto'  => [
-            'multiplier'  => 1e-21,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'z',
-        ],
-        'atto'   => [
-            'multiplier'  => 1e-18,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'a',
-        ],
-        'femto'  => [
-            'multiplier'  => 1e-15,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'f',
-        ],
-        'pico'   => [
-            'multiplier'  => 1e-12,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'p',
-        ],
-        'nano'   => [
-            'multiplier'  => 1e-9,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'n',
-        ],
-        'micro'  => [
-            'multiplier'      => 1e-6,
-            'prefixGroup'     => self::GROUP_SMALL_METRIC,
-            'asciiSymbol'     => 'u',
-            'unicodeSymbol'   => 'µ', // U+00B5 MICRO SIGN
+            'asciiSymbol' => 'u',
+            'unicodeSymbol' => 'µ', // U+00B5 MICRO SIGN
             'alternateSymbol' => 'μ', // U+03BC GREEK SMALL LETTER MU
         ],
-        'milli'  => [
-            'multiplier'  => 1e-3,
-            'prefixGroup' => self::GROUP_SMALL_METRIC,
-            'asciiSymbol' => 'm',
-        ],
-        'centi'  => [
-            'multiplier'  => 1e-2,
-            'prefixGroup' => self::GROUP_MEDIUM_METRIC,
-            'asciiSymbol' => 'c',
-        ],
-        'deci'   => [
-            'multiplier'  => 1e-1,
-            'prefixGroup' => self::GROUP_MEDIUM_METRIC,
-            'asciiSymbol' => 'd',
-        ],
-        'deca'   => [
-            'multiplier'  => 1e1,
-            'prefixGroup' => self::GROUP_MEDIUM_METRIC,
-            'asciiSymbol' => 'da',
-        ],
-        'hecto'  => [
-            'multiplier'  => 1e2,
-            'prefixGroup' => self::GROUP_MEDIUM_METRIC,
-            'asciiSymbol' => 'h',
-        ],
-        'kilo'   => [
-            'multiplier'  => 1e3,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'k',
-        ],
-        'mega'   => [
-            'multiplier'  => 1e6,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'M',
-        ],
-        'giga'   => [
-            'multiplier'  => 1e9,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'G',
-        ],
-        'tera'   => [
-            'multiplier'  => 1e12,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'T',
-        ],
-        'peta'   => [
-            'multiplier'  => 1e15,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'P',
-        ],
-        'exa'    => [
-            'multiplier'  => 1e18,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'E',
-        ],
-        'zetta'  => [
-            'multiplier'  => 1e21,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'Z',
-        ],
-        'yotta'  => [
-            'multiplier'  => 1e24,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'Y',
-        ],
-        'ronna'  => [
-            'multiplier'  => 1e27,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'R',
-        ],
-        'quetta' => [
-            'multiplier'  => 1e30,
-            'prefixGroup' => self::GROUP_LARGE_METRIC,
-            'asciiSymbol' => 'Q',
-        ],
-        'kibi'   => [
-            'multiplier'  => 2 ** 10,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Ki',
-        ],
-        'mebi'   => [
-            'multiplier'  => 2 ** 20,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Mi',
-        ],
-        'gibi'   => [
-            'multiplier'  => 2 ** 30,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Gi',
-        ],
-        'tebi'   => [
-            'multiplier'  => 2 ** 40,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Ti',
-        ],
-        'pebi'   => [
-            'multiplier'  => 2 ** 50,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Pi',
-        ],
-        'exbi'   => [
-            'multiplier'  => 2 ** 60,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Ei',
-        ],
-        'zebi'   => [
-            'multiplier'  => 2 ** 70,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Zi',
-        ],
-        'yobi'   => [
-            'multiplier'  => 2 ** 80,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Yi',
-        ],
-        'robi'   => [
-            'multiplier'  => 2 ** 90,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Ri',
-        ],
-        'quebi'  => [
-            'multiplier'  => 2 ** 100,
-            'prefixGroup' => self::GROUP_BINARY,
-            'asciiSymbol' => 'Qi',
-        ],
+        'milli' => ['multiplier' => 1e-3, 'prefixGroup' => self::GROUP_SMALL_METRIC, 'asciiSymbol' => 'm'],
+        'centi' => ['multiplier' => 1e-2, 'prefixGroup' => self::GROUP_MEDIUM_METRIC, 'asciiSymbol' => 'c'],
+        'deci' => ['multiplier' => 1e-1, 'prefixGroup' => self::GROUP_MEDIUM_METRIC, 'asciiSymbol' => 'd'],
+        'deca' => ['multiplier' => 1e1, 'prefixGroup' => self::GROUP_MEDIUM_METRIC, 'asciiSymbol' => 'da'],
+        'hecto' => ['multiplier' => 1e2, 'prefixGroup' => self::GROUP_MEDIUM_METRIC, 'asciiSymbol' => 'h'],
+        'kilo' => ['multiplier' => 1e3, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'k'],
+        'mega' => ['multiplier' => 1e6, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'M'],
+        'giga' => ['multiplier' => 1e9, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'G'],
+        'tera' => ['multiplier' => 1e12, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'T'],
+        'peta' => ['multiplier' => 1e15, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'P'],
+        'exa' => ['multiplier' => 1e18, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'E'],
+        'zetta' => ['multiplier' => 1e21, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'Z'],
+        'yotta' => ['multiplier' => 1e24, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'Y'],
+        'ronna' => ['multiplier' => 1e27, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'R'],
+        'quetta' => ['multiplier' => 1e30, 'prefixGroup' => self::GROUP_LARGE_METRIC, 'asciiSymbol' => 'Q'],
+        'kibi' => ['multiplier' => 2 ** 10, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Ki'],
+        'mebi' => ['multiplier' => 2 ** 20, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Mi'],
+        'gibi' => ['multiplier' => 2 ** 30, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Gi'],
+        'tebi' => ['multiplier' => 2 ** 40, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Ti'],
+        'pebi' => ['multiplier' => 2 ** 50, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Pi'],
+        'exbi' => ['multiplier' => 2 ** 60, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Ei'],
+        'zebi' => ['multiplier' => 2 ** 70, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Zi'],
+        'yobi' => ['multiplier' => 2 ** 80, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Yi'],
+        'robi' => ['multiplier' => 2 ** 90, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Ri'],
+        'quebi' => ['multiplier' => 2 ** 100, 'prefixGroup' => self::GROUP_BINARY, 'asciiSymbol' => 'Qi'],
     ];
 
     #endregion

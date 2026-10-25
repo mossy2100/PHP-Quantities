@@ -422,9 +422,7 @@ final class UnitServiceTest extends TestCase
             name: 'testunitadd',
             asciiSymbol: 'tua',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ],
+            systems: [UnitSystem::Custom],
             unicodeSymbol: 'τ'
         );
 
@@ -451,9 +449,7 @@ final class UnitServiceTest extends TestCase
             name: 'newunitohm',
             asciiSymbol: 'nuo',
             dimension: 'T-3L2MI-2',
-            systems: [
-                UnitSystem::Custom,
-            ],
+            systems: [UnitSystem::Custom],
             unicodeSymbol: 'Ω'  // Conflicts with ohm's Unicode symbol.
         ));
     }
@@ -467,9 +463,7 @@ final class UnitServiceTest extends TestCase
             name: 'fullunitparams',
             asciiSymbol: 'fup',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ],
+            systems: [UnitSystem::Custom],
             prefixGroup: PrefixService::GROUP_METRIC,
             unicodeSymbol: 'φ'
         );
@@ -498,9 +492,7 @@ final class UnitServiceTest extends TestCase
                 name: 'onlyunit',
                 asciiSymbol: 'onu',
                 dimension: 'L',
-                systems: [
-                    UnitSystem::Custom,
-                ]
+                systems: [UnitSystem::Custom]
             );
 
             UnitService::add($unit);
@@ -522,9 +514,7 @@ final class UnitServiceTest extends TestCase
             name: 'autoinitunit',
             asciiSymbol: 'aiu',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
 
         try {
@@ -549,9 +539,7 @@ final class UnitServiceTest extends TestCase
             name: $name,
             asciiSymbol: 'rpt',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
 
         try {
@@ -563,9 +551,7 @@ final class UnitServiceTest extends TestCase
                 name: $name,
                 asciiSymbol: 'rpx',
                 dimension: 'L',
-                systems: [
-                    UnitSystem::Custom,
-                ]
+                systems: [UnitSystem::Custom]
             );
             $result = UnitService::add($replacement, true);
 
@@ -587,9 +573,7 @@ final class UnitServiceTest extends TestCase
             name: $name,
             asciiSymbol: 'skt',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
 
         try {
@@ -599,9 +583,7 @@ final class UnitServiceTest extends TestCase
                 name: $name,
                 asciiSymbol: 'skx',
                 dimension: 'L',
-                systems: [
-                    UnitSystem::Custom,
-                ]
+                systems: [UnitSystem::Custom]
             ));
 
             $this->assertFalse($result);
@@ -623,10 +605,8 @@ final class UnitServiceTest extends TestCase
         try {
             UnitService::addFromDefinition('testdefunit', [
                 'asciiSymbol' => 'tdu',
-                'dimension'   => 'L',
-                'systems'     => [
-                    UnitSystem::Custom,
-                ],
+                'dimension' => 'L',
+                'systems' => [UnitSystem::Custom],
             ]);
 
             $unit = UnitService::getByName('testdefunit');
@@ -645,13 +625,11 @@ final class UnitServiceTest extends TestCase
     {
         try {
             UnitService::addFromDefinition('fulldefunit', [
-                'asciiSymbol'     => 'fdu',
-                'dimension'       => 'T',
-                'systems'         => [
-                    UnitSystem::Custom,
-                ],
-                'prefixGroup'     => PrefixService::GROUP_METRIC,
-                'unicodeSymbol'   => 'ψ',
+                'asciiSymbol' => 'fdu',
+                'dimension' => 'T',
+                'systems' => [UnitSystem::Custom],
+                'prefixGroup' => PrefixService::GROUP_METRIC,
+                'unicodeSymbol' => 'ψ',
                 'alternateSymbol' => '#',
             ]);
 
@@ -681,9 +659,7 @@ final class UnitServiceTest extends TestCase
             name: 'removetest',
             asciiSymbol: 'rmt',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
         UnitService::add($unit);
         $this->assertTrue(UnitService::has('removetest'));
@@ -728,9 +704,7 @@ final class UnitServiceTest extends TestCase
             name: 'removestringtest',
             asciiSymbol: 'rst',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
         UnitService::add($unit);
         $this->assertTrue(UnitService::has('removestringtest'));
@@ -892,9 +866,7 @@ final class UnitServiceTest extends TestCase
             name: 'counttest',
             asciiSymbol: 'cnt',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
 
         try {
@@ -914,9 +886,7 @@ final class UnitServiceTest extends TestCase
             name: 'countremovetest',
             asciiSymbol: 'crt',
             dimension: 'L',
-            systems: [
-                UnitSystem::Custom,
-            ]
+            systems: [UnitSystem::Custom]
         );
         UnitService::add($unit);
         $countBefore = UnitService::count();
@@ -1031,12 +1001,12 @@ final class UnitServiceTest extends TestCase
     public function testSiBaseUnitsHaveCorrectDimensions(): void
     {
         $expected = [
-            'meter'   => 'L',
-            'gram'    => 'M',
-            'second'  => 'T',
-            'ampere'  => 'I',
-            'kelvin'  => 'H',
-            'mole'    => 'N',
+            'meter' => 'L',
+            'gram' => 'M',
+            'second' => 'T',
+            'ampere' => 'I',
+            'kelvin' => 'H',
+            'mole' => 'N',
             'candela' => 'J',
         ];
 

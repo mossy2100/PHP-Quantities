@@ -463,9 +463,7 @@ class CompoundUnitTest extends TestCase
      */
     public function testConstructorWithSingleTerm(): void
     {
-        $cu = new CompoundUnit([
-            new UnitTerm('m'),
-        ]);
+        $cu = new CompoundUnit([new UnitTerm('m')]);
 
         $this->assertCount(1, $cu->unitTerms);
         $this->assertSame('m', $cu->format(true));
@@ -473,10 +471,7 @@ class CompoundUnitTest extends TestCase
 
     public function testConstructorCombinesSameUnitExponents(): void
     {
-        $cu = new CompoundUnit([
-            new UnitTerm('m', null, 2),
-            new UnitTerm('m', null, 3),
-        ]);
+        $cu = new CompoundUnit([new UnitTerm('m', null, 2), new UnitTerm('m', null, 3)]);
 
         $this->assertCount(1, $cu->unitTerms);
         $this->assertSame('m5', $cu->format(true));
@@ -484,10 +479,7 @@ class CompoundUnitTest extends TestCase
 
     public function testConstructorCombinesWithDifferentExponents(): void
     {
-        $cu = new CompoundUnit([
-            new UnitTerm('m', null, 3),
-            new UnitTerm('m', null, -1),
-        ]);
+        $cu = new CompoundUnit([new UnitTerm('m', null, 3), new UnitTerm('m', null, -1)]);
 
         $this->assertCount(1, $cu->unitTerms);
         $this->assertSame('m2', $cu->format(true));
@@ -495,10 +487,7 @@ class CompoundUnitTest extends TestCase
 
     public function testConstructorDropsTermsWhenExponentsCancel(): void
     {
-        $cu = new CompoundUnit([
-            new UnitTerm('m', null, 2),
-            new UnitTerm('m', null, -2),
-        ]);
+        $cu = new CompoundUnit([new UnitTerm('m', null, 2), new UnitTerm('m', null, -2)]);
 
         $this->assertCount(0, $cu->unitTerms);
         $this->assertSame('', $cu->format(true));
@@ -506,10 +495,7 @@ class CompoundUnitTest extends TestCase
 
     public function testConstructorCombinesSamePrefix(): void
     {
-        $cu = new CompoundUnit([
-            new UnitTerm('m', 'k', 2),
-            new UnitTerm('m', 'k', 1),
-        ]);
+        $cu = new CompoundUnit([new UnitTerm('m', 'k', 2), new UnitTerm('m', 'k', 1)]);
 
         $this->assertCount(1, $cu->unitTerms);
         $this->assertSame('km3', $cu->format(true));
@@ -518,10 +504,7 @@ class CompoundUnitTest extends TestCase
     public function testConstructorTreatsDifferentPrefixesSeparately(): void
     {
         // km and m should be treated as different unit terms (different unexponentiated symbols).
-        $cu = new CompoundUnit([
-            new UnitTerm('m', 'k'),
-            new UnitTerm('m'),
-        ]);
+        $cu = new CompoundUnit([new UnitTerm('m', 'k'), new UnitTerm('m')]);
 
         $this->assertCount(2, $cu->unitTerms);
     }

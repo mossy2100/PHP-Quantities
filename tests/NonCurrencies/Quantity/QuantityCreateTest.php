@@ -327,11 +327,7 @@ final class QuantityCreateTest extends TestCase
      */
     public function testFromPartsReturnsTimeInstance(): void
     {
-        $qty = Time::fromParts([
-            'h'   => 1,
-            'min' => 30,
-            's'   => 45,
-        ]);
+        $qty = Time::fromParts(['h' => 1, 'min' => 30, 's' => 45]);
 
         $this->assertInstanceOf(Time::class, $qty);
         // 1 h = 3600 s, 30 min = 1800 s, 45 s = 45 s. Total = 5445 s.
@@ -344,10 +340,7 @@ final class QuantityCreateTest extends TestCase
      */
     public function testFromPartsReturnsAngleInstance(): void
     {
-        $qty = Angle::fromParts([
-            'deg'    => 45,
-            'arcmin' => 30,
-        ]);
+        $qty = Angle::fromParts(['deg' => 45, 'arcmin' => 30]);
 
         $this->assertInstanceOf(Angle::class, $qty);
         $this->assertSame('deg', $qty->compoundUnit->asciiSymbol);
@@ -359,11 +352,7 @@ final class QuantityCreateTest extends TestCase
      */
     public function testFromPartsWithSign(): void
     {
-        $qty = Time::fromParts([
-            'h'    => 1,
-            'min'  => 30,
-            'sign' => -1,
-        ]);
+        $qty = Time::fromParts(['h' => 1, 'min' => 30, 'sign' => -1]);
 
         $this->assertInstanceOf(Time::class, $qty);
         $this->assertSame(-5400.0, $qty->value);

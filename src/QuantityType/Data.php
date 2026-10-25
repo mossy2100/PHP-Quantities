@@ -23,19 +23,15 @@ class Data extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'bit'  => [
+            'bit' => [
                 'asciiSymbol' => 'b',
                 'prefixGroup' => PrefixService::GROUP_LARGE,
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
+                'systems' => [UnitSystem::Common],
             ],
             'byte' => [
                 'asciiSymbol' => 'B',
                 'prefixGroup' => PrefixService::GROUP_LARGE,
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
+                'systems' => [UnitSystem::Common],
             ],
         ];
     }

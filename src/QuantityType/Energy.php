@@ -23,34 +23,24 @@ class Energy extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'joule'                => [
+            'joule' => [
                 'asciiSymbol' => 'J',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
-            'electronvolt'         => [
+            'electronvolt' => [
                 'asciiSymbol' => 'eV',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::SiAccepted,
-                    UnitSystem::Scientific,
-                ],
+                'systems' => [UnitSystem::SiAccepted, UnitSystem::Scientific],
             ],
-            'calorie'              => [
+            'calorie' => [
                 'asciiSymbol' => 'cal',
                 'prefixGroup' => PrefixService::GROUP_LARGE_METRIC,
-                'systems'     => [
-                    UnitSystem::Common,
-                ],
+                'systems' => [UnitSystem::Common],
             ],
             'British thermal unit' => [
                 'asciiSymbol' => 'Btu',
-                'systems'     => [
-                    UnitSystem::Imperial,
-                    UnitSystem::UsCustomary,
-                ],
+                'systems' => [UnitSystem::Imperial, UnitSystem::UsCustomary],
             ],
         ];
     }

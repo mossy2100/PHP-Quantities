@@ -26,9 +26,7 @@ class Power extends Quantity
             'watt' => [
                 'asciiSymbol' => 'W',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class Power extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['W', 'kg*m2*s-3', 1],
-        ];
+        return [['W', 'kg*m2*s-3', 1]];
     }
 
     #endregion

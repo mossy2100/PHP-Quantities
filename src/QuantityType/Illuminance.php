@@ -26,9 +26,7 @@ class Illuminance extends Quantity
             'lux' => [
                 'asciiSymbol' => 'lx',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class Illuminance extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['lx', 'cd*rad2*m-2', 1],
-        ];
+        return [['lx', 'cd*rad2*m-2', 1]];
     }
 
     #endregion

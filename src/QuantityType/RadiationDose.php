@@ -27,19 +27,15 @@ class RadiationDose extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'gray'    => [
+            'gray' => [
                 'asciiSymbol' => 'Gy',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
             'sievert' => [
                 'asciiSymbol' => 'Sv',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -52,10 +48,7 @@ class RadiationDose extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['Gy', 'm2*s-2', 1],
-            ['Sv', 'm2*s-2', 1],
-        ];
+        return [['Gy', 'm2*s-2', 1], ['Sv', 'm2*s-2', 1]];
     }
 
     #endregion

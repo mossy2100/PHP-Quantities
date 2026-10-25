@@ -23,31 +23,14 @@ class Pressure extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'pascal'     => [
+            'pascal' => [
                 'asciiSymbol' => 'Pa',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
-            'atmosphere' => [
-                'asciiSymbol' => 'atm',
-                'systems'     => [
-                    UnitSystem::Scientific,
-                ],
-            ],
-            'mmHg'       => [
-                'asciiSymbol' => 'mmHg',
-                'systems'     => [
-                    UnitSystem::Scientific,
-                ],
-            ],
-            'inHg'       => [
-                'asciiSymbol' => 'inHg',
-                'systems'     => [
-                    UnitSystem::UsCustomary,
-                ],
-            ],
+            'atmosphere' => ['asciiSymbol' => 'atm', 'systems' => [UnitSystem::Scientific]],
+            'mmHg' => ['asciiSymbol' => 'mmHg', 'systems' => [UnitSystem::Scientific]],
+            'inHg' => ['asciiSymbol' => 'inHg', 'systems' => [UnitSystem::UsCustomary]],
         ];
     }
 
@@ -59,12 +42,7 @@ class Pressure extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['Pa', 'kg*m-1*s-2', 1],
-            ['mmHg', 'Pa', 133.322387415],
-            ['atm', 'Pa', 101325],
-            ['inHg', 'mmHg', 25.4],
-        ];
+        return [['Pa', 'kg*m-1*s-2', 1], ['mmHg', 'Pa', 133.322387415], ['atm', 'Pa', 101325], ['inHg', 'mmHg', 25.4]];
     }
 
     #endregion

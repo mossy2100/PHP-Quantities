@@ -57,50 +57,16 @@ class DimensionService
      * }>
      */
     public const array DIMENSION_CODES = [
-        'M' => [
-            'quantityTypeName'      => 'mass',
-            'siBaseUnitSymbol'      => 'kg',
-            'englishBaseUnitSymbol' => 'lb',
-        ],
-        'L' => [
-            'quantityTypeName'      => 'length',
-            'siBaseUnitSymbol'      => 'm',
-            'englishBaseUnitSymbol' => 'ft',
-        ],
-        'A' => [
-            'quantityTypeName'      => 'angle',
-            'siBaseUnitSymbol'      => 'rad',
-            'englishBaseUnitSymbol' => 'deg',
-        ],
-        'D' => [
-            'quantityTypeName'     => 'data',
-            'commonBaseUnitSymbol' => 'B',
-        ],
-        'C' => [
-            'quantityTypeName'     => 'money',
-            'commonBaseUnitSymbol' => 'XAU',
-        ],
-        'T' => [
-            'quantityTypeName' => 'time',
-            'siBaseUnitSymbol' => 's',
-        ],
-        'I' => [
-            'quantityTypeName' => 'electric current',
-            'siBaseUnitSymbol' => 'A',
-        ],
-        'N' => [
-            'quantityTypeName' => 'amount of substance',
-            'siBaseUnitSymbol' => 'mol',
-        ],
-        'H' => [
-            'quantityTypeName'      => 'temperature',
-            'siBaseUnitSymbol'      => 'K',
-            'englishBaseUnitSymbol' => 'degR',
-        ],
-        'J' => [
-            'quantityTypeName' => 'luminous intensity',
-            'siBaseUnitSymbol' => 'cd',
-        ],
+        'M' => ['quantityTypeName' => 'mass', 'siBaseUnitSymbol' => 'kg', 'englishBaseUnitSymbol' => 'lb'],
+        'L' => ['quantityTypeName' => 'length', 'siBaseUnitSymbol' => 'm', 'englishBaseUnitSymbol' => 'ft'],
+        'A' => ['quantityTypeName' => 'angle', 'siBaseUnitSymbol' => 'rad', 'englishBaseUnitSymbol' => 'deg'],
+        'D' => ['quantityTypeName' => 'data', 'commonBaseUnitSymbol' => 'B'],
+        'C' => ['quantityTypeName' => 'money', 'commonBaseUnitSymbol' => 'XAU'],
+        'T' => ['quantityTypeName' => 'time', 'siBaseUnitSymbol' => 's'],
+        'I' => ['quantityTypeName' => 'electric current', 'siBaseUnitSymbol' => 'A'],
+        'N' => ['quantityTypeName' => 'amount of substance', 'siBaseUnitSymbol' => 'mol'],
+        'H' => ['quantityTypeName' => 'temperature', 'siBaseUnitSymbol' => 'K', 'englishBaseUnitSymbol' => 'degR'],
+        'J' => ['quantityTypeName' => 'luminous intensity', 'siBaseUnitSymbol' => 'cd'],
     ];
 
     #endregion

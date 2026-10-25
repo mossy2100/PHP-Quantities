@@ -1208,9 +1208,7 @@ class Quantity implements Stringable
         }
 
         // Initialize the result array.
-        $parts = [
-            'sign' => Numbers::sign($this->value, false),
-        ];
+        $parts = ['sign' => Numbers::sign($this->value, false)];
 
         // Decompose the absolute value into parts.
         $total = abs($this->to($partUnits[count($partUnits) - 1])->value);

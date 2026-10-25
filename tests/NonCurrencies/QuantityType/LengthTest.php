@@ -549,10 +549,7 @@ final class LengthTest extends TestCase
      */
     public function testFromPartsFeetInches(): void
     {
-        $length = Length::fromParts([
-            'ft' => 5,
-            'in' => 6,
-        ]);
+        $length = Length::fromParts(['ft' => 5, 'in' => 6]);
 
         // 5 feet + 6 inches = 5.5 feet
         $this->assertSame(5.5, $length->value);
@@ -564,10 +561,7 @@ final class LengthTest extends TestCase
      */
     public function testFromPartsMilesYards(): void
     {
-        $length = Length::fromParts([
-            'mi' => 1,
-            'yd' => 880,
-        ]);
+        $length = Length::fromParts(['mi' => 1, 'yd' => 880]);
 
         // 1 mile + 880 yards = 1.5 miles
         $this->assertSame(7920.0, $length->value);  // in feet (default)
@@ -579,10 +573,7 @@ final class LengthTest extends TestCase
      */
     public function testFromPartsNegative(): void
     {
-        $length = Length::fromParts([
-            'ft'   => 6,
-            'sign' => -1,
-        ]);
+        $length = Length::fromParts(['ft' => 6, 'sign' => -1]);
 
         $this->assertSame(-6.0, $length->value);
     }
@@ -593,10 +584,7 @@ final class LengthTest extends TestCase
     public function testFromPartsNegativeValueUsesSign(): void
     {
         // Negative values in parts are handled via the 'sign' key
-        $length = Length::fromParts([
-            'ft'   => 5,
-            'sign' => -1,
-        ]);
+        $length = Length::fromParts(['ft' => 5, 'sign' => -1]);
 
         $this->assertSame(-5.0, $length->value);
     }
@@ -606,9 +594,7 @@ final class LengthTest extends TestCase
      */
     public function testFromPartsDefaultResultUnit(): void
     {
-        $length = Length::fromParts([
-            'yd' => 1,
-        ]);
+        $length = Length::fromParts(['yd' => 1]);
 
         // Default result unit for Length is 'ft'
         $this->assertSame('ft', $length->compoundUnit->asciiSymbol);
@@ -723,11 +709,7 @@ final class LengthTest extends TestCase
      */
     public function testPartsRoundTrip(): void
     {
-        $length = Length::fromParts([
-            'yd' => 1,
-            'ft' => 2,
-            'in' => 6,
-        ]);
+        $length = Length::fromParts(['yd' => 1, 'ft' => 2, 'in' => 6]);
         $formatted = $length->formatParts();
 
         $this->assertSame('1yd 2ft 6in', $formatted);

@@ -22,20 +22,8 @@ class Area extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'hectare' => [
-                'asciiSymbol' => 'ha',
-                'systems'     => [
-                    UnitSystem::SiAccepted,
-                    UnitSystem::Metric,
-                ],
-            ],
-            'acre'    => [
-                'asciiSymbol' => 'ac',
-                'systems'     => [
-                    UnitSystem::Imperial,
-                    UnitSystem::UsCustomary,
-                ],
-            ],
+            'hectare' => ['asciiSymbol' => 'ha', 'systems' => [UnitSystem::SiAccepted, UnitSystem::Metric]],
+            'acre' => ['asciiSymbol' => 'ac', 'systems' => [UnitSystem::Imperial, UnitSystem::UsCustomary]],
         ];
     }
 

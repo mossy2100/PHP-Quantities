@@ -20,8 +20,6 @@ class UnknownSrcQuantity extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['zzzsrc', 'm', 1.0],
-        ];
+        return [['zzzsrc', 'm', 1.0]];
     }
 }

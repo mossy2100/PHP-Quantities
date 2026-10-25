@@ -26,9 +26,7 @@ class LuminousFlux extends Quantity
             'lumen' => [
                 'asciiSymbol' => 'lm',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
         ];
     }
@@ -41,9 +39,7 @@ class LuminousFlux extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['lm', 'cd*rad2', 1],
-        ];
+        return [['lm', 'cd*rad2', 1]];
     }
 
     #endregion

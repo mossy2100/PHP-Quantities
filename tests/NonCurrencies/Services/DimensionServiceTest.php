@@ -131,9 +131,7 @@ final class DimensionServiceTest extends TestCase
     {
         $result = DimensionService::decompose('L');
 
-        $this->assertSame([
-            'L' => 1,
-        ], $result);
+        $this->assertSame(['L' => 1], $result);
     }
 
     /**
@@ -141,18 +139,10 @@ final class DimensionServiceTest extends TestCase
      */
     public function testDecomposeSingleCodeWithExponent(): void
     {
-        $this->assertSame([
-            'L' => 2,
-        ], DimensionService::decompose('L2'));
-        $this->assertSame([
-            'L' => 3,
-        ], DimensionService::decompose('L3'));
-        $this->assertSame([
-            'T' => -1,
-        ], DimensionService::decompose('T-1'));
-        $this->assertSame([
-            'T' => -2,
-        ], DimensionService::decompose('T-2'));
+        $this->assertSame(['L' => 2], DimensionService::decompose('L2'));
+        $this->assertSame(['L' => 3], DimensionService::decompose('L3'));
+        $this->assertSame(['T' => -1], DimensionService::decompose('T-1'));
+        $this->assertSame(['T' => -2], DimensionService::decompose('T-2'));
     }
 
     /**
@@ -162,11 +152,7 @@ final class DimensionServiceTest extends TestCase
     {
         $result = DimensionService::decompose('MLT-2');
 
-        $this->assertSame([
-            'M' => 1,
-            'L' => 1,
-            'T' => -2,
-        ], $result);
+        $this->assertSame(['M' => 1, 'L' => 1, 'T' => -2], $result);
     }
 
     /**
@@ -176,11 +162,7 @@ final class DimensionServiceTest extends TestCase
     {
         $result = DimensionService::decompose('ML2T-2');
 
-        $this->assertSame([
-            'M' => 1,
-            'L' => 2,
-            'T' => -2,
-        ], $result);
+        $this->assertSame(['M' => 1, 'L' => 2, 'T' => -2], $result);
     }
 
     /**
@@ -240,9 +222,7 @@ final class DimensionServiceTest extends TestCase
      */
     public function testComposeSingleTerm(): void
     {
-        $result = DimensionService::compose([
-            'L' => 1,
-        ]);
+        $result = DimensionService::compose(['L' => 1]);
 
         $this->assertSame('L', $result);
     }
@@ -252,18 +232,10 @@ final class DimensionServiceTest extends TestCase
      */
     public function testComposeSingleTermWithExponent(): void
     {
-        $this->assertSame('L2', DimensionService::compose([
-            'L' => 2,
-        ]));
-        $this->assertSame('L3', DimensionService::compose([
-            'L' => 3,
-        ]));
-        $this->assertSame('T-1', DimensionService::compose([
-            'T' => -1,
-        ]));
-        $this->assertSame('T-2', DimensionService::compose([
-            'T' => -2,
-        ]));
+        $this->assertSame('L2', DimensionService::compose(['L' => 2]));
+        $this->assertSame('L3', DimensionService::compose(['L' => 3]));
+        $this->assertSame('T-1', DimensionService::compose(['T' => -1]));
+        $this->assertSame('T-2', DimensionService::compose(['T' => -2]));
     }
 
     /**
@@ -271,11 +243,7 @@ final class DimensionServiceTest extends TestCase
      */
     public function testComposeMultipleTerms(): void
     {
-        $result = DimensionService::compose([
-            'M' => 1,
-            'L' => 1,
-            'T' => -2,
-        ]);
+        $result = DimensionService::compose(['M' => 1, 'L' => 1, 'T' => -2]);
 
         $this->assertSame('MLT-2', $result);
     }
@@ -286,11 +254,7 @@ final class DimensionServiceTest extends TestCase
     public function testComposeSortsTerms(): void
     {
         // Input in wrong order (T before M before L)
-        $result = DimensionService::compose([
-            'T' => -2,
-            'M' => 1,
-            'L' => 1,
-        ]);
+        $result = DimensionService::compose(['T' => -2, 'M' => 1, 'L' => 1]);
 
         // Output should be in canonical order (M, L, T)
         $this->assertSame('MLT-2', $result);
@@ -311,10 +275,7 @@ final class DimensionServiceTest extends TestCase
      */
     public function testComposeOmitsExponentOne(): void
     {
-        $result = DimensionService::compose([
-            'M' => 1,
-            'L' => 2,
-        ]);
+        $result = DimensionService::compose(['M' => 1, 'L' => 2]);
 
         $this->assertSame('ML2', $result);
         $this->assertStringNotContainsString('M1', $result);

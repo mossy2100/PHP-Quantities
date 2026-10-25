@@ -372,10 +372,7 @@ final class TimeTest extends TestCase
      */
     public function testFromPartsHoursMinutes(): void
     {
-        $time = Time::fromParts([
-            'h'   => 1,
-            'min' => 30,
-        ]);
+        $time = Time::fromParts(['h' => 1, 'min' => 30]);
 
         // 1 hour + 30 minutes = 5400 seconds
         $this->assertSame(5400.0, $time->value);
@@ -387,9 +384,7 @@ final class TimeTest extends TestCase
      */
     public function testFromPartsYears(): void
     {
-        $time = Time::fromParts([
-            'y' => 1,
-        ]);
+        $time = Time::fromParts(['y' => 1]);
 
         // 1 year in seconds
         $expectedSeconds = 365.2425 * 24 * 60 * 60;
@@ -401,9 +396,7 @@ final class TimeTest extends TestCase
      */
     public function testFromPartsWeeks(): void
     {
-        $time = Time::fromParts([
-            'w' => 2,
-        ]);
+        $time = Time::fromParts(['w' => 2]);
 
         // 2 weeks = 14 days = 14 * 24 * 60 * 60 seconds
         $this->assertSame(1209600.0, $time->value);
@@ -414,10 +407,7 @@ final class TimeTest extends TestCase
      */
     public function testFromPartsNegative(): void
     {
-        $time = Time::fromParts([
-            'h'    => 1,
-            'sign' => -1,
-        ]);
+        $time = Time::fromParts(['h' => 1, 'sign' => -1]);
 
         // -1 hour = -3600 seconds
         $this->assertSame(-3600.0, $time->value);
@@ -428,9 +418,7 @@ final class TimeTest extends TestCase
      */
     public function testFromPartsDefaultResultUnit(): void
     {
-        $time = Time::fromParts([
-            'd' => 1,
-        ]);
+        $time = Time::fromParts(['d' => 1]);
 
         // Default result unit for Time is 's'
         $this->assertSame('s', $time->compoundUnit->asciiSymbol);
@@ -616,12 +604,7 @@ final class TimeTest extends TestCase
      */
     public function testPartsRoundTrip(): void
     {
-        $time = Time::fromParts([
-            'd'   => 1,
-            'h'   => 2,
-            'min' => 30,
-            's'   => 45,
-        ]);
+        $time = Time::fromParts(['d' => 1, 'h' => 2, 'min' => 30, 's' => 45]);
         $formatted = $time->formatParts();
 
         $this->assertSame('1d 2h 30min 45s', $formatted);

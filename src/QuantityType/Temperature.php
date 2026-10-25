@@ -42,37 +42,27 @@ class Temperature extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'kelvin'     => [
+            'kelvin' => [
                 'asciiSymbol' => 'K',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
-            'celsius'    => [
-                'asciiSymbol'     => 'degC',
-                'unicodeSymbol'   => '°C',
+            'celsius' => [
+                'asciiSymbol' => 'degC',
+                'unicodeSymbol' => '°C',
                 'alternateSymbol' => '℃',
-                'systems'         => [
-                    UnitSystem::Si,
-                ],
+                'systems' => [UnitSystem::Si],
             ],
             'fahrenheit' => [
-                'asciiSymbol'     => 'degF',
-                'unicodeSymbol'   => '°F',
+                'asciiSymbol' => 'degF',
+                'unicodeSymbol' => '°F',
                 'alternateSymbol' => '℉',
-                'systems'         => [
-                    UnitSystem::Imperial,
-                    UnitSystem::UsCustomary,
-                ],
+                'systems' => [UnitSystem::Imperial, UnitSystem::UsCustomary],
             ],
-            'rankine'    => [
-                'asciiSymbol'   => 'degR',
+            'rankine' => [
+                'asciiSymbol' => 'degR',
                 'unicodeSymbol' => '°R',
-                'systems'       => [
-                    UnitSystem::Imperial,
-                    UnitSystem::UsCustomary,
-                ],
+                'systems' => [UnitSystem::Imperial, UnitSystem::UsCustomary],
             ],
         ];
     }
@@ -87,15 +77,7 @@ class Temperature extends Quantity
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        return [
-            ['degC', 'K', 1],
-            ['degF', 'degR', 1],
-            [
-                'K',
-                'degR',
-                self::RANKINE_PER_KELVIN,
-            ],
-        ];
+        return [['degC', 'K', 1], ['degF', 'degR', 1], ['K', 'degR', self::RANKINE_PER_KELVIN]];
     }
 
     /**
@@ -109,18 +91,7 @@ class Temperature extends Quantity
     #[Override]
     public static function getOffsetDefinitions(): array
     {
-        return [
-            [
-                'degC',
-                'K',
-                self::CELSIUS_OFFSET,
-            ],
-            [
-                'degF',
-                'degR',
-                self::FAHRENHEIT_OFFSET,
-            ],
-        ];
+        return [['degC', 'K', self::CELSIUS_OFFSET], ['degF', 'degR', self::FAHRENHEIT_OFFSET]];
     }
 
     #endregion

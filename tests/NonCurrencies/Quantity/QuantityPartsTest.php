@@ -195,10 +195,7 @@ final class QuantityPartsTest extends TestCase
      */
     public function testFromPartsEnglishDefault(): void
     {
-        $length = Length::fromParts([
-            'ft' => 5,
-            'in' => 6,
-        ]);
+        $length = Length::fromParts(['ft' => 5, 'in' => 6]);
 
         $this->assertInstanceOf(Length::class, $length);
         $this->assertSame('ft', $length->compoundUnit->asciiSymbol);
@@ -210,9 +207,7 @@ final class QuantityPartsTest extends TestCase
      */
     public function testFromPartsSiTrue(): void
     {
-        $length = Length::fromParts([
-            'ft' => 1,
-        ], si: true);
+        $length = Length::fromParts(['ft' => 1], si: true);
 
         $this->assertInstanceOf(Length::class, $length);
         $this->assertSame('m', $length->compoundUnit->asciiSymbol);
@@ -224,10 +219,7 @@ final class QuantityPartsTest extends TestCase
      */
     public function testFromPartsPrefixedSymbols(): void
     {
-        $length = Length::fromParts([
-            'km' => 5,
-            'm'  => 300,
-        ]);
+        $length = Length::fromParts(['km' => 5, 'm' => 300]);
 
         $this->assertInstanceOf(Length::class, $length);
         $this->assertEqualsWithDelta(5300.0, $length->to('m')->value, 1e-10);
@@ -238,11 +230,7 @@ final class QuantityPartsTest extends TestCase
      */
     public function testFromPartsNegativeSign(): void
     {
-        $time = Time::fromParts([
-            'sign' => -1,
-            'h'    => 1,
-            'min'  => 30,
-        ]);
+        $time = Time::fromParts(['sign' => -1, 'h' => 1, 'min' => 30]);
 
         $this->assertInstanceOf(Time::class, $time);
         $this->assertEqualsWithDelta(-5400.0, $time->to('s')->value, 1e-10);
@@ -256,10 +244,7 @@ final class QuantityPartsTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Invalid sign: 0.');
 
-        Time::fromParts([
-            'h'    => 1,
-            'sign' => 0,
-        ]);
+        Time::fromParts(['h' => 1, 'sign' => 0]);
     }
 
     /**
@@ -281,9 +266,7 @@ final class QuantityPartsTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Cannot create Quantity from empty parts array.');
 
-        Time::fromParts([
-            'sign' => 1,
-        ]);
+        Time::fromParts(['sign' => 1]);
     }
 
     /**
@@ -293,10 +276,7 @@ final class QuantityPartsTest extends TestCase
     {
         $this->expectException(DimensionMismatchException::class);
 
-        Length::fromParts([
-            'ft' => 1,
-            's'  => 5,
-        ]);
+        Length::fromParts(['ft' => 1, 's' => 5]);
     }
 
     /**
@@ -308,10 +288,7 @@ final class QuantityPartsTest extends TestCase
         $this->expectExceptionMessage('Invalid sign type: string. Must be int.');
 
         // @phpstan-ignore argument.type
-        Time::fromParts([
-            'h'    => 1,
-            'sign' => 'negative',
-        ]);
+        Time::fromParts(['h' => 1, 'sign' => 'negative']);
     }
 
     /**
@@ -335,9 +312,7 @@ final class QuantityPartsTest extends TestCase
         $this->expectExceptionMessage('Invalid part value type: string. Must be int or float.');
 
         // @phpstan-ignore argument.type
-        Length::fromParts([
-            'm' => 'oops',
-        ]);
+        Length::fromParts(['m' => 'oops']);
     }
 
     /**
@@ -348,9 +323,7 @@ final class QuantityPartsTest extends TestCase
         $this->expectException(DomainException::class);
         $this->expectExceptionMessage('Invalid part value: INF. Must be finite.');
 
-        Length::fromParts([
-            'm' => INF,
-        ]);
+        Length::fromParts(['m' => INF]);
     }
 
     /**
@@ -361,9 +334,7 @@ final class QuantityPartsTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage("Cannot use parts with Quantity. It isn't a registered quantity type.");
 
-        Quantity::fromParts([
-            'm' => 1,
-        ]);
+        Quantity::fromParts(['m' => 1]);
     }
 
     #endregion
@@ -635,9 +606,7 @@ final class QuantityPartsTest extends TestCase
      */
     public function testFromPartsForceSi(): void
     {
-        $force = Force::fromParts([
-            'N' => 100,
-        ], si: true);
+        $force = Force::fromParts(['N' => 100], si: true);
 
         $this->assertInstanceOf(Force::class, $force);
         $this->assertSame('kg*m/s2', $force->compoundUnit->asciiSymbol);
@@ -649,9 +618,7 @@ final class QuantityPartsTest extends TestCase
      */
     public function testFromPartsForceSiByDefault(): void
     {
-        $force = Force::fromParts([
-            'N' => 100,
-        ]);
+        $force = Force::fromParts(['N' => 100]);
 
         $this->assertInstanceOf(Force::class, $force);
         $this->assertSame('kg*m/s2', $force->compoundUnit->asciiSymbol);
@@ -663,9 +630,7 @@ final class QuantityPartsTest extends TestCase
      */
     public function testFromPartsExplicitEnglish(): void
     {
-        $force = Force::fromParts([
-            'N' => 100,
-        ], false);
+        $force = Force::fromParts(['N' => 100], false);
 
         $this->assertSame('lb*ft/s2', $force->compoundUnit->asciiSymbol);
         $this->assertEqualsWithDelta(100.0, $force->to('N')->value, 1e-10);
@@ -679,54 +644,14 @@ final class QuantityPartsTest extends TestCase
     public static function providerParsePartsResultUnit(): array
     {
         return [
-            'metric length'         => [
-                '5m 3cm',
-                Length::class,
-                'm',
-                5.03,
-            ],
-            'English length'        => [
-                '5ft 6in',
-                Length::class,
-                'ft',
-                5.5,
-            ],
-            'mixed metric, English' => [
-                '1ft 50cm',
-                Length::class,
-                'm',
-                0.8048,
-            ],
-            'metric volume'         => [
-                '1L 200mL',
-                Volume::class,
-                'm3',
-                0.0012,
-            ],
-            'metric mass'           => [
-                '1kg 200g',
-                Mass::class,
-                'kg',
-                1.2,
-            ],
-            'English mass'          => [
-                '5st 7lb',
-                Mass::class,
-                'lb',
-                77.0,
-            ],
-            'time only'             => [
-                '1h 30min',
-                Time::class,
-                's',
-                5400.0,
-            ],
-            'angle only'            => [
-                '12° 30′',
-                Angle::class,
-                'deg',
-                12.5,
-            ],
+            'metric length' => ['5m 3cm', Length::class, 'm', 5.03],
+            'English length' => ['5ft 6in', Length::class, 'ft', 5.5],
+            'mixed metric, English' => ['1ft 50cm', Length::class, 'm', 0.8048],
+            'metric volume' => ['1L 200mL', Volume::class, 'm3', 0.0012],
+            'metric mass' => ['1kg 200g', Mass::class, 'kg', 1.2],
+            'English mass' => ['5st 7lb', Mass::class, 'lb', 77.0],
+            'time only' => ['1h 30min', Time::class, 's', 5400.0],
+            'angle only' => ['12° 30′', Angle::class, 'deg', 12.5],
         ];
     }
 

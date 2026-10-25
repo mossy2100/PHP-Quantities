@@ -150,110 +150,30 @@ class PhysicalConstant
      */
     private const array SYMBOL_MAP = [
         // SI defining constants.
-        'deltaNuCs' => [
-            'method' => 'caesiumFrequency',
-            'value'  => self::CAESIUM_FREQUENCY,
-            'unit'   => 'Hz',
-        ],
-        'c'         => [
-            'method' => 'speedOfLight',
-            'value'  => self::SPEED_OF_LIGHT,
-            'unit'   => 'm/s',
-        ],
-        'h'         => [
-            'method' => 'planck',
-            'value'  => self::PLANCK,
-            'unit'   => 'J*s',
-        ],
-        'hbar'      => [
-            'method' => 'reducedPlanck',
-            'value'  => self::REDUCED_PLANCK,
-            'unit'   => 'J*s',
-        ],
-        'e'         => [
-            'method' => 'elementaryCharge',
-            'value'  => self::ELEMENTARY_CHARGE,
-            'unit'   => 'C',
-        ],
-        'k'         => [
-            'method' => 'boltzmann',
-            'value'  => self::BOLTZMANN,
-            'unit'   => 'J/K',
-        ],
-        'NA'        => [
-            'method' => 'avogadro',
-            'value'  => self::AVOGADRO,
-            'unit'   => 'mol-1',
-        ],
-        'Kcd'       => [
-            'method' => 'luminousEfficacy',
-            'value'  => self::LUMINOUS_EFFICACY,
-            'unit'   => 'lm/W',
-        ],
+        'deltaNuCs' => ['method' => 'caesiumFrequency', 'value' => self::CAESIUM_FREQUENCY, 'unit' => 'Hz'],
+        'c' => ['method' => 'speedOfLight', 'value' => self::SPEED_OF_LIGHT, 'unit' => 'm/s'],
+        'h' => ['method' => 'planck', 'value' => self::PLANCK, 'unit' => 'J*s'],
+        'hbar' => ['method' => 'reducedPlanck', 'value' => self::REDUCED_PLANCK, 'unit' => 'J*s'],
+        'e' => ['method' => 'elementaryCharge', 'value' => self::ELEMENTARY_CHARGE, 'unit' => 'C'],
+        'k' => ['method' => 'boltzmann', 'value' => self::BOLTZMANN, 'unit' => 'J/K'],
+        'NA' => ['method' => 'avogadro', 'value' => self::AVOGADRO, 'unit' => 'mol-1'],
+        'Kcd' => ['method' => 'luminousEfficacy', 'value' => self::LUMINOUS_EFFICACY, 'unit' => 'lm/W'],
         // Gravitational constants.
-        'g'         => [
-            'method' => 'earthGravity',
-            'value'  => self::EARTH_GRAVITY,
-            'unit'   => 'm/s2',
-        ],
-        'G'         => [
-            'method' => 'gravitational',
-            'value'  => self::GRAVITATIONAL,
-            'unit'   => 'm3/(kg*s2)',
-        ],
+        'g' => ['method' => 'earthGravity', 'value' => self::EARTH_GRAVITY, 'unit' => 'm/s2'],
+        'G' => ['method' => 'gravitational', 'value' => self::GRAVITATIONAL, 'unit' => 'm3/(kg*s2)'],
         // Electromagnetic constants.
-        'epsilon0'  => [
-            'method' => 'vacuumPermittivity',
-            'value'  => self::VACUUM_PERMITTIVITY,
-            'unit'   => 'F/m',
-        ],
-        'mu0'       => [
-            'method' => 'vacuumPermeability',
-            'value'  => self::VACUUM_PERMEABILITY,
-            'unit'   => 'H/m',
-        ],
+        'epsilon0' => ['method' => 'vacuumPermittivity', 'value' => self::VACUUM_PERMITTIVITY, 'unit' => 'F/m'],
+        'mu0' => ['method' => 'vacuumPermeability', 'value' => self::VACUUM_PERMEABILITY, 'unit' => 'H/m'],
         // Atomic and nuclear constants.
-        'me'        => [
-            'method' => 'electronMass',
-            'value'  => self::ELECTRON_MASS,
-            'unit'   => 'kg',
-        ],
-        'mp'        => [
-            'method' => 'protonMass',
-            'value'  => self::PROTON_MASS,
-            'unit'   => 'kg',
-        ],
-        'mn'        => [
-            'method' => 'neutronMass',
-            'value'  => self::NEUTRON_MASS,
-            'unit'   => 'kg',
-        ],
-        'alpha'     => [
-            'method' => 'fineStructure',
-            'value'  => self::FINE_STRUCTURE,
-            'unit'   => '',
-        ],
-        'Rinf'      => [
-            'method' => 'rydberg',
-            'value'  => self::RYDBERG,
-            'unit'   => 'm-1',
-        ],
-        'a0'        => [
-            'method' => 'bohrRadius',
-            'value'  => self::BOHR_RADIUS,
-            'unit'   => 'm',
-        ],
+        'me' => ['method' => 'electronMass', 'value' => self::ELECTRON_MASS, 'unit' => 'kg'],
+        'mp' => ['method' => 'protonMass', 'value' => self::PROTON_MASS, 'unit' => 'kg'],
+        'mn' => ['method' => 'neutronMass', 'value' => self::NEUTRON_MASS, 'unit' => 'kg'],
+        'alpha' => ['method' => 'fineStructure', 'value' => self::FINE_STRUCTURE, 'unit' => ''],
+        'Rinf' => ['method' => 'rydberg', 'value' => self::RYDBERG, 'unit' => 'm-1'],
+        'a0' => ['method' => 'bohrRadius', 'value' => self::BOHR_RADIUS, 'unit' => 'm'],
         // Thermodynamic constants.
-        'R'         => [
-            'method' => 'molarGas',
-            'value'  => self::MOLAR_GAS,
-            'unit'   => 'J/(mol*K)',
-        ],
-        'sigma'     => [
-            'method' => 'stefanBoltzmann',
-            'value'  => self::STEFAN_BOLTZMANN,
-            'unit'   => 'W/(m2*K4)',
-        ],
+        'R' => ['method' => 'molarGas', 'value' => self::MOLAR_GAS, 'unit' => 'J/(mol*K)'],
+        'sigma' => ['method' => 'stefanBoltzmann', 'value' => self::STEFAN_BOLTZMANN, 'unit' => 'W/(m2*K4)'],
     ];
 
     #endregion

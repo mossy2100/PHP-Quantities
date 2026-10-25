@@ -179,9 +179,7 @@ class Unit implements UnitInterface
         string $name,
         string $asciiSymbol,
         string $dimension,
-        array $systems = [
-            UnitSystem::Custom,
-        ],
+        array $systems = [UnitSystem::Custom],
         int $prefixGroup = 0,
         ?string $unicodeSymbol = null,
         ?string $alternateSymbol = null
