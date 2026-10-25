@@ -35,8 +35,5 @@
         <include>
             <directory>src</directory>
         </include>
-        <exclude>
-            <directory>src/Currencies/data</directory>
-        </exclude>
     </source>
 </phpunit>
