@@ -817,5 +817,32 @@ class FloatWithErrorTest extends TestCase
         $this->assertSame(0.0, $result->absoluteError);
     }
 
+    /**
+     * Test a zero value with a non-zero error propagates a finite error, rather than NAN, through mul(), div() and
+     * pow(). The relative error of such a value is infinite.
+     */
+    public function testZeroValueWithErrorPropagatesFiniteError(): void
+    {
+        $zero = new FloatWithError(0.0, 1e-17);
+
+        $this->assertEqualsWithDelta(2e-17, $zero->mul(2.0)->absoluteError, 1e-30);
+        $this->assertEqualsWithDelta(2.5e-18, $zero->div(4.0)->absoluteError, 1e-30);
+        $this->assertSame(1e-17, $zero->pow(1)->absoluteError);
+        $this->assertSame(0.0, $zero->pow(2)->absoluteError);
+    }
+
+    /**
+     * Test subtracting a value from itself gives zero with a finite error, which then multiplies without becoming NAN.
+     */
+    public function testZeroFromSubtractionMultipliesWithoutNan(): void
+    {
+        $tenth = new FloatWithError(0.1);
+        $result = $tenth->sub($tenth)->mul(2.0);
+
+        $this->assertSame(0.0, $result->value);
+        $this->assertFalse(is_nan($result->absoluteError));
+        $this->assertGreaterThan(0.0, $result->absoluteError);
+    }
+
     #endregion
 }

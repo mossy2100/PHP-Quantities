@@ -124,9 +124,8 @@ class FloatWithError implements Stringable
 
         $newValue = 1.0 / $this->value;
 
-        // For 1/x, relative error is same as input.
-        $relError = $this->relativeError;
-        $newError = abs($newValue) * $relError;
+        // For 1/x, the relative error is the same as the input's, i.e. the absolute error is Δx / x².
+        $newError = $this->absoluteError / ($this->value * $this->value);
 
         // If no error results from the operation (meaning the operand had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
@@ -219,9 +218,9 @@ class FloatWithError implements Stringable
         // Multiply values.
         $newValue = $this->value * $other->value;
 
-        // Relative errors add in multiplication.
-        $relError = $this->relativeError + $other->relativeError;
-        $newError = abs($newValue) * $relError;
+        // Relative errors add in multiplication. Use the equivalent absolute form, |b|Δa + |a|Δb, which stays finite
+        // when a value is zero (where the relative error is infinite).
+        $newError = abs($other->value) * $this->absoluteError + abs($this->value) * $other->absoluteError;
 
         // If no error results from the operation (meaning both operands had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
@@ -256,9 +255,10 @@ class FloatWithError implements Stringable
         // Divide values.
         $newValue = $this->value / $other->value;
 
-        // Relative errors add in division.
-        $relError = $this->relativeError + $other->relativeError;
-        $newError = abs($newValue) * $relError;
+        // Relative errors add in division. Use the equivalent absolute form, Δa/|b| + |a|Δb/b², which stays finite
+        // when the dividend is zero (where its relative error is infinite).
+        $newError = $this->absoluteError / abs($other->value)
+            + abs($this->value) * $other->absoluteError / ($other->value * $other->value);
 
         // If no error results from the operation (meaning both operands had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
@@ -293,9 +293,12 @@ class FloatWithError implements Stringable
         // Calculate the new value.
         $newValue = $this->value ** $exponent;
 
-        // Relative error multiplies by |exponent|.
-        $relError = abs($exponent) * $this->relativeError;
-        $newError = abs($newValue) * $relError;
+        // Relative error multiplies by |exponent|. Use the equivalent absolute form, |n|·|x|^(n-1)·Δx, which stays
+        // finite when the value is zero (where the relative error is infinite).
+        $newError = 0.0;
+        if ($exponent !== 0) {
+            $newError = abs($exponent) * abs($this->value) ** ($exponent - 1) * $this->absoluteError;
+        }
 
         // If no error results from the operation (meaning the operand had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
