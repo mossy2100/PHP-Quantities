@@ -172,7 +172,9 @@ class Unit implements UnitInterface
         string $name,
         string $asciiSymbol,
         string $dimension,
-        array $systems = [UnitSystem::Custom],
+        array $systems = [
+            UnitSystem::Custom,
+        ],
         int $prefixGroup = 0,
         ?string $unicodeSymbol = null,
         ?string $alternateSymbol = null
@@ -389,7 +391,7 @@ class Unit implements UnitInterface
      */
     private static function isValidAsciiSymbol(string $symbol): bool
     {
-        return (bool)preg_match(
+        return (bool) preg_match(
             '/^(?:(?:' . self::RX_ASCII_WORDS . ')|[' . self::RX_ASCII_NON_LETTERS . '])$/i',
             $symbol
         );
@@ -403,7 +405,7 @@ class Unit implements UnitInterface
      */
     private static function isValidUnicodeSymbol(string $symbol): bool
     {
-        return (bool)preg_match(
+        return (bool) preg_match(
             '/^(?:[' . self::RX_LETTERS . self::RX_NON_LETTERS . ']|(?:' . self::RX_TEMPERATURE_SYMBOL . '))$/u',
             $symbol
         );
@@ -417,7 +419,7 @@ class Unit implements UnitInterface
      */
     private static function isValidAlternateSymbol(string $symbol): bool
     {
-        return (bool)preg_match('/^[' . self::RX_LETTERS . self::RX_NON_LETTERS . ']$/u', $symbol);
+        return (bool) preg_match('/^[' . self::RX_LETTERS . self::RX_NON_LETTERS . ']$/u', $symbol);
     }
 
     /**
@@ -443,7 +445,7 @@ class Unit implements UnitInterface
      */
     public static function isValidLetter(string $symbol): bool
     {
-        return (bool)preg_match('/^[' . self::RX_LETTERS . ']$/u', $symbol);
+        return (bool) preg_match('/^[' . self::RX_LETTERS . ']$/u', $symbol);
     }
 
     /**
@@ -455,7 +457,7 @@ class Unit implements UnitInterface
      */
     public static function isValidNonLetter(string $symbol): bool
     {
-        return (bool)preg_match('/^[' . self::RX_NON_LETTERS . ']$/u', $symbol);
+        return (bool) preg_match('/^[' . self::RX_NON_LETTERS . ']$/u', $symbol);
     }
 
     /**
@@ -467,7 +469,7 @@ class Unit implements UnitInterface
      */
     public static function isValidWord(string $symbol): bool
     {
-        return (bool)preg_match('/^' . self::RX_WORD . '$/u', $symbol);
+        return (bool) preg_match('/^' . self::RX_WORD . '$/u', $symbol);
     }
 
     #endregion

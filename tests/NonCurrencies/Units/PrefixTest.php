@@ -458,7 +458,7 @@ final class PrefixTest extends TestCase
     {
         $prefix = new Prefix('micro', 1e-6, PrefixService::GROUP_SMALL_METRIC, 'u', 'μ');
 
-        $this->assertSame('μ', (string)$prefix);
+        $this->assertSame('μ', (string) $prefix);
     }
 
     /**
@@ -468,7 +468,7 @@ final class PrefixTest extends TestCase
     {
         $prefix = new Prefix('kilo', 1000.0, PrefixService::GROUP_LARGE_METRIC, 'k');
 
-        $this->assertSame('k', (string)$prefix);
+        $this->assertSame('k', (string) $prefix);
     }
 
     #endregion

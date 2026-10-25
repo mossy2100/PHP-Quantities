@@ -272,7 +272,7 @@ class UnitTerm implements UnitInterface
         } else {
             // Accept either ASCII or superscript exponents.
             $expStr = $matches[2];
-            $exp = Integers::isSuperscript($expStr) ? Integers::fromSuperscript($expStr) : (int)$expStr;
+            $exp = Integers::isSuperscript($expStr) ? Integers::fromSuperscript($expStr) : (int) $expStr;
 
             // Disallow explicit '1'.
             // NB: Invalid exponents (0, and any outside the range of -9..9) are checked by the constructor.
@@ -527,7 +527,7 @@ class UnitTerm implements UnitInterface
     public static function isValidSymbol(string $symbol, ?array &$matches): bool
     {
         // Match against the regex.
-        return (bool)preg_match('/^' . self::regex() . '$/iu', $symbol, $matches);
+        return (bool) preg_match('/^' . self::regex() . '$/iu', $symbol, $matches);
     }
 
     #endregion

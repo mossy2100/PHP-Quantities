@@ -48,7 +48,9 @@ class Resistance extends Quantity
                 'unicodeSymbol'   => 'Ω',
                 'alternateSymbol' => 'Ω',
                 'prefixGroup'     => PrefixService::GROUP_METRIC,
-                'systems'         => [UnitSystem::Si],
+                'systems'         => [
+                    UnitSystem::Si,
+                ],
             ],
         ];
     }

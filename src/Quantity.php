@@ -251,7 +251,7 @@ class Quantity implements Stringable
         // for a dimensionless quantity.
         if (self::isValidQuantity($input, $m)) {
             assert(isset($m[1]));
-            $result = self::create((float)$m[1], $m[2] ?? null);
+            $result = self::create((float) $m[1], $m[2] ?? null);
         } else {
             // Try to parse the string as multiple parts, as if output from formatParts().
             $result = static::parseParts($input);
@@ -1172,7 +1172,7 @@ class Quantity implements Stringable
             // Get the number of current units in the smallest unit.
             $partUnit = $partUnits[$i];
             $factor = self::convert(1, $partUnit, $smallestUnit);
-            $curUnitValue = (int)floor($rem / $factor);
+            $curUnitValue = (int) floor($rem / $factor);
 
             // Add to the array.
             $parts[$partUnit->asciiSymbol] = $curUnitValue;
@@ -1267,7 +1267,7 @@ class Quantity implements Stringable
 
             // Check the sign.
             assert(isset($m[1]));
-            $partValue = (float)$m[1];
+            $partValue = (float) $m[1];
             if ($partValue < 0) {
                 if (!$firstPartSeen) {
                     $sign = -1;
@@ -1522,7 +1522,7 @@ class Quantity implements Stringable
     {
         $rxNum = self::RX_NUMBER;
         $rxCompoundUnit = CompoundUnit::regex();
-        return (bool)preg_match("/^($rxNum)\s*($rxCompoundUnit)?$/iu", $qty, $matches);
+        return (bool) preg_match("/^($rxNum)\s*($rxCompoundUnit)?$/iu", $qty, $matches);
     }
 
     #endregion

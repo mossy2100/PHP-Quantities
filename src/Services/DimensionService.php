@@ -116,7 +116,7 @@ class DimensionService
     public static function isValid(string $dimension): bool
     {
         $validCodes = self::getLetterCodesString();
-        return (bool)preg_match("/^([$validCodes](-?\d)?)*$/", $dimension);
+        return (bool) preg_match("/^([$validCodes](-?\d)?)*$/", $dimension);
     }
 
     #endregion
@@ -145,7 +145,7 @@ class DimensionService
         $dimTerms = [];
         foreach ($matches as $match) {
             $dim = $match[1];
-            $exp = (!isset($match[2]) || $match[2] === '') ? 1 : (int)$match[2];
+            $exp = (!isset($match[2]) || $match[2] === '') ? 1 : (int) $match[2];
             $dimTerms[$dim] = $exp;
         }
 

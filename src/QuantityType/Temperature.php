@@ -163,24 +163,34 @@ class Temperature extends Quantity
             'kelvin'     => [
                 'asciiSymbol' => 'K',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [UnitSystem::Si],
+                'systems'     => [
+                    UnitSystem::Si,
+                ],
             ],
             'celsius'    => [
                 'asciiSymbol'     => 'degC',
                 'unicodeSymbol'   => '°C',
                 'alternateSymbol' => '℃',
-                'systems'         => [UnitSystem::Si],
+                'systems'         => [
+                    UnitSystem::Si,
+                ],
             ],
             'fahrenheit' => [
                 'asciiSymbol'     => 'degF',
                 'unicodeSymbol'   => '°F',
                 'alternateSymbol' => '℉',
-                'systems'         => [UnitSystem::Imperial, UnitSystem::UsCustomary],
+                'systems'         => [
+                    UnitSystem::Imperial,
+                    UnitSystem::UsCustomary,
+                ],
             ],
             'rankine'    => [
                 'asciiSymbol'   => 'degR',
                 'unicodeSymbol' => '°R',
-                'systems'       => [UnitSystem::Imperial, UnitSystem::UsCustomary],
+                'systems'       => [
+                    UnitSystem::Imperial,
+                    UnitSystem::UsCustomary,
+                ],
             ],
         ];
     }
@@ -199,7 +209,11 @@ class Temperature extends Quantity
         return [
             ['degC', 'K', 1],
             ['degF', 'degR', 1],
-            ['K', 'degR', self::RANKINE_PER_KELVIN],
+            [
+                'K',
+                'degR',
+                self::RANKINE_PER_KELVIN,
+            ],
         ];
     }
 

@@ -107,7 +107,9 @@ class Prefix
 
         // Validate group code.
         $validGroupCodes = [
-            PrefixService::GROUP_SMALL_METRIC,  PrefixService::GROUP_MEDIUM_METRIC, PrefixService::GROUP_LARGE_METRIC,
+            PrefixService::GROUP_SMALL_METRIC,
+            PrefixService::GROUP_MEDIUM_METRIC,
+            PrefixService::GROUP_LARGE_METRIC,
             PrefixService::GROUP_BINARY,
         ];
         if (!in_array($groupCode, $validGroupCodes, true)) {
@@ -151,7 +153,7 @@ class Prefix
      */
     public function isEngineering(): bool
     {
-        return (bool)($this->groupCode & PrefixService::GROUP_ENGINEERING);
+        return (bool) ($this->groupCode & PrefixService::GROUP_ENGINEERING);
     }
 
     #endregion
@@ -191,7 +193,7 @@ class Prefix
      */
     private static function isValidName(string $name): bool
     {
-        return (bool)preg_match('/^[' . Unit::RX_ASCII_LETTERS . ']{3,6}$/', $name);
+        return (bool) preg_match('/^[' . Unit::RX_ASCII_LETTERS . ']{3,6}$/', $name);
     }
 
     /**
@@ -202,7 +204,7 @@ class Prefix
      */
     private static function isValidAsciiPrefix(string $symbol): bool
     {
-        return (bool)preg_match('/^[' . Unit::RX_ASCII_LETTERS . ']{1,2}$/i', $symbol);
+        return (bool) preg_match('/^[' . Unit::RX_ASCII_LETTERS . ']{1,2}$/i', $symbol);
     }
 
     #endregion

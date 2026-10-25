@@ -661,7 +661,7 @@ final class UnitTermTest extends TestCase
     {
         $term = new UnitTerm('m', 'k', 2);
 
-        $this->assertSame('km²', (string)$term);
+        $this->assertSame('km²', (string) $term);
     }
 
     /**
@@ -671,7 +671,7 @@ final class UnitTermTest extends TestCase
     {
         $term = new UnitTerm('s', 'm', -2);
 
-        $this->assertSame('ms⁻²', (string)$term);
+        $this->assertSame('ms⁻²', (string) $term);
     }
 
     /**
@@ -681,7 +681,7 @@ final class UnitTermTest extends TestCase
     {
         $term = new UnitTerm('ohm', 'k');
 
-        $this->assertSame('kΩ', (string)$term);
+        $this->assertSame('kΩ', (string) $term);
     }
 
     /**
@@ -691,7 +691,7 @@ final class UnitTermTest extends TestCase
     {
         $term = new UnitTerm('m');
 
-        $this->assertSame('m', (string)$term);
+        $this->assertSame('m', (string) $term);
     }
 
     #endregion
@@ -1105,7 +1105,9 @@ final class UnitTermTest extends TestCase
             name: 'unregistered test',
             asciiSymbol: 'Xur',
             dimension: 'L5T3',
-            systems: [UnitSystem::Custom]
+            systems: [
+                UnitSystem::Custom,
+            ]
         );
         UnitService::add($unit);
 
@@ -1222,7 +1224,9 @@ final class UnitTermTest extends TestCase
             name: 'unexpandable test',
             asciiSymbol: 'Xut',
             dimension: 'ML2T-2',
-            systems: [UnitSystem::Si]
+            systems: [
+                UnitSystem::Si,
+            ]
         );
         UnitService::add($unit);
 

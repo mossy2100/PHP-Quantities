@@ -167,9 +167,9 @@ class CurrencyService
         // Silence PHPCS temporarily here because of the properties that aren't in lowerCamelCase.
         // phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
         foreach ($xml->CcyTbl->CcyNtry as $entry) {
-            $code = (string)$entry->Ccy;
-            $name = trim((string)$entry->CcyNm);
-            $isFund = isset($entry->CcyNm['IsFund']) && (string)$entry->CcyNm['IsFund'] === 'true';
+            $code = (string) $entry->Ccy;
+            $name = trim((string) $entry->CcyNm);
+            $isFund = isset($entry->CcyNm['IsFund']) && (string) $entry->CcyNm['IsFund'] === 'true';
             // phpcs:enable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
             // Skip currencies we don't need.

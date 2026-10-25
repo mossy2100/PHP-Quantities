@@ -277,7 +277,7 @@ final class PrefixServiceTest extends TestCase
 
         $this->assertInstanceOf(Prefix::class, $prefix);
         $this->assertSame('kibi', $prefix->name);
-        $this->assertSame((float)(2 ** 10), $prefix->multiplier);
+        $this->assertSame((float) (2 ** 10), $prefix->multiplier);
     }
 
     /**
@@ -590,12 +590,12 @@ final class PrefixServiceTest extends TestCase
      */
     public function testBinaryPrefixMultipliers(): void
     {
-        $this->assertSame((float)(2 ** 10), PrefixService::getBySymbol('Ki')?->multiplier);
-        $this->assertSame((float)(2 ** 20), PrefixService::getBySymbol('Mi')?->multiplier);
-        $this->assertSame((float)(2 ** 30), PrefixService::getBySymbol('Gi')?->multiplier);
-        $this->assertSame((float)(2 ** 40), PrefixService::getBySymbol('Ti')?->multiplier);
-        $this->assertSame((float)(2 ** 50), PrefixService::getBySymbol('Pi')?->multiplier);
-        $this->assertSame((float)(2 ** 60), PrefixService::getBySymbol('Ei')?->multiplier);
+        $this->assertSame((float) (2 ** 10), PrefixService::getBySymbol('Ki')?->multiplier);
+        $this->assertSame((float) (2 ** 20), PrefixService::getBySymbol('Mi')?->multiplier);
+        $this->assertSame((float) (2 ** 30), PrefixService::getBySymbol('Gi')?->multiplier);
+        $this->assertSame((float) (2 ** 40), PrefixService::getBySymbol('Ti')?->multiplier);
+        $this->assertSame((float) (2 ** 50), PrefixService::getBySymbol('Pi')?->multiplier);
+        $this->assertSame((float) (2 ** 60), PrefixService::getBySymbol('Ei')?->multiplier);
     }
 
     #endregion

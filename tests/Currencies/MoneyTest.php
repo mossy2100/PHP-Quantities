@@ -191,7 +191,7 @@ final class MoneyTest extends TestCase
         CurrencyService::setLocale('en_US');
         $money = new Money(1234.56, 'USD');
 
-        $result = (string)$money;
+        $result = (string) $money;
 
         // en_US locale should format as "$1,234.56".
         $this->assertStringContainsString('1', $result);
@@ -207,7 +207,7 @@ final class MoneyTest extends TestCase
         CurrencyService::setLocale('de_DE');
         $money = new Money(1234.56, 'EUR');
 
-        $result = (string)$money;
+        $result = (string) $money;
 
         // de_DE locale should format with comma as decimal separator.
         $this->assertNotEmpty($result);
@@ -226,7 +226,7 @@ final class MoneyTest extends TestCase
 
         try {
             $money = new Money(100, 'USD');
-            $result = (string)$money;
+            $result = (string) $money;
 
             // Should fall back to format() which produces something like "100 USD".
             $this->assertNotEmpty($result);
@@ -246,7 +246,7 @@ final class MoneyTest extends TestCase
         CurrencyService::setLocale('en_US');
         $money = new Money(0, 'USD');
 
-        $result = (string)$money;
+        $result = (string) $money;
 
         $this->assertStringContainsString('0', $result);
     }
@@ -259,7 +259,7 @@ final class MoneyTest extends TestCase
         CurrencyService::setLocale('en_US');
         $money = new Money(-50, 'USD');
 
-        $result = (string)$money;
+        $result = (string) $money;
 
         $this->assertNotEmpty($result);
     }

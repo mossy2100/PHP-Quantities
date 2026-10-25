@@ -31,7 +31,9 @@ class Money extends Quantity
         $currencies = $unitData['currencies'] ?? [];
         return array_map(static fn ($code) => [
             'asciiSymbol' => $code,
-            'systems'     => [UnitSystem::Financial],
+            'systems'     => [
+                UnitSystem::Financial,
+            ],
         ], $currencies);
     }
 
@@ -65,7 +67,7 @@ class Money extends Quantity
         $locale = CurrencyService::getLocale();
         if ($locale !== null) {
             $fmt = new NumberFormatter($locale, NumberFormatter::CURRENCY);
-            $result = $fmt->formatCurrency($this->value, (string)$this->compoundUnit);
+            $result = $fmt->formatCurrency($this->value, (string) $this->compoundUnit);
             if ($result !== false) {
                 return $result;
             }

@@ -40,33 +40,45 @@ class Angle extends Quantity
             'radian'    => [
                 'asciiSymbol' => 'rad',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [UnitSystem::Si],
+                'systems'     => [
+                    UnitSystem::Si,
+                ],
             ],
             'degree'    => [
                 'asciiSymbol'   => 'deg',
                 'unicodeSymbol' => '°',
-                'systems'       => [UnitSystem::SiAccepted],
+                'systems'       => [
+                    UnitSystem::SiAccepted,
+                ],
             ],
             'arcminute' => [
                 'asciiSymbol'     => 'arcmin',
                 'unicodeSymbol'   => '′',
                 'alternateSymbol' => "'",
-                'systems'         => [UnitSystem::SiAccepted],
+                'systems'         => [
+                    UnitSystem::SiAccepted,
+                ],
             ],
             'arcsecond' => [
                 'asciiSymbol'     => 'arcsec',
                 'unicodeSymbol'   => '″',
                 'alternateSymbol' => '"',
                 'prefixGroup'     => PrefixService::GROUP_SMALL_METRIC,
-                'systems'         => [UnitSystem::SiAccepted],
+                'systems'         => [
+                    UnitSystem::SiAccepted,
+                ],
             ],
             'gradian'   => [
                 'asciiSymbol' => 'grad',
-                'systems'     => [UnitSystem::Common],
+                'systems'     => [
+                    UnitSystem::Common,
+                ],
             ],
             'turn'      => [
                 'asciiSymbol' => 'turn',
-                'systems'     => [UnitSystem::Common],
+                'systems'     => [
+                    UnitSystem::Common,
+                ],
             ],
         ];
     }

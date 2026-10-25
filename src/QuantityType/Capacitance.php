@@ -26,7 +26,9 @@ class Capacitance extends Quantity
             'farad' => [
                 'asciiSymbol' => 'F',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [UnitSystem::Si],
+                'systems'     => [
+                    UnitSystem::Si,
+                ],
             ],
         ];
     }

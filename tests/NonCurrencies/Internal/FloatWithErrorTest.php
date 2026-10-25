@@ -761,7 +761,7 @@ class FloatWithErrorTest extends TestCase
     {
         $num = new FloatWithError(100.0, 1.0);
 
-        $str = (string)$num;
+        $str = (string) $num;
 
         $this->assertStringContainsString('100', $str);
         $this->assertStringContainsString('±', $str);
@@ -774,7 +774,7 @@ class FloatWithErrorTest extends TestCase
     {
         $num = new FloatWithError(42);
 
-        $str = (string)$num;
+        $str = (string) $num;
 
         $this->assertStringContainsString('42', $str);
         // Format can be either "0.00e+00" or "0.00e+0"

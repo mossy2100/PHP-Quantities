@@ -157,8 +157,8 @@ class ConverterTest extends TestCase
         $conversion = $converter->findConversion('m', 'ft');
 
         $this->assertInstanceOf(Conversion::class, $conversion);
-        $this->assertSame('m', (string)$conversion->srcUnit);
-        $this->assertSame('ft', (string)$conversion->destUnit);
+        $this->assertSame('m', (string) $conversion->srcUnit);
+        $this->assertSame('ft', (string) $conversion->destUnit);
         $this->assertGreaterThan(0.0, $conversion->factor->value);
     }
 
@@ -185,8 +185,8 @@ class ConverterTest extends TestCase
         $conversion = $converter->findConversion('km', 'm');
 
         $this->assertInstanceOf(Conversion::class, $conversion);
-        $this->assertSame('km', (string)$conversion->srcUnit);
-        $this->assertSame('m', (string)$conversion->destUnit);
+        $this->assertSame('km', (string) $conversion->srcUnit);
+        $this->assertSame('m', (string) $conversion->destUnit);
         $this->assertEqualsWithDelta(1000.0, $conversion->factor->value, 1e-10);
     }
 
@@ -258,7 +258,9 @@ class ConverterTest extends TestCase
             name: 'isolated length',
             asciiSymbol: 'Xu',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [
+                UnitSystem::Si,
+            ]
         );
         UnitService::add($unit);
 
@@ -346,7 +348,9 @@ class ConverterTest extends TestCase
             name: 'isolated length two',
             asciiSymbol: 'Yu',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [
+                UnitSystem::Si,
+            ]
         );
         UnitService::add($unit);
 
@@ -467,7 +471,9 @@ class ConverterTest extends TestCase
             name: 'isolated length three',
             asciiSymbol: 'Wu',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [
+                UnitSystem::Si,
+            ]
         );
         UnitService::add($unit);
 
@@ -741,9 +747,15 @@ class ConverterTest extends TestCase
         Converter::removeAllInstances();
 
         // Create custom units.
-        $tx = new Unit('test x', 'Tx', 'L', systems: [UnitSystem::Si]);
-        $ty = new Unit('test y', 'Ty', 'L', systems: [UnitSystem::Si]);
-        $tz = new Unit('test z', 'Tz', 'L', systems: [UnitSystem::Si]);
+        $tx = new Unit('test x', 'Tx', 'L', systems: [
+            UnitSystem::Si,
+        ]);
+        $ty = new Unit('test y', 'Ty', 'L', systems: [
+            UnitSystem::Si,
+        ]);
+        $tz = new Unit('test z', 'Tz', 'L', systems: [
+            UnitSystem::Si,
+        ]);
 
         // Register custom units.
         UnitService::add($tx);
@@ -788,9 +800,15 @@ class ConverterTest extends TestCase
         QuantityTypeService::add('hypertest', $dimension, UnregisteredQuantity::class);
 
         // Create custom units.
-        $oppA = new Unit('opp a', 'Oa', $dimension, systems: [UnitSystem::Si]);
-        $oppB = new Unit('opp b', 'Ob', $dimension, systems: [UnitSystem::Si]);
-        $oppC = new Unit('opp c', 'Oc', $dimension, systems: [UnitSystem::Si]);
+        $oppA = new Unit('opp a', 'Oa', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
+        $oppB = new Unit('opp b', 'Ob', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
+        $oppC = new Unit('opp c', 'Oc', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
 
         // Register exactly three units in this dimension.
         UnitService::add($oppA);
@@ -837,9 +855,15 @@ class ConverterTest extends TestCase
         QuantityTypeService::add('convtest', $dimension, UnregisteredQuantity::class);
 
         // Create custom units.
-        $convA = new Unit('conv a', 'Ca', $dimension, systems: [UnitSystem::Si]);
-        $convB = new Unit('conv b', 'Cb', $dimension, systems: [UnitSystem::Si]);
-        $convC = new Unit('conv c', 'Cc', $dimension, systems: [UnitSystem::Si]);
+        $convA = new Unit('conv a', 'Ca', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
+        $convB = new Unit('conv b', 'Cb', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
+        $convC = new Unit('conv c', 'Cc', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
 
         UnitService::add($convA);
         UnitService::add($convB);
@@ -989,9 +1013,15 @@ class ConverterTest extends TestCase
         $dimension = 'L9';
         QuantityTypeService::add('remtest', $dimension, UnregisteredQuantity::class);
 
-        $unitA = new Unit('rem a', 'Xra', $dimension, systems: [UnitSystem::Si]);
-        $unitB = new Unit('rem b', 'Xrb', $dimension, systems: [UnitSystem::Si]);
-        $unitC = new Unit('rem c', 'Xrc', $dimension, systems: [UnitSystem::Si]);
+        $unitA = new Unit('rem a', 'Xra', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
+        $unitB = new Unit('rem b', 'Xrb', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
+        $unitC = new Unit('rem c', 'Xrc', $dimension, systems: [
+            UnitSystem::Si,
+        ]);
 
         UnitService::add($unitA);
         UnitService::add($unitB);

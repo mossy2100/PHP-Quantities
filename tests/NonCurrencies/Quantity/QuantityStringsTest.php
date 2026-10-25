@@ -526,7 +526,7 @@ final class QuantityStringsTest extends TestCase
     {
         $length = new Length(5.5, 'm');
 
-        $this->assertSame('5.5 m', (string)$length);
+        $this->assertSame('5.5 m', (string) $length);
     }
 
     /**
@@ -536,7 +536,7 @@ final class QuantityStringsTest extends TestCase
     {
         $length = new Length(2.5, 'km');
 
-        $this->assertSame('2.5 km', (string)$length);
+        $this->assertSame('2.5 km', (string) $length);
     }
 
     /**
@@ -546,7 +546,7 @@ final class QuantityStringsTest extends TestCase
     {
         $temp = new Temperature(-10, 'degC');
 
-        $this->assertSame('-10 °C', (string)$temp);
+        $this->assertSame('-10 °C', (string) $temp);
     }
 
     /**
@@ -556,7 +556,7 @@ final class QuantityStringsTest extends TestCase
     {
         $length = new Length(0, 'm');
 
-        $this->assertSame('0 m', (string)$length);
+        $this->assertSame('0 m', (string) $length);
     }
 
     #endregion
@@ -636,7 +636,7 @@ final class QuantityStringsTest extends TestCase
     {
         $qty = Quantity::create(3.14159, '');
 
-        $this->assertSame('3.14159', (string)$qty);
+        $this->assertSame('3.14159', (string) $qty);
     }
 
     #endregion

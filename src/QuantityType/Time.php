@@ -30,35 +30,51 @@ class Time extends Quantity
             'second'  => [
                 'asciiSymbol' => 's',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
-                'systems'     => [UnitSystem::Si],
+                'systems'     => [
+                    UnitSystem::Si,
+                ],
             ],
             'minute'  => [
                 'asciiSymbol' => 'min',
-                'systems'     => [UnitSystem::SiAccepted],
+                'systems'     => [
+                    UnitSystem::SiAccepted,
+                ],
             ],
             'hour'    => [
                 'asciiSymbol' => 'h',
-                'systems'     => [UnitSystem::SiAccepted],
+                'systems'     => [
+                    UnitSystem::SiAccepted,
+                ],
             ],
             'day'     => [
                 'asciiSymbol' => 'd',
-                'systems'     => [UnitSystem::SiAccepted],
+                'systems'     => [
+                    UnitSystem::SiAccepted,
+                ],
             ],
             'week'    => [
                 'asciiSymbol' => 'w',
-                'systems'     => [UnitSystem::Common],
+                'systems'     => [
+                    UnitSystem::Common,
+                ],
             ],
             'month'   => [
                 'asciiSymbol' => 'mo',
-                'systems'     => [UnitSystem::Common],
+                'systems'     => [
+                    UnitSystem::Common,
+                ],
             ],
             'year'    => [
                 'asciiSymbol' => 'y',
-                'systems'     => [UnitSystem::Common],
+                'systems'     => [
+                    UnitSystem::Common,
+                ],
             ],
             'century' => [
                 'asciiSymbol' => 'c',
-                'systems'     => [UnitSystem::Common],
+                'systems'     => [
+                    UnitSystem::Common,
+                ],
             ],
         ];
     }
@@ -154,7 +170,7 @@ class Time extends Quantity
                 $timeSeparatorAdded = true;
             }
 
-            $spec .= (int)$value . strtoupper($symbol[0]);
+            $spec .= (int) $value . strtoupper($symbol[0]);
         }
 
         // If nothing was added, return P0D.

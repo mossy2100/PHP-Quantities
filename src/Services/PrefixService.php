@@ -257,7 +257,7 @@ class PrefixService
 
         // Get the prefixes for the given group code.
         return array_values(
-            array_filter(self::$prefixes, static fn (Prefix $prefix) => (bool)($prefix->groupCode & $prefixGroup))
+            array_filter(self::$prefixes, static fn (Prefix $prefix) => (bool) ($prefix->groupCode & $prefixGroup))
         );
     }
 

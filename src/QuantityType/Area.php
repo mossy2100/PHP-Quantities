@@ -24,11 +24,17 @@ class Area extends Quantity
         return [
             'hectare' => [
                 'asciiSymbol' => 'ha',
-                'systems'     => [UnitSystem::SiAccepted, UnitSystem::Metric],
+                'systems'     => [
+                    UnitSystem::SiAccepted,
+                    UnitSystem::Metric,
+                ],
             ],
             'acre'    => [
                 'asciiSymbol' => 'ac',
-                'systems'     => [UnitSystem::Imperial, UnitSystem::UsCustomary],
+                'systems'     => [
+                    UnitSystem::Imperial,
+                    UnitSystem::UsCustomary,
+                ],
             ],
         ];
     }

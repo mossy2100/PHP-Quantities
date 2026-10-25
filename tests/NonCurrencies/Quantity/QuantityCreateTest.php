@@ -173,7 +173,7 @@ final class QuantityCreateTest extends TestCase
         $length = new Length(-0.0, 'm');
 
         $this->assertSame(0.0, $length->value);
-        $this->assertStringNotContainsString('-', (string)$length->value);
+        $this->assertStringNotContainsString('-', (string) $length->value);
     }
 
     #endregion

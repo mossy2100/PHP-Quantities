@@ -665,7 +665,7 @@ class CompoundUnit implements UnitInterface
      */
     private static function isValidSymbolForm1(string $symbol): bool
     {
-        return (bool)preg_match('/^' . self::regexForm1() . '$/iu', $symbol);
+        return (bool) preg_match('/^' . self::regexForm1() . '$/iu', $symbol);
     }
 
     /**
@@ -680,7 +680,7 @@ class CompoundUnit implements UnitInterface
      */
     private static function isValidSymbolForm2(string $symbol, ?array &$matches): bool
     {
-        return (bool)preg_match('/^' . self::regexForm2() . '$/iu', $symbol, $matches);
+        return (bool) preg_match('/^' . self::regexForm2() . '$/iu', $symbol, $matches);
     }
 
     #endregion
