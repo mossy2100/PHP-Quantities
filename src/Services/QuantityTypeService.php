@@ -392,6 +392,8 @@ class QuantityTypeService
     /**
      * Remove a quantity type from the registry.
      *
+     * The name is case-insensitive, as for add() and getByName().
+     *
      * @param string $name The quantity type name.
      */
     public static function remove(string $name): void
@@ -401,7 +403,7 @@ class QuantityTypeService
             return;
         }
 
-        unset(self::$quantityTypes[$name]);
+        unset(self::$quantityTypes[strtolower($name)]);
     }
 
     /**

@@ -333,6 +333,18 @@ final class QuantityTypeServiceTest extends TestCase
     }
 
     /**
+     * Test remove() is case-insensitive, like add() and getByName().
+     */
+    public function testRemoveIsCaseInsensitive(): void
+    {
+        QuantityTypeService::add('Coolness', 'L5', TestQuantity::class);
+
+        QuantityTypeService::remove('COOLNESS');
+
+        $this->assertNull(QuantityTypeService::getByName('coolness'));
+    }
+
+    /**
      * Test remove() does not throw for non-existent quantity type.
      */
     public function testRemoveDoesNotThrowForNonExistentQuantityType(): void
