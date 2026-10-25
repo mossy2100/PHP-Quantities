@@ -872,5 +872,50 @@ final class QuantityPartsTest extends TestCase
         $this->assertSame(0.0, $parts['s']);
     }
 
+    /**
+     * Test toParts() carries a rounded-up smallest part into the next unit, rather than leaving it at 60″.
+     */
+    public function testToPartsRoundingCarriesIntoNextUnit(): void
+    {
+        $angle = new Angle(23.73326, 'deg');
+
+        $this->assertSame(['sign' => 1, 'deg' => 23, 'arcmin' => 44, 'arcsec' => 0.0], $angle->toParts(0));
+        $this->assertSame('23° 44′', $angle->formatParts(0));
+    }
+
+    /**
+     * Test toParts() rounds only the smallest part when the part units' ratio isn't a whole number.
+     */
+    public function testToPartsRoundingWithNonIntegerRatio(): void
+    {
+        // 1 oz = 437.5 gr. 57745.9 gr = 8 lb 3 oz 433.4 gr.
+        $mass = new Mass(57745.9, 'gr');
+
+        $this->assertSame(
+            ['sign' => 1, 'tn' => 0, 'lb' => 8, 'oz' => 3, 'gr' => 433.0],
+            $mass->toParts(0, ['tn', 'lb', 'oz', 'gr'])
+        );
+    }
+
+    /**
+     * Test toParts() keeps every part below one of the next larger unit, and round-trips, over a seeded sweep.
+     */
+    public function testToPartsStaysInRangeOverSweep(): void
+    {
+        mt_srand(7);
+        for ($i = 0; $i < 500; $i++) {
+            $value = mt_rand(0, 10 ** 7) / 10 ** mt_rand(0, 6);
+            $parts = new Angle($value, 'deg')->toParts(0);
+
+            $this->assertLessThan(60, $parts['arcmin']);
+            $this->assertLessThan(60.0, $parts['arcsec']);
+            $this->assertEqualsWithDelta(
+                $value * 3600,
+                $parts['deg'] * 3600 + $parts['arcmin'] * 60 + $parts['arcsec'],
+                0.5 + 1e-9 * $value * 3600
+            );
+        }
+    }
+
     #endregion
 }

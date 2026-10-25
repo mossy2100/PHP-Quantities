@@ -1200,45 +1200,25 @@ class Quantity implements Stringable
             'sign' => Numbers::sign($this->value, false),
         ];
 
-        // Initialize the remainder to the source value converted to the smallest unit.
-        $nUnits = count($partUnits);
-        $smallestUnit = $partUnits[$nUnits - 1];
-        $smallestUnitSymbol = $smallestUnit->asciiSymbol;
-        $rem = abs($this->to($smallestUnit)->value);
+        // Decompose the absolute value into parts.
+        $total = abs($this->to($partUnits[count($partUnits) - 1])->value);
+        [$integerParts, $rem] = self::decomposeParts($total, $partUnits);
 
-        // Get the integer parts.
-        for ($i = 0; $i < $nUnits - 1; $i++) {
-            // Get the number of current units in the smallest unit.
-            $partUnit = $partUnits[$i];
-            $factor = self::convert(1, $partUnit, $smallestUnit);
-            $curUnitValue = (int) floor($rem / $factor);
-
-            // Add to the array.
-            $parts[$partUnit->asciiSymbol] = $curUnitValue;
-            $rem = $rem - $curUnitValue * $factor;
-        }
-
-        // If the precision is unspecified, we're done.
-        if ($precision === null) {
-            $parts[$smallestUnitSymbol] = $rem;
-        } else {
-            // Round off the remainder to the specified precision.
-            $rem2 = round($rem, $precision);
-            $parts[$smallestUnitSymbol] = $rem2;
-
-            // If the rounding increases the remainder, rounding up one or more larger parts may be necessary.
-            if ($rem2 > $rem) {
-                // To account for non-integer conversion factors, rebuild the parts array.
-                // The result unit fromParts() chooses doesn't matter, since the quantity is immediately decomposed
-                // to parts again.
-                // We call toParts() with $precision = null to avoid infinite recursion.
-                $parts = static::fromParts($parts)->toParts(null, $partUnitSymbols);
-
-                // Round off the smallest part to the specified precision.
-                assert(isset($parts[$smallestUnitSymbol]));
-                $parts[$smallestUnitSymbol] = round($parts[$smallestUnitSymbol], $precision);
+        // Round off the smallest part to the given precision. If that changes it, decompose the rounded total again,
+        // in case the rounded smallest part is now a whole larger unit (e.g. 59.7″ rounding to 60″).
+        if ($precision !== null) {
+            $roundedRem = round($rem, $precision);
+            if ($roundedRem !== $rem) {
+                [$integerParts, $rem] = self::decomposeParts($total - $rem + $roundedRem, $partUnits);
             }
+
+            // Round off any float error left by decomposing again.
+            $rem = round($rem, $precision);
         }
+
+        // Add the parts to the result.
+        $parts += $integerParts;
+        $parts[$partUnits[count($partUnits) - 1]->asciiSymbol] = $rem;
 
         return $parts;
     }
@@ -1416,6 +1396,42 @@ class Quantity implements Stringable
     public static function getPartUnitSymbols(): ?array
     {
         return null;
+    }
+
+    /**
+     * Decompose a total into parts: an integer number of each part unit except the smallest, plus a remainder in the
+     * smallest unit.
+     *
+     * @param float $total The non-negative total, in the smallest part unit.
+     * @param list<CompoundUnit> $partUnits The part units, in descending order by size.
+     * @return array{array<string, int>, float} The integer parts keyed by unit symbol, and the remainder.
+     * @throws LogicException If no conversion path exists to the smallest part unit.
+     */
+    private static function decomposeParts(float $total, array $partUnits): array
+    {
+        $nUnits = count($partUnits);
+        $smallestUnit = $partUnits[$nUnits - 1];
+        $integerParts = [];
+        $rem = $total;
+        for ($i = 0; $i < $nUnits - 1; $i++) {
+            // Get the number of current units in the remainder.
+            $partUnit = $partUnits[$i];
+            $factor = self::convert(1, $partUnit, $smallestUnit);
+            $curUnitValue = (int) floor($rem / $factor);
+            $rem -= $curUnitValue * $factor;
+
+            // If float error leaves a whole unit, or almost one, in the remainder, count it in this part instead.
+            if ($rem >= $factor || Floats::approxEqual($rem, $factor)) {
+                $curUnitValue++;
+                $rem -= $factor;
+            }
+
+            // A remainder made slightly negative by float error is really zero.
+            $integerParts[$partUnit->asciiSymbol] = $curUnitValue;
+            $rem = max($rem, 0.0);
+        }
+
+        return [$integerParts, $rem];
     }
 
     /**
