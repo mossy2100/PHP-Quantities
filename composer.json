@@ -1,8 +1,32 @@
 {
     "name": "mossy2100/quantities",
-    "description": "Contains classes for working with measurements such as angles, lengths, etc.",
+    "description": "Physical quantity value types with units, dimensional analysis, arithmetic and unit conversion.",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "php",
+        "quantities",
+        "units",
+        "unit-conversion",
+        "measurement",
+        "dimensional-analysis",
+        "physics",
+        "si-units",
+        "physical-constants",
+        "currency",
+        "money"
+    ],
+    "authors": [
+        {
+            "name": "Shaun Moss",
+            "email": "mossy2100@gmail.com"
+        }
+    ],
+    "homepage": "https://github.com/mossy2100/PHP-Quantities",
+    "support": {
+        "issues": "https://github.com/mossy2100/PHP-Quantities/issues",
+        "source": "https://github.com/mossy2100/PHP-Quantities"
+    },
     "repositories": [
         {
             "type": "path",
@@ -27,6 +51,7 @@
     ],
     "require": {
         "php": "^8.4",
+        "ext-intl": "*",
         "ext-simplexml": "*",
         "mossy2100/core": "^4.0"
     },

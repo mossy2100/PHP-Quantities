@@ -34,6 +34,8 @@ Key capabilities include:
 ## Requirements
 
 - PHP ^8.4
+- The `intl` extension, for formatting money
+- The `simplexml` extension, for refreshing the currency list
 - mossy2100/core
 
 ---
