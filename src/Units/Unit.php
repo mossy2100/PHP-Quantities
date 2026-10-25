@@ -213,7 +213,7 @@ class Unit implements UnitInterface
             throw new FormatException("Invalid Unicode unit symbol: '$unicodeSymbol'.");
         }
 
-        // Check if the alternate symbol contains a single ASCII non-letter symbol only.
+        // Check the alternate symbol is a word or a single non-letter symbol.
         if ($alternateSymbol !== null && !self::isValidAlternateSymbol($alternateSymbol)) {
             throw new FormatException("Invalid alternate unit symbol: '$alternateSymbol'.");
         }
@@ -400,26 +400,31 @@ class Unit implements UnitInterface
     /**
      * Check if a string is a valid Unicode unit symbol (unprefixed).
      *
+     * This is a word of up to 7 letters (e.g. 'Ω', 'µas'), a single non-letter symbol (e.g. '°'), or a temperature
+     * symbol (e.g. '°C').
+     *
      * @param string $symbol The string to check.
      * @return bool True if the string is a valid Unicode unit symbol.
      */
     private static function isValidUnicodeSymbol(string $symbol): bool
     {
         return (bool) preg_match(
-            '/^(?:[' . self::RX_LETTERS . self::RX_NON_LETTERS . ']|(?:' . self::RX_TEMPERATURE_SYMBOL . '))$/u',
+            '/^(?:' . self::RX_WORD . '|[' . self::RX_NON_LETTERS . ']|(?:' . self::RX_TEMPERATURE_SYMBOL . '))$/u',
             $symbol
         );
     }
 
     /**
-     * Check if a string is a single character valid for use as an alternate unit symbol.
+     * Check if a string is valid for use as an alternate unit symbol.
+     *
+     * This is a word of up to 7 letters (e.g. 'μas' with a Greek mu), or a single non-letter symbol (e.g. '℃').
      *
      * @param string $symbol The string to check.
      * @return bool True if the string is a valid alternate unit symbol.
      */
     private static function isValidAlternateSymbol(string $symbol): bool
     {
-        return (bool) preg_match('/^[' . self::RX_LETTERS . self::RX_NON_LETTERS . ']$/u', $symbol);
+        return (bool) preg_match('/^(?:' . self::RX_WORD . '|[' . self::RX_NON_LETTERS . '])$/u', $symbol);
     }
 
     /**

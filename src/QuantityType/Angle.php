@@ -39,21 +39,21 @@ class Angle extends Quantity
     public static function getUnitDefinitions(): array
     {
         return [
-            'radian'    => [
+            'radian'         => [
                 'asciiSymbol' => 'rad',
                 'prefixGroup' => PrefixService::GROUP_METRIC,
                 'systems'     => [
                     UnitSystem::Si,
                 ],
             ],
-            'degree'    => [
+            'degree'         => [
                 'asciiSymbol'   => 'deg',
                 'unicodeSymbol' => '°',
                 'systems'       => [
                     UnitSystem::SiAccepted,
                 ],
             ],
-            'arcminute' => [
+            'arcminute'      => [
                 'asciiSymbol'     => 'arcmin',
                 'unicodeSymbol'   => '′',
                 'alternateSymbol' => "'",
@@ -61,22 +61,35 @@ class Angle extends Quantity
                     UnitSystem::SiAccepted,
                 ],
             ],
-            'arcsecond' => [
+            'arcsecond'      => [
                 'asciiSymbol'     => 'arcsec',
                 'unicodeSymbol'   => '″',
                 'alternateSymbol' => '"',
-                'prefixGroup'     => PrefixService::GROUP_SMALL_METRIC,
                 'systems'         => [
                     UnitSystem::SiAccepted,
                 ],
             ],
-            'gradian'   => [
+            'milliarcsecond' => [
+                'asciiSymbol' => 'mas',
+                'systems'     => [
+                    UnitSystem::Scientific,
+                ],
+            ],
+            'microarcsecond' => [
+                'asciiSymbol'     => 'uas',
+                'unicodeSymbol'   => 'µas', // U+00B5 MICRO SIGN
+                'alternateSymbol' => 'μas', // U+03BC GREEK SMALL LETTER MU
+                'systems'         => [
+                    UnitSystem::Scientific,
+                ],
+            ],
+            'gradian'        => [
                 'asciiSymbol' => 'grad',
                 'systems'     => [
                     UnitSystem::Common,
                 ],
             ],
-            'turn'      => [
+            'turn'           => [
                 'asciiSymbol' => 'turn',
                 'systems'     => [
                     UnitSystem::Common,
@@ -98,6 +111,8 @@ class Angle extends Quantity
             ['turn', 'deg', 360],
             ['deg', 'arcmin', 60],
             ['arcmin', 'arcsec', 60],
+            ['arcsec', 'mas', 1000],
+            ['mas', 'uas', 1000],
             ['turn', 'grad', 400],
         ];
     }

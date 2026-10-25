@@ -35,7 +35,7 @@ class Dimensionless extends Quantity
                 ],
             ],
             'parts per thousand' => [
-                'asciiSymbol'   => 'ppt',
+                'asciiSymbol'   => 'permil',
                 'unicodeSymbol' => '‰',
                 'systems'       => [
                     UnitSystem::Common,
@@ -53,6 +53,12 @@ class Dimensionless extends Quantity
                     UnitSystem::Common,
                 ],
             ],
+            'parts per trillion' => [
+                'asciiSymbol' => 'ppt',
+                'systems'     => [
+                    UnitSystem::Common,
+                ],
+            ],
         ];
     }
 
@@ -66,9 +72,10 @@ class Dimensionless extends Quantity
     {
         return [
             ['', '%', 100],
-            ['%', 'ppt', 10],
-            ['ppt', 'ppm', 1000],
+            ['%', 'permil', 10],
+            ['permil', 'ppm', 1000],
             ['ppm', 'ppb', 1000],
+            ['ppb', 'ppt', 1000],
         ];
     }
 

@@ -20,14 +20,16 @@ The `Angle` class provides specialized handling for angular measurements, includ
 
 ## Unit definitions
 
-| Name      | ASCII symbol | Unicode symbol | Alternate symbol | Prefixes     | Systems     |
-| --------- | ------------ | -------------- | ---------------- | ------------ | ----------- |
-| radian    | `rad`        |                |                  | all metric   | SI          |
-| degree    | `deg`        | `°`            |                  |              | SI Accepted |
-| arcminute | `arcmin`     | `′`            | `'`              |              | SI Accepted |
-| arcsecond | `arcsec`     | `″`            | `"`              | small metric | SI Accepted |
-| gradian   | `grad`       |                |                  |              | Common      |
-| turn      | `turn`       |                |                  |              | Common      |
+| Name           | ASCII symbol | Unicode symbol | Alternate symbol | Prefixes   | Systems     |
+| -------------- | ------------ | -------------- | ---------------- | ---------- | ----------- |
+| radian         | `rad`        |                |                  | all metric | SI          |
+| degree         | `deg`        | `°`            |                  |            | SI Accepted |
+| arcminute      | `arcmin`     | `′`            | `'`              |            | SI Accepted |
+| arcsecond      | `arcsec`     | `″`            | `"`              |            | SI Accepted |
+| milliarcsecond | `mas`        |                |                  |            | Scientific  |
+| microarcsecond | `uas`        | `µas`          | `μas`            |            | Scientific  |
+| gradian        | `grad`       |                |                  |            | Common      |
+| turn           | `turn`       |                |                  |            | Common      |
 
 ---
 
@@ -39,6 +41,8 @@ The `Angle` class provides specialized handling for angular measurements, includ
 | `turn`   | `deg`    | 360    |
 | `deg`    | `arcmin` | 60     |
 | `arcmin` | `arcsec` | 60     |
+| `arcsec` | `mas`    | 1000   |
+| `mas`    | `uas`    | 1000   |
 | `turn`   | `grad`   | 400    |
 
 ---

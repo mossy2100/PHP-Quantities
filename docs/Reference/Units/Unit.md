@@ -52,7 +52,7 @@ The Unicode symbol (e.g., `'Ω'` for ohm, `'°'` for degree). Used for display p
 private(set) ?string $alternateSymbol
 ```
 
-An additional symbol accepted by the parser. This can only be a single ASCII letter or non-letter, and cannot accept prefixes. Examples: `'` for arcminutes (alternate to the prime symbol `′`) and `"` for arcseconds (alternate to the double-prime symbol `″`). Not used for output. Default: `null`.
+An additional symbol accepted by the parser. This can be a word of up to 7 letters (e.g. `μas` with a Greek mu) or a single non-letter. Examples: `'` for arcminutes (alternate to the prime symbol `′`) and `"` for arcseconds (alternate to the double-prime symbol `″`). Not used for output. Default: `null`.
 
 ### dimension
 

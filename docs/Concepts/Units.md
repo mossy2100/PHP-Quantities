@@ -18,7 +18,8 @@ All units can have at least one and up to three symbols, with additional symbols
 
 1. **ASCII symbol.** Every unit has one, and they must be unique. The ASCII symbol is necessary for easy typing on a regular keyboard.
 2. **Unicode symbol.** In most cases this matches the ASCII symbol. It differs only for units conventionally expressed with non-ASCII characters, such as `°` or `Ω`. When formatting, the Unicode symbol is preferred; if none is specified, the ASCII symbol is used.
-3. **Alternate symbol.** An additional single-character symbol accepted by `parse()` methods, but never used by `format()`.
+3. **Alternate symbol.** An additional symbol accepted by `parse()` methods, but never used by `format()`. It's
+   either a single non-letter (e.g. `'`) or a word (e.g. `μas` with a Greek mu).
 
 The following table shows all units that have a Unicode and/or alternate symbol defined:
 
@@ -27,12 +28,13 @@ The following table shows all units that have a Unicode and/or alternate symbol 
 | degree of arc | Angle | `deg` | `°` | |
 | arcminute | Angle | `arcmin` | `′` | `'` |
 | arcsecond | Angle | `arcsec` | `″` | `"` |
+| microarcsecond | Angle | `uas` | `µas` (U+00B5) | `μas` (U+03BC) |
 | degrees Celsius | Temperature | `degC` | `°C` | |
 | degrees Fahrenheit | Temperature | `degF` | `°F` | |
 | degrees Rankine | Temperature | `degR` | `°R` | |
 | liter | Volume | `L` | | `l` |
 | ohm | Resistance | `ohm` | `Ω` (U+03A9) | `Ω` (U+2126) |
-| per mille | Dimensionless | `ppt` | `‰` | |
+| per mille | Dimensionless | `permil` | `‰` | |
 
 Notes:
 - `deg` matches [CSS notation](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/angle) for angles.
@@ -49,7 +51,8 @@ In some cases a common unit symbol may not be supported. One reason is because t
 3. Use `ft` for feet, not `′` (the prime symbol), which means arcminutes.
 4. Use `in` for inches, not `″` (the double prime symbol), which means arcseconds.
 5. Use `arcmin` for arcminute, not `am`, which means attometer.
-6. Use `arcsec` for arcsecond, not `as`, which means attosecond. For milliarcsecond, use `marcsec`, not `mas`.
+6. Use `arcsec` for arcsecond, not `as`, which means attosecond. Use `mas` for milliarcsecond and `uas` or `µas` for
+   microarcsecond. Arcseconds don't take prefixes.
 7. Use `°C` or `degC` for degrees Celsius, not `C`, which means coulomb, the unit for electric charge.
 8. Use `°F` or `degF` for degrees Fahrenheit, not `F`, which means farad, the unit for electric capacitance.
 9. Use `°R` or `degR` for degrees Rankine, not `R`. This is just for consistency; `R` is not currently used for any other unit.
@@ -60,7 +63,7 @@ In some cases a common unit symbol may not be supported. One reason is because t
 14. Use `min` for minutes, not `mi`, which means miles.
 15. Use `mi/h` for miles per hour, not `mph`. 
 16. Use `u` or `µ` for the 'micro' prefix, not `mc`. e.g. for microgram use `ug` or `µg`, not `mcg`. 
-17. Use `ppt` for 'parts per thousand'. There is no built-in unit for 'parts per trillion'.
+17. Use `permil` or `‰` for 'parts per thousand'. `ppt` means 'parts per trillion'.
 18. Use `mA*h` for battery capacity, not `mAh`.
 19. Use `kW*h` for energy consumption, not `kWh`.
 

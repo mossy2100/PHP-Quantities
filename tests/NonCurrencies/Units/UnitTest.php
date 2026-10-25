@@ -165,6 +165,27 @@ final class UnitTest extends TestCase
     }
 
     /**
+     * Test constructor accepts a Unicode symbol that's a word of several letters.
+     */
+    public function testConstructorAcceptsUnicodeWordSymbol(): void
+    {
+        $unit = new Unit(name: 'test', asciiSymbol: 'tst', dimension: 'L', unicodeSymbol: 'µtst');
+
+        $this->assertSame('µtst', $unit->unicodeSymbol);
+    }
+
+    /**
+     * Test constructor throws for a Unicode word symbol longer than 7 letters.
+     */
+    public function testConstructorThrowsForTooLongUnicodeWordSymbol(): void
+    {
+        $this->expectException(FormatException::class);
+        $this->expectExceptionMessage('Invalid Unicode unit symbol');
+
+        new Unit(name: 'test', asciiSymbol: 'tst', dimension: 'L', unicodeSymbol: 'µabcdefg');
+    }
+
+    /**
      * Test constructor defaults systems to [UnitSystem::Custom] when not specified.
      */
     public function testConstructorDefaultsSystemToCustom(): void
@@ -847,6 +868,16 @@ final class UnitTest extends TestCase
         );
 
         $this->assertSame('l', $unit->alternateSymbol);
+    }
+
+    /**
+     * Test alternateSymbol accepts a word of several letters.
+     */
+    public function testAlternateSymbolAcceptsWord(): void
+    {
+        $unit = new Unit(name: 'test', asciiSymbol: 'tst', dimension: 'L', alternateSymbol: 'μtst');
+
+        $this->assertSame('μtst', $unit->alternateSymbol);
     }
 
     /**

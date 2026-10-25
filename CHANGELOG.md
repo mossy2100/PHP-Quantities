@@ -47,6 +47,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   than `src/Currencies/data` inside the package, which is often read-only once installed. Call
   `CurrencyService::setDataDir()` to keep the data somewhere persistent. Failed writes now throw `RuntimeException`
   instead of being ignored, and files are written atomically.
+- **`ppt` now means parts per trillion, and parts per thousand is `permil` (breaking).** `‰` still means parts per
+  thousand. Change any `ppt` meaning parts per thousand to `permil` or `‰`.
+- **New `mas` (milliarcsecond) and `uas` (microarcsecond) units**, with exact conversions to `arcsec`. Microarcsecond
+  displays as `µas`, and also parses from `μas` with a Greek mu. **Arcseconds no longer take prefixes (breaking)**, so
+  `marcsec` is no longer valid; use `mas`.
+- **Unit symbols:** a Unicode or alternate symbol may now be a word of up to 7 letters, not only a single character.
 - **`fromParts()` and `parseParts()` choose the result unit from the parts (breaking).** `$si` is now `?bool`,
   defaulting to `null`: the SI base unit if any part uses a metric unit, and otherwise the English base unit. So
   `Length::parseParts('5m 3cm')` gives `5.03 m` rather than `16.50262 ft`. Time and angle parts still give `s` and `°`.

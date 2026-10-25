@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Traits\Asserts\FloatAssertions;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
 use Mossy2100\Quantities\QuantityType\Angle;
 use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
@@ -160,6 +161,49 @@ final class AngleTest extends TestCase
         $deg = $angle->to('deg');
 
         $this->assertSame(1.0, $deg->value);
+    }
+
+    /**
+     * Test converting arcseconds to milliarcseconds and microarcseconds.
+     */
+    public function testConvertArcsecondsToMilliAndMicroarcseconds(): void
+    {
+        $angle = new Angle(1, 'arcsec');
+
+        $this->assertSame(1000.0, $angle->to('mas')->value);
+        $this->assertSame(1e6, $angle->to('uas')->value);
+    }
+
+    /**
+     * Test microarcseconds parse from the ASCII symbol, the micro sign, and the Greek mu.
+     */
+    public function testParseMicroarcsecondSymbols(): void
+    {
+        foreach (['5 uas', '5 µas', '5 μas'] as $input) {
+            $angle = Angle::parse($input);
+            $this->assertSame('uas', $angle->compoundUnit->asciiSymbol);
+            $this->assertSame(5.0, $angle->value);
+        }
+    }
+
+    /**
+     * Test microarcseconds format with the micro sign, or with 'u' in ASCII.
+     */
+    public function testFormatMicroarcseconds(): void
+    {
+        $angle = new Angle(5, 'uas');
+
+        $this->assertSame('5 µas', $angle->format());
+        $this->assertSame('5 uas', $angle->format(ascii: true));
+    }
+
+    /**
+     * Test arcseconds no longer accept prefixes, since milliarcseconds and microarcseconds are units of their own.
+     */
+    public function testArcsecondRejectsPrefixes(): void
+    {
+        $this->expectException(UnknownUnitException::class);
+        Angle::parse('1 marcsec');
     }
 
     #endregion

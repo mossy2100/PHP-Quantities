@@ -51,11 +51,11 @@ final class DimensionlessTest extends TestCase
     public function testConvertPercentageToPartsPerThousand(): void
     {
         $ratio = new Dimensionless(1, '%');
-        $ppt = $ratio->to('ppt');
+        $permil = $ratio->to('permil');
 
-        $this->assertInstanceOf(Dimensionless::class, $ppt);
-        $this->assertSame(10.0, $ppt->value);
-        $this->assertSame('ppt', $ppt->compoundUnit->asciiSymbol);
+        $this->assertInstanceOf(Dimensionless::class, $permil);
+        $this->assertSame(10.0, $permil->value);
+        $this->assertSame('permil', $permil->compoundUnit->asciiSymbol);
     }
 
     /**
@@ -63,7 +63,7 @@ final class DimensionlessTest extends TestCase
      */
     public function testConvertPartsPerThousandToPercentage(): void
     {
-        $ratio = new Dimensionless(10, 'ppt');
+        $ratio = new Dimensionless(10, 'permil');
         $pct = $ratio->to('%');
 
         $this->assertSame(1.0, $pct->value);
@@ -75,7 +75,7 @@ final class DimensionlessTest extends TestCase
      */
     public function testConvertPartsPerThousandToPartsPerMillion(): void
     {
-        $ratio = new Dimensionless(1, 'ppt');
+        $ratio = new Dimensionless(1, 'permil');
         $ppm = $ratio->to('ppm');
 
         $this->assertSame(1000.0, $ppm->value);
@@ -88,9 +88,9 @@ final class DimensionlessTest extends TestCase
     public function testConvertPartsPerMillionToPartsPerThousand(): void
     {
         $ratio = new Dimensionless(1000, 'ppm');
-        $ppt = $ratio->to('ppt');
+        $permil = $ratio->to('permil');
 
-        $this->assertSame(1.0, $ppt->value);
+        $this->assertSame(1.0, $permil->value);
     }
 
     /**
@@ -116,6 +116,37 @@ final class DimensionlessTest extends TestCase
         $this->assertSame(1.0, $ppm->value);
     }
 
+    /**
+     * Test ppt means parts per trillion: 1 ppb = 1000 ppt.
+     */
+    public function testConvertPartsPerBillionToPartsPerTrillion(): void
+    {
+        $ratio = new Dimensionless(1, 'ppb');
+        $ppt = $ratio->to('ppt');
+
+        $this->assertSame(1000.0, $ppt->value);
+        $this->assertSame('ppt', $ppt->compoundUnit->asciiSymbol);
+    }
+
+    /**
+     * Test converting parts per thousand to parts per trillion.
+     */
+    public function testConvertPartsPerThousandToPartsPerTrillion(): void
+    {
+        $ratio = new Dimensionless(1, 'permil');
+
+        $this->assertEqualsWithDelta(1e9, $ratio->to('ppt')->value, 1e-3);
+    }
+
+    /**
+     * Test parts per thousand parses from both its ASCII and Unicode symbols.
+     */
+    public function testParsePartsPerThousandSymbols(): void
+    {
+        $this->assertSame('permil', Dimensionless::parse('3 permil')->compoundUnit->asciiSymbol);
+        $this->assertSame('permil', Dimensionless::parse('3‰')->compoundUnit->asciiSymbol);
+    }
+
     #endregion
 
     #region Multi-step conversion tests
@@ -128,7 +159,7 @@ final class DimensionlessTest extends TestCase
         $ratio = new Dimensionless(1, '%');
         $ppm = $ratio->to('ppm');
 
-        // 1% = 10 ppt = 10,000 ppm
+        // 1% = 10 permil = 10,000 ppm
         $this->assertSame(10000.0, $ppm->value);
     }
 
@@ -151,7 +182,7 @@ final class DimensionlessTest extends TestCase
         $ratio = new Dimensionless(1, '%');
         $ppb = $ratio->to('ppb');
 
-        // 1% = 10 ppt = 10,000 ppm = 10,000,000 ppb
+        // 1% = 10 permil = 10,000 ppm = 10,000,000 ppb
         $this->assertSame(10000000.0, $ppb->value);
     }
 
@@ -171,10 +202,10 @@ final class DimensionlessTest extends TestCase
      */
     public function testConvertPartsPerThousandToPartsPerBillion(): void
     {
-        $ratio = new Dimensionless(1, 'ppt');
+        $ratio = new Dimensionless(1, 'permil');
         $ppb = $ratio->to('ppb');
 
-        // 1 ppt = 1000 ppm = 1,000,000 ppb
+        // 1 permil = 1000 ppm = 1,000,000 ppb
         $this->assertSame(1000000.0, $ppb->value);
     }
 
@@ -202,10 +233,10 @@ final class DimensionlessTest extends TestCase
     public function testAddPartsPerThousandToPercentage(): void
     {
         $a = new Dimensionless(5, '%');
-        $b = new Dimensionless(50, 'ppt');
+        $b = new Dimensionless(50, 'permil');
         $result = $a->add($b);
 
-        // 5% + 50 ppt = 5% + 5% = 10%
+        // 5% + 50 permil = 5% + 5% = 10%
         $this->assertSame(10.0, $result->value);
         $this->assertSame('%', $result->compoundUnit->asciiSymbol);
     }
@@ -215,13 +246,13 @@ final class DimensionlessTest extends TestCase
      */
     public function testAddPartsPerMillionToPartsPerThousand(): void
     {
-        $a = new Dimensionless(1, 'ppt');
+        $a = new Dimensionless(1, 'permil');
         $b = new Dimensionless(500, 'ppm');
         $result = $a->add($b);
 
-        // 1 ppt + 500 ppm = 1 ppt + 0.5 ppt = 1.5 ppt
+        // 1 permil + 500 ppm = 1 permil + 0.5 permil = 1.5 permil
         $this->assertSame(1.5, $result->value);
-        $this->assertSame('ppt', $result->compoundUnit->asciiSymbol);
+        $this->assertSame('permil', $result->compoundUnit->asciiSymbol);
     }
 
     /**
@@ -259,10 +290,10 @@ final class DimensionlessTest extends TestCase
      */
     public function testParsePartsPerThousandAscii(): void
     {
-        $ratio = Dimensionless::parse('5 ppt');
+        $ratio = Dimensionless::parse('5 permil');
 
         $this->assertSame(5.0, $ratio->value);
-        $this->assertSame('ppt', $ratio->compoundUnit->asciiSymbol);
+        $this->assertSame('permil', $ratio->compoundUnit->asciiSymbol);
     }
 
     /**
@@ -318,7 +349,7 @@ final class DimensionlessTest extends TestCase
      */
     public function testFormatPartsPerThousandUnicode(): void
     {
-        $ratio = new Dimensionless(5, 'ppt');
+        $ratio = new Dimensionless(5, 'permil');
 
         // Unicode format uses ‰
         $this->assertSame('5‰', $ratio->format());
@@ -329,10 +360,10 @@ final class DimensionlessTest extends TestCase
      */
     public function testFormatPartsPerThousandAscii(): void
     {
-        $ratio = new Dimensionless(5, 'ppt');
+        $ratio = new Dimensionless(5, 'permil');
 
-        // ASCII format uses ppt with space
-        $this->assertSame('5 ppt', $ratio->format(ascii: true));
+        // ASCII format uses permil with space
+        $this->assertSame('5 permil', $ratio->format(ascii: true));
     }
 
     /**
@@ -400,10 +431,10 @@ final class DimensionlessTest extends TestCase
     {
         // 5% ABV beer
         $abv = new Dimensionless(5, '%');
-        $ppt = $abv->to('ppt');
+        $permil = $abv->to('permil');
 
         // 5% = 50 parts per thousand
-        $this->assertSame(50.0, $ppt->value);
+        $this->assertSame(50.0, $permil->value);
     }
 
     /**
@@ -439,10 +470,10 @@ final class DimensionlessTest extends TestCase
     {
         // Legal limit in many places is 0.08% BAC
         $bac = new Dimensionless(0.08, '%');
-        $ppt = $bac->to('ppt');
+        $permil = $bac->to('permil');
 
         // 0.08% = 0.8 parts per thousand
-        $this->assertSame(0.8, $ppt->value);
+        $this->assertSame(0.8, $permil->value);
     }
 
     /**

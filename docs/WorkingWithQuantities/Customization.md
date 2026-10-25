@@ -140,7 +140,7 @@ echo $recipe->to('mL');  // 480 mL
 echo $recipe->to('L');   // 0.48 L
 ```
 
-**Parts per trillion** — The package includes `ppm` and `ppb` but not parts per trillion. Since `ppt` is already used for parts per thousand, we'll use `ppT`:
+**Parts per quadrillion** - The package includes `ppm`, `ppb` and `ppt` (parts per trillion), but not parts per quadrillion. We'll add it as `ppq`:
 
 ```php
 use Mossy2100\Quantities\Units\Conversion;
@@ -150,15 +150,15 @@ use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\UnitService;
 
 // Create and add the unit (dimensionless).
-UnitService::add(new Unit('parts per trillion', 'ppT', ''));
+UnitService::add(new Unit('parts per quadrillion', 'ppq', ''));
 
 // Add a conversion linking it to an existing unit.
-ConversionService::add(new Conversion('ppb', 'ppT', 1000));
+ConversionService::add(new Conversion('ppt', 'ppq', 1000));
 
 // Do stuff.
-$concentration = new Dimensionless(5, 'ppT');
-echo $concentration->to('ppb');  // 0.005 ppb
-echo $concentration->to('ppm');  // 0.000005 ppm
+$concentration = new Dimensionless(5, 'ppq');
+echo $concentration->to('ppt');  // 0.005 ppt
+echo $concentration->to('ppb');  // 5×10⁻⁶ ppb
 ```
 
 **Person unit** — A "person" unit lets you do per-person calculations with quantities. Since "person" isn't a physical unit, we use the amount-of-substance dimension (`N`) as a convenient stand-in for counting. In this example, we don't need to add a conversion linking the new unit to existing ones as we don't need to convert `pers` to `mol` or anything else. You could do something similar with an `ea` unit (for "each") if needed.

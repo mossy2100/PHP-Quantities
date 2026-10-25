@@ -19,20 +19,22 @@ The `Dimensionless` class handles quantities that have no physical dimension, su
 | ------------------ | ------------ | -------------- | ------- |
 | scalar             | *(empty)*    |                | Common  |
 | percentage         | `%`          |                | Common  |
-| parts per thousand | `ppt`        | `‰`            | Common  |
+| parts per thousand | `permil`     | `‰`            | Common  |
 | parts per million  | `ppm`        |                | Common  |
 | parts per billion  | `ppb`        |                | Common  |
+| parts per trillion | `ppt`        |                | Common  |
 
 ---
 
 ## Conversion definitions
 
-| From      | To    | Factor |
-| --------- | ----- | ------ |
-| *(empty)* | `%`   | 100    |
-| `%`       | `ppt` | 10     |
-| `ppt`     | `ppm` | 1000   |
-| `ppm`     | `ppb` | 1000   |
+| From      | To       | Factor |
+| --------- | -------- | ------ |
+| *(empty)* | `%`      | 100    |
+| `%`       | `permil` | 10     |
+| `permil`  | `ppm`    | 1000   |
+| `ppm`     | `ppb`    | 1000   |
+| `ppb`     | `ppt`    | 1000   |
 
 ---
 
@@ -44,6 +46,7 @@ The `Dimensionless` class handles quantities that have no physical dimension, su
               └── × 10 → ‰ (parts per thousand)
                           └── × 1000 → ppm (parts per million)
                                         └── × 1000 → ppb (parts per billion)
+                                                      └── × 1000 → ppt (parts per trillion)
 ```
 
 ---
