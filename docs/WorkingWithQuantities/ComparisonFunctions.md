@@ -62,7 +62,9 @@ $a->approxCompare($b);  // 0
 
 ## Incompatible quantities
 
-Comparing quantities with different dimensions throws an exception with `compare()`, and returns `false` with `approxEqual()`:
+Comparing quantities with different dimensions throws `DimensionMismatchException`, and comparing a quantity with
+something that isn't a quantity throws `InvalidArgumentException`. This applies to `compare()`, `approxEqual()` and
+the other comparison methods alike:
 
 ```php
 use Mossy2100\Quantities\QuantityType\Length;
@@ -72,7 +74,8 @@ $length = new Length(100, 'm');
 $time = new Time(100, 's');
 
 $length->compare($time);      // throws DimensionMismatchException
-$length->approxEqual($time);  // false (no exception)
+$length->approxEqual($time);  // throws DimensionMismatchException
+$length->approxEqual(100);    // throws InvalidArgumentException
 ```
 
 ---

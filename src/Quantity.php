@@ -27,6 +27,7 @@ use Mossy2100\Quantities\Units\Unit;
 use Mossy2100\Quantities\Units\UnitInterface;
 use Mossy2100\Quantities\Units\UnitTerm;
 use Override;
+use ReflectionClass;
 use RoundingMode;
 use Stringable;
 use UnexpectedValueException;
@@ -604,11 +605,12 @@ class Quantity implements Stringable
      *
      * @param mixed $other The measurement to compare with.
      * @return int -1 if this < other, 0 if equal, 1 if this > other.
-     * @throws InvalidArgumentException If the other Quantity has a different type.
+     * @throws InvalidArgumentException If $other is not a Quantity.
      * @throws DimensionMismatchException If the Quantities have different dimensions.
      * @throws LogicException If no conversion path exists between the units.
      */
-    #[Override]
+    /** @disregard P1128 */
+    #[Override] // Comparable
     public function compare(mixed $other): int
     {
         $otherValue = $this->preCompare($other);
@@ -618,23 +620,26 @@ class Quantity implements Stringable
     /**
      * Compare this Quantity with another and determine if they are equal, within user-defined tolerances.
      *
-     * @param mixed $other The value to compare with (can be any type).
-     * @return bool True if the values are equal, false otherwise.
+     * Automatically converts the other Quantity to this one's unit before comparing. Like compare(), this throws for a
+     * value that can't be compared, rather than returning false.
+     *
+     * @param mixed $other The Quantity to compare with.
+     * @param float $relTol The maximum allowed relative difference.
+     * @param float $absTol The maximum allowed absolute difference.
+     * @return bool True if the values are equal within the tolerances, false otherwise.
+     * @throws InvalidArgumentException If $other is not a Quantity.
+     * @throws DimensionMismatchException If the Quantities have different dimensions.
+     * @throws LogicException If no conversion path exists between the units.
      */
-    #[Override]
+    /** @disregard P1128 */
+    #[Override] // ApproxEquatable
     public function approxEqual(
         mixed $other,
         float $relTol = Floats::DEFAULT_RELATIVE_TOLERANCE,
         float $absTol = Floats::DEFAULT_ABSOLUTE_TOLERANCE
     ): bool {
-        try {
-            // Get the other Quantity's value in the same unit.
-            // This will throw if the other Quantity has a different type or dimension.
-            $otherValue = $this->preCompare($other);
-        } catch (DimensionMismatchException | InvalidArgumentException) {
-            // If the other Quantity has a different type or dimension to this one.
-            return false;
-        }
+        // Get the other Quantity's value in the same unit. This throws if the other value can't be compared.
+        $otherValue = $this->preCompare($other);
 
         // Now we have the other Quantity in the same unit, compare the values.
         return Floats::approxEqual($this->value, $otherValue, $relTol, $absTol);
@@ -1552,21 +1557,21 @@ class Quantity implements Stringable
     }
 
     /**
-     * Check the $this and $other objects have the same type and get the value of the $other Quantity in the same
-     * unit as the $this one. Return the value.
+     * Check that a value can be compared with this Quantity, i.e. it's a Quantity with the same dimension.
      *
-     * @param mixed $other The other measurement to compare with.
-     * @return float The value of the other measurement in the same unit as this one.
-     * @throws LogicException If no conversion path exists between the units.
-     * @throws InvalidArgumentException If the other value is not a Quantity.
+     * @param mixed $other The value to check.
+     * @return self The other value, as a Quantity.
+     * @throws InvalidArgumentException If $other is not a Quantity.
      * @throws DimensionMismatchException If the two Quantities have different dimensions.
      */
-    private function preCompare(mixed $other): float
+    protected function checkComparable(mixed $other): self
     {
         // Check the two values are both Quantity objects.
         if (!$other instanceof self) {
-            throw new InvalidArgumentException("Can't compare " . get_debug_type($this) . ' with ' .
-                get_debug_type($other) . '.');
+            $className = new ReflectionClass($this)->getShortName();
+            throw new InvalidArgumentException(
+                "Cannot compare $className with " . get_debug_type($other) . '. Must be Quantity.'
+            );
         }
 
         // Check the two Quantities have the same dimension.
@@ -1575,6 +1580,22 @@ class Quantity implements Stringable
         if ($dim1 !== $dim2) {
             throw new DimensionMismatchException($dim1, $dim2);
         }
+
+        return $other;
+    }
+
+    /**
+     * Check that a value can be compared with this Quantity, and get its value in the same unit as this one.
+     *
+     * @param mixed $other The other measurement to compare with.
+     * @return float The value of the other measurement in the same unit as this one.
+     * @throws LogicException If no conversion path exists between the units.
+     * @throws InvalidArgumentException If $other is not a Quantity.
+     * @throws DimensionMismatchException If the two Quantities have different dimensions.
+     */
+    private function preCompare(mixed $other): float
+    {
+        $other = $this->checkComparable($other);
 
         // Get the other Quantity in the same unit as this one.
         return $this->compoundUnit->equal($other->compoundUnit)

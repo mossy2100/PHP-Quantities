@@ -78,6 +78,10 @@ public function approxEqual(mixed $other, float $relTol = 0, float $absTol = sel
 
 Compare angles with tolerances appropriate for angular measurements. Comparison is performed in radians.
 
+**Throws:**
+- `InvalidArgumentException` - If other is not a Quantity.
+- [`DimensionMismatchException`](../Exceptions/DimensionMismatchException.md) - If other is not an angle.
+
 ```php
 $a1 = new Angle(180, 'deg');
 $a2 = new Angle(M_PI, 'rad');

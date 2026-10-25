@@ -179,24 +179,25 @@ final class QuantityCompareTest extends TestCase
     }
 
     /**
-     * Test approxEqual() returns false for different dimensions.
+     * Test approxEqual() throws for different dimensions, like compare().
      */
-    public function testApproxEqualDifferentDimensions(): void
+    public function testApproxEqualDifferentDimensionsThrowsException(): void
     {
-        $length = new Length(100, 'm');
-        $mass = new Mass(100, 'kg');
+        $this->expectException(DimensionMismatchException::class);
 
-        $this->assertFalse($length->approxEqual($mass));
+        $length = new Length(100, 'm');
+        $length->approxEqual(new Mass(100, 'kg'));
     }
 
     /**
-     * Test approxEqual() returns false for non-Quantity.
+     * Test approxEqual() throws for a non-Quantity, like compare().
      */
-    public function testApproxEqualNonQuantity(): void
+    public function testApproxEqualNonQuantityThrowsException(): void
     {
-        $length = new Length(100, 'm');
+        $this->expectException(InvalidArgumentException::class);
 
-        $this->assertFalse($length->approxEqual(100));
+        $length = new Length(100, 'm');
+        $length->approxEqual(100);
     }
 
     #endregion

@@ -455,15 +455,21 @@ public function approxEqual(
 ): bool
 ```
 
-Check if two Quantities are approximately equal within tolerances.
+Check if two Quantities are approximately equal within tolerances. The other Quantity is converted to this one's unit
+first. Like `compare()`, this throws for a value that can't be compared, rather than returning `false`.
 
 **Parameters:**
-- `$other` (mixed) - The value to compare with.
+- `$other` (mixed) - The Quantity to compare with.
 - `$relTol` (float) - Relative tolerance.
 - `$absTol` (float) - Absolute tolerance.
 
-**Returns:**
-- `bool` - True if approximately equal.
+**Returns:** `bool` - True if approximately equal.
+
+**Throws:**
+- `InvalidArgumentException` - If other is not a Quantity.
+- [`DimensionMismatchException`](Exceptions/DimensionMismatchException.md) - If the quantities have different
+  dimensions.
+- `LogicException` - If no conversion path exists between the units.
 
 **Examples:**
 ```php

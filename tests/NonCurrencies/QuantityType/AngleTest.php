@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\NonCurrencies\QuantityType;
 
+use InvalidArgumentException;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Traits\Asserts\FloatAssertions;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\QuantityType\Angle;
+use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -347,6 +350,7 @@ final class AngleTest extends TestCase
         $b = new Angle(M_PI, 'rad');
 
         $this->assertTrue($a->approxEqual($b));
+        $this->assertTrue($a->approxEqual(new Angle(0.5, 'turn')));
     }
 
     /**
@@ -372,14 +376,34 @@ final class AngleTest extends TestCase
     }
 
     /**
-     * Test approxEqual returns false for non-Angle.
+     * Test approxEqual throws for a value that isn't a Quantity.
      */
-    public function testApproxEqualNonAngle(): void
+    public function testApproxEqualNonQuantityThrowsException(): void
     {
         $angle = new Angle(90, 'deg');
 
-        $this->assertFalse($angle->approxEqual(90));
-        $this->assertFalse($angle->approxEqual('90 deg'));
+        foreach ([90, '90 deg'] as $other) {
+            try {
+                $angle->approxEqual($other);
+                $this->fail('Expected InvalidArgumentException.');
+            } catch (InvalidArgumentException $e) {
+                $this->assertSame(
+                    'Cannot compare Angle with ' . get_debug_type($other) . '. Must be Quantity.',
+                    $e->getMessage()
+                );
+            }
+        }
+    }
+
+    /**
+     * Test approxEqual throws for a Quantity that isn't an angle.
+     */
+    public function testApproxEqualNonAngleQuantityThrowsException(): void
+    {
+        $this->expectException(DimensionMismatchException::class);
+
+        $angle = new Angle(90, 'deg');
+        $angle->approxEqual(new Length(90, 'm'));
     }
 
     #endregion

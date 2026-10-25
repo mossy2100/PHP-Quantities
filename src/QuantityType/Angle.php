@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\QuantityType;
 
+use InvalidArgumentException;
 use Mossy2100\Core\Floats;
 use Mossy2100\Core\Numbers;
 use Mossy2100\Quantities\Enums\UnitSystem;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\PrefixService;
 use Override;
@@ -106,21 +108,21 @@ class Angle extends Quantity
      * Overrides the parent method to use different default tolerances for comparing Angles.
      * For Angles, we want to compare the absolute difference in radians.
      *
-     * @param mixed $other The value to compare with.
+     * @param mixed $other The Angle to compare with.
      * @param float $relTol The relative tolerance (default 0).
-     * @param float $absTol The absolute tolerance (default 1e-9).
-     * @return bool True if the values are equal, false otherwise (including for incompatible types).
+     * @param float $absTol The absolute tolerance in radians (default 1e-9).
+     * @return bool True if the values are equal within the tolerances, false otherwise.
+     * @throws InvalidArgumentException If $other is not a Quantity.
+     * @throws DimensionMismatchException If $other is not an angle.
      */
-    #[Override]
+    #[Override] // ApproxEquatable
     public function approxEqual(mixed $other, float $relTol = 0, float $absTol = self::RAD_EPSILON): bool
     {
-        // Check for incompatible types.
-        if (!$other instanceof self) {
-            return false;
-        }
+        // Check the other value is an angle. This throws if not.
+        $other = $this->checkComparable($other);
 
         // Compare the values as radians.
-        return Floats::approxEqual($this->toRadians(), $other->toRadians(), $relTol, $absTol);
+        return Floats::approxEqual($this->toRadians(), $other->to('rad')->value, $relTol, $absTol);
     }
 
     /**

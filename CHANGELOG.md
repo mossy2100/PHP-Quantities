@@ -47,6 +47,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   than `src/Currencies/data` inside the package, which is often read-only once installed. Call
   `CurrencyService::setDataDir()` to keep the data somewhere persistent. Failed writes now throw `RuntimeException`
   instead of being ignored, and files are written atomically.
+- **`Quantity::approxEqual()` and `Angle::approxEqual()` throw for values that can't be compared (breaking),** like
+  `compare()` and `equal()` already did, rather than returning `false`. A Quantity with a different dimension throws
+  `DimensionMismatchException`, and a value that isn't a Quantity throws `InvalidArgumentException`. This matches the
+  comparison contract in `mossy2100/core`.
 - **Moved the public types out of the `Internal` namespace (breaking).** Users need these to add units and conversions,
   load unit systems, and read a quantity's unit. Update any `use` statements as shown below. `Converter` and
   `FloatWithError` stay in `Internal`, and are now marked `@internal`.
