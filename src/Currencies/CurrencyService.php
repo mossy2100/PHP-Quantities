@@ -152,7 +152,7 @@ class CurrencyService
         $xmlContent = @file_get_contents(self::ISO_4217_URL);
         if ($xmlContent === false) {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException('Failed to fetch ISO 4217 XML from ' . self::ISO_4217_URL);
+            throw new RuntimeException("Failed to fetch ISO 4217 XML from '" . self::ISO_4217_URL . "'.");
             // @codeCoverageIgnoreEnd
         }
 
@@ -741,10 +741,7 @@ class CurrencyService
     private static function getConfiguredExchangeRateService(): ExchangeRateServiceInterface
     {
         if (self::$exchangeRateService === null) {
-            throw new LogicException(
-                'The exchange rate service is not configured. Call `CurrencyService::setExchangeRateService()` ' .
-                'or `CurrencyService::init()` first.'
-            );
+            throw new LogicException('The exchange rate service is not configured.');
         }
 
         return self::$exchangeRateService;

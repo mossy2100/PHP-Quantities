@@ -6,6 +6,7 @@ namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
 use DomainException;
 use LogicException;
+use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\QuantityType\Angle;
@@ -13,6 +14,7 @@ use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Temperature;
 use Mossy2100\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\Tests\NonCurrencies\Fixtures\UnregisteredQuantity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -226,7 +228,7 @@ final class QuantityCreateTest extends TestCase
     public function testCreateWithInfinityThrowsException(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot create a quantity with a non-finite value.');
+        $this->expectExceptionMessage('Invalid value: INF. Must be finite.');
 
         Quantity::create(INF, 'm');
     }
@@ -256,7 +258,8 @@ final class QuantityCreateTest extends TestCase
      */
     public function testWrongConstructorThrowsException(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(DimensionMismatchException::class);
+        $this->expectExceptionMessage("Dimension mismatch: 'M' (mass) and 'L' (length).");
 
         // Trying to create a Length by calling the Mass constructor
         new Mass(5, 'm');
@@ -267,11 +270,22 @@ final class QuantityCreateTest extends TestCase
      */
     public function testWrongConstructorUnregisteredDimensionThrowsException(): void
     {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('quantity with dimension');
+        $this->expectException(DimensionMismatchException::class);
+        $this->expectExceptionMessage("Dimension mismatch: 'L' (length) and 'ML3'.");
 
         // kg*m3 has dimension ML3 which is not registered as any quantity type.
         new Length(1, 'kg*m3');
+    }
+
+    /**
+     * Test that calling the constructor of a subclass that isn't a registered quantity type throws an exception.
+     */
+    public function testUnregisteredSubclassConstructorThrowsException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage("Cannot instantiate UnregisteredQuantity. It isn't a registered quantity type.");
+
+        new UnregisteredQuantity(5, 'kg*m');
     }
 
     /**
@@ -280,7 +294,7 @@ final class QuantityCreateTest extends TestCase
     public function testDirectQuantityConstructorThrowsException(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('The Quantity constructor should not be called directly.');
+        $this->expectExceptionMessage('Cannot instantiate Quantity directly.');
 
         new Quantity(5, 'm');
     }

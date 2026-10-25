@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
-use DivisionByZeroError;
 use DomainException;
+use Mossy2100\Core\Exceptions\ArithmeticException;
 use Mossy2100\Core\Traits\Asserts\FloatAssertions;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Quantity;
@@ -368,7 +368,7 @@ final class QuantityArithmeticTest extends TestCase
      */
     public function testDivByZeroScalarThrowsException(): void
     {
-        $this->expectException(DivisionByZeroError::class);
+        $this->expectException(ArithmeticException::class);
 
         $length = new Length(10, 'm');
         $length->div(0);
@@ -379,7 +379,7 @@ final class QuantityArithmeticTest extends TestCase
      */
     public function testDivByZeroQuantityThrowsException(): void
     {
-        $this->expectException(DivisionByZeroError::class);
+        $this->expectException(ArithmeticException::class);
 
         $a = new Length(10, 'm');
         $b = new Length(0, 'm');
@@ -431,7 +431,7 @@ final class QuantityArithmeticTest extends TestCase
      */
     public function testRecipZeroThrowsException(): void
     {
-        $this->expectException(DivisionByZeroError::class);
+        $this->expectException(ArithmeticException::class);
 
         $time = new Time(0, 's');
         $time->recip();
@@ -498,6 +498,18 @@ final class QuantityArithmeticTest extends TestCase
 
         $length = new Length(5, 'm');
         $length->pow(0);
+    }
+
+    /**
+     * Test pow() with a zero value and a negative exponent throws, rather than producing INF.
+     */
+    public function testPowZeroValueNegativeExponentThrowsException(): void
+    {
+        $this->expectException(ArithmeticException::class);
+        $this->expectExceptionMessage('Cannot raise zero to a negative power.');
+
+        $length = new Length(0, 'm');
+        $length->pow(-1);
     }
 
     /**

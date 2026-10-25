@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
-use DivisionByZeroError;
+use Mossy2100\Core\Exceptions\ArithmeticException;
 use Mossy2100\Core\Floats;
 use Mossy2100\Quantities\Internal\FloatWithError;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -418,7 +418,7 @@ class FloatWithErrorTest extends TestCase
         $a = new FloatWithError(42.0, 1.0);
         $b = new FloatWithError(0.0, 0.0);
 
-        $this->expectException(DivisionByZeroError::class);
+        $this->expectException(ArithmeticException::class);
         $a->div($b);
     }
 
@@ -504,7 +504,7 @@ class FloatWithErrorTest extends TestCase
     {
         $num = new FloatWithError(0.0, 0.0);
 
-        $this->expectException(DivisionByZeroError::class);
+        $this->expectException(ArithmeticException::class);
         $num->recip();
     }
 
@@ -692,7 +692,7 @@ class FloatWithErrorTest extends TestCase
     {
         $num = new FloatWithError(0.0);
 
-        $this->expectException(DivisionByZeroError::class);
+        $this->expectException(ArithmeticException::class);
         $num->pow(-1);
     }
 

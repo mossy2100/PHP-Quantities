@@ -143,7 +143,7 @@ final class QuantityTypeServiceTest extends TestCase
     public function testGetByDimensionThrowsForInvalidDimension(): void
     {
         $this->expectException(FormatException::class);
-        $this->expectExceptionMessage("Invalid dimension code 'X9Y9Z9'");
+        $this->expectExceptionMessage("Invalid dimension code: 'X9Y9Z9'.");
 
         QuantityTypeService::getByDimension('X9Y9Z9');
     }

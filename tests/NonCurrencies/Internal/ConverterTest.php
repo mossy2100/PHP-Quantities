@@ -114,7 +114,7 @@ class ConverterTest extends TestCase
     public function testGetInstanceThrowsForInvalidDimension(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage("Invalid dimension code 'X'.");
+        $this->expectExceptionMessage("Invalid dimension code: 'X'.");
 
         Converter::getInstance('X');
     }

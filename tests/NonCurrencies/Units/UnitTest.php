@@ -276,7 +276,7 @@ final class UnitTest extends TestCase
     public function testConstructorThrowsForEmptySystems(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot create a unit with no measurement systems');
+        $this->expectExceptionMessage('Cannot create Unit with no measurement systems.');
 
         new Unit(
             name: 'test',
@@ -292,7 +292,7 @@ final class UnitTest extends TestCase
     public function testConstructorThrowsForNonSystemValues(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Cannot create a unit with non-UnitSystem values');
+        $this->expectExceptionMessage('Invalid system type: string. Must be UnitSystem.');
 
         new Unit(
             name: 'test',

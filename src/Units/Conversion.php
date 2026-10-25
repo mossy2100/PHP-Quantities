@@ -6,6 +6,7 @@ namespace Mossy2100\Quantities\Units;
 
 use DomainException;
 use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Stringify;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Internal\FloatWithError;
 use Stringable;
@@ -87,7 +88,9 @@ class Conversion implements Stringable
 
         // Ensure the factor is positive.
         if ($factor->value <= 0.0) {
-            throw new DomainException('Conversion factor must be positive.');
+            throw new DomainException(
+                Stringify::prepEx('Invalid conversion factor: ?. Must be positive.', $factor->value)
+            );
         }
 
         // Set the properties.

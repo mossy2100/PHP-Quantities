@@ -174,21 +174,21 @@ class UnitTerm implements UnitInterface
             $prefixSymbol = $prefix;
             $prefix = PrefixService::getBySymbol($prefix);
             if ($prefix === null) {
-                throw new DomainException("Prefix '$prefixSymbol' is unknown.");
+                throw new DomainException("Unknown prefix: '$prefixSymbol'.");
             }
         }
 
         // Validate prefix.
         if ($prefix !== null && !$unit->acceptsPrefix($prefix)) {
-            throw new DomainException("Prefix '$prefix' is invalid for unit '$unit->asciiSymbol'.");
+            throw new DomainException("Invalid prefix for unit '$unit->asciiSymbol': '$prefix'.");
         }
 
         // Validate exponent.
         if ($exponent < -9 || $exponent > 9) {
-            throw new DomainException("Exponent $exponent is outside the valid range -9 to 9.");
+            throw new DomainException("Invalid exponent: $exponent. Must be in the range [-9, 9].");
         }
         if ($exponent === 0) {
-            throw new DomainException('Cannot have an exponent of 0.');
+            throw new DomainException('Invalid exponent: 0. Cannot be zero.');
         }
 
         // Set properties.
@@ -231,13 +231,13 @@ class UnitTerm implements UnitInterface
      *
      * Results are cached for efficiency.
      *
-     * An explicit exponent of 1 (e.g. 'm1') is accepted but non-canonical — write 'm' instead. Exponents of 0 and
-     * those outside the range -9..9 are rejected by the constructor.
+     * An explicit exponent of 1 (e.g. 'm1') is rejected; write 'm' instead. Exponents of 0 and those outside the range
+     * -9..9 are rejected by the constructor.
      *
      * @param string $symbol The unit symbol with an optional prefix and/or exponent (e.g. 'm2', 's-1').
      * @return self The parsed unit term.
-     * @throws FormatException If the format is invalid, or if a prefix or non-unity exponent is combined with a
-     * non-letter or dimensionless unit.
+     * @throws FormatException If the format is invalid, if the symbol has an explicit exponent of 1, or if a prefix or
+     * non-unity exponent is combined with a non-letter or dimensionless unit.
      * @throws UnknownUnitException If the unit symbol is not recognized.
      * @throws DomainException If the exponent is 0 or outside the range -9..9.
      */
@@ -277,7 +277,7 @@ class UnitTerm implements UnitInterface
             // Disallow explicit '1'.
             // NB: Invalid exponents (0, and any outside the range of -9..9) are checked by the constructor.
             if ($exp === 1) {
-                throw new DomainException('Cannot have an exponent of 1.');
+                throw new FormatException("Invalid unit term symbol: '$symbol'. An exponent of 1 must be omitted.");
             }
         }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Internal;
 
-use DivisionByZeroError;
+use Mossy2100\Core\Exceptions\ArithmeticException;
 use Mossy2100\Core\Floats;
 use Stringable;
 
@@ -114,12 +114,12 @@ class FloatWithError implements Stringable
      * Error propagation: relative error unchanged.
      *
      * @return self A new FloatWithError with the inverse and propagated error.
-     * @throws DivisionByZeroError If attempting to invert zero.
+     * @throws ArithmeticException If attempting to invert zero.
      */
     public function recip(): self
     {
         if ($this->value === 0.0) {
-            throw new DivisionByZeroError('Cannot invert zero.');
+            throw new ArithmeticException('Cannot divide by zero.');
         }
 
         $newValue = 1.0 / $this->value;
@@ -239,7 +239,7 @@ class FloatWithError implements Stringable
      *
      * @param float|self $other The divisor.
      * @return self A new FloatWithError with the quotient and propagated error.
-     * @throws DivisionByZeroError If attempting to divide by zero.
+     * @throws ArithmeticException If attempting to divide by zero.
      */
     public function div(float|self $other): self
     {
@@ -250,7 +250,7 @@ class FloatWithError implements Stringable
 
         // Check for division by zero.
         if ($other->value === 0.0) {
-            throw new DivisionByZeroError('Cannot divide by zero.');
+            throw new ArithmeticException('Cannot divide by zero.');
         }
 
         // Divide values.
@@ -281,13 +281,13 @@ class FloatWithError implements Stringable
      *
      * @param int $exponent The exponent.
      * @return self A new FloatWithError with the result and propagated error.
-     * @throws DivisionByZeroError If the base is zero and the exponent is negative.
+     * @throws ArithmeticException If the base is zero and the exponent is negative.
      */
     public function pow(int $exponent): self
     {
         // Handle zero base with a negative exponent.
         if ($this->value === 0.0 && $exponent < 0) {
-            throw new DivisionByZeroError('Cannot raise zero to a negative power.');
+            throw new ArithmeticException('Cannot raise zero to a negative power.');
         }
 
         // Calculate the new value.

@@ -192,13 +192,13 @@ class Unit implements UnitInterface
 
         // Make sure the $systems array is a non-empty array of UnitSystem values.
         if (empty($systems)) {
-            throw new DomainException('Cannot create a unit with no measurement systems.');
+            throw new DomainException('Cannot create Unit with no measurement systems.');
         }
         $systems = array_values(array_unique($systems, SORT_REGULAR));
         foreach ($systems as $system) {
             if (!$system instanceof UnitSystem) {
                 throw new InvalidArgumentException(
-                    'Cannot create a unit with non-UnitSystem values in the systems array.'
+                    'Invalid system type: ' . get_debug_type($system) . '. Must be UnitSystem.'
                 );
             }
         }

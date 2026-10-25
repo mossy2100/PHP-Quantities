@@ -140,7 +140,7 @@ Return the multiplicative inverse (1/value). Relative error is preserved.
 - `FloatWithError` - A new instance with the inverted value and propagated error.
 
 **Throws:**
-- `DivisionByZeroError` - If the value is zero.
+- [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If the value is zero.
 
 ---
 
@@ -225,7 +225,7 @@ Divide this value by another, accumulating errors.
 - `FloatWithError` - A new instance with the quotient and combined error
 
 **Throws:**
-- `DivisionByZeroError` - If dividing by zero
+- [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If dividing by zero
 
 **Examples:**
 ```php
@@ -255,7 +255,7 @@ Raise this value to an integer power.
 - `FloatWithError` - A new instance with the result and propagated error
 
 **Throws:**
-- `DivisionByZeroError` - If the base is zero and the exponent is negative
+- [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If the base is zero and the exponent is negative
 
 **Behavior:**
 - Relative error multiplies by |exponent|

@@ -106,7 +106,7 @@ final class UnitTermTest extends TestCase
     public function testConstructorThrowsForPrefixOnNonPrefixableUnit(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('is invalid');
+        $this->expectExceptionMessage("Invalid prefix for unit 'ha': 'k'.");
 
         new UnitTerm('ha', 'k');
     }
@@ -117,7 +117,7 @@ final class UnitTermTest extends TestCase
     public function testConstructorThrowsForExponentZero(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot have an exponent of 0');
+        $this->expectExceptionMessage('Invalid exponent: 0. Cannot be zero.');
 
         new UnitTerm('m', null, 0);
     }
@@ -128,7 +128,7 @@ final class UnitTermTest extends TestCase
     public function testConstructorThrowsForExponentTooLarge(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('outside the valid range -9 to 9');
+        $this->expectExceptionMessage('Must be in the range [-9, 9].');
 
         new UnitTerm('m', null, 10);
     }
@@ -139,7 +139,7 @@ final class UnitTermTest extends TestCase
     public function testConstructorThrowsForExponentTooSmall(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('outside the valid range -9 to 9');
+        $this->expectExceptionMessage('Must be in the range [-9, 9].');
 
         new UnitTerm('m', null, -10);
     }
@@ -534,7 +534,7 @@ final class UnitTermTest extends TestCase
     public function testParseThrowsForExponentZero(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot have an exponent of 0');
+        $this->expectExceptionMessage('Invalid exponent: 0. Cannot be zero.');
 
         UnitTerm::parse('m0');
     }
@@ -545,7 +545,7 @@ final class UnitTermTest extends TestCase
     public function testParseThrowsForExponentOne(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot have an exponent of 1');
+        $this->expectExceptionMessage("Invalid unit term symbol: 'm1'. An exponent of 1 must be omitted.");
 
         UnitTerm::parse('m1');
     }

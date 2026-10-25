@@ -432,7 +432,7 @@ final class PrefixServiceTest extends TestCase
         $kibi = PrefixService::getBySymbol('Ki');
 
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage("Inverse of prefix 'Ki' not found");
+        $this->expectExceptionMessage("Cannot invert prefix 'Ki'. No prefix has the reciprocal multiplier.");
 
         PrefixService::invert($kibi);
     }

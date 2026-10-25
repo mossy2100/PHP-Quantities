@@ -174,7 +174,7 @@ class UnitService
         foreach ($symbols as $symbol => $details) {
             if (in_array($symbol, $existingSymbols, true)) {
                 throw new DomainException(
-                    "The symbol '$symbol' for $unit->name is already being used by another unit."
+                    "Cannot add unit '$unit->name'. Its symbol '$symbol' is already used by another unit."
                 );
             }
         }

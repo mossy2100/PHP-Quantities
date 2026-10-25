@@ -443,7 +443,7 @@ final class UnitServiceTest extends TestCase
     public function testAddThrowsForDuplicateSymbol(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage("The symbol 'Ω' for newunitohm is already being used by another unit");
+        $this->expectExceptionMessage("Cannot add unit 'newunitohm'. Its symbol 'Ω' is already used by another unit.");
 
         UnitService::add(new Unit(
             name: 'newunitohm',

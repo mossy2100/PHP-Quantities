@@ -77,7 +77,7 @@ $areaUnit = $length->mul('m');      // 10 m2
 $perSecond = $length->div('s');     // 10 m/s
 ```
 
-Division by zero throws a `DivisionByZeroError`.
+Division by zero throws an `ArithmeticException` (from `Mossy2100\Core\Exceptions`).
 
 ### Same-dimension multiplication and merge()
 
@@ -106,7 +106,7 @@ $time = new Time(4, 's');
 $recip = $time->recip();  // 0.25 s-1 (Frequency)
 ```
 
-Throws `DivisionByZeroError` if the value is zero.
+Throws an `ArithmeticException` if the value is zero.
 
 ---
 

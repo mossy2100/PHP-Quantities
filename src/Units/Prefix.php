@@ -99,10 +99,10 @@ class Prefix
 
         // Validate multiplier.
         if ($multiplier <= 0) {
-            throw new DomainException("Cannot create prefix with non-positive multiplier, got $multiplier.");
+            throw new DomainException("Invalid multiplier: $multiplier. Must be positive.");
         }
         if ($multiplier === 1.0) {
-            throw new DomainException('Cannot create prefix with multiplier equal to one.');
+            throw new DomainException('Invalid multiplier: 1. Cannot be one.');
         }
 
         // Validate group code.

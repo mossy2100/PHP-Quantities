@@ -325,7 +325,7 @@ class PrefixService
 
         // Throw an exception if no inverse could be found.
         if ($inversePrefix === null) {
-            throw new DomainException("Inverse of prefix '$prefix' not found.");
+            throw new DomainException("Cannot invert prefix '$prefix'. No prefix has the reciprocal multiplier.");
         }
 
         return $inversePrefix;

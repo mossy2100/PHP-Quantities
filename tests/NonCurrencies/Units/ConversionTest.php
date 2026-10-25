@@ -67,7 +67,7 @@ class ConversionTest extends TestCase
     public function testConstructorThrowsForZeroFactor(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Conversion factor must be positive.');
+        $this->expectExceptionMessage('Must be positive.');
 
         new Conversion('m', 'ft', 0.0);
     }
@@ -80,7 +80,7 @@ class ConversionTest extends TestCase
         $factor = new FloatWithError(0.0, 0.0);
 
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Conversion factor must be positive.');
+        $this->expectExceptionMessage('Must be positive.');
 
         new Conversion('m', 'ft', $factor);
     }
@@ -102,7 +102,7 @@ class ConversionTest extends TestCase
     public function testConstructorThrowsForNegativeFactor(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Conversion factor must be positive.');
+        $this->expectExceptionMessage('Must be positive.');
 
         new Conversion('m', 'ft', -3.28084);
     }

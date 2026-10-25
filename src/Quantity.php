@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities;
 
-use DivisionByZeroError;
 use DomainException;
 use InvalidArgumentException;
+use LengthException;
 use LogicException;
 use Mossy2100\Core\Enums\ExponentFormat;
 use Mossy2100\Core\Enums\FloatFormat;
+use Mossy2100\Core\Exceptions\ArithmeticException;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Floats;
 use Mossy2100\Core\Numbers;
+use Mossy2100\Core\Stringify;
 use Mossy2100\Core\Traits\Comparison\ApproxComparable;
 use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
@@ -151,15 +153,12 @@ class Quantity implements Stringable
         $qtyClass = self::class;
         $callingClass = static::class;
         if ($qtyClass === $callingClass && !self::$allowConstruct) {
-            throw new LogicException(
-                'The Quantity constructor should not be called directly. Use `Quantity::create()`, ' .
-                '`Quantity::parse()`, or a subclass constructor (e.g. `new Angle(...)`.'
-            );
+            throw new LogicException('Cannot instantiate Quantity directly.');
         }
 
         // Check the value is finite.
         if (!is_finite($value)) {
-            throw new DomainException('Cannot create a quantity with a non-finite value.');
+            throw new DomainException(Stringify::prepEx('Invalid value: ?. Must be finite.', $value));
         }
 
         // Convert the provided unit argument into an object if it isn't already.
@@ -170,13 +169,15 @@ class Quantity implements Stringable
         $quantityType = $compoundUnit->quantityType;
         $correctClass = $quantityType->class ?? $qtyClass;
         if ($callingClass !== $correctClass) {
-            $classStr = $quantityType === null
-                ? "quantity with dimension '$compoundUnit->dimension'"
-                : "$quantityType->name quantity";
-            throw new LogicException(
-                "A $classStr cannot be instantiated by calling `new $callingClass()`. Instead, " .
-                ' call `Quantity::create()`, which will automatically create an object of the correct class.'
-            );
+            // A subclass that isn't a registered quantity type can't be instantiated at all.
+            $callingDimension = static::getDimension();
+            if ($callingDimension === null) {
+                $className = new ReflectionClass($callingClass)->getShortName();
+                throw new LogicException("Cannot instantiate $className. It isn't a registered quantity type.");
+            }
+
+            // Otherwise, the unit has the wrong dimension for the calling class.
+            throw new DimensionMismatchException($callingDimension, $compoundUnit->dimension);
         }
 
         // Set the properties.
@@ -705,7 +706,7 @@ class Quantity implements Stringable
      * Invert this Quantity (1/x).
      *
      * @return self A new Quantity with the value and unit inverted.
-     * @throws DivisionByZeroError If the value is zero.
+     * @throws ArithmeticException If the value is zero.
      * @example
      *   $length = new Length(10, 'm');
      *   $recip = $length->recip();  // Length(0.1, 'm^-1')
@@ -714,7 +715,7 @@ class Quantity implements Stringable
     {
         // Guards.
         if ($this->value === 0.0) {
-            throw new DivisionByZeroError('Cannot invert zero.');
+            throw new ArithmeticException('Cannot divide by zero.');
         }
 
         // Invert the value and unit.
@@ -827,7 +828,7 @@ class Quantity implements Stringable
      *
      * @param self|float|string|UnitInterface $other The Quantity, number, or unit to divide.
      * @return self A new Quantity representing the result of the division.
-     * @throws DivisionByZeroError If the divisor is zero.
+     * @throws ArithmeticException If the divisor is zero.
      * @throws DomainException If the result value is non-finite.
      * @throws FormatException If a unit string cannot be parsed.
      * @throws UnknownUnitException If a unit string contains unknown units.
@@ -840,7 +841,7 @@ class Quantity implements Stringable
         // Check for simple division by a scalar.
         if (is_float($other)) {
             if ($other === 0.0) {
-                throw new DivisionByZeroError('Cannot divide by zero.');
+                throw new ArithmeticException('Cannot divide by zero.');
             }
 
             return $this->withValue($this->value / $other);
@@ -864,13 +865,20 @@ class Quantity implements Stringable
      *
      * @param int $exponent The exponent to raise to.
      * @return self A new Quantity representing the result of the exponentiation.
-     * @throws DomainException If the exponent is 0.
+     * @throws ArithmeticException If the value is zero and the exponent is negative.
+     * @throws DomainException If the exponent is 0 and the Quantity has a unit, or a resulting unit exponent is
+     * outside the range -9..9.
      * @example
      *   $length = new Length(10, 'm');
      *   $cubed = $length->pow(3);  // Volume(1000, 'm3')
      */
     public function pow(int $exponent): self
     {
+        // Guard against a zero value with a negative exponent.
+        if ($this->value === 0.0 && $exponent < 0) {
+            throw new ArithmeticException('Cannot raise zero to a negative power.');
+        }
+
         // Apply the exponent to the value.
         $value = $this->value ** $exponent;
 
@@ -1098,7 +1106,7 @@ class Quantity implements Stringable
 
             // Check the type.
             if (!is_int($sign)) {
-                throw new InvalidArgumentException('The "sign" part must be an integer.');
+                throw new InvalidArgumentException('Invalid sign type: ' . get_debug_type($sign) . '. Must be int.');
             }
 
             // Check the value.
@@ -1112,7 +1120,7 @@ class Quantity implements Stringable
 
         // Check we have some parts. (This must be done after removing the sign part.)
         if (empty($parts)) {
-            throw new LogicException('Cannot create a Quantity from an empty parts array.');
+            throw new LengthException('Cannot create Quantity from empty parts array.');
         }
 
         // Ensure we have a QuantityType.
@@ -1125,13 +1133,17 @@ class Quantity implements Stringable
         foreach ($parts as $unitSymbol => $value) {
             // Validate key and value.
             if (!is_string($unitSymbol)) {
-                throw new InvalidArgumentException('The parts array must contain only strings as keys.');
+                throw new InvalidArgumentException(
+                    'Invalid part unit symbol type: ' . get_debug_type($unitSymbol) . '. Must be string.'
+                );
             }
             if (!Numbers::isNumber($value)) {
-                throw new InvalidArgumentException('The parts array must contain only numbers as values.');
+                throw new InvalidArgumentException(
+                    'Invalid part value type: ' . get_debug_type($value) . '. Must be int or float.'
+                );
             }
             if (!is_finite($value)) {
-                throw new DomainException('The parts values must be finite numbers.');
+                throw new DomainException(Stringify::prepEx('Invalid part value: ?. Must be finite.', $value));
             }
 
             // Try to parse the unit. This will throw if the unit is invalid.
@@ -1192,7 +1204,7 @@ class Quantity implements Stringable
 
         // Validate the precision.
         if ($precision !== null && $precision < 0) {
-            throw new DomainException("Invalid precision: $precision. Must be null or a non-negative integer.");
+            throw new DomainException("Invalid precision: $precision. Cannot be negative.");
         }
 
         // Initialize the result array.
@@ -1259,7 +1271,7 @@ class Quantity implements Stringable
         // Ensure the input string is not empty.
         $input = trim($input);
         if ($input === '') {
-            throw new FormatException('The input string is empty.');
+            throw new FormatException('Cannot parse empty string.');
         }
 
         // Ensure we have a QuantityType.
@@ -1292,9 +1304,7 @@ class Quantity implements Stringable
                 if (!$firstPartSeen) {
                     $sign = -1;
                 } else {
-                    throw new FormatException(
-                        'In a string with multiple quantity parts, only the first may be negative.'
-                    );
+                    throw new FormatException("Invalid parts string: '$input'. Only the first part can be negative.");
                 }
             }
 
@@ -1444,7 +1454,10 @@ class Quantity implements Stringable
     {
         $quantityType = static::getQuantityType();
         if ($quantityType === null) {
-            throw new LogicException('Quantity type cannot be null.');
+            throw new LogicException(
+                'Cannot use parts with ' . new ReflectionClass(static::class)->getShortName() .
+                ". It isn't a registered quantity type."
+            );
         }
         return $quantityType;
     }
@@ -1486,7 +1499,9 @@ class Quantity implements Stringable
             // Check the item type. The ?list<string> annotation is for static analysis only; PHP itself sees
             // ?array, so a non-string can still arrive here at runtime.
             if (!is_string($partUnitSymbol)) {
-                throw new InvalidArgumentException('The array of part unit symbols must contain only strings.');
+                throw new InvalidArgumentException(
+                    'Invalid part unit symbol type: ' . get_debug_type($partUnitSymbol) . '. Must be string.'
+                );
             }
 
             // Get the unit. This will throw if the unit is invalid.
@@ -1500,7 +1515,7 @@ class Quantity implements Stringable
             // Check for duplicate.
             $asciiSymbol = $partUnit->asciiSymbol;
             if (array_key_exists($asciiSymbol, $partUnits)) {
-                throw new DomainException("Duplicate part unit: $asciiSymbol");
+                throw new DomainException("Duplicate part unit: '$asciiSymbol'.");
             }
 
             // Add the unit.

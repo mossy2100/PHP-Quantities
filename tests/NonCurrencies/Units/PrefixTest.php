@@ -263,7 +263,7 @@ final class PrefixTest extends TestCase
     public function testConstructorThrowsForZeroMultiplier(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot create prefix with non-positive multiplier');
+        $this->expectExceptionMessage('Must be positive.');
 
         new Prefix('test', 0.0, PrefixService::GROUP_LARGE_METRIC, 'k');
     }
@@ -274,7 +274,7 @@ final class PrefixTest extends TestCase
     public function testConstructorThrowsForNegativeMultiplier(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot create prefix with non-positive multiplier');
+        $this->expectExceptionMessage('Must be positive.');
 
         new Prefix('test', -1000.0, PrefixService::GROUP_LARGE_METRIC, 'k');
     }
@@ -285,7 +285,7 @@ final class PrefixTest extends TestCase
     public function testConstructorThrowsForMultiplierOfOne(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Cannot create prefix with multiplier equal to one');
+        $this->expectExceptionMessage('Invalid multiplier: 1. Cannot be one.');
 
         new Prefix('test', 1.0, PrefixService::GROUP_LARGE_METRIC, 'k');
     }

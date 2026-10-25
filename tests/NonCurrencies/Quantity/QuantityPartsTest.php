@@ -250,7 +250,7 @@ final class QuantityPartsTest extends TestCase
     public function testFromPartsEmptyThrowsException(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Cannot create a Quantity from an empty parts array.');
+        $this->expectExceptionMessage('Cannot create Quantity from empty parts array.');
 
         Time::fromParts([]);
     }
@@ -261,7 +261,7 @@ final class QuantityPartsTest extends TestCase
     public function testFromPartsSignOnlyThrowsException(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Cannot create a Quantity from an empty parts array.');
+        $this->expectExceptionMessage('Cannot create Quantity from empty parts array.');
 
         Time::fromParts([
             'sign' => 1,
@@ -287,7 +287,7 @@ final class QuantityPartsTest extends TestCase
     public function testFromPartsNonIntegerSignThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The "sign" part must be an integer.');
+        $this->expectExceptionMessage('Invalid sign type: string. Must be int.');
 
         // @phpstan-ignore argument.type
         Time::fromParts([
@@ -302,7 +302,7 @@ final class QuantityPartsTest extends TestCase
     public function testFromPartsNonStringKeyThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The parts array must contain only strings as keys.');
+        $this->expectExceptionMessage('Invalid part unit symbol type: int. Must be string.');
 
         // @phpstan-ignore argument.type
         Length::fromParts([1.0]);
@@ -314,7 +314,7 @@ final class QuantityPartsTest extends TestCase
     public function testFromPartsNonNumericValueThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The parts array must contain only numbers as values.');
+        $this->expectExceptionMessage('Invalid part value type: string. Must be int or float.');
 
         // @phpstan-ignore argument.type
         Length::fromParts([
@@ -328,7 +328,7 @@ final class QuantityPartsTest extends TestCase
     public function testFromPartsNonFiniteValueThrowsException(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('The parts values must be finite numbers.');
+        $this->expectExceptionMessage('Invalid part value: INF. Must be finite.');
 
         Length::fromParts([
             'm' => INF,
@@ -341,7 +341,7 @@ final class QuantityPartsTest extends TestCase
     public function testFromPartsThrowsWhenQuantityTypeIsNull(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Quantity type cannot be null.');
+        $this->expectExceptionMessage("Cannot use parts with Quantity. It isn't a registered quantity type.");
 
         Quantity::fromParts([
             'm' => 1,
@@ -569,7 +569,7 @@ final class QuantityPartsTest extends TestCase
     public function testParsePartsEmptyInputThrowsException(): void
     {
         $this->expectException(FormatException::class);
-        $this->expectExceptionMessage('The input string is empty.');
+        $this->expectExceptionMessage('Cannot parse empty string.');
 
         Time::parseParts('');
     }
@@ -590,7 +590,7 @@ final class QuantityPartsTest extends TestCase
     public function testParsePartsNegativeNonFirstPartThrowsException(): void
     {
         $this->expectException(FormatException::class);
-        $this->expectExceptionMessage('only the first may be negative');
+        $this->expectExceptionMessage('Only the first part can be negative.');
 
         Time::parseParts('1h -30min 45s');
     }
@@ -765,7 +765,7 @@ final class QuantityPartsTest extends TestCase
     public function testToPartsNonStringPartUnitSymbolThrowsException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The array of part unit symbols must contain only strings.');
+        $this->expectExceptionMessage('Invalid part unit symbol type: int. Must be string.');
 
         $time = new Time(60, 's');
         // @phpstan-ignore argument.type

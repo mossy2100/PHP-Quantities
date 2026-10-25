@@ -124,7 +124,7 @@ class Converter
     {
         // Check the dimension is valid.
         if (!DimensionService::isValid($dimension)) {
-            throw new FormatException("Invalid dimension code '$dimension'.");
+            throw new FormatException("Invalid dimension code: '$dimension'.");
         }
 
         // Store the dimension code.

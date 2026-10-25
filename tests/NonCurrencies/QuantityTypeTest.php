@@ -105,7 +105,7 @@ final class QuantityTypeTest extends TestCase
         $qtyType = new QuantityType('test', 'L9', UnregisteredQuantity::class);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not a subclass of');
+        $this->expectExceptionMessage('Must be a subclass of Quantity.');
 
         // @phpstan-ignore assign.propertyType
         $qtyType->class = stdClass::class;
@@ -119,7 +119,7 @@ final class QuantityTypeTest extends TestCase
         $qtyType = new QuantityType('test', 'L9', UnregisteredQuantity::class);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not a subclass of');
+        $this->expectExceptionMessage('Must be a subclass of Quantity.');
 
         $qtyType->class = Quantity::class;
     }
@@ -132,7 +132,7 @@ final class QuantityTypeTest extends TestCase
         $qtyType = new QuantityType('test', 'L9', UnregisteredQuantity::class);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not a subclass of');
+        $this->expectExceptionMessage('Must be a subclass of Quantity.');
 
         // @phpstan-ignore assign.propertyType
         $qtyType->class = 'NonExistent\\FakeClass';
@@ -144,7 +144,7 @@ final class QuantityTypeTest extends TestCase
     public function testConstructorThrowsForInvalidClass(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not a subclass of');
+        $this->expectExceptionMessage('Must be a subclass of Quantity.');
 
         // @phpstan-ignore argument.type
         new QuantityType('test', 'L9', stdClass::class);

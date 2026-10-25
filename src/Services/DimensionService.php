@@ -134,7 +134,7 @@ class DimensionService
     {
         // Check the dimension code is valid.
         if (!self::isValid($dimension)) {
-            throw new FormatException("Invalid dimension code '$dimension'.");
+            throw new FormatException("Invalid dimension code: '$dimension'.");
         }
 
         // Get the matching terms.

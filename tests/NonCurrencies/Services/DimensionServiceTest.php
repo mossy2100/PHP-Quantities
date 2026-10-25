@@ -188,7 +188,7 @@ final class DimensionServiceTest extends TestCase
     public function testDecomposeThrowsForInvalidCode(): void
     {
         $this->expectException(FormatException::class);
-        $this->expectExceptionMessage("Invalid dimension code 'XYZ'");
+        $this->expectExceptionMessage("Invalid dimension code: 'XYZ'.");
 
         DimensionService::decompose('XYZ');
     }

@@ -60,6 +60,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **`toDerived()`, `toSi()` and `toEnglish()` no longer substitute gray or sievert** for `m²/s²`, which may be a
   squared velocity or a specific energy rather than a radiation dose. Becquerel was already excluded. Convert to them
   explicitly, e.g. `$q->to('Gy')`.
+- **Division by zero throws `ArithmeticException` (from `mossy2100/core`) rather than `DivisionByZeroError`
+  (breaking),** in `Quantity::div()` and `recip()`, as in `mossy2100/math`. `Quantity::pow()` with a zero value and a
+  negative exponent also throws `ArithmeticException`, rather than a `DomainException` about a non-finite value.
+- **Constructing a subclass with a unit of the wrong dimension, e.g. `new Mass(5, 'm')`, throws
+  `DimensionMismatchException`** rather than a plain `LogicException`, as `parse()` already did. It's still a
+  `LogicException`, so existing `catch` blocks work.
+- **Exception messages follow the package-wide conventions,** e.g. `Invalid exponent: 10. Must be in the range [-9, 9].`
+  Code that matches on message text may need updating.
 - **`Quantity::approxEqual()` and `Angle::approxEqual()` throw for values that can't be compared (breaking),** like
   `compare()` and `equal()` already did, rather than returning `false`. A Quantity with a different dimension throws
   `DimensionMismatchException`, and a value that isn't a Quantity throws `InvalidArgumentException`. This matches the

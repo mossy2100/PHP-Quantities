@@ -78,7 +78,8 @@ The `Quantity` constructor cannot be called directly — use a specific subclass
 - `$unit` (null|string|UnitInterface) - The unit (symbol string, object, or null for dimensionless).
 
 **Throws:**
-- `LogicException` - If `new Quantity()` is called directly or the wrong subclass constructor is called for the unit's dimension.
+- `LogicException` - If `new Quantity()` is called directly, or the subclass isn't a registered quantity type.
+- [`DimensionMismatchException`](Exceptions/DimensionMismatchException.md) - If the unit's dimension doesn't match the subclass, e.g. `new Mass(5, 'm')`.
 - `DomainException` - If the value is non-finite (INF or NAN).
 - [`UnknownUnitException`](Exceptions/UnknownUnitException.md) - If the unit string contains unknown units.
 - [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If the unit string cannot be parsed.
@@ -523,7 +524,7 @@ Invert this quantity (1/x).
 - `Quantity` - A new Quantity with inverted value and unit.
 
 **Throws:**
-- `DivisionByZeroError` - If value is zero.
+- [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If the value is zero.
 
 ---
 
@@ -622,7 +623,7 @@ When dividing by a scalar, the unit is preserved. When dividing by a Quantity or
 - `Quantity` - Quotient with adjusted units.
 
 **Throws:**
-- `DivisionByZeroError` - If dividing by zero.
+- [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If dividing by zero.
 
 ---
 
@@ -643,7 +644,9 @@ Raise this Quantity to an integer power.
 - `Quantity` - Result with exponentiated units.
 
 **Throws:**
-- `DomainException` - If the exponent is 0.
+- [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If the value is zero and the exponent is negative.
+- `DomainException` - If the exponent is 0 and the Quantity has a unit, or a resulting unit exponent is outside
+  the range -9 to 9.
 
 **Examples:**
 ```php
