@@ -20,14 +20,15 @@ Currency units are registered under the `UnitSystem::Financial` unit system.
 
 Currencies always work from local data. **Nothing is fetched unless you ask for it**, or turn on auto-refresh:
 
-| Data           | Comes from                                                                | Fetched by       |
-| -------------- | ------------------------------------------------------------------------- | ---------------- |
-| Currency units | The data directory if refreshed, else a snapshot bundled with the package | `refreshUnits()` |
-| Exchange rates | The data directory, once fetched                                          | `refreshRates()` |
+| Data           | Comes from                                                                     | Fetched by       |
+| -------------- | ------------------------------------------------------------------------------ | ---------------- |
+| Currency units | The newer of the refreshed copy in the data directory and the bundled snapshot | `refreshUnits()` |
+| Exchange rates | The data directory, once fetched                                               | `refreshRates()` |
 
 So `new Money(5, 'USD')` works out of the box. Until rates have been fetched, converting between currencies fails like
 any conversion with no known path (a `LogicException`). The ISO 4217 list changes rarely, so `refreshUnits()` only needs
-calling occasionally.
+calling occasionally. The bundled snapshot is updated before each release, so a refreshed copy is only used while it's
+newer.
 
 ### Auto-refresh
 
@@ -103,8 +104,8 @@ Initialize the currency service. This only sets the configuration; nothing is fe
 public static function getUnits(): array
 ```
 
-Get the currency unit data: the refreshed copy in the data directory if there is one, otherwise the bundled snapshot.
-Never fetches anything.
+Get the currency unit data: whichever is newer of the refreshed copy in the data directory and the bundled snapshot.
+So after a package upgrade, a newer snapshot replaces an older refresh. Never fetches anything.
 
 **Returns:** `array` - The currency unit data, containing:
 - `whenFetched` (string) - When the data was fetched, in UTC.

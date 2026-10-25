@@ -143,26 +143,39 @@ final class CurrencyServiceTest extends TestCase
     {
         $data = CurrencyService::getUnits();
 
-        $this->assertSame('2026-10-19 20:44:45 UTC', $data['whenFetched']);
+        $this->assertSame(self::snapshotWhenFetched(), $data['whenFetched']);
         $this->assertContains('USD', $data['currencies']);
         $this->assertContains('EUR', $data['currencies']);
         $this->assertSame('XDR', $data['currencies']['Special Drawing Right']);
     }
 
     /**
-     * Test getUnits() prefers the refreshed copy in the data directory over the snapshot.
+     * Test getUnits() returns the refreshed copy in the data directory when it's newer than the snapshot.
      */
-    public function testGetUnitsPrefersRefreshedCopy(): void
+    public function testGetUnitsReturnsRefreshedCopyWhenNewer(): void
     {
         $this->writeDataFile('CurrencyUnits.php', [
-            'whenFetched' => '2026-10-25 00:00:00 UTC',
+            'whenFetched' => '2999-01-01 00:00:00 UTC',
             'currencies' => ['US Dollar' => 'USD'],
         ]);
 
         $data = CurrencyService::getUnits();
 
-        $this->assertSame('2026-10-25 00:00:00 UTC', $data['whenFetched']);
+        $this->assertSame('2999-01-01 00:00:00 UTC', $data['whenFetched']);
         $this->assertSame(['US Dollar' => 'USD'], $data['currencies']);
+    }
+
+    /**
+     * Test getUnits() returns the snapshot when it's newer than the refreshed copy, e.g. after a package upgrade.
+     */
+    public function testGetUnitsReturnsSnapshotWhenNewer(): void
+    {
+        $this->writeDataFile('CurrencyUnits.php', [
+            'whenFetched' => '2000-01-01 00:00:00 UTC',
+            'currencies' => ['US Dollar' => 'USD'],
+        ]);
+
+        $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
     }
 
     /**
@@ -172,7 +185,7 @@ final class CurrencyServiceTest extends TestCase
     {
         file_put_contents($this->dataDir . '/CurrencyUnits.php', '<?php this is not valid php;');
 
-        $this->assertSame('2026-10-19 20:44:45 UTC', CurrencyService::getUnits()['whenFetched']);
+        $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
     }
 
     /**
@@ -182,7 +195,7 @@ final class CurrencyServiceTest extends TestCase
     {
         file_put_contents($this->dataDir . '/CurrencyUnits.php', '<?php return "not an array";');
 
-        $this->assertSame('2026-10-19 20:44:45 UTC', CurrencyService::getUnits()['whenFetched']);
+        $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
     }
 
     /**
@@ -195,7 +208,7 @@ final class CurrencyServiceTest extends TestCase
             'currencies' => ['US Dollar' => 42],
         ]);
 
-        $this->assertSame('2026-10-19 20:44:45 UTC', CurrencyService::getUnits()['whenFetched']);
+        $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
     }
 
     #endregion
@@ -592,7 +605,7 @@ final class CurrencyServiceTest extends TestCase
 
         $this->assertFileDoesNotExist(CurrencyService::getUnitsFilePath());
         $this->assertFileDoesNotExist(CurrencyService::getXmlFilePath());
-        $this->assertSame('2026-10-19 20:44:45 UTC', CurrencyService::getUnits()['whenFetched']);
+        $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
     }
 
     #endregion
@@ -762,6 +775,18 @@ final class CurrencyServiceTest extends TestCase
     private function writeDataFile(string $fileName, array $data): void
     {
         file_put_contents($this->dataDir . '/' . $fileName, '<?php return ' . var_export($data, true) . ';');
+    }
+
+    /**
+     * Get when the bundled snapshot was fetched, so tests don't depend on the snapshot's current contents.
+     *
+     * @return string The snapshot's whenFetched value.
+     */
+    private static function snapshotWhenFetched(): string
+    {
+        $snapshot = require __DIR__ . '/../../../src/Currencies/snapshot/CurrencyUnits.php';
+        assert(is_array($snapshot) && is_string($snapshot['whenFetched']));
+        return $snapshot['whenFetched'];
     }
 
     /**

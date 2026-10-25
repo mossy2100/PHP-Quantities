@@ -114,8 +114,9 @@ class CurrencyService
     /**
      * Get the currency unit data.
      *
-     * Returns the refreshed copy in the data directory if there is one, or otherwise the ISO 4217 snapshot bundled
-     * with the package. Never fetches anything.
+     * Returns whichever is newer of the refreshed copy in the data directory, if there is one, and the ISO 4217
+     * snapshot bundled with the package. So a refresh made before a package upgrade doesn't hide a newer snapshot.
+     * Never fetches anything.
      *
      * @return array{
      *     whenFetched: string,
@@ -125,16 +126,25 @@ class CurrencyService
      */
     public static function getUnits(): array
     {
-        $unitData = self::loadUnits(self::getUnitsFilePath()) ?? self::loadUnits(self::SNAPSHOT_UNITS_PATH);
+        $refreshed = self::loadUnits(self::getUnitsFilePath());
+        $snapshot = self::loadUnits(self::SNAPSHOT_UNITS_PATH);
+
+        // Use the refreshed copy if it's at least as new as the snapshot.
+        if (
+            $refreshed !== null &&
+            ($snapshot === null || strtotime($refreshed['whenFetched']) >= strtotime($snapshot['whenFetched']))
+        ) {
+            return $refreshed;
+        }
 
         // The snapshot is bundled with the package, so this should never happen.
-        if ($unitData === null) {
+        if ($snapshot === null) {
             // @codeCoverageIgnoreStart
             throw new RuntimeException('The bundled currency snapshot is missing or invalid.');
             // @codeCoverageIgnoreEnd
         }
 
-        return $unitData;
+        return $snapshot;
     }
 
     /**
@@ -727,7 +737,9 @@ class CurrencyService
 
             declare(strict_types=1);
             PHP;
-        return $output . "\n\nreturn " . Stringify::stringify($unitData, StringifyOptions::pretty()) . ";\n";
+        // Remove the padding that aligns the '=>' operators, as the coding standard doesn't align them.
+        $array = preg_replace('/ +=> /', ' => ', Stringify::stringify($unitData, StringifyOptions::pretty()));
+        return $output . "\n\nreturn " . $array . ";\n";
     }
 
     /**

@@ -1,0 +1,59 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Refresh the ISO 4217 currency list bundled with the package.
+ *
+ * Fetches the official list from SIX Group and overwrites src/Currencies/snapshot/CurrencyUnits.php if any currency
+ * has been added, removed or renamed. Run it before tagging a release.
+ *
+ * Usage:
+ *   composer refresh-currencies
+ */
+
+declare(strict_types=1);
+
+use Mossy2100\Quantities\Currencies\CurrencyService;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$snapshotPath = __DIR__ . '/../src/Currencies/snapshot/CurrencyUnits.php';
+
+/** @var array{whenFetched: string, currencies: array<string, string>} $old */
+$old = require $snapshotPath;
+
+// Refresh into a temporary data directory, so the usual data directory isn't touched.
+$dataDir = sys_get_temp_dir() . '/mossy2100-quantities-update-' . bin2hex(random_bytes(6));
+CurrencyService::setDataDir($dataDir);
+
+try {
+    $new = CurrencyService::refreshUnits();
+} catch (RuntimeException $e) {
+    fwrite(STDERR, $e->getMessage() . PHP_EOL);
+    exit(1);
+}
+
+// Compare name => code pairs, so a renamed currency shows as removed and added.
+$added = array_diff_assoc($new['currencies'], $old['currencies']);
+$removed = array_diff_assoc($old['currencies'], $new['currencies']);
+
+if ($added === [] && $removed === []) {
+    echo 'The bundled currency list is up to date (' . count($new['currencies']) . ' currencies).' . PHP_EOL;
+} else {
+    if (!copy(CurrencyService::getUnitsFilePath(), $snapshotPath)) {
+        fwrite(STDERR, "Failed to write '$snapshotPath'." . PHP_EOL);
+        exit(1);
+    }
+    echo 'Updated the bundled currency list (' . count($new['currencies']) . ' currencies).' . PHP_EOL;
+    foreach ($added as $name => $code) {
+        echo "  Added:   $code ($name)" . PHP_EOL;
+    }
+    foreach ($removed as $name => $code) {
+        echo "  Removed: $code ($name)" . PHP_EOL;
+    }
+}
+
+// Remove the temporary data directory.
+CurrencyService::deleteUnits();
+CurrencyService::deleteConversions();
+@rmdir($dataDir);

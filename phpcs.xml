@@ -7,7 +7,7 @@
     <file>tests</file>
 
     <!-- Exclude generated data files -->
-    <exclude-pattern>src/Currencies/data</exclude-pattern>
+    <exclude-pattern>src/Currencies/snapshot</exclude-pattern>
 
     <!-- Use Mossy2100 PHP Coding Standard (includes PSR12 + additional rules) -->
     <rule ref="Mossy2100"/>

@@ -30,8 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   `Conversion::inv()` is unchanged, since it inverts the direction of a conversion.
 - **Currencies work from local data, and nothing is fetched unless asked for (breaking).** Previously, loading any unit
   could fetch the ISO 4217 list, and each currency conversion could fetch exchange rates.
-  - Currency units come from the data directory if refreshed, else from an ISO 4217 snapshot bundled with the package,
-    so `new Money(5, 'USD')` works offline with no setup.
+  - Currency units come from an ISO 4217 snapshot bundled with the package, or from the data directory if refreshed
+    more recently, so `new Money(5, 'USD')` works offline with no setup.
   - Exchange rates are fetched only by the new `CurrencyService::refreshRates()`, or by auto-refresh. Until then,
     converting between currencies throws the usual "No conversion path" `LogicException`.
   - **Auto-refresh** is off by default. Turn it on with `init($service, autoRefreshTtl: 3600)` or `setAutoRefreshTtl()`.

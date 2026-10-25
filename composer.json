@@ -79,6 +79,7 @@
         "analyze": "scripts/analyze",
         "test": "scripts/test",
         "coverage": "@php scripts/coverage-check.php",
+        "refresh-currencies": "@php scripts/refresh-currencies",
         "quality": [
             "@fix",
             "@check",
