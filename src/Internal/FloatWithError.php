@@ -127,13 +127,7 @@ class FloatWithError implements Stringable
         // For 1/x, the relative error is the same as the input's, i.e. the absolute error is Δx / x².
         $newError = $this->absoluteError / ($this->value * $this->value);
 
-        // If no error results from the operation (meaning the operand had zero error), and the result is an exact
-        // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
-            $newError += Floats::ulp($newValue) * self::HALF;
-        }
-
-        return new self($newValue, $newError);
+        return self::withRounding($newValue, $newError);
     }
 
     #endregion
@@ -161,13 +155,7 @@ class FloatWithError implements Stringable
         // Absolute errors add.
         $newError = $this->absoluteError + $other->absoluteError;
 
-        // If no error results from the operation (meaning both operands had zero error), and the result is an exact
-        // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
-            $newError += Floats::ulp($newValue) * self::HALF;
-        }
-
-        return new self($newValue, $newError);
+        return self::withRounding($newValue, $newError);
     }
 
     /**
@@ -191,13 +179,7 @@ class FloatWithError implements Stringable
         // Absolute errors add.
         $newError = $this->absoluteError + $other->absoluteError;
 
-        // If no error results from the operation (meaning both operands had zero error), and the result is an exact
-        // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
-            $newError += Floats::ulp($newValue) * self::HALF;
-        }
-
-        return new self($newValue, $newError);
+        return self::withRounding($newValue, $newError);
     }
 
     /**
@@ -222,13 +204,7 @@ class FloatWithError implements Stringable
         // when a value is zero (where the relative error is infinite).
         $newError = abs($other->value) * $this->absoluteError + abs($this->value) * $other->absoluteError;
 
-        // If no error results from the operation (meaning both operands had zero error), and the result is an exact
-        // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
-            $newError += Floats::ulp($newValue) * self::HALF;
-        }
-
-        return new self($newValue, $newError);
+        return self::withRounding($newValue, $newError);
     }
 
     /**
@@ -260,13 +236,7 @@ class FloatWithError implements Stringable
         $newError = $this->absoluteError / abs($other->value)
             + abs($this->value) * $other->absoluteError / ($other->value * $other->value);
 
-        // If no error results from the operation (meaning both operands had zero error), and the result is an exact
-        // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
-            $newError += Floats::ulp($newValue) * self::HALF;
-        }
-
-        return new self($newValue, $newError);
+        return self::withRounding($newValue, $newError);
     }
 
     #endregion
@@ -300,13 +270,7 @@ class FloatWithError implements Stringable
             $newError = abs($exponent) * abs($this->value) ** ($exponent - 1) * $this->absoluteError;
         }
 
-        // If no error results from the operation (meaning the operand had zero error), and the result is an exact
-        // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
-            $newError += Floats::ulp($newValue) * self::HALF;
-        }
-
-        return new self($newValue, $newError);
+        return self::withRounding($newValue, $newError);
     }
 
     #endregion
@@ -321,6 +285,29 @@ class FloatWithError implements Stringable
     public function __toString(): string
     {
         return sprintf('%.15g ± %.2e', $this->value, $this->absoluteError);
+    }
+
+    #endregion
+
+    #region Helper methods
+
+    /**
+     * Create the result of an operation, adding the rounding error of the result to the propagated error.
+     *
+     * If no error results from the operation (meaning the operands had zero error), and the result is an exact
+     * integer, don't add any rounding error. Otherwise, add half the ULP of the result.
+     *
+     * @param float $value The result value.
+     * @param float $error The error propagated from the operands.
+     * @return self A new FloatWithError with the value and total error.
+     */
+    private static function withRounding(float $value, float $error): self
+    {
+        if ($error > 0 || !Floats::isSafeInt($value)) {
+            $error += Floats::ulp($value) * self::HALF;
+        }
+
+        return new self($value, $error);
     }
 
     #endregion
