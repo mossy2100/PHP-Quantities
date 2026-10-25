@@ -149,6 +149,24 @@ final class UnitServiceTest extends TestCase
     }
 
     /**
+     * Test getBySymbol() finds every registered unit by each of its symbols.
+     */
+    public function testGetBySymbolFindsEveryUnitBySymbol(): void
+    {
+        $nSymbols = 0;
+        foreach (UnitService::getAll() as $unit) {
+            $symbols = $unit->symbols;
+            $this->assertIsArray($symbols);
+            foreach (array_keys($symbols) as $symbol) {
+                $this->assertSame($unit, UnitService::getBySymbol($symbol), "Symbol '$symbol'.");
+            }
+            $nSymbols += count($symbols);
+        }
+
+        $this->assertCount($nSymbols, UnitService::getAllSymbols());
+    }
+
+    /**
      * Test getBySymbol() returns null for unknown symbol.
      */
     public function testGetBySymbolReturnsNullForUnknown(): void
@@ -557,8 +575,33 @@ final class UnitServiceTest extends TestCase
 
             $this->assertTrue($result);
             $this->assertSame('rpx', UnitService::getAll()[$name]->asciiSymbol);
+            $this->assertSame($replacement, UnitService::getBySymbol('rpx'));
+            $this->assertNull(UnitService::getBySymbol('rpt'));
         } finally {
             UnitService::remove($name);
+        }
+    }
+
+    /**
+     * Test add() doesn't register any of a unit's symbols when one of them conflicts.
+     */
+    public function testAddWithConflictingSymbolRegistersNoSymbols(): void
+    {
+        // The unit's Unicode symbol 'm' conflicts with the meter, but its ASCII symbol 'cft' doesn't.
+        $unit = new Unit(
+            name: 'conflicttest',
+            asciiSymbol: 'cft',
+            dimension: 'L',
+            systems: [UnitSystem::Custom],
+            unicodeSymbol: 'm'
+        );
+
+        try {
+            UnitService::add($unit);
+            $this->fail('Expected DomainException.');
+        } catch (DomainException) {
+            $this->assertNull(UnitService::getBySymbol('cft'));
+            $this->assertSame('meter', UnitService::getBySymbol('m')?->name);
         }
     }
 
@@ -667,6 +710,25 @@ final class UnitServiceTest extends TestCase
         UnitService::remove($unit);
 
         $this->assertFalse(UnitService::has('removetest'));
+        $this->assertNull(UnitService::getBySymbol('rmt'));
+    }
+
+    /**
+     * Test remove() frees the unit's symbols, so another unit can use them.
+     */
+    public function testRemoveFreesSymbols(): void
+    {
+        $first = new Unit(name: 'freetestfirst', asciiSymbol: 'frt', dimension: 'L', systems: [UnitSystem::Custom]);
+        UnitService::add($first);
+        UnitService::remove($first);
+
+        $second = new Unit(name: 'freetestsecond', asciiSymbol: 'frt', dimension: 'L', systems: [UnitSystem::Custom]);
+        try {
+            $this->assertTrue(UnitService::add($second));
+            $this->assertSame($second, UnitService::getBySymbol('frt'));
+        } finally {
+            UnitService::remove($second);
+        }
     }
 
     /**
@@ -755,6 +817,8 @@ final class UnitServiceTest extends TestCase
 
             $this->assertSame(0, UnitService::count());
             $this->assertEmpty(UnitService::getAll());
+            $this->assertEmpty(UnitService::getAllSymbols());
+            $this->assertNull(UnitService::getBySymbol('m'));
         } finally {
             UnitService::reset();
         }

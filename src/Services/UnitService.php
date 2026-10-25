@@ -26,6 +26,14 @@ class UnitService
      */
     private static ?array $units = null;
 
+    /**
+     * Index of the registered units by symbol, including prefixed variants.
+     * Keys are unit symbols.
+     *
+     * @var array<string, Unit>
+     */
+    private static array $unitsBySymbol = [];
+
     #endregion
 
     #region Lookup methods
@@ -55,16 +63,7 @@ class UnitService
     public static function getBySymbol(string $symbol): ?Unit
     {
         self::init();
-        assert(self::$units !== null);
-
-        return array_find(
-            self::$units,
-            static function (Unit $unit) use ($symbol): bool {
-                $symbols = $unit->symbols;
-                assert(is_array($symbols));
-                return in_array($symbol, array_keys($symbols), true);
-            }
-        );
+        return self::$unitsBySymbol[$symbol] ?? null;
     }
 
     /**
@@ -118,22 +117,7 @@ class UnitService
     public static function getAllSymbols(): array
     {
         self::init();
-        assert(self::$units !== null);
-
-        if (empty(self::$units)) {
-            return [];
-        }
-
-        // Gather symbol keys from each unit.
-        $symbolLists = [];
-        foreach (self::$units as $unit) {
-            $symbols = $unit->symbols;
-            assert(is_array($symbols));
-            $symbolLists[] = array_keys($symbols);
-        }
-
-        /** @var list<string> */
-        return array_merge(...$symbolLists);
+        return array_map(strval(...), array_keys(self::$unitsBySymbol));
     }
 
     #endregion
@@ -161,27 +145,26 @@ class UnitService
                 return false;
             }
 
-            // Replace the existing unit. Remove it first, so the call to getAllSymbols() doesn't include the
-            // symbols from this unit.
+            // Replace the existing unit. Remove it first, so its symbols don't count as conflicts.
             self::remove($unit);
         }
-
-        // Get all existing symbols.
-        $existingSymbols = self::getAllSymbols();
 
         // Check if the new unit's symbols conflict with existing ones.
         $symbols = $unit->symbols;
         assert(is_array($symbols));
         foreach ($symbols as $symbol => $details) {
-            if (in_array($symbol, $existingSymbols, true)) {
+            if (isset(self::$unitsBySymbol[$symbol])) {
                 throw new DomainException(
                     "Cannot add unit '$unit->name'. Its symbol '$symbol' is already used by another unit."
                 );
             }
         }
 
-        // All good, add the unit to the registry.
+        // All good, add the unit to the registry and the symbol index.
         self::$units[$unit->name] = $unit;
+        foreach ($symbols as $symbol => $details) {
+            self::$unitsBySymbol[$symbol] = $unit;
+        }
         return true;
     }
 
@@ -228,11 +211,20 @@ class UnitService
             return;
         }
 
-        // Get the unit name.
+        // Get the unit name. If it isn't registered, do nothing.
         $name = is_string($unit) ? $unit : $unit->name;
+        $registeredUnit = self::$units[$name] ?? null;
+        if ($registeredUnit === null) {
+            return;
+        }
 
-        // Remove the unit from the registry.
+        // Remove the unit from the registry and the symbol index.
         unset(self::$units[$name]);
+        $symbols = $registeredUnit->symbols;
+        assert(is_array($symbols));
+        foreach ($symbols as $symbol => $details) {
+            unset(self::$unitsBySymbol[$symbol]);
+        }
         self::clearParseCaches();
     }
 
@@ -245,6 +237,7 @@ class UnitService
     public static function removeAll(): void
     {
         self::$units = [];
+        self::$unitsBySymbol = [];
         self::clearParseCaches();
     }
 
@@ -256,6 +249,7 @@ class UnitService
     public static function reset(): void
     {
         self::$units = null;
+        self::$unitsBySymbol = [];
         self::clearParseCaches();
     }
 
