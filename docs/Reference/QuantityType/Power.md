@@ -2,8 +2,7 @@
 
 Represents power quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `Power` class handles power measurements.
 
 ## Conversion definitions
 
-| From | To              | Factor |
-| ---- | --------------- | ------ |
-| `W`  | `kg*m2*s-3`     | 1      |
+| From | To          | Factor |
+| ---- | ----------- | ------ |
+| `W`  | `kg*m2*s-3` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `Power` class handles power measurements.
 
 The *watt* is defined as:
 
-```
+```text
 W = kg·m²·s⁻³ = J/s = V·A
 ```
 

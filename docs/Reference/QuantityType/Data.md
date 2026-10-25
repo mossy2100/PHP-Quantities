@@ -2,14 +2,14 @@
 
 Represents data/information quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Data` class handles digital information measurements in bits and bytes, supporting both metric (decimal) and binary prefixes.
+The `Data` class handles digital information measurements in bits and bytes, supporting both metric (decimal) and binary
+prefixes.
 
 ---
 
@@ -32,7 +32,8 @@ The `Data` class handles digital information measurements in bits and bytes, sup
 
 ## Prefixes
 
-Data units support both large metric prefixes (*kilo* and above), and binary (IEC) prefixes (*kibi*, *mebi*, etc.). See [Prefixes](Prefixes.md) for the full list.
+Data units support both large metric prefixes (*kilo* and above), and binary (IEC) prefixes (*kibi*, *mebi*, etc.). See
+[Prefixes](Prefixes.md) for the full list.
 
 ---
 

@@ -8,7 +8,9 @@ Utility class for working with physical dimension codes.
 
 ## Overview
 
-The `DimensionService` provides tools for parsing, composing, validating, and transforming dimension codes. Dimension codes represent fundamental physical dimensions using single-letter codes with optional exponents, based on the ISQ (International System of Quantities). For example, `'MLT-2'` represents mass x length x time^-2 (force).
+The `DimensionService` provides tools for parsing, composing, validating, and transforming dimension codes. Dimension
+codes represent fundamental physical dimensions using single-letter codes with optional exponents, based on the ISQ
+(International System of Quantities). For example, `'MLT-2'` represents mass x length x time^-2 (force).
 
 All methods are static. The class has no constructor or instance state.
 
@@ -18,7 +20,8 @@ All methods are static. The class has no constructor or instance state.
 
 ### `DIMENSION_CODES`
 
-Maps single-letter dimension codes to their quantity type name and base unit symbols (SI, English, or common). See [Dimensions and Base Units](../../Concepts/DimensionsAndBaseUnits.md).
+Maps single-letter dimension codes to their quantity type name and base unit symbols (SI, English, or common). See
+[Dimensions and Base Units](../../Concepts/DimensionsAndBaseUnits.md).
 
 ---
 
@@ -82,7 +85,8 @@ $terms = DimensionService::decompose('');
 public static function compose(array $dimTerms): string
 ```
 
-Compose an associative array of dimension terms into a normalized dimension code string. Terms are automatically sorted into canonical order.
+Compose an associative array of dimension terms into a normalized dimension code string. Terms are automatically sorted
+into canonical order.
 
 **Parameters:** `array<string, int> $dimTerms`
 
@@ -107,7 +111,9 @@ $dim = DimensionService::compose([]);
 public static function lessThanOrEqual(string $dimension1, string $dimension2): bool
 ```
 
-Check if `$dimension1` is a subset of `$dimension2`. Returns true if every dimension term in `$dimension1` exists in `$dimension2` with the same sign and an equal or smaller absolute exponent. Used by `toDerived()` to determine whether a unit's dimension fits inside a quantity's dimension.
+Check if `$dimension1` is a subset of `$dimension2`. Returns true if every dimension term in `$dimension1` exists in
+`$dimension2` with the same sign and an equal or smaller absolute exponent. Used by `toDerived()` to determine whether a
+unit's dimension fits inside a quantity's dimension.
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if either dimension code is invalid.
 
@@ -130,7 +136,8 @@ DimensionService::lessThanOrEqual('', 'MLT-2');         // true (empty is subset
 public static function sub(string $dimension1, string $dimension2): string
 ```
 
-Subtract `$dimension2` from `$dimension1`. Subtracts each exponent in `$dimension2` from the corresponding exponent in `$dimension1`. Terms that cancel to zero are removed. Terms in `$dimension2` that are not in `$dimension1` are ignored.
+Subtract `$dimension2` from `$dimension1`. Subtracts each exponent in `$dimension2` from the corresponding exponent in
+`$dimension1`. Terms that cancel to zero are removed. Terms in `$dimension2` that are not in `$dimension1` are ignored.
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if either dimension code is invalid.
 
@@ -176,7 +183,8 @@ $dim = DimensionService::pow('MLT-2', 2);
 public static function normalize(string $dimension): string
 ```
 
-Normalize a dimension code to canonical form by decomposing and recomposing it. This sorts terms into canonical order and removes explicit exponents of 1.
+Normalize a dimension code to canonical form by decomposing and recomposing it. This sorts terms into canonical order
+and removes explicit exponents of 1.
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if the dimension code is invalid.
 
@@ -215,7 +223,8 @@ DimensionService::letterToInt('X');         // throws FormatException
 public static function countUnits(string $dimension): int
 ```
 
-Count the total number of base unit slots in a dimension code. Each dimension term contributes the absolute value of its exponent.
+Count the total number of base unit slots in a dimension code. Each dimension term contributes the absolute value of its
+exponent.
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if the dimension code is invalid.
 
@@ -236,7 +245,8 @@ DimensionService::countUnits('');       // 0 (dimensionless)
 public static function getBaseUnitTermSymbol(string $dimensionLetterCode, bool $si = true): string
 ```
 
-Get the base unit symbol for a dimension letter code. When `$si` is true, returns the SI base unit symbol. When false, returns the English base unit symbol if one exists, otherwise falls back to the SI or common base unit.
+Get the base unit symbol for a dimension letter code. When `$si` is true, returns the SI base unit symbol. When false,
+returns the English base unit symbol if one exists, otherwise falls back to the SI or common base unit.
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if the dimension code letter is invalid.
 
@@ -256,7 +266,8 @@ DimensionService::getBaseUnitTermSymbol('D', true);   // 'B' (common base unit)
 public static function getBaseUnitTerm(string $dimensionLetterCode, bool $si = true): UnitTerm
 ```
 
-Get the base unit as a `UnitTerm` object for a dimension letter code. Delegates to `getBaseUnitTermSymbol()` and parses the result.
+Get the base unit as a `UnitTerm` object for a dimension letter code. Delegates to `getBaseUnitTermSymbol()` and parses
+the result.
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if the dimension code letter is invalid.
 
@@ -274,7 +285,8 @@ $term = DimensionService::getBaseUnitTerm('L', false);
 public static function getBaseCompoundUnit(string $dimension, bool $si = true): CompoundUnit
 ```
 
-Convert a dimension code to a `CompoundUnit` composed of SI or English base units. Each dimension term is converted to a `UnitTerm` with the appropriate exponent.
+Convert a dimension code to a `CompoundUnit` composed of SI or English base units. Each dimension term is converted to a
+`UnitTerm` with the appropriate exponent.
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if the dimension code is invalid.
 

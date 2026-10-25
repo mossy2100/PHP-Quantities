@@ -2,16 +2,17 @@
 
 Exception thrown when a unit symbol cannot be resolved to a known unit.
 
-**Namespace:** `Mossy2100\Quantities\Exceptions`
-**Extends:** `DomainException`
+**Namespace:** `Mossy2100\Quantities\Exceptions` **Extends:** `DomainException`
 
 ---
 
 ## Overview
 
-`UnknownUnitException` is thrown when a string is provided as a unit symbol but no matching unit is found in the unit registry. This may indicate a typo, an unsupported unit, or that the required unit has not been loaded.
+`UnknownUnitException` is thrown when a string is provided as a unit symbol but no matching unit is found in the unit
+registry. This may indicate a typo, an unsupported unit, or that the required unit has not been loaded.
 
-Because it extends `DomainException`, existing code that catches `DomainException` will continue to work. The specific exception type allows callers to distinguish unknown-unit errors from other domain errors.
+Because it extends `DomainException`, existing code that catches `DomainException` will continue to work. The specific
+exception type allows callers to distinguish unknown-unit errors from other domain errors.
 
 ---
 
@@ -27,10 +28,10 @@ public function __construct(
 ```
 
 **Parameters:**
-- `$unit` (string) — The unrecognised unit symbol.
-- `$message` (string) — Optional custom message. If empty, a default message is generated: `"Unknown unit: '{$unit}'."`.
-- `$code` (int) — The exception code.
-- `$previous` (?Throwable) — The previous throwable for exception chaining.
+- `$unit` (string) - The unrecognised unit symbol.
+- `$message` (string) - Optional custom message. If empty, a default message is generated: `"Unknown unit: '{$unit}'."`.
+- `$code` (int) - The exception code.
+- `$previous` (?Throwable) - The previous throwable for exception chaining.
 
 ---
 
@@ -48,12 +49,12 @@ The unit symbol that could not be resolved.
 
 ## Where it is thrown
 
-| Class                  | Method                  | Condition                                          |
-|------------------------|-------------------------|----------------------------------------------------|
-| `Unit`                 | `parse()`               | Symbol not found in the unit registry.             |
-| `UnitTerm`             | `__construct()`         | Unit symbol string not found in the unit registry. |
-| `UnitTerm`             | `parse()`               | Prefixed symbol not found in the unit registry.    |
-| `Quantity`             | `validatePartUnits()`   | A part unit symbol is not found in the registry.   |
+| Class      | Method                | Condition                                          |
+| ---------- | --------------------- | -------------------------------------------------- |
+| `Unit`     | `parse()`             | Symbol not found in the unit registry.             |
+| `UnitTerm` | `__construct()`       | Unit symbol string not found in the unit registry. |
+| `UnitTerm` | `parse()`             | Prefixed symbol not found in the unit registry.    |
+| `Quantity` | `validatePartUnits()` | A part unit symbol is not found in the registry.   |
 
 ---
 
@@ -75,7 +76,7 @@ try {
 
 ## See also
 
-- **[DimensionMismatchException](DimensionMismatchException.md)** — Related exception for dimension mismatches.
-- **[Unit](../Units/Unit.md)** — Unit class with `parse()` method.
-- **[UnitTerm](../Units/UnitTerm.md)** — UnitTerm class with `parse()` method.
-- **[UnitService](../Services/UnitService.md)** — Unit registry and loading.
+- **[DimensionMismatchException](DimensionMismatchException.md)** - Related exception for dimension mismatches.
+- **[Unit](../Units/Unit.md)** - Unit class with `parse()` method.
+- **[UnitTerm](../Units/UnitTerm.md)** - UnitTerm class with `parse()` method.
+- **[UnitService](../Services/UnitService.md)** - Unit registry and loading.

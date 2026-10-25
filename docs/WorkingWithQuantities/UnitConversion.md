@@ -4,7 +4,10 @@
 
 ## Overview
 
-The conversion system automatically finds paths between units using a graph-based algorithm. Only a minimum number of conversions are defined by the package; others are discovered automatically. All necessary conversions for the supported units are predefined. Great care has been taken to ensure conversions between any two compatible unit pairs are as accurate as possible, within the usual constraints of floating point numbers.
+The conversion system automatically finds paths between units using a graph-based algorithm. Only a minimum number of
+conversions are defined by the package; others are discovered automatically. All necessary conversions for the supported
+units are predefined. Great care has been taken to ensure conversions between any two compatible unit pairs are as
+accurate as possible, within the usual constraints of floating point numbers.
 
 ```php
 // Direct conversion
@@ -38,7 +41,8 @@ echo $weight->to('st');   // 11.023113... st
 
 ## Base and derived units
 
-Derived units like *newtons*, *joules*, and *watts* are shorthand for combinations of base units. You can convert to base units with `toBase()`, or substitute derived units for base-unit combinations with `toDerived()`.
+Derived units like *newtons*, *joules*, and *watts* are shorthand for combinations of base units. You can convert to
+base units with `toBase()`, or substitute derived units for base-unit combinations with `toDerived()`.
 
 ```php
 use Mossy2100\Quantities\Quantity;
@@ -61,7 +65,8 @@ echo $lbf->toBase();  // 32.174049... lb*ft/s2
 
 ## Auto-prefixing
 
-The `autoPrefix()` method selects the best engineering SI prefix (*kilo*, *mega*, *milli*, etc.) to keep the numeric value readable:
+The `autoPrefix()` method selects the best engineering SI prefix (*kilo*, *mega*, *milli*, etc.) to keep the numeric
+value readable:
 
 ```php
 use Mossy2100\Quantities\QuantityType\Length;
@@ -79,7 +84,8 @@ $wavelength = new Length(0.00000055, 'm');
 echo $wavelength->autoPrefix();  // 550 nm
 ```
 
-The `toSi()` method converts to SI units and simplifies (e.g., `kg*m/s2` becomes `N`). Chain with `autoPrefix()` to also apply the best engineering prefix:
+The `toSi()` method converts to SI units and simplifies (e.g., `kg*m/s2` becomes `N`). Chain with `autoPrefix()` to also
+apply the best engineering prefix:
 
 ```php
 use Mossy2100\Quantities\QuantityType\Energy;
@@ -93,7 +99,8 @@ echo $energy->toSi()->autoPrefix();  // 1.05506 kJ
 
 ## Temperature conversions
 
-Most conversions involve a simple multiplication. The built-in `Temperature` class uses affine transformations (y = mx + k) to handle offset scales:
+Most conversions involve a simple multiplication. The built-in `Temperature` class uses affine transformations (y = mx +
+k) to handle offset scales:
 
 ```php
 use Mossy2100\Quantities\QuantityType\Temperature;
@@ -110,6 +117,7 @@ echo $fahrenheit->to('degC');  // 100 degC
 
 ## See also
 
-- **[Quantity — Transformation Methods](../Reference/Quantity.md#transformation-methods)** — Full reference for `to()`, `toSi()`, `toSiBase()`, `toEnglish()`, `toEnglishBase()`, `toBase()`, `toDerived()`, `merge()`, and `autoPrefix()`.
-- **[Units](../Concepts/Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
-- **[Arithmetic Operations](ArithmeticOperations.md)** — Multiply and divide to create compound units.
+- **[Quantity - Transformation Methods](../Reference/Quantity.md#transformation-methods)** - Full reference for `to()`, `toSi()`, `toSiBase()`, `toEnglish()`,
+  `toEnglishBase()`, `toBase()`, `toDerived()`, `merge()`, and `autoPrefix()`.
+- **[Units](../Concepts/Units.md)** - Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
+- **[Arithmetic Operations](ArithmeticOperations.md)** - Multiply and divide to create compound units.

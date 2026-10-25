@@ -2,8 +2,7 @@
 
 Represents energy quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -26,12 +25,12 @@ The `Energy` class handles energy measurements across SI, scientific, and common
 
 ## Conversion definitions
 
-| From  | To             | Factor           |
-| ----- | -------------- | ---------------- |
-| `J`   | `kg*m2*s-2`    | 1                |
-| `eV`  | `J`            | 1.602176634e-19  |
-| `cal` | `J`            | 4.184            |
-| `Btu` | `J`            | 1055.05585262    |
+| From  | To          | Factor          |
+| ----- | ----------- | --------------- |
+| `J`   | `kg*m2*s-2` | 1               |
+| `eV`  | `J`         | 1.602176634e-19 |
+| `cal` | `J`         | 4.184           |
+| `Btu` | `J`         | 1055.05585262   |
 
 ---
 
@@ -39,7 +38,7 @@ The `Energy` class handles energy measurements across SI, scientific, and common
 
 The *joule* is defined in terms of SI base units:
 
-```
+```text
 J = kg·m²·s⁻²
 ```
 

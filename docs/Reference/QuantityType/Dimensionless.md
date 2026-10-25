@@ -2,14 +2,14 @@
 
 Represents dimensionless quantities (ratios, percentages, concentrations).
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Dimensionless` class handles quantities that have no physical dimension, such as ratios, percentages, and concentrations.
+The `Dimensionless` class handles quantities that have no physical dimension, such as ratios, percentages, and
+concentrations.
 
 ---
 
@@ -40,7 +40,7 @@ The `Dimensionless` class handles quantities that have no physical dimension, su
 
 ## Conversion chain
 
-```
+```text
 1 (scalar)
   └── × 100 → % (percentage)
               └── × 10 → ‰ (parts per thousand)
@@ -109,7 +109,7 @@ $total = $discount->add($additional);     // 30%
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::fineStructure()`** (α) — Fine-structure constant, 7.2973525643 × 10⁻³.
+- **`PhysicalConstant::fineStructure()`** (α) - Fine-structure constant, 7.2973525643 × 10⁻³.
 
 ---
 

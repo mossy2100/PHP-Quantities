@@ -2,14 +2,14 @@
 
 Represents temperature quantities with special handling for offset-based conversions.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Temperature` class handles the complexity of temperature conversions, which differ from other quantity types because Celsius and Fahrenheit are offset from absolute zero.
+The `Temperature` class handles the complexity of temperature conversions, which differ from other quantity types
+because Celsius and Fahrenheit are offset from absolute zero.
 
 ---
 
@@ -22,8 +22,7 @@ The `Temperature` class handles the complexity of temperature conversions, which
 | fahrenheit | `degF`       | `°F`           |            | Imperial, US Customary |
 | rankine    | `degR`       | `°R`           |            | Imperial, US Customary |
 
-**Note:** Conversions to or from Celsius and Fahrenheit include offsets, which are defined in
-[Offset definitions](#offset-definitions).
+**Note:** Conversions to or from Celsius and Fahrenheit include offsets, which are defined in [Offset definitions](#offset-definitions).
 
 ---
 
@@ -54,7 +53,7 @@ See [`Quantity::getOffsetDefinitions()`](../Quantity.md#getoffsetdefinitions).
 ## Constants
 
 | Constant             | Type  | Value    | Description                             |
-|----------------------|-------|----------|-----------------------------------------|
+| -------------------- | ----- | -------- | --------------------------------------- |
 | `CELSIUS_OFFSET`     | float | `273.15` | Offset to convert Celsius to Kelvin     |
 | `FAHRENHEIT_OFFSET`  | float | `459.67` | Offset to convert Fahrenheit to Rankine |
 | `RANKINE_PER_KELVIN` | float | `1.8`    | Factor to convert Kelvin to Rankine     |
@@ -66,14 +65,14 @@ See [`Quantity::getOffsetDefinitions()`](../Quantity.md#getoffsetdefinitions).
 The package supports four temperature scales:
 
 | Scale      | Symbol   | Zero Point             | Unit System |
-|------------|----------|------------------------|-------------|
+| ---------- | -------- | ---------------------- | ----------- |
 | Kelvin     | K        | Absolute zero          | SI          |
 | Celsius    | °C, degC | 273.15 K below Kelvin  | SI          |
 | Rankine    | °R, degR | Absolute zero          | Imperial/US |
 | Fahrenheit | °F, degF | 459.67°R below Rankine | Imperial/US |
 
-**Absolute scales** (Kelvin, Rankine) start at absolute zero.
-**Offset scales** (Celsius, Fahrenheit) have arbitrary zero points.
+**Absolute scales** (Kelvin, Rankine) start at absolute zero. **Offset scales** (Celsius, Fahrenheit) have arbitrary
+zero points.
 
 ---
 
@@ -108,24 +107,26 @@ The conversion process:
 2. **Convert between systems** - Multiply or divide by 1.8 if crossing between kelvin and Rankine.
 3. **Convert to destination** - Subtract the offset if ending in Celsius or Fahrenheit.
 
-Where the combined offset is a whole number, as for Celsius to Fahrenheit, the result is computed as `1.8 × x + 32`,
-so whole-number temperatures convert exactly.
+Where the combined offset is a whole number, as for Celsius to Fahrenheit, the result is computed as `1.8 × x + 32`, so
+whole-number temperatures convert exactly.
 
 ### Important notes
 
-- **Offsets only apply to absolute temperatures** — When converting compound units like `J/°C` to `J/K`, only the scale factor applies, not the offset. This is physically correct because such quantities represent rates of change, not absolute temperatures:
+- **Offsets only apply to absolute temperatures** - When converting compound units like `J/°C` to `J/K`, only the scale
+  factor applies, not the offset. This is physically correct because such quantities represent rates of change, not
+  absolute temperatures:
 
 ```php
-// Absolute temperature — offset is applied.
+// Absolute temperature - offset is applied.
 $t = new Temperature(20, 'degC');
 echo $t->to('K');  // 293.15 K (not 20 K)
 
-// Rate of change — only scale factor, no offset.
+// Rate of change - only scale factor, no offset.
 $rate = Quantity::create(5, 'J/K');
 echo $rate->to('J/degR');  // 2.777778 J/°R
 ```
 
-- **Prefixed Kelvin is supported** — Units like `mK` (*millikelvin*) work correctly:
+- **Prefixed Kelvin is supported** - Units like `mK` (*millikelvin*) work correctly:
 
 ```php
 $cmbr = new Temperature(2725, 'mK');
@@ -135,10 +136,12 @@ echo $cmbr->to('degC');  // -270.425 °C
 
 ### Arithmetic
 
-Before calling arithmetic methods that involve multiplication or division (e.g. `recip()`, `mul()`, `div()`), convert offset-scale temperatures to an absolute scale first using `toAbsoluteScale()`. Without this, the result is physically meaningless because Celsius and Fahrenheit have arbitrary zero points.
+Before calling arithmetic methods that involve multiplication or division (e.g. `recip()`, `mul()`, `div()`), convert
+offset-scale temperatures to an absolute scale first using `toAbsoluteScale()`. Without this, the result is physically
+meaningless because Celsius and Fahrenheit have arbitrary zero points.
 
 ```php
-// "Twice as hot" as 20 °C — must work in Kelvin.
+// "Twice as hot" as 20 °C - must work in Kelvin.
 $t = new Temperature(20, 'degC');           // 20 °C = 293.15 K
 $doubled = $t->toAbsoluteScale()->mul(2);   // 586.3 K ≈ 313.15 °C
 
@@ -160,10 +163,11 @@ public function toAbsoluteScale(): static
 
 Convert the temperature to its corresponding absolute scale unit.
 
-Celsius converts to Kelvin; Fahrenheit converts to Rankine. Kelvin and Rankine are cloned with the same value. Always returns a new object. Useful when a value measured from absolute zero is needed, e.g. before ratio calculations or multiplication.
+Celsius converts to Kelvin; Fahrenheit converts to Rankine. Kelvin and Rankine are cloned with the same value. Always
+returns a new object. Useful when a value measured from absolute zero is needed, e.g. before ratio calculations or
+multiplication.
 
-**Returns:**
-- `static` — The equivalent temperature in `K` or `°R`.
+**Returns:** `static` - The equivalent temperature in `K` or `°R`.
 
 **Examples:**
 ```php
@@ -205,10 +209,12 @@ $hot->approxEqual($boiling);  // true
 $kelvin = Temperature::convert(25, 'degC', 'K');  // 298.15
 ```
 
-**Note on arithmetic:** `add()` and `sub()` on Temperature values are not generally meaningful because Celsius and Fahrenheit use offset scales. For differences between temperatures, convert both operands to Kelvin (or Rankine) first, then subtract.
+**Note on arithmetic:** `add()` and `sub()` on Temperature values are not generally meaningful because Celsius and
+Fahrenheit use offset scales. For differences between temperatures, convert both operands to Kelvin (or Rankine) first,
+then subtract.
 
 ---
 
 ## See also
 
-- **[Quantity](../Quantity.md)** — Base class documentation.
+- **[Quantity](../Quantity.md)** - Base class documentation.

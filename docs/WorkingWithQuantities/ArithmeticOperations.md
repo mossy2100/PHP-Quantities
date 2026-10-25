@@ -4,7 +4,8 @@
 
 ## Overview
 
-Quantities support a full set of arithmetic operations. All operations return new Quantity objects — the original is never modified.
+Quantities support a full set of arithmetic operations. All operations return new Quantity objects - the original is
+never modified.
 
 ```php
 use Mossy2100\Quantities\QuantityType\Length;
@@ -26,7 +27,8 @@ For full method signatures and parameter details, see the [Quantity reference](.
 
 ## add() and sub()
 
-These accept a single Quantity argument with the same dimension. The result uses the unit of the calling object, and units are automatically converted:
+These accept a single Quantity argument with the same dimension. The result uses the unit of the calling object, and
+units are automatically converted:
 
 ```php
 $a = new Length(100, 'm');
@@ -48,11 +50,12 @@ $a->add(new Mass(5, 'kg'));  // DimensionMismatchException
 
 ## mul() and div()
 
-These accept a scalar, a Quantity, or a unit (as a string or `UnitInterface` object). The behaviour depends on what you pass:
+These accept a scalar, a Quantity, or a unit (as a string or `UnitInterface` object). The behaviour depends on what you
+pass:
 
-- **Scalar** — scales the value without changing the unit.
-- **Quantity** — multiplies/divides values and combines units.
-- **Unit** — multiplies/divides units.
+- **Scalar** - scales the value without changing the unit.
+- **Quantity** - multiplies/divides values and combines units.
+- **Unit** - multiplies/divides units.
 
 ```php
 use Mossy2100\Quantities\QuantityType\Length;
@@ -81,7 +84,8 @@ Division by zero throws an `ArithmeticException` (from `Mossy2100\Core\Exception
 
 ### Same-dimension multiplication and merge()
 
-When multiplying quantities that share a dimension but use different units, `mul()` preserves both unit terms as-is. Call `merge()` afterwards if you want to consolidate them:
+When multiplying quantities that share a dimension but use different units, `mul()` preserves both unit terms as-is.
+Call `merge()` afterwards if you want to consolidate them:
 
 ```php
 $a = new Length(2, 'm');
@@ -163,9 +167,12 @@ $result = $length->mul(2)->add(new Length(5, 'm'))->sub(new Length(3, 'm'));
 
 ## Result types
 
-The result type of `add()`, `sub()`, `neg()`, or `abs()` is always the same type as the calling object — the dimension cannot change.
+The result type of `add()`, `sub()`, `neg()`, or `abs()` is always the same type as the calling object - the dimension
+cannot change.
 
-The result type of `mul()`, `div()`, `recip()`, or `pow()` is determined automatically. If the result quantity's dimension matches a registered quantity type, the correct subclass is returned. Otherwise, a base `Quantity` object is returned:
+The result type of `mul()`, `div()`, `recip()`, or `pow()` is determined automatically. If the result quantity's
+dimension matches a registered quantity type, the correct subclass is returned. Otherwise, a base `Quantity` object is
+returned:
 
 ```php
 use Mossy2100\Quantities\PhysicalConstant;
@@ -203,7 +210,7 @@ $entropy = $energy->div($temp);  // ~1.667 J/K
 
 ## See also
 
-- **[Quantity](../Reference/Quantity.md#arithmetic-methods)** — Full method signatures and parameter details.
-- **[Calculation Examples](CalculationExamples.md)** — Real-world physics and engineering calculations.
-- **[Unit Conversion](UnitConversion.md)** — Converting quantities between units.
-- **[PhysicalConstant](../Reference/PhysicalConstant.md)** — Built-in physical constants for scientific calculations.
+- **[Quantity](../Reference/Quantity.md#arithmetic-methods)** - Full method signatures and parameter details.
+- **[Calculation Examples](CalculationExamples.md)** - Real-world physics and engineering calculations.
+- **[Unit Conversion](UnitConversion.md)** - Converting quantities between units.
+- **[PhysicalConstant](../Reference/PhysicalConstant.md)** - Built-in physical constants for scientific calculations.

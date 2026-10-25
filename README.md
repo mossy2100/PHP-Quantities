@@ -1,6 +1,7 @@
 # Mossy2100 PHP Quantities
 
-This package enables calculations and conversions with physical and non-physical quantities, including support for SI and other systems of units (including data and currencies), metric and binary prefixes, parsing, and formatting.
+This package enables calculations and conversions with physical and non-physical quantities, including support for SI
+and other systems of units (including data and currencies), metric and binary prefixes, parsing, and formatting.
 
 **[License](LICENSE)** | **[Changelog](CHANGELOG.md)** | **[Documentation](docs/)** | **[Examples](docs/WorkingWithQuantities/CalculationExamples.md)**
 
@@ -9,24 +10,36 @@ This package enables calculations and conversions with physical and non-physical
 ---
 ## Description
 
-This package provides strongly-typed classes for physical quantities (length, mass, time, temperature, etc.) and some non-physical quantities (data, money), with comprehensive unit conversion capabilities. The system automatically finds conversion factors between compatible units, supports metric and binary prefixes, handles offsets for temperature scales, and loads the latest currency exchange rates automatically.
+This package provides strongly-typed classes for physical quantities (length, mass, time, temperature, etc.) and some
+non-physical quantities (data, money), with comprehensive unit conversion capabilities. The system automatically finds
+conversion factors between compatible units, supports metric and binary prefixes, handles offsets for temperature
+scales, and loads the latest currency exchange rates automatically.
 
 Key capabilities include:
 
-- **Type-safe measurements**: Each measurement type (Length, Mass, Time, etc.) is a separate class. Plus, you can easily create your own custom quantity type classes.
-- **Automatic conversion**: Easily convert between any compatible units, with most common units built-in, including SI, imperial, US customary, scientific, nautical, CSS, and currencies.
+- **Type-safe measurements**: Each measurement type (Length, Mass, Time, etc.) is a separate class. Plus, you can easily
+  create your own custom quantity type classes.
+- **Automatic conversion**: Easily convert between any compatible units, with most common units built-in, including SI,
+  imperial, US customary, scientific, nautical, CSS, and currencies.
 - **Prefix support**: Full support for SI metric and binary prefixes.
 - **Arithmetic operations**: Add, subtract, multiply, and divide quantities with automatic unit handling.
 - **Flexible parsing**: Parse strings like `123.45 km/h`, `90deg`, or `25°C` into Quantity objects.
-- **String formatting**: Format quantities as ASCII or Unicode, with configurable decimal places and locale-specific currency formatting.
+- **String formatting**: Format quantities as ASCII or Unicode, with configurable decimal places and locale-specific
+  currency formatting.
 - **Part decomposition**: Break measurements into components (e.g. `12° 34′ 56″` or `1y 3mo 2d`).
-- **Physical constants**: Built-in constants like the speed of light, Planck's constant, and Avogadro's number as Quantity objects.
+- **Physical constants**: Built-in constants like the speed of light, Planck's constant, and Avogadro's number as
+  Quantity objects.
 - **Up-to-date exchange rates**: Updated automatically as needed using the exchange rate API of your choice.
 
 ---
 ## Development and Quality Assurance
 
-[Claude Chat](https://claude.ai) and [Claude Code](https://www.claude.com/product/claude-code) were used in the development of this package. The core classes were designed, coded, and commented primarily by the author, with Claude providing assistance with code reviews, debugging, and generating tests and documentation. All code was thoroughly reviewed by the author, and validated using industry-standard tools including [PHP_Codesniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer/), [PHPStan](https://phpstan.org/) (to level 9), and [PHPUnit](https://phpunit.de/index.html) to ensure full compliance with [PSR-12](https://www.php-fig.org/psr/psr-12/) coding standards and comprehensive unit testing with 100% code coverage. This collaborative approach has produced a well-designed, production-ready package with thorough test coverage and documentation.
+[Claude Chat](https://claude.ai) and [Claude Code](https://www.claude.com/product/claude-code) were used in the development of this package. The core classes were designed, coded, and
+commented primarily by the author, with Claude providing assistance with code reviews, debugging, and generating tests
+and documentation. All code was thoroughly reviewed by the author, and validated using industry-standard tools including
+[PHP_Codesniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer/), [PHPStan](https://phpstan.org/) (to level 9), and [PHPUnit](https://phpunit.de/index.html) to ensure full compliance with [PSR-12](https://www.php-fig.org/psr/psr-12/) coding standards and
+comprehensive unit testing with 100% code coverage. This collaborative approach has produced a well-designed,
+production-ready package with thorough test coverage and documentation.
 
 ![Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
@@ -114,12 +127,12 @@ echo $angle->formatParts(precision: 1);
 
 Background on the domain model and how the library represents physical measurements.
 
-1. **[Terminology](docs/Concepts/Terminology.md)** — Key terms and definitions used throughout the library.
-2. **[Dimensions and Base Units](docs/Concepts/DimensionsAndBaseUnits.md)** — Dimension codes, base units, and how the library tracks physical dimensions.
-3. **[Quantity Types](docs/Concepts/QuantityTypes.md)** — Typed quantity classes like Length, Mass, and Force, and how they map to dimensions.
-4. **[Prefixes](docs/Concepts/Prefixes.md)** — Metric, engineering, and binary prefixes for scaling units.
-5. **[Units](docs/Concepts/Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
-6. **[Physical Constants](docs/Concepts/PhysicalConstants.md)** — Built-in physical constants as Quantity objects.
+1. **[Terminology](docs/Concepts/Terminology.md)** - Key terms and definitions used throughout the library.
+2. **[Dimensions and Base Units](docs/Concepts/DimensionsAndBaseUnits.md)** - Dimension codes, base units, and how the library tracks physical dimensions.
+3. **[Quantity Types](docs/Concepts/QuantityTypes.md)** - Typed quantity classes like Length, Mass, and Force, and how they map to dimensions.
+4. **[Prefixes](docs/Concepts/Prefixes.md)** - Metric, engineering, and binary prefixes for scaling units.
+5. **[Units](docs/Concepts/Units.md)** - Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
+6. **[Physical Constants](docs/Concepts/PhysicalConstants.md)** - Built-in physical constants as Quantity objects.
 
 ---
 
@@ -127,15 +140,15 @@ Background on the domain model and how the library represents physical measureme
 
 Practical guides for using the library in your code.
 
-1. **[Creating Quantities](docs/WorkingWithQuantities/CreatingQuantities.md)** — Creating new quantities with constructors and the factory method.
-2. **[Unit Conversion](docs/WorkingWithQuantities/UnitConversion.md)** — Converting between units, expansion, simplification, and auto-prefixing.
-3. **[Arithmetic Operations](docs/WorkingWithQuantities/ArithmeticOperations.md)** — Add, subtract, multiply, and divide quantities.
-4. **[Calculation Examples](docs/WorkingWithQuantities/CalculationExamples.md)** — Real-world physics and engineering calculations.
-5. **[Currency Calculations](docs/WorkingWithQuantities/CurrencyCalculations.md)** — Example conversions and calculations involving currencies.
-6. **[Comparison Functions](docs/WorkingWithQuantities/ComparisonFunctions.md)** — Exact and approximate equality, ordering, and tolerances.
-7. **[String Functions](docs/WorkingWithQuantities/StringFunctions.md)** — Parsing strings into quantities and formatting output (ASCII and Unicode).
-8. **[Part Decomposition](docs/WorkingWithQuantities/PartDecomposition.md)** — Working with quantities as parts (e.g. 45° 30′ 15″ or 1h 30min 45s).
-9. **[Customization](docs/WorkingWithQuantities/Customization.md)** — Adding custom units, conversions, and quantity type classes.
+1. **[Creating Quantities](docs/WorkingWithQuantities/CreatingQuantities.md)** - Creating new quantities with constructors and the factory method.
+2. **[Unit Conversion](docs/WorkingWithQuantities/UnitConversion.md)** - Converting between units, expansion, simplification, and auto-prefixing.
+3. **[Arithmetic Operations](docs/WorkingWithQuantities/ArithmeticOperations.md)** - Add, subtract, multiply, and divide quantities.
+4. **[Calculation Examples](docs/WorkingWithQuantities/CalculationExamples.md)** - Real-world physics and engineering calculations.
+5. **[Currency Calculations](docs/WorkingWithQuantities/CurrencyCalculations.md)** - Example conversions and calculations involving currencies.
+6. **[Comparison Functions](docs/WorkingWithQuantities/ComparisonFunctions.md)** - Exact and approximate equality, ordering, and tolerances.
+7. **[String Functions](docs/WorkingWithQuantities/StringFunctions.md)** - Parsing strings into quantities and formatting output (ASCII and Unicode).
+8. **[Part Decomposition](docs/WorkingWithQuantities/PartDecomposition.md)** - Working with quantities as parts (e.g. 45° 30′ 15″ or 1h 30min 45s).
+9. **[Customization](docs/WorkingWithQuantities/Customization.md)** - Adding custom units, conversions, and quantity type classes.
 
 ---
 ## Reference
@@ -144,14 +157,15 @@ Practical guides for using the library in your code.
 
 Other than the quantity type classes (below), these are the main classes you'll use.
 
-| Class                                                  | Description                                                                                                                                     |
-| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Quantity](docs/Reference/Quantity.md)                 | Base class for all measurement types. Provides unit conversion, arithmetic operations, comparison, formatting, and part decomposition.          |
-| [PhysicalConstant](docs/Reference/PhysicalConstant.md) | Access to physical constants (speed of light, Planck constant, etc.) as Quantity objects.                                                       |
+| Class                                                  | Description                                                                                                                            |
+| ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Quantity](docs/Reference/Quantity.md)                 | Base class for all measurement types. Provides unit conversion, arithmetic operations, comparison, formatting, and part decomposition. |
+| [PhysicalConstant](docs/Reference/PhysicalConstant.md) | Access to physical constants (speed of light, Planck constant, etc.) as Quantity objects.                                              |
 
 ### Quantity Types
 
-All quantity type classes extend `Quantity` and define their specific units and conversions. See the **[Quantity Type reference](docs/Reference/QuantityType/)** for the complete list of built-in units for each type.
+All quantity type classes extend `Quantity` and define their specific units and conversions. See the
+**[Quantity Type reference](docs/Reference/QuantityType/)** for the complete list of built-in units for each type.
 
 | Class                                                                     | Dimension  | SI or common base unit | Description                                      |
 | ------------------------------------------------------------------------- | ---------- | ---------------------- | ------------------------------------------------ |
@@ -192,21 +206,21 @@ All quantity type classes extend `Quantity` and define their specific units and 
 
 ### Services
 
-These classes are predominantly internal, except for adding custom units via `UnitService::add()`, or registering new quantity types via `QuantityTypeService::add()`.
+These classes are predominantly internal, except for adding custom units via `UnitService::add()`, or registering new
+quantity types via `QuantityTypeService::add()`.
 
-| Class                                                                   | Description                                                                                    |
-|-------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| [ConversionService](docs/Reference/Services/ConversionService.md)       | Manages unit conversions and converters.                                                       |
-| [DimensionService](docs/Reference/Services/DimensionService.md)         | Utilities for working with physical dimension codes (validation, composition, transformation). |
-| [PrefixService](docs/Reference/Services/PrefixService.md)               | Manages SI and binary prefixes (lookup, filtering by group).                                   |
-| [QuantityTypeService](docs/Reference/Services/QuantityTypeService.md)   | Registry of quantity types keyed by name.                                                      |
-| [QuantityType](docs/Reference/QuantityType.md)                          | Data class for a registered quantity type: name, dimension and class.                          |
-| [UnitService](docs/Reference/Services/UnitService.md)                   | Registry of units with lookup, filtering, and loading by system.                               |
+| Class                                                                 | Description                                                                                    |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [ConversionService](docs/Reference/Services/ConversionService.md)     | Manages unit conversions and converters.                                                       |
+| [DimensionService](docs/Reference/Services/DimensionService.md)       | Utilities for working with physical dimension codes (validation, composition, transformation). |
+| [PrefixService](docs/Reference/Services/PrefixService.md)             | Manages SI and binary prefixes (lookup, filtering by group).                                   |
+| [QuantityTypeService](docs/Reference/Services/QuantityTypeService.md) | Registry of quantity types keyed by name.                                                      |
+| [QuantityType](docs/Reference/QuantityType.md)                        | Data class for a registered quantity type: name, dimension and class.                          |
+| [UnitService](docs/Reference/Services/UnitService.md)                 | Registry of units with lookup, filtering, and loading by system.                               |
 
 ### Units
 
-Classes for units and conversions. You'll use these to add custom units and conversions (see
-[Customization](docs/WorkingWithQuantities/Customization.md)).
+Classes for units and conversions. You'll use these to add custom units and conversions (see [Customization](docs/WorkingWithQuantities/Customization.md)).
 
 | Name                                                   | Description                                                                |
 | ------------------------------------------------------ | -------------------------------------------------------------------------- |
@@ -234,26 +248,27 @@ These classes are used by the conversion engine and aren't part of the public AP
 
 ### Exceptions
 
-Custom exception types to provide additional context when needed. Both extend `DomainException`, as they relate to provided values being outside a valid domain.
+Custom exception types to provide additional context when needed. Both extend `DomainException`, as they relate to
+provided values being outside a valid domain.
 
-| Class                                                                                 | Description                                      |
-|---------------------------------------------------------------------------------------|--------------------------------------------------|
-| [UnknownUnitException](docs/Reference/Exceptions/UnknownUnitException.md)             | Thrown when a unit symbol cannot be resolved.     |
-| [DimensionMismatchException](docs/Reference/Exceptions/DimensionMismatchException.md) | Thrown when units have incompatible dimensions.   |
+| Class                                                                                 | Description                                     |
+| ------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| [UnknownUnitException](docs/Reference/Exceptions/UnknownUnitException.md)             | Thrown when a unit symbol cannot be resolved.   |
+| [DimensionMismatchException](docs/Reference/Exceptions/DimensionMismatchException.md) | Thrown when units have incompatible dimensions. |
 
 ### Currency Classes
 
 Classes for currency data management and exchange rate integration.
 
-| Class                                                                                                | Description                                                  |
-|------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
-| [CurrencyService](docs/Reference/Currencies/CurrencyService.md)                                     | Manages currency unit data and exchange rate conversions.     |
-| [ExchangeRateServiceInterface](docs/Reference/Currencies/ExchangeRateServices/ExchangeRateServiceInterface.md) | Contract for exchange rate providers.               |
-| [CurrencyLayerService](docs/Reference/Currencies/ExchangeRateServices/CurrencyLayerService.md)      | CurrencyLayer API (USD-based, 1,000 req/month free).         |
-| [ExchangeRateApiService](docs/Reference/Currencies/ExchangeRateServices/ExchangeRateApiService.md)  | ExchangeRate-API (any base currency, 1,500 req/month free).  |
-| [FixerService](docs/Reference/Currencies/ExchangeRateServices/FixerService.md)                      | Fixer.io API (EUR-based, 10,000 req/month free).             |
-| [FrankfurterService](docs/Reference/Currencies/ExchangeRateServices/FrankfurterService.md)          | Frankfurter API (ECB data, completely free, no API key).      |
-| [OpenExchangeRatesService](docs/Reference/Currencies/ExchangeRateServices/OpenExchangeRatesService.md) | Open Exchange Rates API (USD-based, free tier available).  |
+| Class                                                                                                          | Description                                                 |
+| -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| [CurrencyService](docs/Reference/Currencies/CurrencyService.md)                                                | Manages currency unit data and exchange rate conversions.   |
+| [ExchangeRateServiceInterface](docs/Reference/Currencies/ExchangeRateServices/ExchangeRateServiceInterface.md) | Contract for exchange rate providers.                       |
+| [CurrencyLayerService](docs/Reference/Currencies/ExchangeRateServices/CurrencyLayerService.md)                 | CurrencyLayer API (USD-based, 1,000 req/month free).        |
+| [ExchangeRateApiService](docs/Reference/Currencies/ExchangeRateServices/ExchangeRateApiService.md)             | ExchangeRate-API (any base currency, 1,500 req/month free). |
+| [FixerService](docs/Reference/Currencies/ExchangeRateServices/FixerService.md)                                 | Fixer.io API (EUR-based, 10,000 req/month free).            |
+| [FrankfurterService](docs/Reference/Currencies/ExchangeRateServices/FrankfurterService.md)                     | Frankfurter API (ECB data, completely free, no API key).    |
+| [OpenExchangeRatesService](docs/Reference/Currencies/ExchangeRateServices/OpenExchangeRatesService.md)         | Open Exchange Rates API (USD-based, free tier available).   |
 
 ---
 

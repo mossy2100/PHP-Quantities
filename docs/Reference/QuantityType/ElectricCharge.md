@@ -2,8 +2,7 @@
 
 Represents electric charge quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `ElectricCharge` class handles electric charge measurements.
 
 ## Conversion definitions
 
-| From | To      | Factor |
-| ---- | ------- | ------ |
-| `C`  | `s*A`   | 1      |
+| From | To    | Factor |
+| ---- | ----- | ------ |
+| `C`  | `s*A` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `ElectricCharge` class handles electric charge measurements.
 
 The *coulomb* is defined as:
 
-```
+```text
 C = A·s
 ```
 
@@ -65,7 +64,7 @@ $inMC = $charge->to('mC');  // 1000 mC
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::elementaryCharge()`** (e) — Elementary charge, 1.602176634 × 10⁻¹⁹ C.
+- **`PhysicalConstant::elementaryCharge()`** (e) - Elementary charge, 1.602176634 × 10⁻¹⁹ C.
 
 ---
 

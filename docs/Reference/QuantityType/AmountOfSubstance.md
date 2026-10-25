@@ -2,14 +2,14 @@
 
 Represents amount of substance quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `AmountOfSubstance` class handles measurements of the amount of substance. The *mole* is one of the seven SI base units.
+The `AmountOfSubstance` class handles measurements of the amount of substance. The *mole* is one of the seven SI base
+units.
 
 ---
 
@@ -25,7 +25,7 @@ The `AmountOfSubstance` class handles measurements of the amount of substance. T
 
 The *mole* (`mol`) is defined by fixing the value of the Avogadro constant:
 
-```
+```text
 Nᴀ = 6.02214076 × 10²³ mol⁻¹
 ```
 

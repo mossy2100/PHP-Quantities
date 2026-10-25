@@ -9,9 +9,13 @@ Represents a floating-point value with tracked numerical error.
 
 ## Overview
 
-The `FloatWithError` class wraps a float value together with an estimate of its accumulated absolute error. This allows tracking precision loss through chains of arithmetic operations, which is particularly important in unit conversion where multiple multiplications and divisions can compound rounding errors.
+The `FloatWithError` class wraps a float value together with an estimate of its accumulated absolute error. This allows
+tracking precision loss through chains of arithmetic operations, which is particularly important in unit conversion
+where multiple multiplications and divisions can compound rounding errors.
 
-Each operation (addition, subtraction, multiplication, division, inversion, exponentiation) accumulates error based on the precision limits of IEEE 754 double-precision floating-point arithmetic. The `relativeError` property provides a normalised measure of precision loss.
+Each operation (addition, subtraction, multiplication, division, inversion, exponentiation) accumulates error based on
+the precision limits of IEEE 754 double-precision floating-point arithmetic. The `relativeError` property provides a
+normalised measure of precision loss.
 
 Implements `Stringable`, formatting as `"value ± absoluteError"`.
 
@@ -41,7 +45,8 @@ The floating-point numeric value.
 private(set) float $absoluteError
 ```
 
-The absolute error estimate. This represents the maximum expected deviation from the true value due to floating-point precision limits.
+The absolute error estimate. This represents the maximum expected deviation from the true value due to floating-point
+precision limits.
 
 ### relativeError
 
@@ -49,7 +54,8 @@ The absolute error estimate. This represents the maximum expected deviation from
 public float $relativeError { get; }
 ```
 
-The relative error as a proportion of the absolute value. Calculated as `absoluteError / |value|`. Returns `INF` when the value is zero but error is non-zero. Returns 0.0 when both value and error are zero.
+The relative error as a proportion of the absolute value. Calculated as `absoluteError / |value|`. Returns `INF` when
+the value is zero but error is non-zero. Returns 0.0 when both value and error are zero.
 
 This property is useful for comparing the precision of different conversion paths.
 
@@ -101,8 +107,7 @@ public function isExactInt(): bool
 
 Check if the value represents an exact mathematical integer (no fractional part and zero error).
 
-**Returns:**
-- `bool` - True if the value has no fractional component and zero absolute error
+**Returns:** `bool` - True if the value has no fractional component and zero absolute error
 
 **Examples:**
 ```php
@@ -125,8 +130,7 @@ public function neg(): self
 
 Negate this value. Error magnitude is unchanged.
 
-**Returns:**
-- `FloatWithError` - A new instance with the negated value and the same error.
+**Returns:** `FloatWithError` - A new instance with the negated value and the same error.
 
 ### recip()
 
@@ -136,8 +140,7 @@ public function recip(): self
 
 Return the multiplicative inverse (1/value). Relative error is preserved.
 
-**Returns:**
-- `FloatWithError` - A new instance with the inverted value and propagated error.
+**Returns:** `FloatWithError` - A new instance with the inverted value and propagated error.
 
 **Throws:**
 - [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If the value is zero.
@@ -157,8 +160,7 @@ Add another value to this one, accumulating errors.
 **Parameters:**
 - `$other` (float|self) - The value to add
 
-**Returns:**
-- `FloatWithError` - A new instance with the sum and combined error
+**Returns:** `FloatWithError` - A new instance with the sum and combined error
 
 **Behavior:**
 - Absolute errors add directly
@@ -175,8 +177,7 @@ Subtract another value from this one, accumulating errors.
 **Parameters:**
 - `$other` (float|self) - The value to subtract
 
-**Returns:**
-- `FloatWithError` - A new instance with the difference and combined error
+**Returns:** `FloatWithError` - A new instance with the difference and combined error
 
 **Behavior:**
 - Absolute errors add directly (subtraction has the same error propagation as addition)
@@ -192,8 +193,7 @@ Multiply this value by another, accumulating errors.
 **Parameters:**
 - `$other` (float|self) - The value to multiply by
 
-**Returns:**
-- `FloatWithError` - A new instance with the product and combined error
+**Returns:** `FloatWithError` - A new instance with the product and combined error
 
 **Behavior:**
 - Relative errors add in multiplication
@@ -221,8 +221,7 @@ Divide this value by another, accumulating errors.
 **Parameters:**
 - `$other` (float|self) - The value to divide by
 
-**Returns:**
-- `FloatWithError` - A new instance with the quotient and combined error
+**Returns:** `FloatWithError` - A new instance with the quotient and combined error
 
 **Throws:**
 - [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If dividing by zero
@@ -251,8 +250,7 @@ Raise this value to an integer power.
 **Parameters:**
 - `$exponent` (int) - The exponent to raise to
 
-**Returns:**
-- `FloatWithError` - A new instance with the result and propagated error
+**Returns:** `FloatWithError` - A new instance with the result and propagated error
 
 **Throws:**
 - [`ArithmeticException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/ArithmeticException.md) - If the base is zero and the exponent is negative
@@ -282,8 +280,7 @@ public function __toString(): string
 
 Convert to a string representation showing value and absolute error.
 
-**Returns:**
-- `string` - Formatted as `"value ± absoluteError"` (e.g. `"3.14159 ± 2.22e-16"`)
+**Returns:** `string` - Formatted as `"value ± absoluteError"` (e.g. `"3.14159 ± 2.22e-16"`)
 
 ---
 

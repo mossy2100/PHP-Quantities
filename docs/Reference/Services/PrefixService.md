@@ -8,7 +8,8 @@ Utility class for working with SI and binary prefixes.
 
 ## Overview
 
-The `PrefixService` provides access to metric prefixes (milli, kilo, mega, etc.) and binary prefixes (kibi, mebi, etc.) organized by group codes for flexible filtering.
+The `PrefixService` provides access to metric prefixes (milli, kilo, mega, etc.) and binary prefixes (kibi, mebi, etc.)
+organized by group codes for flexible filtering.
 
 All methods are static. The class uses lazy initialization to build the prefix list on first access.
 
@@ -20,21 +21,21 @@ All methods are static. The class uses lazy initialization to build the prefix l
 
 Base group codes identify individual prefix groups. These can be combined with bitwise OR for flexible filtering.
 
-| Constant | Value | Description |
-|---|---|---|
-| `GROUP_SMALL_METRIC` | 1 | Small metric prefixes (quecto through milli). |
-| `GROUP_MEDIUM_METRIC` | 2 | Medium metric prefixes (centi, deci, deca, hecto). |
-| `GROUP_LARGE_METRIC` | 4 | Large metric prefixes (kilo through quetta). |
-| `GROUP_BINARY` | 8 | Binary prefixes (kibi through quebi). |
+| Constant              | Value | Description                                        |
+| --------------------- | ----- | -------------------------------------------------- |
+| `GROUP_SMALL_METRIC`  | 1     | Small metric prefixes (quecto through milli).      |
+| `GROUP_MEDIUM_METRIC` | 2     | Medium metric prefixes (centi, deci, deca, hecto). |
+| `GROUP_LARGE_METRIC`  | 4     | Large metric prefixes (kilo through quetta).       |
+| `GROUP_BINARY`        | 8     | Binary prefixes (kibi through quebi).              |
 
 ### Combined group codes
 
-| Constant | Value | Description |
-|---|---|---|
-| `GROUP_METRIC` | 7 | All metric prefixes (small + medium + large). |
-| `GROUP_ENGINEERING` | 5 | Engineering prefixes (small + large metric, i.e. powers of 1000). |
-| `GROUP_LARGE` | 12 | Large metric + binary. |
-| `GROUP_ALL` | 15 | All prefixes (metric + binary). |
+| Constant            | Value | Description                                                       |
+| ------------------- | ----- | ----------------------------------------------------------------- |
+| `GROUP_METRIC`      | 7     | All metric prefixes (small + medium + large).                     |
+| `GROUP_ENGINEERING` | 5     | Engineering prefixes (small + large metric, i.e. powers of 1000). |
+| `GROUP_LARGE`       | 12    | Large metric + binary.                                            |
+| `GROUP_ALL`         | 15    | All prefixes (metric + binary).                                   |
 
 ---
 
@@ -46,7 +47,8 @@ Base group codes identify individual prefix groups. These can be combined with b
 public static function getPrefixes(int $prefixGroup = self::GROUP_ALL): array
 ```
 
-Return an array of prefixes matching a group code comprising bitwise flags. Results are sorted by multiplier in ascending order.
+Return an array of prefixes matching a group code comprising bitwise flags. Results are sorted by multiplier in
+ascending order.
 
 **Returns:** `list<Prefix>`
 
@@ -78,7 +80,7 @@ public static function getBySymbol(string $symbol): ?Prefix
 
 Get a prefix by its symbol. Supports both ASCII and Unicode symbols. Case-sensitive.
 
-**Returns:** `?Prefix` — The matching prefix, or null if not found.
+**Returns:** `?Prefix` - The matching prefix, or null if not found.
 
 ```php
 $kilo = PrefixService::getBySymbol('k');    // kilo (1e3)
@@ -100,7 +102,8 @@ PrefixService::getBySymbol('X');            // null (not found)
 public static function removeAll(): void
 ```
 
-Clear the prefixes cache. The next access will NOT trigger re-initialization — `init()` must be called manually. Used internally during initialization.
+Clear the prefixes cache. The next access will NOT trigger re-initialization - `init()` must be called manually. Used
+internally during initialization.
 
 ---
 

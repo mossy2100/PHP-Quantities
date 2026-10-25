@@ -6,7 +6,9 @@ Represents a unit of measurement.
 
 ## Overview
 
-The `Unit` class represents a single unit of measurement such as *meter*, *gram*, or *hertz*. Each unit has a name, symbols (ASCII and Unicode), a dimension code, and metadata about which prefixes it accepts and which measurement systems it belongs to.
+The `Unit` class represents a single unit of measurement such as *meter*, *gram*, or *hertz*. Each unit has a name,
+symbols (ASCII and Unicode), a dimension code, and metadata about which prefixes it accepts and which measurement
+systems it belongs to.
 
 The class implements `UnitInterface` and uses the `Equatable` trait for value-based equality comparisons.
 
@@ -36,7 +38,8 @@ The unit name (e.g., `'meter'`, `'gram'`, `'hertz'`).
 private(set) string $asciiSymbol
 ```
 
-The ASCII unit symbol (e.g., `'m'`, `'g'`, `'Hz'`). Used for parsing and code compatibility. Multiple words are permitted, separated by single spaces (e.g., `US fl oz`).
+The ASCII unit symbol (e.g., `'m'`, `'g'`, `'Hz'`). Used for parsing and code compatibility. Multiple words are
+permitted, separated by single spaces (e.g., `US fl oz`).
 
 ### unicodeSymbol
 
@@ -44,7 +47,8 @@ The ASCII unit symbol (e.g., `'m'`, `'g'`, `'Hz'`). Used for parsing and code co
 private(set) string $unicodeSymbol
 ```
 
-The Unicode symbol (e.g., `'Ω'` for ohm, `'°'` for degree). Used for display purposes. Defaults to the ASCII symbol if not provided.
+The Unicode symbol (e.g., `'Ω'` for ohm, `'°'` for degree). Used for display purposes. Defaults to the ASCII symbol if
+not provided.
 
 ### alternateSymbol
 
@@ -52,7 +56,9 @@ The Unicode symbol (e.g., `'Ω'` for ohm, `'°'` for degree). Used for display p
 private(set) ?string $alternateSymbol
 ```
 
-An additional symbol accepted by the parser. This can be a word of up to 7 letters (e.g. `μas` with a Greek mu) or a single non-letter. Examples: `'` for arcminutes (alternate to the prime symbol `′`) and `"` for arcseconds (alternate to the double-prime symbol `″`). Not used for output. Default: `null`.
+An additional symbol accepted by the parser. This can be a word of up to 7 letters (e.g. `μas` with a Greek mu) or a
+single non-letter. Examples: `'` for arcminutes (alternate to the prime symbol `′`) and `"` for arcseconds (alternate to
+the double-prime symbol `″`). Not used for output. Default: `null`.
 
 ### dimension
 
@@ -86,7 +92,8 @@ Type: `list<UnitSystem>`
 public array $allowedPrefixes { get; }
 ```
 
-List of `Prefix` objects allowed for this unit, based on the `prefixGroup` flags. Retrieved via `PrefixService::getPrefixes()`.
+List of `Prefix` objects allowed for this unit, based on the `prefixGroup` flags. Retrieved via
+`PrefixService::getPrefixes()`.
 
 Type: `list<Prefix>`
 
@@ -96,9 +103,11 @@ Type: `list<Prefix>`
 private(set) array $symbols { get; }
 ```
 
-All symbol variants for the unit, including ASCII, Unicode, alternate, and all prefixed versions. Lazy-loaded and cached on first access.
+All symbol variants for the unit, including ASCII, Unicode, alternate, and all prefixed versions. Lazy-loaded and cached
+on first access.
 
-Keyed by the full symbol string (e.g., `'km'`, `'μm'`, `'°C'`). Each value is a tuple of `[unitSymbol, prefixSymbol]` where `prefixSymbol` is `null` for unprefixed variants.
+Keyed by the full symbol string (e.g., `'km'`, `'μm'`, `'°C'`). Each value is a tuple of `[unitSymbol, prefixSymbol]`
+where `prefixSymbol` is `null` for unprefixed variants.
 
 Type: `array<string, array{string, ?string}>`
 
@@ -108,7 +117,8 @@ Type: `array<string, array{string, ?string}>`
 public ?QuantityType $quantityType { get; }
 ```
 
-The quantity type this unit is for (e.g., the `QuantityType` for length), or `null` if the dimension has no registered quantity type. Resolved via `QuantityTypeService::getByDimension()`.
+The quantity type this unit is for (e.g., the `QuantityType` for length), or `null` if the dimension has no registered
+quantity type. Resolved via `QuantityTypeService::getByDimension()`.
 
 ---
 
@@ -132,7 +142,8 @@ Create a new Unit instance.
 
 **Parameters:**
 - `$name` (string) - The unit name (e.g., `'meter'`). Must be 1-3 words of ASCII letters.
-- `$asciiSymbol` (string) - The ASCII symbol (e.g., `'m'`). Must be ASCII letters only (empty allowed for dimensionless).
+- `$asciiSymbol` (string) - The ASCII symbol (e.g., `'m'`). Must be ASCII letters only (empty allowed for
+  dimensionless).
 - `$dimension` (string) - The dimension code (e.g., `'L'`). Normalized via `DimensionService::normalize()`.
 - `$systems` (list\<UnitSystem\>) - The measurement systems. Default: `[UnitSystem::Custom]`.
 - `$prefixGroup` (int) - Bitwise flags for allowed prefixes. Default: `0`.
@@ -147,7 +158,9 @@ Create a new Unit instance.
 **Examples:**
 
 ```php
-use Mossy2100\Quantities\Units\Unit;use Mossy2100\Quantities\Enums\UnitSystem;use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Enums\UnitSystem;
+use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Units\Unit;
 
 // Basic SI unit
 $meter = new Unit(
@@ -219,7 +232,8 @@ Check if this unit belongs to the SI system.
 public function isBase(): bool
 ```
 
-Check if this unit is a base unit. A base unit has a dimension code of at most one character (e.g., `'L'`, `'M'`, `'T'`, or `''` for dimensionless).
+Check if this unit is a base unit. A base unit has a dimension code of at most one character (e.g., `'L'`, `'M'`, `'T'`,
+or `''` for dimensionless).
 
 ### acceptsPrefix()
 

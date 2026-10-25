@@ -2,8 +2,7 @@
 
 Represents catalytic activity quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `CatalyticActivity` class handles catalytic activity measurements, used in e
 
 ## Conversion definitions
 
-| From  | To          | Factor |
-| ----- | ----------- | ------ |
-| `kat` | `mol*s-1`   | 1      |
+| From  | To        | Factor |
+| ----- | --------- | ------ |
+| `kat` | `mol*s-1` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `CatalyticActivity` class handles catalytic activity measurements, used in e
 
 The *katal* is defined as:
 
-```
+```text
 kat = mol·s⁻¹
 ```
 

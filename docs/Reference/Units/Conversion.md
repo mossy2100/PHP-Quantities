@@ -6,7 +6,8 @@ Represents a unit conversion between two units of the same dimension.
 
 ## Overview
 
-The `Conversion` class encapsulates a conversion relationship between a source unit and a destination unit. It stores the conversion factor as a `FloatWithError` to track numerical precision through chains of conversions.
+The `Conversion` class encapsulates a conversion relationship between a source unit and a destination unit. It stores
+the conversion factor as a `FloatWithError` to track numerical precision through chains of conversions.
 
 Conversions are linear transformations of the form: `destValue = srcValue * factor`
 
@@ -100,8 +101,7 @@ public function inv(): self
 
 Return the inverse conversion (destination to source).
 
-**Returns:**
-- `Conversion` - A new Conversion with source and destination swapped
+**Returns:** `Conversion` - A new Conversion with source and destination swapped
 
 **Examples:**
 ```php
@@ -124,8 +124,7 @@ Raise the conversion to a power for area, volume, etc.
 **Parameters:**
 - `$exponent` (int) - The power to raise to
 
-**Returns:**
-- `Conversion` - A new Conversion with exponentiated units and factor
+**Returns:** `Conversion` - A new Conversion with exponentiated units and factor
 
 **Examples:**
 ```php
@@ -138,7 +137,8 @@ echo $ft2ToM2->factor->value; // 0.09290304
 
 ## Combination methods
 
-These methods combine two conversions to create a new conversion path. The four methods handle different topologies in the conversion graph.
+These methods combine two conversions to create a new conversion path. The four methods handle different topologies in
+the conversion graph.
 
 ### combineSequential()
 
@@ -151,8 +151,7 @@ Combine two conversions in sequence: A→B and B→C to get A→C.
 **Parameters:**
 - `$other` (self) - The second conversion (B→C)
 
-**Returns:**
-- `Conversion` - A new Conversion from this source to other's destination
+**Returns:** `Conversion` - A new Conversion from this source to other's destination
 
 **Precondition:**
 - `$this->destUnit` must equal `$other->srcUnit`
@@ -176,8 +175,7 @@ Combine two conversions that share a destination: A→C and B→C to get A→B.
 **Parameters:**
 - `$other` (self) - The second conversion (B→C)
 
-**Returns:**
-- `Conversion` - A new Conversion from this source to other's source
+**Returns:** `Conversion` - A new Conversion from this source to other's source
 
 **Precondition:**
 - `$this->destUnit` must equal `$other->destUnit`
@@ -201,8 +199,7 @@ Combine two conversions that share a source: C→A and C→B to get A→B.
 **Parameters:**
 - `$other` (self) - The second conversion (C→B)
 
-**Returns:**
-- `Conversion` - A new Conversion from this destination to other's destination
+**Returns:** `Conversion` - A new Conversion from this destination to other's destination
 
 **Precondition:**
 - `$this->srcUnit` must equal `$other->srcUnit`
@@ -226,8 +223,7 @@ Combine two conversions in opposite directions: C→A and B→C to get A→B.
 **Parameters:**
 - `$other` (self) - The second conversion (B→C)
 
-**Returns:**
-- `Conversion` - A new Conversion from this destination to other's source
+**Returns:** `Conversion` - A new Conversion from this destination to other's source
 
 **Precondition:**
 - `$this->srcUnit` must equal `$other->destUnit`

@@ -2,14 +2,14 @@
 
 Represents radiation dose quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `RadiationDose` class handles radiation dose measurements using the *gray* (absorbed dose) and *sievert* (equivalent dose).
+The `RadiationDose` class handles radiation dose measurements using the *gray* (absorbed dose) and *sievert* (equivalent
+dose).
 
 ---
 
@@ -28,8 +28,8 @@ The `RadiationDose` class handles radiation dose measurements using the *gray* (
 
 | From | To       | Factor |
 | ---- | -------- | ------ |
-| `Gy` | `m2*s-2`  | 1      |
-| `Sv` | `m2*s-2`  | 1      |
+| `Gy` | `m2*s-2` | 1      |
+| `Sv` | `m2*s-2` | 1      |
 
 ---
 
@@ -38,13 +38,13 @@ The `RadiationDose` class handles radiation dose measurements using the *gray* (
 Both units have the same dimension (L²·T⁻² = m²/s² = J/kg) but measure different aspects of radiation:
 
 | Unit         | Measures        | Description                    |
-|--------------|-----------------|--------------------------------|
+| ------------ | --------------- | ------------------------------ |
 | gray (Gy)    | Absorbed dose   | Energy deposited per unit mass |
 | sievert (Sv) | Equivalent dose | Biological effect of radiation |
 
 The *sievert* accounts for the relative biological effectiveness (RBE) of different radiation types:
 
-```
+```text
 Equivalent dose (Sv) = Absorbed dose (Gy) × Radiation weighting factor
 ```
 
@@ -54,7 +54,7 @@ Equivalent dose (Sv) = Absorbed dose (Gy) × Radiation weighting factor
 
 Both units expand to the same base unit expression:
 
-```
+```text
 Gy = m²·s⁻² = J/kg
 Sv = m²·s⁻² = J/kg
 ```

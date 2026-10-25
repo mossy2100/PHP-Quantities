@@ -2,8 +2,7 @@
 
 Represents angle quantities with support for various angular units, trigonometric methods, and special parsing.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -58,9 +57,13 @@ The `Angle` class provides specialized handling for angular measurements, includ
 
 ## SI unit and dimension
 
-In the SI system, the *radian* is considered dimensionless because it can be defined as a ratio of arc length to radius, producing an SI unit of *m*/*m*, or nothing. The dimension code for *radian* is therefore normally `1`. For the purpose of this package, however, it was preferable to have a dedicated `Angle` class, which necessitated a dedicated dimension code, which was allocated the letter `A`.
+In the SI system, the *radian* is considered dimensionless because it can be defined as a ratio of arc length to radius,
+producing an SI unit of *m*/*m*, or nothing. The dimension code for *radian* is therefore normally `1`. For the purpose
+of this package, however, it was preferable to have a dedicated `Angle` class, which necessitated a dedicated dimension
+code, which was allocated the letter `A`.
 
-Similarly, the *radian* is referred to as a *derived* unit in the SI system; in this package it is used as a *base* unit.
+Similarly, the *radian* is referred to as a *derived* unit in the SI system; in this package it is used as a *base*
+unit.
 
 See [Dimensions and Base Units](../../Concepts/DimensionsAndBaseUnits.md) for more information.
 
@@ -68,7 +71,8 @@ See [Dimensions and Base Units](../../Concepts/DimensionsAndBaseUnits.md) for mo
 
 ## Square degrees, arcminutes, and arcseconds
 
-If you wish to work with square degrees, arcminutes, or arcseconds, use `deg2`, `arcmin2`, or `arcsec2`, respectively, as the unit symbols. The package doesn't currently permit exponents with unit symbols containing non-letter characters.
+If you wish to work with square degrees, arcminutes, or arcseconds, use `deg2`, `arcmin2`, or `arcsec2`, respectively,
+as the unit symbols. The package doesn't currently permit exponents with unit symbols containing non-letter characters.
 
 ---
 
@@ -96,7 +100,8 @@ $a1->approxEqual($a2);  // true
 
 ## Trigonometric methods
 
-These methods are convenient if you prefer to work with angles in degrees (or any other unit) rather than radians, which PHP's built-in functions require. All return float values.
+These methods are convenient if you prefer to work with angles in degrees (or any other unit) rather than radians, which
+PHP's built-in functions require. All return float values.
 
 ### sin()
 
@@ -146,7 +151,10 @@ $angle->csc();   // 1.4142135623731...
 $angle->cot();   // 1.0
 ```
 
-These methods also improve on PHP's handling of singularities: PHP's `tan(M_PI/2)` returns a large finite number (~1.6e16) rather than INF, because the floating-point representation of π/2 is not exact. The `Angle` trig methods detect when the denominator is within floating-point precision of zero and return ±INF with the correct sign, giving mathematically consistent results for tan(), sec(), csc(), and cot() at their singularities.
+These methods also improve on PHP's handling of singularities: PHP's `tan(M_PI/2)` returns a large finite number
+(~1.6e16) rather than INF, because the floating-point representation of π/2 is not exact. The `Angle` trig methods
+detect when the denominator is within floating-point precision of zero and return ±INF with the correct sign, giving
+mathematically consistent results for tan(), sec(), csc(), and cot() at their singularities.
 
 ```php
 // Singularities return ±INF with the correct sign.
@@ -205,7 +213,8 @@ $radians = $angle->toRadians(); // 3.14159...
 
 ## Parts
 
-Angles support part decomposition into *degrees*, *arcminutes*, and *arcseconds* by default. To use a different set of part units (e.g. just degrees and arcminutes), pass `partUnitSymbols` to the parts method.
+Angles support part decomposition into *degrees*, *arcminutes*, and *arcseconds* by default. To use a different set of
+part units (e.g. just degrees and arcminutes), pass `partUnitSymbols` to the parts method.
 
 ```php
 $angle = new Angle(45.504200, 'deg');
@@ -247,6 +256,6 @@ $dms = Angle::parse("23° 26' 21\"");  // Earth's axial tilt
 
 ## See also
 
-- **[Quantity](../Quantity.md)** — Base class documentation.
-- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** — General parts formatting and parsing.
-- **[SolidAngle](SolidAngle.md)** — Related quantity for solid angles.
+- **[Quantity](../Quantity.md)** - Base class documentation.
+- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** - General parts formatting and parsing.
+- **[SolidAngle](SolidAngle.md)** - Related quantity for solid angles.

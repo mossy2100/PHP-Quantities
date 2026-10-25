@@ -2,8 +2,7 @@
 
 Represents time quantities with integration to PHP's DateInterval.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -40,7 +39,8 @@ The `Time` class handles time durations and provides conversion to/from PHP's na
 | `y`   | `d`   | 365.2425 |
 | `c`   | `y`   | 100      |
 
-**Note:** Month and year conversions use average values. For calendar-accurate calculations, use PHP's DateTime/DateInterval classes directly.
+**Note:** Month and year conversions use average values. For calendar-accurate calculations, use PHP's
+DateTime/DateInterval classes directly.
 
 ---
 
@@ -74,7 +74,8 @@ $negativeTime = Time::fromDateInterval($interval);
 public function toDateIntervalSpecifier(): string
 ```
 
-Convert to a DateInterval specification string (ISO 8601 duration format). The specifier rounds to the nearest second, and zero-value components are omitted.
+Convert to a DateInterval specification string (ISO 8601 duration format). The specifier rounds to the nearest second,
+and zero-value components are omitted.
 
 ```php
 $time = new Time(90061, 's');
@@ -93,7 +94,8 @@ echo $time->toDateIntervalSpecifier();  // P0D
 public function toDateInterval(): DateInterval
 ```
 
-Convert to a PHP DateInterval object. More accurate than `toDateIntervalSpecifier()` because fractional seconds are preserved via the DateInterval's `$f` (microseconds) property, rather than rounding to the nearest second.
+Convert to a PHP DateInterval object. More accurate than `toDateIntervalSpecifier()` because fractional seconds are
+preserved via the DateInterval's `$f` (microseconds) property, rather than rounding to the nearest second.
 
 ```php
 $time = new Time(3661, 's');  // 1 hour, 1 minute, 1 second
@@ -113,7 +115,8 @@ echo $interval->invert;  // 1
 
 ## Parts
 
-Time quantities support part decomposition by default using the full set of time units (years, months, weeks, days, hours, minutes, seconds):
+Time quantities support part decomposition by default using the full set of time units (years, months, weeks, days,
+hours, minutes, seconds):
 
 ```php
 $time = new Time(90061, 's');
@@ -125,7 +128,8 @@ echo $time->formatParts();
 // 1d 1h 1min 1s
 ```
 
-To use a different set of part units, pass `partUnitSymbols` to the parts method. For example, to decompose into hours/minutes/seconds only:
+To use a different set of part units, pass `partUnitSymbols` to the parts method. For example, to decompose into
+hours/minutes/seconds only:
 
 ```php
 $time = new Time(90061, 's');
@@ -171,6 +175,6 @@ $total = $hours->add($minutes);  // 4 hours total
 
 ## See also
 
-- **[Quantity](../Quantity.md)** — Base class documentation.
-- **[PHP DateInterval](https://www.php.net/manual/en/class.dateinterval.php)** — Native PHP class.
-- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** — General parts formatting and parsing.
+- **[Quantity](../Quantity.md)** - Base class documentation.
+- **[PHP DateInterval](https://www.php.net/manual/en/class.dateinterval.php)** - Native PHP class.
+- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** - General parts formatting and parsing.

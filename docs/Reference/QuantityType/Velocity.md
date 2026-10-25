@@ -2,14 +2,14 @@
 
 Represents velocity/speed quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Velocity` class handles speed and velocity measurements. Most velocity units are derived from length/time ratios (m/s, km/h, mph), which are automatically supported. This class provides the *knot* as a named unit.
+The `Velocity` class handles speed and velocity measurements. Most velocity units are derived from length/time ratios
+(m/s, km/h, mph), which are automatically supported. This class provides the *knot* as a named unit.
 
 ---
 
@@ -25,9 +25,9 @@ The `Velocity` class handles speed and velocity measurements. Most velocity unit
 
 ## Conversion definitions
 
-| From | To          | Factor |
-| ---- | ----------- | ------ |
-| `kn` | `nmi*h-1`   | 1      |
+| From | To        | Factor |
+| ---- | --------- | ------ |
+| `kn` | `nmi*h-1` | 1      |
 
 ---
 
@@ -35,7 +35,7 @@ The `Velocity` class handles speed and velocity measurements. Most velocity unit
 
 The *knot* is defined as one *nautical mile* per hour:
 
-```
+```text
 1 kn = 1 nmi/h = 1.852 km/h ≈ 1.15078 mph
 ```
 
@@ -96,7 +96,7 @@ $inKmh = $c->to('km/h');  // 1.079×10⁹ km/h
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::speedOfLight()`** (c) — Speed of light in vacuum, 299,792,458 m/s.
+- **`PhysicalConstant::speedOfLight()`** (c) - Speed of light in vacuum, 299,792,458 m/s.
 
 ---
 

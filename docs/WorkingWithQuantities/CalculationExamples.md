@@ -202,7 +202,7 @@ $marsMass = new Mass(6.417e23, 'kg');
 $marsRadius = new Length(3.3895e6, 'm');
 
 $g = $G->mul($marsMass)->div($marsRadius->sqr());
-// 3.73 m/s2 (Acceleration) — about 38% of Earth's gravity
+// 3.73 m/s2 (Acceleration) - about 38% of Earth's gravity
 ```
 
 ---
@@ -339,12 +339,12 @@ $mains = new Frequency(50, 'Hz');
 $one = new Dimensionless(1);
 $period = $one->div($mains);
 $ms = $period->to('ms');
-// 20 ms (Time) — European/Australian mains
+// 20 ms (Time) - European/Australian mains
 
 $mains = new Frequency(60, 'Hz');
 $period = $one->div($mains);
 $ms = $period->to('ms');
-// 16.67 ms (Time) — North American mains
+// 16.67 ms (Time) - North American mains
 ```
 
 ---
@@ -435,7 +435,7 @@ use Mossy2100\Quantities\QuantityType\Mass;
 $mass = new Mass(0.018, 'kg');
 $molarMass = new Mass(0.018015, 'kg')->div(new AmountOfSubstance(1, 'mol'));
 $n = $mass->div($molarMass);
-// 0.999 mol (AmountOfSubstance) — approximately 1 mol of water
+// 0.999 mol (AmountOfSubstance) - approximately 1 mol of water
 ```
 
 ---
@@ -574,8 +574,8 @@ $t = $altitude->div($rate);
 
 ### Top of descent distance
 
-At 450 knots ground speed, descending from 35,000 ft at 1,500 ft/min. Pilots use the "3:1 rule"
-as a rough approximation: 3 nm per 1,000 ft.
+At 450 knots ground speed, descending from 35,000 ft at 1,500 ft/min. Pilots use the "3:1 rule" as a rough
+approximation: 3 nm per 1,000 ft.
 
 ```php
 $altitude = new Length(35000, 'ft');
@@ -607,7 +607,7 @@ $totalFuelSi = $totalFuel->toSi();
 
 ## See also
 
-- **[README](../../README.md)** — Package overview and quick start.
-- **[Units](../Concepts/Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
-- **[Quantity](../Reference/Quantity.md)** — Quantity class documentation.
-- **[PhysicalConstant](../Reference/PhysicalConstant.md)** — Available physical constants.
+- **[README](../../README.md)** - Package overview and quick start.
+- **[Units](../Concepts/Units.md)** - Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
+- **[Quantity](../Reference/Quantity.md)** - Quantity class documentation.
+- **[PhysicalConstant](../Reference/PhysicalConstant.md)** - Available physical constants.

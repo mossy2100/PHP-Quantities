@@ -9,7 +9,8 @@ Manages unit conversions for a measurement dimension.
 
 ## Overview
 
-The `Converter` class is responsible for finding and computing conversions between units of the same physical dimension. It uses the multiton pattern to maintain one instance per dimension (e.g., one for length, one for mass, etc.).
+The `Converter` class is responsible for finding and computing conversions between units of the same physical dimension.
+It uses the multiton pattern to maintain one instance per dimension (e.g., one for length, one for mass, etc.).
 
 The conversion system works by:
 1. Storing direct conversions provided by quantity type definitions
@@ -21,15 +22,19 @@ All conversions use the linear transformation formula: `destValue = srcValue * f
 
 ### Path discovery strategies
 
-When `findConversion()` is called, the converter tries these strategies in order (cheapest first), stopping as soon as an exact conversion is found:
+When `findConversion()` is called, the converter tries these strategies in order (cheapest first), stopping as soon as
+an exact conversion is found:
 
-1. **Inverse** — if dest->src exists, invert it
-2. **Prefix** — if the units share the same base, compute the prefix ratio
-3. **Exponentiation** — if both units are single-term with the same exponent > 1 (e.g., m2 -> ft2), find the base conversion and raise it to the power
-4. **Unit term pairs** — for compound units with matching term counts, convert each pair individually
-5. **Combination** — compose two known conversions via an intermediate unit (sequential, convergent, divergent, or opposite)
+1. **Inverse** - if dest->src exists, invert it
+2. **Prefix** - if the units share the same base, compute the prefix ratio
+3. **Exponentiation** - if both units are single-term with the same exponent > 1 (e.g., m2 -> ft2), find the base
+   conversion and raise it to the power
+4. **Unit term pairs** - for compound units with matching term counts, convert each pair individually
+5. **Combination** - compose two known conversions via an intermediate unit (sequential, convergent, divergent, or
+   opposite)
 
-If no exact conversion is found, the converter generates batches of new conversions between all known unit pairs and repeats until the target conversion is discovered or no further progress can be made.
+If no exact conversion is found, the converter generates batches of new conversions between all known unit pairs and
+repeats until the target conversion is discovered or no further progress can be made.
 
 ---
 
@@ -71,7 +76,8 @@ Structure: `$conversionMatrix[$srcSymbol][$destSymbol] = Conversion`
 public ?QuantityType $quantityType { get; }
 ```
 
-The quantity type this converter is for (e.g., the `QuantityType` for length), or `null` if the dimension has no registered quantity type. Resolved via `QuantityTypeService::getByDimension()`.
+The quantity type this converter is for (e.g., the `QuantityType` for length), or `null` if the dimension has no
+registered quantity type. Resolved via `QuantityTypeService::getByDimension()`.
 
 ---
 
@@ -85,7 +91,8 @@ The `Converter` uses the multiton pattern. The constructor is private; use `getI
 public static function getInstance(string $dimension): self
 ```
 
-Get the Converter instance for a given dimension. Creates a new instance on first access, loading conversion definitions from the registered quantity type.
+Get the Converter instance for a given dimension. Creates a new instance on first access, loading conversion definitions
+from the registered quantity type.
 
 **Parameters:**
 - `$dimension` (string) - Dimension code (e.g., `'L'`, `'M'`, `'MLT-2'`).
@@ -119,7 +126,8 @@ Remove the cached Converter instance for a given dimension.
 public static function removeAllInstances(): void
 ```
 
-Clear all cached Converter instances. Forces new instances to be created on next access. Primarily intended for test isolation.
+Clear all cached Converter instances. Forces new instances to be created on next access. Primarily intended for test
+isolation.
 
 ---
 
@@ -172,10 +180,11 @@ public function findConversion(
 
 Find the conversion between two units, discovering new paths if necessary.
 
-Returns a cached conversion if available, otherwise discovers a path using the strategies described in the overview. Discovered conversions are cached for future use.
+Returns a cached conversion if available, otherwise discovers a path using the strategies described in the overview.
+Discovered conversions are cached for future use.
 
-For dimensions containing `'C'` (currency), first calls `CurrencyService::refreshRatesIfStale()`, which refetches
-the exchange rates if auto-refresh is on and they're stale.
+For dimensions containing `'C'` (currency), first calls `CurrencyService::refreshRatesIfStale()`, which refetches the
+exchange rates if auto-refresh is on and they're stale.
 
 **Parameters:**
 - `$srcUnit` (string|UnitInterface) - The source unit.
@@ -233,7 +242,8 @@ public function getConversion(
 ): ?Conversion
 ```
 
-Look up a conversion directly from the matrix. Does **not** discover new paths — returns `null` if the conversion is not already cached. Use `findConversion()` for path discovery.
+Look up a conversion directly from the matrix. Does **not** discover new paths - returns `null` if the conversion is not
+already cached. Use `findConversion()` for path discovery.
 
 ### hasConversion()
 

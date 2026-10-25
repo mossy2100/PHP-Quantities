@@ -2,8 +2,7 @@
 
 Represents illuminance quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `Illuminance` class handles illuminance measurements, which describe how muc
 
 ## Conversion definitions
 
-| From | To               | Factor |
-| ---- | ---------------- | ------ |
-| `lx` | `cd*rad2*m-2`    | 1      |
+| From | To            | Factor |
+| ---- | ------------- | ------ |
+| `lx` | `cd*rad2*m-2` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `Illuminance` class handles illuminance measurements, which describe how muc
 
 The *lux* is defined as:
 
-```
+```text
 lx = cd·sr·m⁻² = lm/m²
 ```
 

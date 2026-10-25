@@ -2,8 +2,7 @@
 
 Represents pressure quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -26,12 +25,12 @@ The `Pressure` class handles pressure measurements across SI, scientific, and US
 
 ## Conversion definitions
 
-| From   | To              | Factor        |
-| ------ | --------------- | ------------- |
-| `Pa`   | `kg*m-1*s-2`    | 1             |
-| `mmHg` | `Pa`            | 133.322387415 |
-| `atm`  | `Pa`            | 101325        |
-| `inHg` | `mmHg`          | 25.4          |
+| From   | To           | Factor        |
+| ------ | ------------ | ------------- |
+| `Pa`   | `kg*m-1*s-2` | 1             |
+| `mmHg` | `Pa`         | 133.322387415 |
+| `atm`  | `Pa`         | 101325        |
+| `inHg` | `mmHg`       | 25.4          |
 
 ---
 
@@ -39,7 +38,7 @@ The `Pressure` class handles pressure measurements across SI, scientific, and US
 
 The *pascal* is defined in terms of SI base units:
 
-```
+```text
 Pa = kg·m⁻¹·s⁻² = N/m²
 ```
 
@@ -47,12 +46,12 @@ Pa = kg·m⁻¹·s⁻² = N/m²
 
 ## Units
 
-| Unit | Symbol | System | Prefix Support |
-|------|--------|--------|----------------|
-| pascal | Pa | SI | Metric (kPa, MPa, GPa, etc.) |
-| atmosphere | atm | Scientific | No |
-| mmHg | mmHg | Scientific | No |
-| inHg | inHg | US Customary | No |
+| Unit       | Symbol | System       | Prefix Support               |
+| ---------- | ------ | ------------ | ---------------------------- |
+| pascal     | Pa     | SI           | Metric (kPa, MPa, GPa, etc.) |
+| atmosphere | atm    | Scientific   | No                           |
+| mmHg       | mmHg   | Scientific   | No                           |
+| inHg       | inHg   | US Customary | No                           |
 
 ---
 
@@ -83,5 +82,5 @@ $inAtm = $hydraulic->to('atm');   // 197.385 atm
 
 ## See also
 
-- **[Quantity](../Quantity.md)** — Base class documentation.
-- **[Force](Force.md)** — Related quantity (pressure = force/area).
+- **[Quantity](../Quantity.md)** - Base class documentation.
+- **[Force](Force.md)** - Related quantity (pressure = force/area).

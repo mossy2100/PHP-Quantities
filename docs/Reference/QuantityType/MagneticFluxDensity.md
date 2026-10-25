@@ -2,14 +2,14 @@
 
 Represents magnetic flux density (magnetic field strength) quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `MagneticFluxDensity` class handles magnetic flux density measurements, also known as magnetic field strength or B-field.
+The `MagneticFluxDensity` class handles magnetic flux density measurements, also known as magnetic field strength or
+B-field.
 
 ---
 
@@ -23,9 +23,9 @@ The `MagneticFluxDensity` class handles magnetic flux density measurements, also
 
 ## Conversion definitions
 
-| From | To              | Factor |
-| ---- | --------------- | ------ |
-| `T`  | `kg*s-2*A-1`    | 1      |
+| From | To           | Factor |
+| ---- | ------------ | ------ |
+| `T`  | `kg*s-2*A-1` | 1      |
 
 ---
 
@@ -33,7 +33,7 @@ The `MagneticFluxDensity` class handles magnetic flux density measurements, also
 
 The *tesla* is defined as:
 
-```
+```text
 T = kg·s⁻²·A⁻¹ = Wb/m² = V·s/m²
 ```
 

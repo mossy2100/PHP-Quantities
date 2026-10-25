@@ -24,7 +24,7 @@ Understanding certain terms used by the Quantities package will help you make se
 
 ## See also
 
-- **[Dimensions and Base Units](DimensionsAndBaseUnits.md)** — Dimension codes, base units, and how the library tracks physical dimensions.
-- **[Quantity Types](QuantityTypes.md)** — Typed quantity classes and how they map to dimensions.
-- **[Prefixes](Prefixes.md)** — Metric, engineering, and binary prefixes for scaling units.
-- **[Units](Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
+- **[Dimensions and Base Units](DimensionsAndBaseUnits.md)** - Dimension codes, base units, and how the library tracks physical dimensions.
+- **[Quantity Types](QuantityTypes.md)** - Typed quantity classes and how they map to dimensions.
+- **[Prefixes](Prefixes.md)** - Metric, engineering, and binary prefixes for scaling units.
+- **[Units](Units.md)** - Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.

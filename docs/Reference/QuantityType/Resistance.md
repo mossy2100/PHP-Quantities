@@ -2,8 +2,7 @@
 
 Represents electrical resistance quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `Resistance` class handles electrical resistance measurements.
 
 ## Conversion definitions
 
-| From  | To                  | Factor |
-| ----- | ------------------- | ------ |
-| `ohm` | `kg*m2*s-3*A-2`     | 1      |
+| From  | To              | Factor |
+| ----- | --------------- | ------ |
+| `ohm` | `kg*m2*s-3*A-2` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `Resistance` class handles electrical resistance measurements.
 
 The *ohm* is defined as:
 
-```
+```text
 Ω = kg·m²·s⁻³·A⁻² = V/A
 ```
 
@@ -46,7 +45,8 @@ The package supports three symbols for the ohm:
 - Unicode: `Ω` (U+03A9 Greek capital letter Omega)
 - Alternate: `Ω` (U+2126 Ohm sign)
 
-The recommendation from Unicode is to prefer the Greek capital letter Omega for the ohm symbol, but the "Ohm sign" character is also accepted by the parser for backwards compatibility.
+The recommendation from Unicode is to prefer the Greek capital letter Omega for the ohm symbol, but the "Ohm sign"
+character is also accepted by the parser for backwards compatibility.
 
 How to type capital Omega:
 1. Mac: Option+W

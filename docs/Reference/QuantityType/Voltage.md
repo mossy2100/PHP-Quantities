@@ -2,8 +2,7 @@
 
 Represents voltage/electric potential quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `Voltage` class handles voltage (electric potential difference) measurements
 
 ## Conversion definitions
 
-| From | To                  | Factor |
-| ---- | ------------------- | ------ |
-| `V`  | `kg*m2*s-3*A-1`     | 1      |
+| From | To              | Factor |
+| ---- | --------------- | ------ |
+| `V`  | `kg*m2*s-3*A-1` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `Voltage` class handles voltage (electric potential difference) measurements
 
 The *volt* is defined as:
 
-```
+```text
 V = kg·m²·s⁻³·A⁻¹ = W/A = J/C
 ```
 

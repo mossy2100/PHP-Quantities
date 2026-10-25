@@ -2,14 +2,14 @@
 
 Represents area quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Area` class handles area measurements. Most area units are derived from length units squared (*m²*, *ft²*, etc.), which are automatically supported. This class provides additional named area units.
+The `Area` class handles area measurements. Most area units are derived from length units squared (*m²*, *ft²*, etc.),
+which are automatically supported. This class provides additional named area units.
 
 ---
 
@@ -26,10 +26,10 @@ The `Area` class handles area measurements. Most area units are derived from len
 
 ## Conversion definitions
 
-| From  | To    | Factor |
-| ----- | ----- | ------ |
-| `ha`  | `m2`  | 10000  |
-| `ac`  | `yd2` | 4840   |
+| From | To    | Factor |
+| ---- | ----- | ------ |
+| `ha` | `m2`  | 10000  |
+| `ac` | `yd2` | 4840   |
 
 ---
 

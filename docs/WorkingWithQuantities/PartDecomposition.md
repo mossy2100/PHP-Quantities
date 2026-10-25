@@ -4,13 +4,16 @@
 
 ## Overview
 
-Some quantities are naturally expressed as a combination of units — angles in *degrees*, *arcminutes*, and *arcseconds*; time in *hours*, *minutes*, and *seconds*; lengths in *feet* and *inches*. The part decomposition methods let you convert between a single-unit value and its multi-unit parts.
+Some quantities are naturally expressed as a combination of units - angles in *degrees*, *arcminutes*, and *arcseconds*;
+time in *hours*, *minutes*, and *seconds*; lengths in *feet* and *inches*. The part decomposition methods let you
+convert between a single-unit value and its multi-unit parts.
 
 ---
 
 ## Converting to parts with `toParts()`
 
-The `toParts()` method breaks a quantity into integer components for each part unit, with only the smallest unit having a fractional value. By default it uses the [built-in part units](#built-in-part-units) for the quantity type.
+The `toParts()` method breaks a quantity into integer components for each part unit, with only the smallest unit having
+a fractional value. By default it uses the [built-in part units](#built-in-part-units) for the quantity type.
 
 ```php
 use Mossy2100\Quantities\QuantityType\Angle;
@@ -28,7 +31,8 @@ $parts = $time->toParts();
 // ['sign' => 1, 'y' => 0, ..., 'h' => 1, 'min' => 1, 's' => 1.0]
 ```
 
-The result always includes a `sign` key (`1` for positive/zero, `-1` for negative) and an entry for every part unit used (zero-valued entries are kept). The actual part values are always non-negative.
+The result always includes a `sign` key (`1` for positive/zero, `-1` for negative) and an entry for every part unit used
+(zero-valued entries are kept). The actual part values are always non-negative.
 
 Use the `precision` parameter to round the smallest unit:
 
@@ -42,7 +46,8 @@ $parts = $time->toParts(precision: 0);
 // [..., 'h' => 1, 'min' => 1, 's' => 2.0]
 ```
 
-If rounding the smallest unit causes it to overflow (e.g. 59.9 seconds rounds to 60), the larger parts are adjusted automatically.
+If rounding the smallest unit causes it to overflow (e.g. 59.9 seconds rounds to 60), the larger parts are adjusted
+automatically.
 
 Pass `$partUnitSymbols` to use a different set of part units for this call. Prefixed and compound symbols are accepted:
 
@@ -81,8 +86,8 @@ echo $time;  // -5400 s
 The result unit depends on the part units:
 
 - **SI base unit** if any part uses a metric unit, e.g. `5m 3cm` gives `m`, and `1ft 50cm` gives `m`.
-- **English base unit** otherwise, e.g. `5ft 6in` gives `ft`. Time and angle parts use `s` and `°`, since `h`,
-  `min` and `°` are neither metric nor English.
+- **English base unit** otherwise, e.g. `5ft 6in` gives `ft`. Time and angle parts use `s` and `°`, since `h`, `min` and
+  `°` are neither metric nor English.
 
 Pass `$si = true` or `$si = false` to choose explicitly:
 
@@ -110,9 +115,12 @@ echo $energy->to('MJ');  // 12.96 MJ
 
 ## Parsing parts with `parseParts()`
 
-The `parseParts()` method parses a multi-unit string into a quantity. Parts are separated by whitespace; there must be no space between a value and its unit symbol. Units containing spaces (e.g. `US gal`) are not supported, but compound units without spaces (e.g. `kW*h`) are. Only the first part may be negative.
+The `parseParts()` method parses a multi-unit string into a quantity. Parts are separated by whitespace; there must be
+no space between a value and its unit symbol. Units containing spaces (e.g. `US gal`) are not supported, but compound
+units without spaces (e.g. `kW*h`) are. Only the first part may be negative.
 
-A part may also be a bare number without a unit (dimensionless). Since unit symbols can't be duplicated, there can be at most one bare number in the input.
+A part may also be a bare number without a unit (dimensionless). Since unit symbols can't be duplicated, there can be at
+most one bare number in the input.
 
 ```php
 // Time parsed from a multi-unit string.
@@ -123,7 +131,7 @@ echo $time;  // 5445 s
 $angle = Angle::parseParts("45° 30'");
 echo $angle;  // 45.5°
 
-// Negative quantities — only the first part may carry the sign.
+// Negative quantities - only the first part may carry the sign.
 $time = Time::parseParts('-2h 15min');
 echo $time;  // -8100 s
 
@@ -132,8 +140,8 @@ $qty = Dimensionless::parseParts('1000 45% 76ppm');
 echo $qty;  // 1000.450076
 ```
 
-The result unit is chosen as for `fromParts()`: the SI base unit if any part is metric, otherwise the English base
-unit. Pass `$si` to choose explicitly:
+The result unit is chosen as for `fromParts()`: the SI base unit if any part is metric, otherwise the English base unit.
+Pass `$si` to choose explicitly:
 
 ```php
 $length = Length::parseParts('5ft 6in', si: true);
@@ -189,12 +197,14 @@ The parts methods use these baked-in defaults when called without an explicit `$
 | Time          | `y`, `mo`, `w`, `d`, `h`, `min`, `s` |
 | Length        | `mi`, `yd`, `ft`, `in`               |
 
-By default, `fromParts()` and `parseParts()` give the SI base unit (e.g. `m`, `kg`) if any part is metric, and
-otherwise the English base unit (e.g. `ft`, `lb`, `s`, `°`). Pass `$si` to choose explicitly.
+By default, `fromParts()` and `parseParts()` give the SI base unit (e.g. `m`, `kg`) if any part is metric, and otherwise
+the English base unit (e.g. `ft`, `lb`, `s`, `°`). Pass `$si` to choose explicitly.
 
-Other quantity types have no built-in part units; calling a parts method on them without an explicit list throws `LogicException`.
+Other quantity types have no built-in part units; calling a parts method on them without an explicit list throws
+`LogicException`.
 
-To use a different set of units, just pass them inline. There is no global state to configure or reset — every call is independent:
+To use a different set of units, just pass them inline. There is no global state to configure or reset - every call is
+independent:
 
 ```php
 // Time as h/min/s instead of the full y/mo/w/d/h/min/s.
@@ -208,7 +218,8 @@ echo $height->formatParts(partUnitSymbols: ['ft', 'in']);     // 5ft 8in
 
 ### Mass: imperial and US customary part lists
 
-Mass has no built-in part units (the choice between imperial stones, US customary tons, and so on is application-specific), but the `Mass` class exposes both common lists as constants:
+Mass has no built-in part units (the choice between imperial stones, US customary tons, and so on is
+application-specific), but the `Mass` class exposes both common lists as constants:
 
 ```php
 use Mossy2100\Quantities\QuantityType\Mass;
@@ -227,7 +238,7 @@ echo $produce->formatParts(partUnitSymbols: Mass::US_PART_UNITS);  // 3lb 4oz
 
 ## See also
 
-- **[Quantity](../Reference/Quantity.md#parts-methods)** — Full reference for `fromParts()`, `toParts()`, `parseParts()`, and `formatParts()`.
-- **[String Functions](StringFunctions.md)** — Parsing and formatting quantities as strings.
-- **[Angle](../Reference/QuantityType/Angle.md)** — DMS (degrees, arcminutes, arcseconds) parts support.
-- **[Time](../Reference/QuantityType/Time.md)** — Time decomposition and `DateInterval` interoperability.
+- **[Quantity](../Reference/Quantity.md#parts-methods)** - Full reference for `fromParts()`, `toParts()`, `parseParts()`, and `formatParts()`.
+- **[String Functions](StringFunctions.md)** - Parsing and formatting quantities as strings.
+- **[Angle](../Reference/QuantityType/Angle.md)** - DMS (degrees, arcminutes, arcseconds) parts support.
+- **[Time](../Reference/QuantityType/Time.md)** - Time decomposition and `DateInterval` interoperability.

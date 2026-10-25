@@ -2,14 +2,14 @@
 
 Represents acceleration quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Acceleration` class handles acceleration measurements. This class has no dedicated unit definitions as acceleration is expressed using compound units (m/s², ft/s², etc.).
+The `Acceleration` class handles acceleration measurements. This class has no dedicated unit definitions as acceleration
+is expressed using compound units (m/s², ft/s², etc.).
 
 ---
 
@@ -55,7 +55,7 @@ $centrifuge = new Quantity(10000 * 9.80665, 'm/s2');  // 10,000 g
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::earthGravity()`** (g) — Standard acceleration of gravity, 9.80665 m/s².
+- **`PhysicalConstant::earthGravity()`** (g) - Standard acceleration of gravity, 9.80665 m/s².
 
 ---
 

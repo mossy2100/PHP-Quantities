@@ -2,14 +2,14 @@
 
 Represents density quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Density` class handles density measurements. This class has no dedicated unit definitions as density is expressed using compound units (kg/m³, g/cm³, lb/ft³, etc.).
+The `Density` class handles density measurements. This class has no dedicated unit definitions as density is expressed
+using compound units (kg/m³, g/cm³, lb/ft³, etc.).
 
 ---
 

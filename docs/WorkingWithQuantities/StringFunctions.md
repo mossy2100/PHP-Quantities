@@ -4,7 +4,8 @@
 
 ## Overview
 
-Quantities can be created from strings using `parse()` and rendered as strings via `__toString()` or `format()`. This page covers the unit syntax accepted by the parser and the formatting options available for output.
+Quantities can be created from strings using `parse()` and rendered as strings via `__toString()` or `format()`. This
+page covers the unit syntax accepted by the parser and the formatting options available for output.
 
 ---
 
@@ -25,24 +26,26 @@ $mass = Mass::parse('70kg');            // Mass(70, 'kg')
 // Scientific notation
 $wavelength = Length::parse('5.5e-7 m');  // Length(5.5e-7, 'm')
 
-// Angles — single value or parts notation
+// Angles - single value or parts notation
 $angle = Angle::parse('45.5 deg');                // Angle(45.5, 'deg')
 $angle = Angle::parse('45deg 30arcmin 0arcsec');  // Angle(45.5, 'deg')
 
-// Time — single value or parts notation
+// Time - single value or parts notation
 $time = Time::parse('3661 s');              // Time(3661, 's')
 $time = Time::parse('1h 1min 1s');          // Time(3661, 's')
 $time = Time::parse('-1h 30min 45s');       // Time(-5445, 's')
 ```
 
-When `parse()` encounters a multi-part string (e.g. `"1h 30min 45s"`), it automatically delegates to `parseParts()`, which reconstructs the quantity from its component parts. In this case, spaces between values and units are *not* allowed, because spaces are used to separate parts.
+When `parse()` encounters a multi-part string (e.g. `"1h 30min 45s"`), it automatically delegates to `parseParts()`,
+which reconstructs the quantity from its component parts. In this case, spaces between values and units are *not*
+allowed, because spaces are used to separate parts.
 
 ---
 
 ## Unit syntax
 
-When writing unit strings — whether for `Quantity::create()`, `parse()`, or any method that
-accepts a unit — the following syntax rules apply.
+When writing unit strings - whether for `Quantity::create()`, `parse()`, or any method that accepts a unit - the
+following syntax rules apply.
 
 ### Simple units
 
@@ -52,18 +55,19 @@ A simple unit is a prefix (optional) followed by a unit symbol, e.g. `km`, `mg`,
 
 Compound units combine multiple unit terms using multiplication and division operators.
 
-**Multiplication operators** — the parser accepts four characters:
+**Multiplication operators** - the parser accepts four characters:
 
-| Character | Name | Unicode |
-|-----------|------|---------|
-| `*` | Asterisk | U+002A |
-| `.` | Period | U+002E |
-| `⋅` | Dot operator | U+22C5 |
-| `·` | Middle dot | U+00B7 |
+| Character | Name         | Unicode |
+| --------- | ------------ | ------- |
+| `*`       | Asterisk     | U+002A  |
+| `.`       | Period       | U+002E  |
+| `⋅`       | Dot operator | U+22C5  |
+| `·`       | Middle dot   | U+00B7  |
 
-When formatting output, `*` is used in ASCII mode and `⋅` (dot operator) in Unicode mode. On macOS, the middle dot `·` can be typed with **Option+Shift+9**, but as a general rule it's expected that `*` will be used in code.
+When formatting output, `*` is used in ASCII mode and `⋅` (dot operator) in Unicode mode. On macOS, the middle dot `·`
+can be typed with **Option+Shift+9**, but as a general rule it's expected that `*` will be used in code.
 
-**Division operator** — only the forward slash `/` is supported.
+**Division operator** - only the forward slash `/` is supported.
 
 Examples:
 
@@ -77,8 +81,8 @@ $force = Quantity::create(10, 'kg·m/s2');
 
 ### Exponents
 
-Exponents are written directly after the unit symbol — do not use an exponentiation operator
-such as `^` or `**`. Valid exponents are in the range -9..9, excluding 0. The parser accepts both plain digits and Unicode superscript characters:
+Exponents are written directly after the unit symbol - do not use an exponentiation operator such as `^` or `**`. Valid
+exponents are in the range -9..9, excluding 0. The parser accepts both plain digits and Unicode superscript characters:
 
 ```php
 // Plain digits
@@ -96,10 +100,10 @@ $inv = Quantity::create(5000, 's⁻¹');
 When the denominator contains multiple unit terms, it's acceptable to use parentheses to group them:
 
 ```php
-// Without brackets — s2 and A are separate denominator terms
+// Without brackets - s2 and A are separate denominator terms
 $quantity = Quantity::create(1, 'kg*m2/s2/A');
 
-// With brackets — equivalent, but clearer
+// With brackets - equivalent, but clearer
 $quantity = Quantity::create(1, 'kg*m2/(s2*A)');
 
 // Useful for readability
@@ -130,8 +134,7 @@ echo $resistance;  // 4700 Ω
 ### The `format()` Method
 
 For more control, use `format()` with a precision, a `FloatFormat` and other options. The parameters match Core's
-[`Floats::format()`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Floats.md#format), plus `$includeSpace` and
-`$ascii`:
+[`Floats::format()`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Floats.md#format), plus `$includeSpace` and `$ascii`:
 
 ```php
 use Mossy2100\Core\Enums\FloatFormat;
@@ -161,9 +164,10 @@ Trailing zeros are trimmed by default. Pass `trimZeros: false` to keep them, e.g
 
 ### ASCII vs. Unicode
 
-By default, quantities are formatted with Unicode characters. Pass `ascii: true` for plain ASCII output. The differences appear in four areas:
+By default, quantities are formatted with Unicode characters. Pass `ascii: true` for plain ASCII output. The differences
+appear in four areas:
 
-**1. Prefix symbols** — e.g. micro:
+**1. Prefix symbols** - e.g. micro:
 
 ```php
 $capacitance = Quantity::create(4.7, 'uF');
@@ -171,7 +175,7 @@ echo $capacitance->format();               // 4.7 μF
 echo $capacitance->format(ascii: true);    // 4.7 uF
 ```
 
-**2. Unit symbols** — e.g. ohm, degree:
+**2. Unit symbols** - e.g. ohm, degree:
 
 ```php
 $resistance = Quantity::create(100, 'ohm');
@@ -183,7 +187,7 @@ echo $angle->format();               // 90°
 echo $angle->format(ascii: true);    // 90 deg
 ```
 
-**3. Compound unit notation** — multiplication dot vs. asterisk:
+**3. Compound unit notation** - multiplication dot vs. asterisk:
 
 ```php
 $energy = Quantity::create(100, 'kg*m2/s2');
@@ -191,7 +195,7 @@ echo $energy->format();               // 100 kg·m²/s²
 echo $energy->format(ascii: true);    // 100 kg*m2/s2
 ```
 
-**4. Scientific notation** — Unicode superscripts vs. `e` notation. To choose the exponent format yourself, pass
+**4. Scientific notation** - Unicode superscripts vs. `e` notation. To choose the exponent format yourself, pass
 `expFormat`, e.g. `ExponentFormat::AsciiUpperCaseE`:
 
 ```php
@@ -202,7 +206,8 @@ echo $distance->format(4, format: FloatFormat::Scientific, ascii: true);  // 1.4
 
 ### Space between value and unit
 
-By default, `format()` automatically determines whether to place a space between the value and unit. Single non-letter symbols like `°`, `%`, or `″` have no space; all other units get a space:
+By default, `format()` automatically determines whether to place a space between the value and unit. Single non-letter
+symbols like `°`, `%`, or `″` have no space; all other units get a space:
 
 ```php
 $angle = new Angle(45, 'deg');
@@ -223,6 +228,6 @@ echo $length->format(includeSpace: false); // 100m
 
 ## See also
 
-- **[Quantity](../Reference/Quantity.md)** — Full reference for `format()`, `parse()`, and `__toString()`.
-- **[Part Decomposition](PartDecomposition.md)** — Multi-part formatting and parsing (e.g. `"5h 30min 45s"`).
-- **[Money](../Reference/QuantityType/Money.md)** — Currency-specific formatting with locale support.
+- **[Quantity](../Reference/Quantity.md)** - Full reference for `format()`, `parse()`, and `__toString()`.
+- **[Part Decomposition](PartDecomposition.md)** - Multi-part formatting and parsing (e.g. `"5h 30min 45s"`).
+- **[Money](../Reference/QuantityType/Money.md)** - Currency-specific formatting with locale support.

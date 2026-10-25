@@ -2,8 +2,7 @@
 
 Represents electrical capacitance quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `Capacitance` class handles electrical capacitance measurements.
 
 ## Conversion definitions
 
-| From | To                | Factor |
-| ---- | ----------------- | ------ |
-| `F`  | `kg-1*m-2*s4*A2`    | 1      |
+| From | To               | Factor |
+| ---- | ---------------- | ------ |
+| `F`  | `kg-1*m-2*s4*A2` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `Capacitance` class handles electrical capacitance measurements.
 
 The *farad* is defined as:
 
-```
+```text
 F = kg⁻¹·m⁻²·s⁴·A² = C/V = s/Ω
 ```
 

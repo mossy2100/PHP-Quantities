@@ -2,17 +2,14 @@
 
 Exchange rate service using the Open Exchange Rates API.
 
-**Namespace:** `Mossy2100\Quantities\Currencies\ExchangeRateServices`
-**Implements:** [`ExchangeRateServiceInterface`](ExchangeRateServiceInterface.md)
+**Namespace:** `Mossy2100\Quantities\Currencies\ExchangeRateServices` **Implements:** [`ExchangeRateServiceInterface`](ExchangeRateServiceInterface.md)
 
 ---
 
 ## Overview
 
-Fetches live exchange rates from the [Open Exchange Rates API](https://openexchangerates.org/).
-The free tier provides USD-based rates only. An App ID is required, which you can obtain by
-creating an account and visiting your
-[App IDs page](https://openexchangerates.org/account/app-ids).
+Fetches live exchange rates from the [Open Exchange Rates API](https://openexchangerates.org/). The free tier provides USD-based rates only. An App ID is
+required, which you can obtain by creating an account and visiting your [App IDs page](https://openexchangerates.org/account/app-ids).
 
 The service provides rates for approximately 170 currencies.
 
@@ -30,9 +27,9 @@ Create a new Open Exchange Rates service.
 
 **Parameters:**
 
-| Name     | Type     | Description                            |
-|----------|----------|----------------------------------------|
-| `$appId` | `string` | The App ID for Open Exchange Rates.    |
+| Name     | Type     | Description                         |
+| -------- | -------- | ----------------------------------- |
+| `$appId` | `string` | The App ID for Open Exchange Rates. |
 
 **Throws:**
 
@@ -58,21 +55,20 @@ Returns the service name: `'Open Exchange Rates'`.
 public function getConversionDefinitions(): array
 ```
 
-Fetches fresh exchange rates from the Open Exchange Rates API and returns conversion definitions.
-Rates are always relative to USD.
+Fetches fresh exchange rates from the Open Exchange Rates API and returns conversion definitions. Rates are always
+relative to USD.
 
-**Returns:** `list<array{string, string, float}>` - Currency conversion definitions as
-`[base, target, rate]` tuples.
+**Returns:** `list<array{string, string, float}>` - Currency conversion definitions as `[base, target, rate]` tuples.
 
 **Throws:**
 
-- `RuntimeException` - If the API request fails, returns invalid JSON, returns an API error, or
-  is missing the expected rates data.
+- `RuntimeException` - If the API request fails, returns invalid JSON, returns an API error, or is missing the expected
+  rates data.
 
 ---
 
 ## See also
 
-- **[ExchangeRateServiceInterface](ExchangeRateServiceInterface.md)** — The interface this service implements.
-- **[CurrencyService](../CurrencyService.md)** — Exchange rate configuration and caching.
-- **[Money](../../QuantityType/Money.md)** — The quantity type for currency values.
+- **[ExchangeRateServiceInterface](ExchangeRateServiceInterface.md)** - The interface this service implements.
+- **[CurrencyService](../CurrencyService.md)** - Exchange rate configuration and caching.
+- **[Money](../../QuantityType/Money.md)** - The quantity type for currency values.

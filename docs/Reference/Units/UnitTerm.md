@@ -116,7 +116,8 @@ The dimension code with exponent applied (e.g., `'L2'` for m²). Computed via `D
 public ?QuantityType $quantityType { get; }
 ```
 
-The quantity type this unit term is for (e.g., the `QuantityType` for length), or `null` if the dimension has no registered quantity type.
+The quantity type this unit term is for (e.g., the `QuantityType` for length), or `null` if the dimension has no
+registered quantity type.
 
 ---
 
@@ -141,7 +142,8 @@ Create a new UnitTerm instance.
 
 **Throws:**
 - [`UnknownUnitException`](../Exceptions/UnknownUnitException.md) - If the unit symbol is not recognized.
-- `DomainException` - If the prefix is unknown or invalid for the unit, or the exponent is zero or outside the range -9 to 9.
+- `DomainException` - If the prefix is unknown or invalid for the unit, or the exponent is zero or outside the range -9
+  to 9.
 
 **Examples:**
 ```php

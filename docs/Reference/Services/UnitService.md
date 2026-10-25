@@ -8,9 +8,11 @@ Registry of units with lookup, filtering, and loading by system.
 
 ## Overview
 
-The `UnitService` manages the collection of known units. It provides methods to look up units by name, symbol, system, or quantity type; register custom units; load units from built-in systems; and inspect the registry state.
+The `UnitService` manages the collection of known units. It provides methods to look up units by name, symbol, system,
+or quantity type; register custom units; load units from built-in systems; and inspect the registry state.
 
-All methods are static. The class uses lazy initialization to build the registry on first access, loading all default units from all systems.
+All methods are static. The class uses lazy initialization to build the registry on first access, loading all default
+units from all systems.
 
 ---
 
@@ -22,14 +24,15 @@ All methods are static. The class uses lazy initialization to build the registry
 public static function getByName(string $name): ?Unit
 ```
 
-Get a unit by its name (case-sensitive). Only base unit names are registered — prefixed forms like `'kilogram'` or `'millimeter'` are not resolved by this method. Use `getBySymbol()` to look up prefixed units.
+Get a unit by its name (case-sensitive). Only base unit names are registered - prefixed forms like `'kilogram'` or
+`'millimeter'` are not resolved by this method. Use `getBySymbol()` to look up prefixed units.
 
-**Returns:** `?Unit` — The matching unit, or null if not found.
+**Returns:** `?Unit` - The matching unit, or null if not found.
 
 ```php
 $meter = UnitService::getByName('meter');
 $gram = UnitService::getByName('gram');
-UnitService::getByName('kilogram');     // null — use getBySymbol('kg') instead
+UnitService::getByName('kilogram');     // null - use getBySymbol('kg') instead
 UnitService::getByName('nonexistent');  // null
 ```
 
@@ -39,11 +42,14 @@ UnitService::getByName('nonexistent');  // null
 public static function getBySymbol(string $symbol): ?Unit
 ```
 
-Get a unit by its symbol. Supports ASCII, Unicode, and alternate symbols, with or without prefixes. Since unit symbols are unique, this returns at most one unit.
+Get a unit by its symbol. Supports ASCII, Unicode, and alternate symbols, with or without prefixes. Since unit symbols
+are unique, this returns at most one unit.
 
-Note: prefixed symbols resolve to the underlying base `Unit` — the prefix information is discarded. For example, `getBySymbol('km')` returns the `Unit` object for meter. To work with a prefixed unit as a distinct entity (retaining the prefix and multiplier), use `UnitTerm::parse()`.
+Note: prefixed symbols resolve to the underlying base `Unit` - the prefix information is discarded. For example,
+`getBySymbol('km')` returns the `Unit` object for meter. To work with a prefixed unit as a distinct entity (retaining
+the prefix and multiplier), use `UnitTerm::parse()`.
 
-**Returns:** `?Unit` — The matching unit, or null if not found.
+**Returns:** `?Unit` - The matching unit, or null if not found.
 
 ```php
 $meter = UnitService::getBySymbol('m');
@@ -126,9 +132,10 @@ $symbols = UnitService::getAllSymbols();
 public static function add(Unit $unit, bool $replaceExisting = false): bool
 ```
 
-Add a unit to the registry. By default, returns `false` if a unit with the same name already exists. Pass `$replaceExisting = true` to overwrite.
+Add a unit to the registry. By default, returns `false` if a unit with the same name already exists. Pass
+`$replaceExisting = true` to overwrite.
 
-**Returns:** `bool` — True if the unit was added, false if it already existed and was not replaced.
+**Returns:** `bool` - True if the unit was added, false if it already existed and was not replaced.
 
 **Throws:** `DomainException` if any of the new unit's symbols conflict with an existing unit's symbols.
 
@@ -173,7 +180,8 @@ UnitService::addFromDefinition('furlong', [
 public static function remove(string|Unit $unit): void
 ```
 
-Remove a unit from the registry by name or by Unit object. Does nothing if the registry is not initialized or the unit doesn't exist.
+Remove a unit from the registry by name or by Unit object. Does nothing if the registry is not initialized or the unit
+doesn't exist.
 
 ```php
 UnitService::remove('furlong');
@@ -186,7 +194,8 @@ UnitService::remove($furlong);  // also works with Unit object
 public static function removeAll(): void
 ```
 
-Remove all units from the registry and clear the loaded-systems list. Unlike `reset()`, the next access will NOT trigger re-initialization.
+Remove all units from the registry and clear the loaded-systems list. Unlike `reset()`, the next access will NOT trigger
+re-initialization.
 
 ### reset()
 
@@ -194,7 +203,8 @@ Remove all units from the registry and clear the loaded-systems list. Unlike `re
 public static function reset(): void
 ```
 
-Reset the registry to its default initial state. The next access will trigger re-initialization with all default units from all systems.
+Reset the registry to its default initial state. The next access will trigger re-initialization with all default units
+from all systems.
 
 ---
 
@@ -259,8 +269,8 @@ $n = UnitService::count();
 
 ## See also
 
-- **[Unit](../Units/Unit.md)** — Unit class documentation
-- **[ConversionService](ConversionService.md)** — Conversion registry
-- **[QuantityTypeService](QuantityTypeService.md)** — Quantity type registry
-- **[UnitSystem](../Enums/UnitSystem.md)** — Measurement system enum
-- **[Units](../../Concepts/Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
+- **[Unit](../Units/Unit.md)** - Unit class documentation
+- **[ConversionService](ConversionService.md)** - Conversion registry
+- **[QuantityTypeService](QuantityTypeService.md)** - Quantity type registry
+- **[UnitSystem](../Enums/UnitSystem.md)** - Measurement system enum
+- **[Units](../../Concepts/Units.md)** - Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.

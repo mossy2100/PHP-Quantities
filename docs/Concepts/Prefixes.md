@@ -1,6 +1,8 @@
 # Prefixes
 
-Unit prefixes are short codes prepended to a unit symbol to indicate a scaling factor, such as *k* for kilo (×10³) or *Mi* for mebi (×2²⁰). The Quantities package supports all standard SI metric prefixes and IEC binary prefixes, and applies them automatically during parsing, formatting, and auto-prefixing.
+Unit prefixes are short codes prepended to a unit symbol to indicate a scaling factor, such as *k* for kilo (×10³) or
+*Mi* for mebi (×2²⁰). The Quantities package supports all standard SI metric prefixes and IEC binary prefixes, and
+applies them automatically during parsing, formatting, and auto-prefixing.
 
 ---
 
@@ -76,8 +78,8 @@ Prefixes are organised into groups using bitwise flags:
 
 ## See also
 
-- **[Units](Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
-- **[Unit Conversion](../WorkingWithQuantities/UnitConversion.md)** — Auto-prefixing during unit conversion.
-- **[PrefixService](../Reference/Services/PrefixService.md)** — Service class for prefix lookup and matching.
-- **[Prefix](../Reference/Units/Prefix.md)** — Prefix class reference.
-- **[UnitTerm](../Reference/Units/UnitTerm.md)** — Represents a unit with optional prefix and exponent.
+- **[Units](Units.md)** - Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
+- **[Unit Conversion](../WorkingWithQuantities/UnitConversion.md)** - Auto-prefixing during unit conversion.
+- **[PrefixService](../Reference/Services/PrefixService.md)** - Service class for prefix lookup and matching.
+- **[Prefix](../Reference/Units/Prefix.md)** - Prefix class reference.
+- **[UnitTerm](../Reference/Units/UnitTerm.md)** - Represents a unit with optional prefix and exponent.

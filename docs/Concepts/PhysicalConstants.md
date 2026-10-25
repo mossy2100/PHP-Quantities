@@ -54,7 +54,7 @@ $c = PhysicalConstant::get('c');
 | [Molar gas constant](https://en.wikipedia.org/wiki/Gas_constant)                             | R               | R            | 8.314462618           | *J/(mol·K)*       |
 | [Stefan-Boltzmann constant](https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant) | σ               | sigma        | 5.670374419 × 10⁻⁸    | *W/(m²·K⁴)*       |
 
-*See also: [Quick reference](../Reference/PhysicalConstant.md#quick-reference) — includes PHP constant names and method names.*
+*See also: [Quick reference](../Reference/PhysicalConstant.md#quick-reference) - includes PHP constant names and method names.*
 
 If you have suggestions for additional constants that would be useful, let me know.
 
@@ -62,7 +62,6 @@ If you have suggestions for additional constants that would be useful, let me kn
 
 ## See also
 
-- **[Quantity](../Reference/Quantity.md)** — Quantity class documentation.
-- **[PhysicalConstant](../Reference/PhysicalConstant.md)** — Available physical constants.
-- **[Calculation Examples](../WorkingWithQuantities/CalculationExamples.md)** — Real-world physics and engineering calculations using physical constants.
-
+- **[Quantity](../Reference/Quantity.md)** - Quantity class documentation.
+- **[PhysicalConstant](../Reference/PhysicalConstant.md)** - Available physical constants.
+- **[Calculation Examples](../WorkingWithQuantities/CalculationExamples.md)** - Real-world physics and engineering calculations using physical constants.

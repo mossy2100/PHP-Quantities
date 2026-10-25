@@ -2,8 +2,7 @@
 
 Represents force quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -24,10 +23,10 @@ The `Force` class handles force measurements in SI and Imperial/US Customary sys
 
 ## Conversion definitions
 
-| From   | To           | Factor          |
-| ------ | ------------ | --------------- |
-| `N`    | `kg*m/s2`    | 1               |
-| `lbf`  | `lb*ft/s2`   | 9.80665 / 0.3048 |
+| From  | To         | Factor           |
+| ----- | ---------- | ---------------- |
+| `N`   | `kg*m/s2`  | 1                |
+| `lbf` | `lb*ft/s2` | 9.80665 / 0.3048 |
 
 ---
 
@@ -35,7 +34,7 @@ The `Force` class handles force measurements in SI and Imperial/US Customary sys
 
 The *newton* is defined in terms of SI base units:
 
-```
+```text
 N = kg·m·s⁻²
 ```
 
@@ -45,13 +44,13 @@ N = kg·m·s⁻²
 
 The *pound force* (`lbf`) is defined using standard gravity (g₀ = 9.80665 m/s²):
 
-```
+```text
 1 lbf = 1 lb × g₀ = 0.45359237 kg × 9.80665 m/s² ≈ 4.44822 N
 ```
 
 The expansion uses Imperial base units:
 
-```
+```text
 lbf = lb·ft·s⁻² × (g₀ / 0.3048)
 ```
 

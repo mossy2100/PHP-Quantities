@@ -2,8 +2,7 @@
 
 Represents magnetic flux quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `MagneticFlux` class handles magnetic flux measurements.
 
 ## Conversion definitions
 
-| From | To                   | Factor |
-| ---- | -------------------- | ------ |
-| `Wb` | `kg*m2*s-2*A-1`      | 1      |
+| From | To              | Factor |
+| ---- | --------------- | ------ |
+| `Wb` | `kg*m2*s-2*A-1` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `MagneticFlux` class handles magnetic flux measurements.
 
 The *weber* is defined as:
 
-```
+```text
 Wb = kg·m²·s⁻²·A⁻¹ = V·s = T·m²
 ```
 

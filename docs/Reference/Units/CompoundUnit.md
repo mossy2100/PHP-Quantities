@@ -6,7 +6,8 @@ Represents a compound unit composed of one or more unit terms.
 
 ## Overview
 
-The `CompoundUnit` class represents compound units like *kg⋅m/s²* (newton) or *J/(mol⋅K)* (molar heat capacity). It maintains a collection of `UnitTerm` objects, each representing a unit with its prefix and exponent.
+The `CompoundUnit` class represents compound units like *kg⋅m/s²* (newton) or *J/(mol⋅K)* (molar heat capacity). It
+maintains a collection of `UnitTerm` objects, each representing a unit with its prefix and exponent.
 
 Key behaviors:
 - Unit terms with the same base unit are automatically combined (e.g., *km³* * *km⁻¹* = *km²*)
@@ -32,7 +33,8 @@ Key behaviors:
 private(set) array $unitTerms
 ```
 
-Array of unit terms the CompoundUnit comprises, keyed by the unit symbol without exponent. Unit terms with the same base are automatically combined.
+Array of unit terms the CompoundUnit comprises, keyed by the unit symbol without exponent. Unit terms with the same base
+are automatically combined.
 
 Type: `array<string, UnitTerm>`
 
@@ -42,7 +44,8 @@ Type: `array<string, UnitTerm>`
 private(set) string $dimension
 ```
 
-The dimension code of the compound unit. Calculated from the component unit terms. Defaults to `''` (empty string) for dimensionless units (i.e. scalars).
+The dimension code of the compound unit. Calculated from the component unit terms. Defaults to `''` (empty string) for
+dimensionless units (i.e. scalars).
 
 ### asciiSymbol
 
@@ -58,7 +61,8 @@ The ASCII representation of the unit (e.g., `kg*m/s2`). Uses asterisk for multip
 public string $unicodeSymbol { get; }
 ```
 
-The Unicode representation of the unit (e.g., `kg⋅m⋅s⁻²`). Uses dot operator (⋅) for multiplication and superscript exponents.
+The Unicode representation of the unit (e.g., `kg⋅m⋅s⁻²`). Uses dot operator (⋅) for multiplication and superscript
+exponents.
 
 ### multiplier
 
@@ -66,7 +70,8 @@ The Unicode representation of the unit (e.g., `kg⋅m⋅s⁻²`). Uses dot opera
 public float $multiplier { get; }
 ```
 
-The combined multiplier from all unit term prefixes, accounting for exponents. For example, km²⋅ms⁻¹ would have multiplier 1000² × 0.001⁻¹ = 1e6 × 1000 = 1e9.
+The combined multiplier from all unit term prefixes, accounting for exponents. For example, km²⋅ms⁻¹ would have
+multiplier 1000² × 0.001⁻¹ = 1e6 × 1000 = 1e9.
 
 ### firstUnitTerm
 
@@ -82,7 +87,8 @@ The first unit term in the compound unit, or `null` if empty.
 public ?QuantityType $quantityType { get; }
 ```
 
-The quantity type this compound unit is for (e.g., the `QuantityType` for length), or `null` if the dimension has no registered quantity type. Resolved via `QuantityTypeService::getByDimension()`.
+The quantity type this compound unit is for (e.g., the `QuantityType` for length), or `null` if the dimension has no
+registered quantity type. Resolved via `QuantityTypeService::getByDimension()`.
 
 ---
 
@@ -193,7 +199,8 @@ Check if all unit terms belong to the SI system. Dimensionless units are not con
 public function isBase(): bool
 ```
 
-Check if all unit terms are base units (single-dimension units, not expandable). Also true if dimensionless (empty unit terms).
+Check if all unit terms are base units (single-dimension units, not expandable). Also true if dimensionless (empty unit
+terms).
 
 ### isMergeable()
 
@@ -201,7 +208,8 @@ Check if all unit terms are base units (single-dimension units, not expandable).
 public function isMergeable(): bool
 ```
 
-Check if any two unit terms share the same unit dimension and could be merged. For example, a compound unit containing both `'m'` and `'ft'` returns true since both have dimension `'L'`.
+Check if any two unit terms share the same unit dimension and could be merged. For example, a compound unit containing
+both `'m'` and `'ft'` returns true since both have dimension `'L'`.
 
 ### siPreferred()
 
@@ -211,7 +219,9 @@ public function siPreferred(): bool
 
 Determine whether SI or English base units are preferred for expansion or simplification.
 
-Returns `true` if the unit contains no unambiguously English units, or if it contains at least one unambiguously SI unit. Units like `s`, `mol`, `A`, `cd`, `B`, and `XAU` are considered ambiguous (used with both systems) and are excluded from the count.
+Returns `true` if the unit contains no unambiguously English units, or if it contains at least one unambiguously SI
+unit. Units like `s`, `mol`, `A`, `cd`, `B`, and `XAU` are considered ambiguous (used with both systems) and are
+excluded from the count.
 
 ### hasPrefixes()
 
@@ -279,7 +289,8 @@ $recipVelocity = $velocity->recip(); // s/m
 public function mul(self $other): self
 ```
 
-Multiply this CompoundUnit by another, combining unit terms. Same-unit exponents are added (e.g., m⋅m² = m³), and terms that cancel to zero are removed.
+Multiply this CompoundUnit by another, combining unit terms. Same-unit exponents are added (e.g., m⋅m² = m³), and terms
+that cancel to zero are removed.
 
 **Parameters:**
 - `$other` (CompoundUnit) - The CompoundUnit to multiply by.
@@ -327,7 +338,8 @@ $volume = $length->pow(3); // m3
 public function __clone(): void
 ```
 
-Deep-clone the CompoundUnit, including all unit terms. The underlying `Unit` objects are not cloned as they are immutable.
+Deep-clone the CompoundUnit, including all unit terms. The underlying `Unit` objects are not cloned as they are
+immutable.
 
 ### toSiBase()
 
@@ -335,7 +347,8 @@ Deep-clone the CompoundUnit, including all unit terms. The underlying `Unit` obj
 public function toSiBase(): self
 ```
 
-Convert the CompoundUnit to its SI base unit equivalent. This includes the special units designated as SI base for this system: rad, B, and XAU.
+Convert the CompoundUnit to its SI base unit equivalent. This includes the special units designated as SI base for this
+system: rad, B, and XAU.
 
 **Returns:** `CompoundUnit`
 
@@ -355,7 +368,8 @@ $base = $force->toSiBase(); // kg⋅m⋅s⁻²
 public function toEnglishBase(): self
 ```
 
-Convert the CompoundUnit to its English base unit equivalent. For dimensions without an English base unit (e.g., time), falls back to the SI base unit.
+Convert the CompoundUnit to its English base unit equivalent. For dimensions without an English base unit (e.g., time),
+falls back to the SI base unit.
 
 **Returns:** `CompoundUnit`
 
@@ -391,7 +405,8 @@ $unprefixed = $prefixed->removePrefixes(); // m/s
 public function merge(): Quantity
 ```
 
-Merge unit terms that share the same unit dimension (e.g., `'m'` and `'ft'`). The first unit encountered of a given dimension is kept; subsequent units of the same dimension are converted to it.
+Merge unit terms that share the same unit dimension (e.g., `'m'` and `'ft'`). The first unit encountered of a given
+dimension is kept; subsequent units of the same dimension are converted to it.
 
 **Returns:** `Quantity` - A new Quantity with the merged compound unit and the conversion factor as the value.
 

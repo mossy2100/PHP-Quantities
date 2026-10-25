@@ -2,14 +2,14 @@
 
 Represents frequency and radioactivity quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Frequency` class handles measurements with dimension T⁻¹ (inverse time). This includes both frequency (*hertz*) and radioactivity (*becquerel*).
+The `Frequency` class handles measurements with dimension T⁻¹ (inverse time). This includes both frequency (*hertz*) and
+radioactivity (*becquerel*).
 
 ---
 
@@ -38,7 +38,7 @@ The `Frequency` class handles measurements with dimension T⁻¹ (inverse time).
 Both units have the same dimension (s⁻¹) but measure different phenomena:
 
 | Unit           | Measures           | Example                        |
-|----------------|--------------------|--------------------------------|
+| -------------- | ------------------ | ------------------------------ |
 | hertz (Hz)     | Periodic events    | Sound waves, radio frequencies |
 | becquerel (Bq) | Radioactive decays | Nuclear decay rate             |
 
@@ -55,7 +55,7 @@ $decay = new Frequency(1000, 'Bq');  // 1000 decays/second
 
 Both *hertz* and *becquerel* expand to the same base unit expression:
 
-```
+```text
 Hz = s⁻¹
 Bq = s⁻¹
 ```
@@ -94,7 +94,7 @@ $period = 1 / $wave->value;  // 0.001 seconds
 
 Frequency and period are inversely related:
 
-```
+```text
 f = 1/T
 T = 1/f
 ```
@@ -107,7 +107,7 @@ Where f is frequency in Hz and T is period in seconds.
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::caesiumFrequency()`** (ΔνCs) — Hyperfine transition frequency of caesium, 9,192,631,770 Hz.
+- **`PhysicalConstant::caesiumFrequency()`** (ΔνCs) - Hyperfine transition frequency of caesium, 9,192,631,770 Hz.
 
 ---
 

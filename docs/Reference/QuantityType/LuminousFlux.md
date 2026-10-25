@@ -2,8 +2,7 @@
 
 Represents luminous flux quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `LuminousFlux` class handles luminous flux measurements, commonly used to ra
 
 ## Conversion definitions
 
-| From | To          | Factor |
-| ---- | ----------- | ------ |
-| `lm` | `cd*rad2`   | 1      |
+| From | To        | Factor |
+| ---- | --------- | ------ |
+| `lm` | `cd*rad2` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `LuminousFlux` class handles luminous flux measurements, commonly used to ra
 
 The *lumen* is defined as:
 
-```
+```text
 lm = cd·sr
 ```
 

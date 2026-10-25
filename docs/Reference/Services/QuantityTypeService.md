@@ -14,7 +14,8 @@ The `QuantityTypeService` provides mapping between:
 - Quantity names (e.g. `'length'`, `'mass'`, `'energy'`)
 - PHP classes (e.g. `Length::class`, `Mass::class`, `Energy::class`)
 
-This allows `Quantity::create()` to instantiate the appropriate subclass based on dimensional analysis. For example, when multiplying `Length * Length`, `create()` returns an `Area` object because dimension `L2` maps to `Area::class`.
+This allows `Quantity::create()` to instantiate the appropriate subclass based on dimensional analysis. For example,
+when multiplying `Length * Length`, `create()` returns an `Area` object because dimension `L2` maps to `Area::class`.
 
 All methods are static. The class uses lazy initialization to build the registry on first access.
 
@@ -24,44 +25,45 @@ All methods are static. The class uses lazy initialization to build the registry
 
 ### `DEFAULT_QUANTITY_TYPES`
 
-Built-in quantity type definitions keyed by name. Each entry contains a dimension code and PHP class. The registry includes all standard physical quantities:
+Built-in quantity type definitions keyed by name. Each entry contains a dimension code and PHP class. The registry
+includes all standard physical quantities:
 
-| Name | Dimension | Class |
-|---|---|---|
-| dimensionless | *(empty)* | `Dimensionless` |
-| length | L | `Length` |
-| mass | M | `Mass` |
-| time | T | `Time` |
-| electric current | I | `ElectricCurrent` |
-| temperature | H | `Temperature` |
-| amount of substance | N | `AmountOfSubstance` |
-| luminous intensity | J | `LuminousIntensity` |
-| angle | A | `Angle` |
-| data | D | `Data` |
-| money | C | `Money` |
-| solid angle | A2 | `SolidAngle` |
-| area | L2 | `Area` |
-| volume | L3 | `Volume` |
-| velocity | LT-1 | `Velocity` |
-| acceleration | LT-2 | `Acceleration` |
-| density | ML-3 | `Density` |
-| frequency | T-1 | `Frequency` |
-| force | MLT-2 | `Force` |
-| pressure | ML-1T-2 | `Pressure` |
-| energy | ML2T-2 | `Energy` |
-| power | ML2T-3 | `Power` |
-| electric charge | TI | `ElectricCharge` |
-| voltage | ML2T-3I-1 | `Voltage` |
-| capacitance | M-1L-2T4I2 | `Capacitance` |
-| resistance | ML2T-3I-2 | `Resistance` |
-| conductance | M-1L-2T3I2 | `Conductance` |
-| magnetic flux | ML2T-2I-1 | `MagneticFlux` |
-| magnetic flux density | MT-2I-1 | `MagneticFluxDensity` |
-| inductance | ML2T-2I-2 | `Inductance` |
-| luminous flux | A2J | `LuminousFlux` |
-| illuminance | L-2A2J | `Illuminance` |
-| absorbed dose | L2T-2 | `RadiationDose` |
-| catalytic activity | T-1N | `CatalyticActivity` |
+| Name                  | Dimension  | Class                 |
+| --------------------- | ---------- | --------------------- |
+| dimensionless         | *(empty)*  | `Dimensionless`       |
+| length                | L          | `Length`              |
+| mass                  | M          | `Mass`                |
+| time                  | T          | `Time`                |
+| electric current      | I          | `ElectricCurrent`     |
+| temperature           | H          | `Temperature`         |
+| amount of substance   | N          | `AmountOfSubstance`   |
+| luminous intensity    | J          | `LuminousIntensity`   |
+| angle                 | A          | `Angle`               |
+| data                  | D          | `Data`                |
+| money                 | C          | `Money`               |
+| solid angle           | A2         | `SolidAngle`          |
+| area                  | L2         | `Area`                |
+| volume                | L3         | `Volume`              |
+| velocity              | LT-1       | `Velocity`            |
+| acceleration          | LT-2       | `Acceleration`        |
+| density               | ML-3       | `Density`             |
+| frequency             | T-1        | `Frequency`           |
+| force                 | MLT-2      | `Force`               |
+| pressure              | ML-1T-2    | `Pressure`            |
+| energy                | ML2T-2     | `Energy`              |
+| power                 | ML2T-3     | `Power`               |
+| electric charge       | TI         | `ElectricCharge`      |
+| voltage               | ML2T-3I-1  | `Voltage`             |
+| capacitance           | M-1L-2T4I2 | `Capacitance`         |
+| resistance            | ML2T-3I-2  | `Resistance`          |
+| conductance           | M-1L-2T3I2 | `Conductance`         |
+| magnetic flux         | ML2T-2I-1  | `MagneticFlux`        |
+| magnetic flux density | MT-2I-1    | `MagneticFluxDensity` |
+| inductance            | ML2T-2I-2  | `Inductance`          |
+| luminous flux         | A2J        | `LuminousFlux`        |
+| illuminance           | L-2A2J     | `Illuminance`         |
+| absorbed dose         | L2T-2      | `RadiationDose`       |
+| catalytic activity    | T-1N       | `CatalyticActivity`   |
 
 ---
 
@@ -75,7 +77,7 @@ public static function getAll(): array
 
 Get all registered quantity types.
 
-**Returns:** `array<string, QuantityType>` — Keyed by quantity type name.
+**Returns:** `array<string, QuantityType>` - Keyed by quantity type name.
 
 ```php
 $allTypes = QuantityTypeService::getAll();
@@ -229,7 +231,8 @@ Remove all quantity types from the registry. Unlike `reset()`, the next access w
 public static function reset(): void
 ```
 
-Reset the registry to its initial state, forcing re-initialization from the built-in definitions on next access. Useful for test isolation.
+Reset the registry to its initial state, forcing re-initialization from the built-in definitions on next access. Useful
+for test isolation.
 
 ---
 

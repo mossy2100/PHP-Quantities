@@ -6,7 +6,8 @@ Represents a type of physical quantity with its associated metadata.
 
 ## Overview
 
-The `QuantityType` class defines the metadata for a category of physical quantities, such as Length, Mass, Time, or Force. Each quantity type has a unique name, a dimensional code, and an associated Quantity subclass.
+The `QuantityType` class defines the metadata for a category of physical quantities, such as Length, Mass, Time, or
+Force. Each quantity type has a unique name, a dimensional code, and an associated Quantity subclass.
 
 Quantity types are registered with the `QuantityTypeService` and are used to:
 - Map dimension codes to human-readable names
@@ -34,7 +35,8 @@ The human-readable name of the quantity type (e.g., `'length'`, `'mass'`, `'forc
 public readonly string $dimension
 ```
 
-The normalized dimension code for this quantity type. Normalized via `DimensionService::normalize()` at construction time.
+The normalized dimension code for this quantity type. Normalized via `DimensionService::normalize()` at construction
+time.
 
 Examples: `'L'` (length), `'M'` (mass), `'L2'` (area), `'MLT-2'` (force), `'ML2T-2'` (energy).
 
@@ -63,7 +65,18 @@ The unit definitions for this quantity type, loaded from the associated Quantity
 The dimension code is injected into each definition. They aren't cached, so they reflect any change, e.g. after
 `CurrencyService::refreshUnits()`.
 
-Type: `array<string, array{asciiSymbol: string, unicodeSymbol?: string, prefixGroup?: int, alternateSymbol?: string, systems: list<UnitSystem>, dimension: string}>`
+Type:
+
+```php
+array<string, array{
+    asciiSymbol: string,
+    unicodeSymbol?: string,
+    prefixGroup?: int,
+    alternateSymbol?: string,
+    systems: list<UnitSystem>,
+    dimension: string
+}>
+```
 
 ### conversionDefinitions
 
@@ -71,7 +84,8 @@ Type: `array<string, array{asciiSymbol: string, unicodeSymbol?: string, prefixGr
 public array $conversionDefinitions { get; }
 ```
 
-The conversion definitions for this quantity type, loaded from the associated Quantity subclass via `getConversionDefinitions()`.
+The conversion definitions for this quantity type, loaded from the associated Quantity subclass via
+`getConversionDefinitions()`.
 
 Type: `list<array{string, string, float}>`
 

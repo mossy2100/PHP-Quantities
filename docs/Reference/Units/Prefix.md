@@ -6,9 +6,12 @@ Represents an SI or binary prefix for units.
 
 ## Overview
 
-Unit prefixes representing multipliers allow expressing very large or very small quantities more conveniently, such as *kilometer* (km), *microsecond* (µs), or *gibibyte* (GiB). The `Prefix` class represents metric (SI) and binary prefixes that can be applied to units of measurement.
+Unit prefixes representing multipliers allow expressing very large or very small quantities more conveniently, such as
+*kilometer* (km), *microsecond* (µs), or *gibibyte* (GiB). The `Prefix` class represents metric (SI) and binary prefixes
+that can be applied to units of measurement.
 
-As with units, prefixes have both ASCII and Unicode symbol representations. These are usually the same, the notable exception being the micro prefix having ASCII symbol 'u' and Unicode symbol 'μ'.
+As with units, prefixes have both ASCII and Unicode symbol representations. These are usually the same, the notable
+exception being the micro prefix having ASCII symbol 'u' and Unicode symbol 'μ'.
 
 ---
 
@@ -63,7 +66,8 @@ The numeric multiplier the prefix represents. For example:
 private(set) int $groupCode
 ```
 
-The prefix group this prefix belongs to. Must be one of the four base group constants (`GROUP_SMALL_METRIC`, `GROUP_MEDIUM_METRIC`, `GROUP_LARGE_METRIC`, or `GROUP_BINARY`), not a combination. See [Prefix Group Constants](../../Concepts/Prefixes.md#prefix-group-constants).
+The prefix group this prefix belongs to. Must be one of the four base group constants (`GROUP_SMALL_METRIC`,
+`GROUP_MEDIUM_METRIC`, `GROUP_LARGE_METRIC`, or `GROUP_BINARY`), not a combination. See [Prefix Group Constants](../../Concepts/Prefixes.md#prefix-group-constants).
 
 ---
 
@@ -111,10 +115,10 @@ public function isEngineering(): bool
 
 Check if this prefix is an "engineering" prefix, meaning its multiplier is a power of 1000.
 
-Engineering prefixes are those commonly used in engineering notation: kilo, mega, giga, etc., and milli, micro, nano, etc. Non-engineering prefixes like centi, deci, deca, and hecto, and binary prefixes like kibi and mibi return false.
+Engineering prefixes are those commonly used in engineering notation: kilo, mega, giga, etc., and milli, micro, nano,
+etc. Non-engineering prefixes like centi, deci, deca, and hecto, and binary prefixes like kibi and mibi return false.
 
-**Returns:**
-- `bool` - True if the prefix represents a power of 1000 (or ¹⁄₁₀₀₀)
+**Returns:** `bool` - True if the prefix represents a power of 1000 (or ¹⁄₁₀₀₀)
 
 **Examples:**
 ```php
@@ -140,8 +144,7 @@ Check if this prefix equals another.
 **Parameters:**
 - `$other` (mixed) - The value to compare with
 
-**Returns:**
-- `bool` - True if both prefixes have the same ASCII symbol
+**Returns:** `bool` - True if both prefixes have the same ASCII symbol
 
 **Examples:**
 ```php
@@ -165,8 +168,7 @@ Format the prefix as a string.
 **Parameters:**
 - `$ascii` (bool) - If true, return ASCII symbol; if false (default), return Unicode symbol
 
-**Returns:**
-- `string` - The formatted prefix symbol
+**Returns:** `string` - The formatted prefix symbol
 
 **Examples:**
 ```php
@@ -183,8 +185,7 @@ public function __toString(): string
 
 Convert the prefix to a string using the Unicode symbol.
 
-**Returns:**
-- `string` - The Unicode symbol
+**Returns:** `string` - The Unicode symbol
 
 ---
 

@@ -8,7 +8,10 @@ Interface for exchange rate web services.
 
 ## Overview
 
-`ExchangeRateServiceInterface` defines the contract that exchange rate service adapters must follow to provide currency conversion data from external APIs. Each implementation wraps a specific web service (e.g., Open Exchange Rates, Fixer.io, Frankfurter) and returns conversion definitions in a standard format compatible with `Quantity::getConversionDefinitions()`.
+`ExchangeRateServiceInterface` defines the contract that exchange rate service adapters must follow to provide currency
+conversion data from external APIs. Each implementation wraps a specific web service (e.g., Open Exchange Rates,
+Fixer.io, Frankfurter) and returns conversion definitions in a standard format compatible with
+`Quantity::getConversionDefinitions()`.
 
 The interface defines:
 - `getName()` - Get the name of the exchange rate service.
@@ -26,8 +29,7 @@ public function getName(): string
 
 Get the name of the exchange rate service.
 
-**Returns:**
-- `string` - The human-readable name of the service.
+**Returns:** `string` - The human-readable name of the service.
 
 ### getConversionDefinitions()
 
@@ -37,8 +39,9 @@ public function getConversionDefinitions(): array
 
 Refresh the exchange rates from the web service and return them as conversion definitions.
 
-**Returns:**
-- `list<array{string, string, float}>` - An array of conversion definitions, each containing a source unit symbol, target unit symbol, and conversion factor. This matches the format used by `Quantity::getConversionDefinitions()`.
+**Returns:** `list<array{string, string, float}>` - An array of conversion definitions, each containing a source unit
+symbol, target unit symbol, and conversion factor. This matches the format used by
+`Quantity::getConversionDefinitions()`.
 
 **Contract:**
 - Must fetch current exchange rate data from the external API.

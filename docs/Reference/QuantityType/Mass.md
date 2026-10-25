@@ -2,8 +2,7 @@
 
 Represents mass quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -11,7 +10,8 @@ Represents mass quantities.
 
 The `Mass` class handles mass measurements across SI, Imperial, and US Customary systems.
 
-The SI base unit for mass is the *kilogram* (`kg`), not the *gram*. This is the only SI base unit with a prefix. The *gram* is defined with all metric prefixes, so `kg`, `mg`, `μg`, etc. are all available.
+The SI base unit for mass is the *kilogram* (`kg`), not the *gram*. This is the only SI base unit with a prefix. The
+*gram* is defined with all metric prefixes, so `kg`, `mg`, `μg`, etc. are all available.
 
 ---
 
@@ -54,7 +54,8 @@ The [International Yard and Pound Agreement](https://en.wikipedia.org/wiki/Inter
 
 ## Parts
 
-Mass has no built-in part unit list because the choice between Imperial and US Customary units depends on context. The `Mass` class exposes both common lists as constants — pass either to a parts method via `partUnitSymbols`:
+Mass has no built-in part unit list because the choice between Imperial and US Customary units depends on context. The
+`Mass` class exposes both common lists as constants - pass either to a parts method via `partUnitSymbols`:
 
 ```php
 use Mossy2100\Quantities\QuantityType\Mass;
@@ -106,15 +107,15 @@ $grains = new Mass(77, 'gr');  // ~5 grams
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::electronMass()`** (mₑ) — Electron mass, 9.1093837139 × 10⁻³¹ kg.
-- **`PhysicalConstant::protonMass()`** (mₚ) — Proton mass, 1.67262192595 × 10⁻²⁷ kg.
-- **`PhysicalConstant::neutronMass()`** (mₙ) — Neutron mass, 1.67492750056 × 10⁻²⁷ kg.
+- **`PhysicalConstant::electronMass()`** (mₑ) - Electron mass, 9.1093837139 × 10⁻³¹ kg.
+- **`PhysicalConstant::protonMass()`** (mₚ) - Proton mass, 1.67262192595 × 10⁻²⁷ kg.
+- **`PhysicalConstant::neutronMass()`** (mₙ) - Neutron mass, 1.67492750056 × 10⁻²⁷ kg.
 
 ---
 
 ## See also
 
-- **[Quantity](../Quantity.md)** — Base class documentation.
-- **[Force](Force.md)** — Related quantity (M·L·T⁻²).
-- **[Density](Density.md)** — Related quantity (M·L⁻³).
-- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** — General parts formatting and parsing.
+- **[Quantity](../Quantity.md)** - Base class documentation.
+- **[Force](Force.md)** - Related quantity (M·L·T⁻²).
+- **[Density](Density.md)** - Related quantity (M·L⁻³).
+- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** - General parts formatting and parsing.

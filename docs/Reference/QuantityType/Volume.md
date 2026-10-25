@@ -2,8 +2,7 @@
 
 Represents volume quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -41,41 +40,42 @@ The `Volume` class handles volume measurements including liters and Imperial/US 
 
 ## Conversion definitions
 
-| From          | To            | Factor  |
-| ------------- | ------------- | ------- |
-| `m3`          | `L`           | 1000    |
-| `cup`         | `mL`          | 250     |
-| `tbsp`        | `mL`          | 15      |
-| `tsp`         | `mL`          | 5       |
-| `US gal`      | `in3`         | 231     |
-| `US gal`      | `US qt`       | 4       |
-| `US qt`       | `US pt`       | 2       |
-| `US pt`       | `US cup`      | 2       |
-| `US cup`      | `US fl oz`    | 8       |
-| `US fl oz`    | `US tbsp`     | 2       |
-| `US tbsp`     | `US tsp`      | 3       |
-| `imp gal`     | `L`           | 4.54609 |
-| `imp gal`     | `imp qt`      | 4       |
-| `imp qt`      | `imp pt`      | 2       |
-| `imp pt`      | `imp fl oz`   | 20      |
-| `imp fl oz`   | `imp tbsp`    | 2       |
-| `imp tbsp`    | `imp tsp`     | 4       |
+| From        | To          | Factor  |
+| ----------- | ----------- | ------- |
+| `m3`        | `L`         | 1000    |
+| `cup`       | `mL`        | 250     |
+| `tbsp`      | `mL`        | 15      |
+| `tsp`       | `mL`        | 5       |
+| `US gal`    | `in3`       | 231     |
+| `US gal`    | `US qt`     | 4       |
+| `US qt`     | `US pt`     | 2       |
+| `US pt`     | `US cup`    | 2       |
+| `US cup`    | `US fl oz`  | 8       |
+| `US fl oz`  | `US tbsp`   | 2       |
+| `US tbsp`   | `US tsp`    | 3       |
+| `imp gal`   | `L`         | 4.54609 |
+| `imp gal`   | `imp qt`    | 4       |
+| `imp qt`    | `imp pt`    | 2       |
+| `imp pt`    | `imp fl oz` | 20      |
+| `imp fl oz` | `imp tbsp`  | 2       |
+| `imp tbsp`  | `imp tsp`   | 4       |
 
 ---
 
 ## Imperial vs US customary
 
-Several volume units share the same name but represent different amounts in the imperial and US customary systems. These are disambiguated with system prefixes (`imp` or `US`):
+Several volume units share the same name but represent different amounts in the imperial and US customary systems. These
+are disambiguated with system prefixes (`imp` or `US`):
 
-| Unit         | Imperial (`imp`)   | US Customary (`US`) |
-| ------------ | ------------------ | ------------------- |
-| gallon       | 4546.09 mL         | 3785.41 mL          |
-| quart        | 1136.52 mL         | 946.35 mL           |
-| pint         | 568.26 mL          | 473.18 mL           |
-| fluid ounce  | 28.41 mL           | 29.57 mL            |
-| cup          | —                  | 236.59 mL           |
-| tablespoon   | 14.21 mL           | 14.79 mL            |
-| teaspoon     | 3.55 mL            | 4.93 mL             |
+| Unit        | Imperial (`imp`) | US Customary (`US`) |
+| ----------- | ---------------- | ------------------- |
+| gallon      | 4546.09 mL       | 3785.41 mL          |
+| quart       | 1136.52 mL       | 946.35 mL           |
+| pint        | 568.26 mL        | 473.18 mL           |
+| fluid ounce | 28.41 mL         | 29.57 mL            |
+| cup         | -                | 236.59 mL           |
+| tablespoon  | 14.21 mL         | 14.79 mL            |
+| teaspoon    | 3.55 mL          | 4.93 mL             |
 
 Always use the system prefix to avoid ambiguity:
 
@@ -93,7 +93,8 @@ echo $usPint->to('mL');   // 473.18 mL
 
 ## Metric culinary units
 
-The metric cup (250 mL), tablespoon (15 mL), and teaspoon (5 mL) are available in the `Metric` unit system. These use unprefixed symbols (`cup`, `tbsp`, `tsp`) since metric is the international standard for these units.
+The metric cup (250 mL), tablespoon (15 mL), and teaspoon (5 mL) are available in the `Metric` unit system. These use
+unprefixed symbols (`cup`, `tbsp`, `tsp`) since metric is the international standard for these units.
 
 ```php
 $recipe = new Volume(2, 'cup');

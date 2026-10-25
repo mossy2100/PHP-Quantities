@@ -2,8 +2,7 @@
 
 Represents electrical conductance quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `Conductance` class handles electrical conductance measurements. Conductance
 
 ## Conversion definitions
 
-| From | To                  | Factor |
-| ---- | ------------------- | ------ |
-| `S`  | `kg-1*m-2*s3*A2`    | 1      |
+| From | To               | Factor |
+| ---- | ---------------- | ------ |
+| `S`  | `kg-1*m-2*s3*A2` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `Conductance` class handles electrical conductance measurements. Conductance
 
 The *siemens* is defined as:
 
-```
+```text
 S = s³·A²·kg⁻¹·m⁻² = A/V = 1/Ω
 ```
 

@@ -2,14 +2,14 @@
 
 Represents length/distance quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
 ## Overview
 
-The `Length` class handles distance measurements across multiple systems including SI, Imperial, US Customary, Scientific, Nautical, and Css units.
+The `Length` class handles distance measurements across multiple systems including SI, Imperial, US Customary,
+Scientific, Nautical, and Css units.
 
 ---
 
@@ -31,41 +31,45 @@ The `Length` class handles distance measurements across multiple systems includi
 | fathom            | `ftm`        |              | Nautical                |
 | nautical mile     | `nmi`        |              | Nautical                |
 
-**Note 1:** The abbreviation `pt`, for *point*, can also mean *pint*. Unit uniqueness is maintained because the unit symbols for pints within the package are `imp pt` and `US pt`.
+**Note 1:** The abbreviation `pt`, for *point*, can also mean *pint*. Unit uniqueness is maintained because the unit
+symbols for pints within the package are `imp pt` and `US pt`.
 
 **Note 2:** While CSS uses `pc` for *picas*, the package instead uses `p` for several reasons:
 1. `pc` is also the symbol for *parsec*, and there's no obvious alternative.
-2. Lower-case `p` is used for *picas* in design software like Adobe InDesign and QuarkXPress, so there is an established precedent.
+2. Lower-case `p` is used for *picas* in design software like Adobe InDesign and QuarkXPress, so there is an established
+   precedent.
 3. *Picas* are not often used in CSS, so it shouldn't be a huge problem.
 
 ---
 
 ## Conversion definitions
 
-| From   | To    | Factor             |
-| ------ | ----- | ------------------ |
-| `yd`   | `m`   | 0.9144             |
-| `ft`   | `m`   | 0.3048             |
-| `in`   | `mm`  | 25.4               |
-| `in`   | `px`  | 96                 |
-| `in`   | `pt`  | 72                 |
-| `in`   | `p`   | 6                  |
-| `ft`   | `in`  | 12                 |
-| `yd`   | `ft`  | 3                  |
-| `mi`   | `yd`  | 1760               |
-| `au`   | `m`   | 149597870700       |
-| `ly`   | `m`   | 9460730472580800   |
-| `pc`   | `au`  | 648000 / π         |
-| `ftm`  | `yd`  | 2                  |
-| `nmi`  | `m`   | 1852               |
+| From  | To   | Factor           |
+| ----- | ---- | ---------------- |
+| `yd`  | `m`  | 0.9144           |
+| `ft`  | `m`  | 0.3048           |
+| `in`  | `mm` | 25.4             |
+| `in`  | `px` | 96               |
+| `in`  | `pt` | 72               |
+| `in`  | `p`  | 6                |
+| `ft`  | `in` | 12               |
+| `yd`  | `ft` | 3                |
+| `mi`  | `yd` | 1760             |
+| `au`  | `m`  | 149597870700     |
+| `ly`  | `m`  | 9460730472580800 |
+| `pc`  | `au` | 648000 / π       |
+| `ftm` | `yd` | 2                |
+| `nmi` | `m`  | 1852             |
 
-The [International Yard and Pound Agreement](https://en.wikipedia.org/wiki/International_yard_and_pound) (1959) defines the exact metric equivalents for US Customary and Imperial length units.
+The [International Yard and Pound Agreement](https://en.wikipedia.org/wiki/International_yard_and_pound) (1959) defines the exact metric equivalents for US Customary and Imperial
+length units.
 
 ---
 
 ## Parts
 
-The `Length` class supports decomposition into *miles*, *yards*, *feet*, and *inches* (Imperial/US) by default. The default result unit for `Length::fromParts()` and `Length::parseParts()` is `ft`.
+The `Length` class supports decomposition into *miles*, *yards*, *feet*, and *inches* (Imperial/US) by default. The
+default result unit for `Length::fromParts()` and `Length::parseParts()` is `ft`.
 
 ```php
 $length = new Length(5.5, 'ft');
@@ -83,7 +87,8 @@ $length = Length::fromParts([
 echo $length;  // 5.5 ft
 ```
 
-To use a different set of part units, pass `partUnitSymbols` to the parts method. For example, to decompose into feet and inches only:
+To use a different set of part units, pass `partUnitSymbols` to the parts method. For example, to decompose into feet
+and inches only:
 
 ```php
 $height = new Length(68, 'in');
@@ -130,7 +135,7 @@ $inKm = $voyage->to('km');  // 185.2 km
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::bohrRadius()`** (a₀) — Bohr radius, 5.29177210544 × 10⁻¹¹ m.
+- **`PhysicalConstant::bohrRadius()`** (a₀) - Bohr radius, 5.29177210544 × 10⁻¹¹ m.
 
 ---
 
@@ -139,4 +144,4 @@ The following physical constants have this quantity type. See [`PhysicalConstant
 - **[Quantity](../Quantity.md)** - Base class documentation
 - **[Area](Area.md)** - Related quantity (L²)
 - **[Volume](Volume.md)** - Related quantity (L³)
-- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** — General parts formatting and parsing.
+- **[Part Decomposition](../../WorkingWithQuantities/PartDecomposition.md)** - General parts formatting and parsing.

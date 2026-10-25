@@ -8,7 +8,8 @@ Static service for managing unit conversions across all dimensions.
 
 ## Overview
 
-The `ConversionService` provides a static interface for adding, removing, finding, and performing conversions between units. It delegates to the appropriate `Converter` instance based on the units' dimension.
+The `ConversionService` provides a static interface for adding, removing, finding, and performing conversions between
+units. It delegates to the appropriate `Converter` instance based on the units' dimension.
 
 Key responsibilities:
 - Loading conversion definitions from all registered quantity types
@@ -17,7 +18,7 @@ Key responsibilities:
 - Converting values between units
 - Removing conversions by unit or unit system
 
-All methods are static. The dimension is inferred from the units provided — there is no explicit dimension parameter.
+All methods are static. The dimension is inferred from the units provided - there is no explicit dimension parameter.
 
 ---
 
@@ -150,7 +151,8 @@ public static function find(
 ): ?Conversion
 ```
 
-Find a conversion between two units, discovering new paths if necessary. Unlike `get()`, this method will attempt path-finding if no direct conversion exists.
+Find a conversion between two units, discovering new paths if necessary. Unlike `get()`, this method will attempt
+path-finding if no direct conversion exists.
 
 **Returns:** `?Conversion` - The conversion, or `null` if no path exists.
 

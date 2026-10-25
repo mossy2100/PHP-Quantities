@@ -2,8 +2,7 @@
 
 Represents luminous intensity quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -25,7 +24,7 @@ The `LuminousIntensity` class handles luminous intensity measurements. The *cand
 
 The *candela* (`cd`) is defined by fixing the luminous efficacy of monochromatic radiation at frequency 540 × 10¹² Hz:
 
-```
+```text
 Kcd = 683 lm/W
 ```
 

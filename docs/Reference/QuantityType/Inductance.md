@@ -2,8 +2,7 @@
 
 Represents electrical inductance quantities.
 
-**Namespace:** `Mossy2100\Quantities\QuantityType`
-**Extends:** [`Quantity`](../Quantity.md)
+**Namespace:** `Mossy2100\Quantities\QuantityType` **Extends:** [`Quantity`](../Quantity.md)
 
 ---
 
@@ -23,9 +22,9 @@ The `Inductance` class handles electrical inductance measurements.
 
 ## Conversion definitions
 
-| From | To                   | Factor |
-| ---- | -------------------- | ------ |
-| `H`  | `kg*m2*s-2*A-2`      | 1      |
+| From | To              | Factor |
+| ---- | --------------- | ------ |
+| `H`  | `kg*m2*s-2*A-2` | 1      |
 
 ---
 
@@ -33,7 +32,7 @@ The `Inductance` class handles electrical inductance measurements.
 
 The *henry* is defined as:
 
-```
+```text
 H = kg·m²·s⁻²·A⁻² = Wb/A = V·s/A
 ```
 

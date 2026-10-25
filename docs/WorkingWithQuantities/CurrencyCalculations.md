@@ -1,13 +1,14 @@
 # Currency Calculations
 
-Because currencies are regular units in the Quantities system, they participate naturally in compound unit expressions and arithmetic. This enables real-world financial calculations that combine money with physical quantities.
+Because currencies are regular units in the Quantities system, they participate naturally in compound unit expressions
+and arithmetic. This enables real-world financial calculations that combine money with physical quantities.
 
 ---
 
 ## Prerequisites
 
-All examples on this page assume the currency service has been initialised with auto-refresh on, so conversions
-fetch the rates when they're more than an hour old:
+All examples on this page assume the currency service has been initialised with auto-refresh on, so conversions fetch
+the rates when they're more than an hour old:
 
 ```php
 use Mossy2100\Quantities\Currencies\CurrencyService;
@@ -16,8 +17,7 @@ use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
 CurrencyService::init(new FrankfurterService(), autoRefreshTtl: 3600);
 ```
 
-Without auto-refresh, call `CurrencyService::refreshRates()` to fetch the rates. See
-[CurrencyService](../Reference/Currencies/CurrencyService.md#local-data-and-when-its-fetched).
+Without auto-refresh, call `CurrencyService::refreshRates()` to fetch the rates. See [CurrencyService](../Reference/Currencies/CurrencyService.md#local-data-and-when-its-fetched).
 
 ---
 
@@ -50,13 +50,15 @@ $rate = $salary->div($capacity)->to('AUD/h');
 echo $rate->format(precision: 2);  // e.g. 95.23 AUD/h
 ```
 
-The library handles the time unit conversions (years to weeks to hours) and the currency conversion (USD to AUD) in a single chain.
+The library handles the time unit conversions (years to weeks to hours) and the currency conversion (USD to AUD) in a
+single chain.
 
 ---
 
 ## Precious metals
 
-Convert a metal price from one mass unit and currency to another. For example, convert the price of silver from troy ounces (the standard trading unit) to price per kilogram in USD.
+Convert a metal price from one mass unit and currency to another. For example, convert the price of silver from troy
+ounces (the standard trading unit) to price per kilogram in USD.
 
 (NB: This example won't work with the Frankfurter service, which doesn't provide rates for precious metals.)
 
@@ -161,7 +163,7 @@ echo $difference;  // e.g. $458.77
 
 ## See also
 
-- **[Money](../Reference/QuantityType/Money.md)** — Creating and using Money quantities.
-- **[CurrencyService](../Reference/Currencies/CurrencyService.md)** — Exchange rate services, caching, and configuration.
-- **[Arithmetic Operations](ArithmeticOperations.md)** — Add, subtract, multiply, and divide quantities.
-- **[Unit Conversion](UnitConversion.md)** — Converting between units.
+- **[Money](../Reference/QuantityType/Money.md)** - Creating and using Money quantities.
+- **[CurrencyService](../Reference/Currencies/CurrencyService.md)** - Exchange rate services, caching, and configuration.
+- **[Arithmetic Operations](ArithmeticOperations.md)** - Add, subtract, multiply, and divide quantities.
+- **[Unit Conversion](UnitConversion.md)** - Converting between units.
