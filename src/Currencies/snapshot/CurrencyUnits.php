@@ -5,7 +5,7 @@
  *
  * Fetched from
  * https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml
- * at Monday, 19-Oct-2026 20:44:45 GMT.
+ * at Sunday, 25-Oct-2026 10:33:41 GMT.
  *
  * Auto-generated from the official ISO 4217 XML published by SIX Group.
  *
@@ -20,7 +20,7 @@
 declare(strict_types=1);
 
 return [
-    'whenFetched' => '2026-10-19 20:44:45 UTC',
+    'whenFetched' => '2026-10-25 10:33:41 UTC',
     'currencies' => [
         'ADB Unit of Account' => 'XUA',
         'Afghani' => 'AFN',

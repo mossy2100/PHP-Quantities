@@ -4,8 +4,8 @@
 /**
  * Refresh the ISO 4217 currency list bundled with the package.
  *
- * Fetches the official list from SIX Group and overwrites src/Currencies/snapshot/CurrencyUnits.php if any currency
- * has been added, removed or renamed. Run it before tagging a release.
+ * Fetches the official list from SIX Group and overwrites src/Currencies/snapshot/CurrencyUnits.php, so its date is
+ * always updated, and reports any currency that was added, removed or renamed. Run it before tagging a release.
  *
  * Usage:
  *   composer refresh-currencies
@@ -37,20 +37,22 @@ try {
 $added = array_diff_assoc($new['currencies'], $old['currencies']);
 $removed = array_diff_assoc($old['currencies'], $new['currencies']);
 
+// Always write the file, so its date shows when the list was last checked.
+if (!copy(CurrencyService::getUnitsFilePath(), $snapshotPath)) {
+    fwrite(STDERR, "Failed to write '$snapshotPath'." . PHP_EOL);
+    exit(1);
+}
+
+echo 'Refreshed the bundled currency list (' . count($new['currencies']) . ' currencies, fetched '
+    . $new['whenFetched'] . ').' . PHP_EOL;
 if ($added === [] && $removed === []) {
-    echo 'The bundled currency list is up to date (' . count($new['currencies']) . ' currencies).' . PHP_EOL;
-} else {
-    if (!copy(CurrencyService::getUnitsFilePath(), $snapshotPath)) {
-        fwrite(STDERR, "Failed to write '$snapshotPath'." . PHP_EOL);
-        exit(1);
-    }
-    echo 'Updated the bundled currency list (' . count($new['currencies']) . ' currencies).' . PHP_EOL;
-    foreach ($added as $name => $code) {
-        echo "  Added:   $code ($name)" . PHP_EOL;
-    }
-    foreach ($removed as $name => $code) {
-        echo "  Removed: $code ($name)" . PHP_EOL;
-    }
+    echo '  No currencies were added, removed or renamed.' . PHP_EOL;
+}
+foreach ($added as $name => $code) {
+    echo "  Added:   $code ($name)" . PHP_EOL;
+}
+foreach ($removed as $name => $code) {
+    echo "  Removed: $code ($name)" . PHP_EOL;
 }
 
 // Remove the temporary data directory.
