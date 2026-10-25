@@ -688,6 +688,19 @@ class CompoundUnitTest extends TestCase
     }
 
     /**
+     * Test mul() doesn't carry over the cached expansion of the original unit.
+     */
+    public function testMulDoesNotKeepCachedExpansion(): void
+    {
+        $newton = CompoundUnit::parse('N');
+        $newton->tryExpand();
+
+        $newtonMetre = $newton->mul(CompoundUnit::parse('m'));
+
+        $this->assertSame('kg*m2/s2', $newtonMetre->tryExpand()?->compoundUnit->asciiSymbol);
+    }
+
+    /**
      * Test mul() does not modify the original.
      */
     public function testMulDoesNotModifyOriginal(): void

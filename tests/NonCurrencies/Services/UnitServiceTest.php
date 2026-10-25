@@ -6,10 +6,12 @@ namespace Mossy2100\Quantities\Tests\NonCurrencies\Services;
 
 use DomainException;
 use Mossy2100\Quantities\Enums\UnitSystem;
+use Mossy2100\Quantities\Exceptions\UnknownUnitException;
 use Mossy2100\Quantities\Services\PrefixService;
 use Mossy2100\Quantities\Services\QuantityTypeService;
 use Mossy2100\Quantities\Services\UnitService;
 use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Units\UnitTerm;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -689,6 +691,32 @@ final class UnitServiceTest extends TestCase
         UnitService::remove($unit);
 
         $this->assertFalse(UnitService::has('removetest'));
+    }
+
+    /**
+     * Test remove() clears the parse caches, so a removed unit can't still be parsed.
+     */
+    public function testRemoveClearsParseCaches(): void
+    {
+        try {
+            // Parse the unit first, so it's cached.
+            Unit::parse('ft');
+            UnitTerm::parse('ft');
+
+            UnitService::remove('foot');
+
+            $this->assertNull(UnitService::getBySymbol('ft'));
+            foreach ([Unit::parse(...), UnitTerm::parse(...)] as $parse) {
+                try {
+                    $parse('ft');
+                    $this->fail('Expected UnknownUnitException.');
+                } catch (UnknownUnitException $e) {
+                    $this->assertSame("Unknown unit: 'ft'.", $e->getMessage());
+                }
+            }
+        } finally {
+            UnitService::reset();
+        }
     }
 
     /**

@@ -94,6 +94,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   0 °F. Every conversion method now applies them, via the new overridable `Quantity::getOffsetDefinitions()`.
   Offsets aren't applied in compound units, e.g. `J/degC` to `J/K`. `Temperature` no longer overrides `convert()`.
 - **0 °C converted to 31.999999999999943 °F.** Whole-number Celsius temperatures now convert to Fahrenheit exactly.
+- **A unit removed with `UnitService::remove()`, `removeAll()` or `reset()` could still be parsed,** because parsed
+  units were cached. The caches are now cleared.
 - **`toParts()` and `formatParts()` could leave the smallest part equal to a whole larger unit** when rounding, e.g.
   `(new Angle(23.73326, 'deg'))->formatParts(0)` gave `23° 43′ 60″`. It now gives `23° 44′`.
 - **`Quantity::parse()` failed on multi-part strings,** e.g. `Quantity::parse('12° 34′ 56″')` threw "Quantity type

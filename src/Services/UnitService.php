@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\QuantityType;
 use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Units\UnitTerm;
 
 /**
  * Registry of units with lookup, filtering, and loading by system.
@@ -232,6 +233,7 @@ class UnitService
 
         // Remove the unit from the registry.
         unset(self::$units[$name]);
+        self::clearParseCaches();
     }
 
     /**
@@ -243,6 +245,7 @@ class UnitService
     public static function removeAll(): void
     {
         self::$units = [];
+        self::clearParseCaches();
     }
 
     /**
@@ -253,6 +256,7 @@ class UnitService
     public static function reset(): void
     {
         self::$units = null;
+        self::clearParseCaches();
     }
 
     #endregion
@@ -334,6 +338,15 @@ class UnitService
     #endregion
 
     #region Helper methods
+
+    /**
+     * Clear the caches of parsed units and unit terms, so they can't return a unit that's no longer registered.
+     */
+    private static function clearParseCaches(): void
+    {
+        Unit::clearParseCache();
+        UnitTerm::clearParseCache();
+    }
 
     /**
      * Initialize the units array from the QuantityType classes and default UnitSystems.

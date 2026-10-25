@@ -782,8 +782,9 @@ class CompoundUnit implements UnitInterface
         // Keep the unit terms sorted. This is important for multiplying quantities.
         $this->sortUnitTerms();
 
-        // Clear the cached dimension.
+        // Clear the cached dimension and expansion, which no longer apply.
         $this->dimensionCache = null;
+        $this->expansion = null;
     }
 
     /**

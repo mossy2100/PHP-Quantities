@@ -96,6 +96,13 @@ class UnitTerm implements UnitInterface
      */
     private static ?string $rx = null;
 
+    /**
+     * Cache of parsed unit terms, keyed by symbol.
+     *
+     * @var array<string, self>
+     */
+    private static array $parseCache = [];
+
     #endregion
 
     #region Property hooks
@@ -243,16 +250,15 @@ class UnitTerm implements UnitInterface
      */
     public static function parse(string $symbol): self
     {
-        // Maintain a cache of parsed unit terms.
-        static $cache = [];
-        if (isset($cache[$symbol])) {
-            return $cache[$symbol];
+        // Check the cache of parsed unit terms.
+        if (isset(self::$parseCache[$symbol])) {
+            return self::$parseCache[$symbol];
         }
 
         // An empty string is a dimensionless scalar.
         if ($symbol === '') {
             $unitTerm = new self();
-            $cache[$symbol] = $unitTerm;
+            self::$parseCache[$symbol] = $unitTerm;
             return $unitTerm;
         }
 
@@ -307,13 +313,25 @@ class UnitTerm implements UnitInterface
 
                 // Construct, cache, and return the result.
                 $unitTerm = new self($unitSymbol, $prefixSymbol, $exp);
-                $cache[$symbol] = $unitTerm;
+                self::$parseCache[$symbol] = $unitTerm;
                 return $unitTerm;
             }
         }
 
         // No match was found; the unit is invalid or unknown.
         throw new UnknownUnitException($symbol);
+    }
+
+    /**
+     * Clear the cache of parsed unit terms.
+     *
+     * Called by UnitService whenever units are removed, so the cache can't return a unit that's no longer registered.
+     *
+     * @internal
+     */
+    public static function clearParseCache(): void
+    {
+        self::$parseCache = [];
     }
 
     #endregion

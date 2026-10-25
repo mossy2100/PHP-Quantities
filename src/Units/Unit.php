@@ -111,6 +111,13 @@ class Unit implements UnitInterface
      */
     private ?Quantity $expansion = null;
 
+    /**
+     * Cache of parsed units, keyed by symbol.
+     *
+     * @var array<string, self>
+     */
+    private static array $parseCache = [];
+
     #endregion
 
     #region Property hooks
@@ -245,10 +252,9 @@ class Unit implements UnitInterface
     #[Override]
     public static function parse(string $symbol): self
     {
-        // Maintain a cache of parsed units.
-        static $cache = [];
-        if (isset($cache[$symbol])) {
-            return $cache[$symbol];
+        // Check the cache of parsed units.
+        if (isset(self::$parseCache[$symbol])) {
+            return self::$parseCache[$symbol];
         }
 
         // Validate the symbol format.
@@ -265,9 +271,21 @@ class Unit implements UnitInterface
         }
 
         // Remember the unit in the cache.
-        $cache[$symbol] = $unit;
+        self::$parseCache[$symbol] = $unit;
 
         return $unit;
+    }
+
+    /**
+     * Clear the cache of parsed units.
+     *
+     * Called by UnitService whenever units are removed, so the cache can't return a unit that's no longer registered.
+     *
+     * @internal
+     */
+    public static function clearParseCache(): void
+    {
+        self::$parseCache = [];
     }
 
     #endregion
