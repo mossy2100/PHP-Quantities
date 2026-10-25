@@ -66,6 +66,14 @@ class Quantity implements Stringable
      */
     private const string RX_NUMBER = '-?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?';
 
+    /**
+     * Derived units that toDerived() never substitutes for base units, because they measure something more specific
+     * than their dimension. For example, m²/s² could be a squared velocity or a specific energy, not only an absorbed
+     * dose, and s⁻¹ is usually a frequency rather than a radioactivity. They can still be converted to explicitly, e.g.
+     * $q->to('Gy').
+     */
+    private const array NON_SUBSTITUTABLE_UNITS = ['Bq', 'Gy', 'Sv'];
+
     #endregion
 
     #region Public properties
@@ -388,7 +396,8 @@ class Quantity implements Stringable
      * The derived unit that replaces the largest number of base units will be chosen.
      *
      * 's-1' will not be replaced by 'Hz' unless it's the only unit term.
-     * Furthermore, 's-1' is not replaced by 'Bq'. You can call $q->to('Bq') to get that effect.
+     * The units in NON_SUBSTITUTABLE_UNITS ('Bq', 'Gy' and 'Sv') are never substituted. You can call, e.g.,
+     * $q->to('Gy') to get that effect.
      *
      * To auto-prefix the result, chain with autoPrefix():
      *   $q->toDerived()->autoPrefix()
@@ -443,10 +452,15 @@ class Quantity implements Stringable
                 continue;
             }
 
+            // Skip units that measure something more specific than their dimension.
+            if (in_array($unit->asciiSymbol, self::NON_SUBSTITUTABLE_UNITS, true)) {
+                continue;
+            }
+
             // Expand the unit to base units.
             $expansionUnit = DimensionService::getBaseCompoundUnit($unit->dimension, $si);
 
-            // Skip units that expand to s-1 (i.e. 'Hz' or 'Bq'), since we already handled these.
+            // Skip units that expand to s-1 (i.e. 'Hz'), since we already handled these.
             if (count($expansionUnit->unitTerms) === 1 && $expansionUnit->firstUnitTerm?->asciiSymbol === 's-1') {
                 continue;
             }

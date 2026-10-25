@@ -47,6 +47,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   than `src/Currencies/data` inside the package, which is often read-only once installed. Call
   `CurrencyService::setDataDir()` to keep the data somewhere persistent. Failed writes now throw `RuntimeException`
   instead of being ignored, and files are written atomically.
+- **`toDerived()`, `toSi()` and `toEnglish()` no longer substitute gray or sievert** for `m²/s²`, which may be a
+  squared velocity or a specific energy rather than a radiation dose. Becquerel was already excluded. Convert to them
+  explicitly, e.g. `$q->to('Gy')`.
 - **`Quantity::approxEqual()` and `Angle::approxEqual()` throw for values that can't be compared (breaking),** like
   `compare()` and `equal()` already did, rather than returning `false`. A Quantity with a different dimension throws
   `DimensionMismatchException`, and a value that isn't a Quantity throws `InvalidArgumentException`. This matches the

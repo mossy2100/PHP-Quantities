@@ -1,4 +1,4 @@
-# Mossy2100 PHP Quantities
+# PHP Quantities
 
 This package enables calculations and conversions with physical and non-physical quantities, including support for SI and other systems of units (including data and currencies), metric and binary prefixes, parsing, and formatting.
 

@@ -475,6 +475,39 @@ final class QuantityUnitTransformTest extends TestCase
         $this->assertSame('ac*ft', $derived->compoundUnit->asciiSymbol);
     }
 
+    /**
+     * Test toDerived() doesn't substitute gray or sievert, since m²/s² isn't necessarily a radiation dose.
+     */
+    public function testToDerivedDoesNotSubstituteGrayOrSievert(): void
+    {
+        $specificEnergy = Quantity::create(1, 'm2/s2');
+
+        $this->assertSame('m2/s2', $specificEnergy->toDerived()->compoundUnit->asciiSymbol);
+        $this->assertSame('m2/s2', $specificEnergy->toSi()->compoundUnit->asciiSymbol);
+    }
+
+    /**
+     * Test toDerived() still substitutes other units when gray would fit, e.g. kg*m2/s2 becomes J.
+     */
+    public function testToDerivedSubstitutesJouleNotGray(): void
+    {
+        $energy = Quantity::create(1, 'kg*m2/s2');
+
+        $this->assertSame('J', $energy->toDerived()->compoundUnit->asciiSymbol);
+    }
+
+    /**
+     * Test a non-substitutable unit can still be converted to explicitly.
+     */
+    public function testNonSubstitutableUnitsCanBeConvertedToExplicitly(): void
+    {
+        $dose = Quantity::create(2, 'm2/s2');
+
+        $this->assertSame('Gy', $dose->to('Gy')->compoundUnit->asciiSymbol);
+        $this->assertSame(2.0, $dose->to('Gy')->value);
+        $this->assertSame(2.0, $dose->to('Sv')->value);
+    }
+
     #endregion
 
     #region Round-trip tests

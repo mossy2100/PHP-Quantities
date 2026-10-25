@@ -354,6 +354,12 @@ public function toDerived(): static
 
 Substitute base units for derived units where possible (e.g., `kg*m/s2` → `N`).
 
+Some derived units are never substituted, because they measure something more specific than their dimension:
+
+- `Hz` replaces `s⁻¹` only when it's the only unit term.
+- `Bq`, `Gy` and `Sv` are never substituted, so `m2/s2` stays as it is rather than becoming `Gy`. Convert to them
+  explicitly with `to()`, e.g. `$q->to('Gy')`.
+
 To auto-prefix the result, chain with `autoPrefix()`.
 
 **Returns:**
