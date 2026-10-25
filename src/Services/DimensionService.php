@@ -116,7 +116,7 @@ class DimensionService
     public static function isValid(string $dimension): bool
     {
         $validCodes = self::getLetterCodesString();
-        return (bool) preg_match("/^([$validCodes](-?\d)?)*$/", $dimension);
+        return (bool) preg_match("/^([$validCodes](-?\d+)?)*$/", $dimension);
     }
 
     #endregion
@@ -139,17 +139,18 @@ class DimensionService
 
         // Get the matching terms.
         $validCodes = self::getLetterCodesString();
-        preg_match_all("/([$validCodes])(-?\d)?/", $dimension, $matches, PREG_SET_ORDER);
+        preg_match_all("/([$validCodes])(-?\d+)?/", $dimension, $matches, PREG_SET_ORDER);
 
-        // Convert to an array of parts.
+        // Convert to an array of parts. A letter that appears more than once has its exponents added, as when
+        // multiplying, e.g. 'LL' is 'L2'. Terms whose exponent is zero are dropped.
         $dimTerms = [];
         foreach ($matches as $match) {
             $dim = $match[1];
             $exp = (!isset($match[2]) || $match[2] === '') ? 1 : (int) $match[2];
-            $dimTerms[$dim] = $exp;
+            $dimTerms[$dim] = ($dimTerms[$dim] ?? 0) + $exp;
         }
 
-        return $dimTerms;
+        return array_filter($dimTerms, static fn (int $exp) => $exp !== 0);
     }
 
     /**

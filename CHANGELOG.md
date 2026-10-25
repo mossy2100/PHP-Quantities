@@ -94,6 +94,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   0 °F. Every conversion method now applies them, via the new overridable `Quantity::getOffsetDefinitions()`.
   Offsets aren't applied in compound units, e.g. `J/degC` to `J/K`. `Temperature` no longer overrides `convert()`.
 - **0 °C converted to 31.999999999999943 °F.** Whole-number Celsius temperatures now convert to Fahrenheit exactly.
+- **Raising a derived unit to a power could fail with "Invalid dimension code",** e.g. `Quantity::create(1, 'J')->pow(5)`
+  or `Quantity::parse('1 F3')`, because dimension codes allowed only single-digit exponents. Multi-digit exponents
+  are now allowed, and a repeated letter in a dimension code has its exponents added (`LL` is `L2`).
 - **A unit removed with `UnitService::remove()`, `removeAll()` or `reset()` could still be parsed,** because parsed
   units were cached. The caches are now cleared.
 - **`toParts()` and `formatParts()` could leave the smallest part equal to a whole larger unit** when rounding, e.g.

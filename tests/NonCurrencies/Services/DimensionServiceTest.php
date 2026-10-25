@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Services;
 
 use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\DimensionService;
 use Mossy2100\Quantities\Units\CompoundUnit;
 use Mossy2100\Quantities\Units\UnitTerm;
@@ -111,12 +112,12 @@ final class DimensionServiceTest extends TestCase
     }
 
     /**
-     * Test isValid() returns false for multi-digit exponents.
+     * Test isValid() accepts multi-digit exponents, which a derived unit's dimension can need, e.g. J⁵.
      */
     public function testIsValidMultiDigitExponents(): void
     {
-        $this->assertFalse(DimensionService::isValid('L10'));
-        $this->assertFalse(DimensionService::isValid('L-10'));
+        $this->assertTrue(DimensionService::isValid('L10'));
+        $this->assertTrue(DimensionService::isValid('M5L10T-10'));
     }
 
     #endregion
@@ -191,6 +192,33 @@ final class DimensionServiceTest extends TestCase
         $this->expectExceptionMessage("Invalid dimension code: 'XYZ'.");
 
         DimensionService::decompose('XYZ');
+    }
+
+    /**
+     * Test decompose() handles multi-digit exponents.
+     */
+    public function testDecomposeMultiDigitExponents(): void
+    {
+        $this->assertSame(['M' => 5, 'L' => 10, 'T' => -10], DimensionService::decompose('M5L10T-10'));
+    }
+
+    /**
+     * Test decompose() adds the exponents of a repeated letter, and drops terms that cancel out.
+     */
+    public function testDecomposeRepeatedLetters(): void
+    {
+        $this->assertSame(['L' => 2], DimensionService::decompose('LL'));
+        $this->assertSame(['M' => 1], DimensionService::decompose('ML2L-2'));
+        $this->assertSame('L2', DimensionService::normalize('LL'));
+    }
+
+    /**
+     * Test raising a derived unit to a power can give a dimension exponent above 9.
+     */
+    public function testPowCanExceedSingleDigitDimensionExponent(): void
+    {
+        $this->assertSame('M5L10T-10', Quantity::create(1, 'J')->pow(5)->dimension);
+        $this->assertSame('M-3L-6T12I6', Quantity::parse('1 F3')->dimension);
     }
 
     /**

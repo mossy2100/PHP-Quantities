@@ -52,6 +52,9 @@ public static function decompose(string $dimension): array
 
 Decompose a dimension code string into an associative array mapping dimension letters to their exponents.
 
+Exponents can have more than one digit (e.g. `T-10`). A letter that appears more than once has its exponents added, as
+when multiplying (e.g. `LL` is `L2`), and terms whose exponent is zero are dropped.
+
 **Returns:** `array<string, int>`
 
 **Throws:** [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) if the dimension code is invalid.
@@ -61,6 +64,12 @@ $terms = DimensionService::decompose('MLT-2');
 // ['M' => 1, 'L' => 1, 'T' => -2]
 
 $terms = DimensionService::decompose('L2');
+// ['L' => 2]
+
+$terms = DimensionService::decompose('M5L10T-10');
+// ['M' => 5, 'L' => 10, 'T' => -10]
+
+$terms = DimensionService::decompose('LL');
 // ['L' => 2]
 
 $terms = DimensionService::decompose('');
