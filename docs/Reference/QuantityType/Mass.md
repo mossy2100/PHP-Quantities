@@ -106,9 +106,9 @@ $grains = new Mass(77, 'gr');  // ~5 grams
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::electronMass()`** (mₑ) — Electron mass, 9.1093837015 × 10⁻³¹ kg.
-- **`PhysicalConstant::protonMass()`** (mₚ) — Proton mass, 1.67262192369 × 10⁻²⁷ kg.
-- **`PhysicalConstant::neutronMass()`** (mₙ) — Neutron mass, 1.67492749804 × 10⁻²⁷ kg.
+- **`PhysicalConstant::electronMass()`** (mₑ) — Electron mass, 9.1093837139 × 10⁻³¹ kg.
+- **`PhysicalConstant::protonMass()`** (mₚ) — Proton mass, 1.67262192595 × 10⁻²⁷ kg.
+- **`PhysicalConstant::neutronMass()`** (mₙ) — Neutron mass, 1.67492750056 × 10⁻²⁷ kg.
 
 ---
 

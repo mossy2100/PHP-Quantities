@@ -13,6 +13,10 @@ The `PhysicalConstant` class provides access to well-known physical constants in
 - **As a raw `float`** — via a public class constant (e.g. `PhysicalConstant::PLANCK`). Use this when you need the numeric value for a plain PHP computation.
 - **As a `Quantity` object** — via a static method (e.g. `PhysicalConstant::planck()`). Use this when you need a typed value with units for use with the Quantities API.
 
+Values are from the [2022 CODATA adjustment](https://physics.nist.gov/cuu/Constants/). The SI defining constants are
+exact. The molar gas constant (`R = NA × k`) and the Stefan-Boltzmann constant are derived exactly from them, and the
+rest are measured.
+
 ```php
 // Raw float value — no unit information:
 $hValue = PhysicalConstant::PLANCK;        // 6.62607015e-34
@@ -47,14 +51,14 @@ The class covers:
 | Kcd          | `LUMINOUS_EFFICACY`   | `luminousEfficacy()`   | 683                 | *lm/W*            |
 | g            | `EARTH_GRAVITY`       | `earthGravity()`       | 9.80665             | *m/s²*            |
 | G            | `GRAVITATIONAL`       | `gravitational()`      | 6.67430×10⁻¹¹       | *m³/(kg⋅s²)*      |
-| epsilon0     | `VACUUM_PERMITTIVITY` | `vacuumPermittivity()` | 8.8541878128×10⁻¹²  | *F/m*             |
-| mu0          | `VACUUM_PERMEABILITY` | `vacuumPermeability()` | 1.25663706212×10⁻⁶  | *H/m*             |
-| me           | `ELECTRON_MASS`       | `electronMass()`       | 9.1093837015×10⁻³¹  | *kg*              |
-| mp           | `PROTON_MASS`         | `protonMass()`         | 1.67262192369×10⁻²⁷ | *kg*              |
-| mn           | `NEUTRON_MASS`        | `neutronMass()`        | 1.67492749804×10⁻²⁷ | *kg*              |
-| alpha        | `FINE_STRUCTURE`      | `fineStructure()`      | 7.2973525693×10⁻³   | *(dimensionless)* |
+| epsilon0     | `VACUUM_PERMITTIVITY` | `vacuumPermittivity()` | 8.8541878188×10⁻¹²  | *F/m*             |
+| mu0          | `VACUUM_PERMEABILITY` | `vacuumPermeability()` | 1.25663706127×10⁻⁶  | *H/m*             |
+| me           | `ELECTRON_MASS`       | `electronMass()`       | 9.1093837139×10⁻³¹  | *kg*              |
+| mp           | `PROTON_MASS`         | `protonMass()`         | 1.67262192595×10⁻²⁷ | *kg*              |
+| mn           | `NEUTRON_MASS`        | `neutronMass()`        | 1.67492750056×10⁻²⁷ | *kg*              |
+| alpha        | `FINE_STRUCTURE`      | `fineStructure()`      | 7.2973525643×10⁻³   | *(dimensionless)* |
 | Rinf         | `RYDBERG`             | `rydberg()`            | 10,973,731.568      | *m⁻¹*             |
-| a0           | `BOHR_RADIUS`         | `bohrRadius()`         | 5.29177210903×10⁻¹¹ | *m*               |
+| a0           | `BOHR_RADIUS`         | `bohrRadius()`         | 5.29177210544×10⁻¹¹ | *m*               |
 | R            | `MOLAR_GAS`           | `molarGas()`           | 8.314462618         | *J/(mol⋅K)*       |
 | sigma        | `STEFAN_BOLTZMANN`    | `stefanBoltzmann()`    | 5.670374419×10⁻⁸    | *W/(m²⋅K⁴)*       |
 
@@ -180,7 +184,7 @@ public static function vacuumPermittivity(): Quantity
 The vacuum electric permittivity (ε₀).
 
 **Returns:**
-- `Quantity` equal to 8.8541878128×10⁻¹² F/m
+- `Quantity` equal to 8.8541878188×10⁻¹² F/m
 
 ### vacuumPermeability()
 
@@ -191,7 +195,7 @@ public static function vacuumPermeability(): Quantity
 The vacuum magnetic permeability (μ₀).
 
 **Returns:**
-- `Quantity` equal to 1.25663706212×10⁻⁶ H/m
+- `Quantity` equal to 1.25663706127×10⁻⁶ H/m
 
 ---
 
@@ -206,7 +210,7 @@ public static function electronMass(): Quantity
 The electron rest mass (mₑ).
 
 **Returns:**
-- `Quantity` equal to 9.1093837015×10⁻³¹ kg
+- `Quantity` equal to 9.1093837139×10⁻³¹ kg
 
 ### protonMass()
 
@@ -217,7 +221,7 @@ public static function protonMass(): Quantity
 The proton mass (mₚ).
 
 **Returns:**
-- `Quantity` equal to 1.67262192369×10⁻²⁷ kg
+- `Quantity` equal to 1.67262192595×10⁻²⁷ kg
 
 ### neutronMass()
 
@@ -228,7 +232,7 @@ public static function neutronMass(): Quantity
 The neutron mass (mₙ).
 
 **Returns:**
-- `Quantity` equal to 1.67492749804×10⁻²⁷ kg
+- `Quantity` equal to 1.67492750056×10⁻²⁷ kg
 
 ### fineStructure()
 
@@ -239,7 +243,7 @@ public static function fineStructure(): Quantity
 The fine-structure constant (α). Dimensionless.
 
 **Returns:**
-- `Quantity` equal to 7.2973525693×10⁻³
+- `Quantity` equal to 7.2973525643×10⁻³
 
 ### rydberg()
 
@@ -250,7 +254,7 @@ public static function rydberg(): Quantity
 The Rydberg constant (R<sub>∞</sub>).
 
 **Returns:**
-- `Quantity` equal to 10,973,731.568160 m⁻¹
+- `Quantity` equal to 10,973,731.568157 m⁻¹
 
 ### bohrRadius()
 
@@ -261,7 +265,7 @@ public static function bohrRadius(): Quantity
 The Bohr radius (a₀).
 
 **Returns:**
-- `Quantity` equal to 5.29177210903×10⁻¹¹ m
+- `Quantity` equal to 5.29177210544×10⁻¹¹ m
 
 ---
 

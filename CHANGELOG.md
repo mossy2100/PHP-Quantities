@@ -72,6 +72,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   `compare()` and `equal()` already did, rather than returning `false`. A Quantity with a different dimension throws
   `DimensionMismatchException`, and a value that isn't a Quantity throws `InvalidArgumentException`. This matches the
   comparison contract in `mossy2100/core`.
+- **Physical constants are updated to the 2022 CODATA adjustment,** from 2018. The measured values change slightly,
+  e.g. the electron mass and the fine-structure constant. The molar gas constant and the Stefan-Boltzmann constant are
+  now derived exactly from the SI defining constants.
 - **Moved the public types out of the `Internal` namespace (breaking).** Users need these to add units and conversions,
   load unit systems, and read a quantity's unit. Update any `use` statements as shown below. `Converter` and
   `FloatWithError` stay in `Internal`, and are now marked `@internal`.

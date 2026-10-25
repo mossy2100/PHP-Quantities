@@ -159,7 +159,7 @@ final class PhysicalConstantTest extends TestCase
         $epsilon0 = PhysicalConstant::vacuumPermittivity();
 
         $this->assertInstanceOf(Quantity::class, $epsilon0);
-        $this->assertApproxEqual(8.8541878128e-12, $epsilon0->value);
+        $this->assertSame(8.8541878188e-12, $epsilon0->value);
         $this->assertSame('F/m', $epsilon0->compoundUnit->asciiSymbol);
     }
 
@@ -171,7 +171,7 @@ final class PhysicalConstantTest extends TestCase
         $mu0 = PhysicalConstant::vacuumPermeability();
 
         $this->assertInstanceOf(Quantity::class, $mu0);
-        $this->assertApproxEqual(1.25663706212e-6, $mu0->value);
+        $this->assertSame(1.25663706127e-6, $mu0->value);
         $this->assertSame('H/m', $mu0->compoundUnit->asciiSymbol);
     }
 
@@ -187,7 +187,7 @@ final class PhysicalConstantTest extends TestCase
         $me = PhysicalConstant::electronMass();
 
         $this->assertInstanceOf(Quantity::class, $me);
-        $this->assertApproxEqual(9.1093837015e-31, $me->value);
+        $this->assertSame(9.1093837139e-31, $me->value);
         $this->assertSame('kg', $me->compoundUnit->asciiSymbol);
     }
 
@@ -199,7 +199,7 @@ final class PhysicalConstantTest extends TestCase
         $mp = PhysicalConstant::protonMass();
 
         $this->assertInstanceOf(Quantity::class, $mp);
-        $this->assertApproxEqual(1.67262192369e-27, $mp->value);
+        $this->assertSame(1.67262192595e-27, $mp->value);
         $this->assertSame('kg', $mp->compoundUnit->asciiSymbol);
     }
 
@@ -211,7 +211,7 @@ final class PhysicalConstantTest extends TestCase
         $mn = PhysicalConstant::neutronMass();
 
         $this->assertInstanceOf(Quantity::class, $mn);
-        $this->assertApproxEqual(1.67492749804e-27, $mn->value);
+        $this->assertSame(1.67492750056e-27, $mn->value);
         $this->assertSame('kg', $mn->compoundUnit->asciiSymbol);
     }
 
@@ -223,7 +223,7 @@ final class PhysicalConstantTest extends TestCase
         $alpha = PhysicalConstant::fineStructure();
 
         $this->assertInstanceOf(Quantity::class, $alpha);
-        $this->assertApproxEqual(7.2973525693e-3, $alpha->value);
+        $this->assertSame(7.2973525643e-3, $alpha->value);
         $this->assertSame('', $alpha->compoundUnit->asciiSymbol);
     }
 
@@ -235,7 +235,7 @@ final class PhysicalConstantTest extends TestCase
         $rinf = PhysicalConstant::rydberg();
 
         $this->assertInstanceOf(Quantity::class, $rinf);
-        $this->assertApproxEqual(10973731.568160, $rinf->value);
+        $this->assertSame(10973731.568157, $rinf->value);
         $this->assertSame('m-1', $rinf->compoundUnit->asciiSymbol);
     }
 
@@ -247,7 +247,7 @@ final class PhysicalConstantTest extends TestCase
         $a0 = PhysicalConstant::bohrRadius();
 
         $this->assertInstanceOf(Quantity::class, $a0);
-        $this->assertApproxEqual(5.29177210903e-11, $a0->value);
+        $this->assertSame(5.29177210544e-11, $a0->value);
         $this->assertSame('m', $a0->compoundUnit->asciiSymbol);
     }
 
@@ -263,7 +263,7 @@ final class PhysicalConstantTest extends TestCase
         $gasConst = PhysicalConstant::molarGas();
 
         $this->assertInstanceOf(Quantity::class, $gasConst);
-        $this->assertApproxEqual(8.314462618, $gasConst->value);
+        $this->assertSame(8.31446261815324, $gasConst->value);
         $this->assertSame('J/(mol*K)', $gasConst->compoundUnit->asciiSymbol);
     }
 
@@ -275,7 +275,7 @@ final class PhysicalConstantTest extends TestCase
         $sigma = PhysicalConstant::stefanBoltzmann();
 
         $this->assertInstanceOf(Quantity::class, $sigma);
-        $this->assertApproxEqual(5.670374419e-8, $sigma->value);
+        $this->assertApproxEqual(5.670374419184429e-8, $sigma->value, 1e-15);
         $this->assertSame('W/(m2*K4)', $sigma->compoundUnit->asciiSymbol);
     }
 

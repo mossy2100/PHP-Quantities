@@ -11,8 +11,13 @@ use const Mossy2100\Core\M_TAU;
 /**
  * Provides access to physical constants as Quantity objects.
  *
+ * Values are from the 2022 CODATA adjustment (NIST). The SI defining constants are exact; the rest are measured,
+ * except for the molar gas and Stefan-Boltzmann constants, which are derived exactly from the defining constants.
+ *
  * Constants are lazily instantiated and cached for efficient repeated access.
  * Use the static methods for IDE autocompletion, or get() for symbol-based lookup.
+ *
+ * @see https://physics.nist.gov/cuu/Constants/
  */
 class PhysicalConstant
 {
@@ -77,56 +82,57 @@ class PhysicalConstant
     /**
      * Vacuum electric permittivity (epsilon0) in F/m.
      */
-    public const float VACUUM_PERMITTIVITY = 8.8541878128e-12;
+    public const float VACUUM_PERMITTIVITY = 8.8541878188e-12;
 
     /**
      * Vacuum magnetic permeability (mu0) in H/m.
      */
-    public const float VACUUM_PERMEABILITY = 1.25663706212e-6;
+    public const float VACUUM_PERMEABILITY = 1.25663706127e-6;
 
     // Atomic and nuclear constants.
 
     /**
      * Electron rest mass (me) in kg.
      */
-    public const float ELECTRON_MASS = 9.1093837015e-31;
+    public const float ELECTRON_MASS = 9.1093837139e-31;
 
     /**
      * Proton mass (mp) in kg.
      */
-    public const float PROTON_MASS = 1.67262192369e-27;
+    public const float PROTON_MASS = 1.67262192595e-27;
 
     /**
      * Neutron mass (mn) in kg.
      */
-    public const float NEUTRON_MASS = 1.67492749804e-27;
+    public const float NEUTRON_MASS = 1.67492750056e-27;
 
     /**
      * Fine-structure constant (alpha). Dimensionless.
      */
-    public const float FINE_STRUCTURE = 7.2973525693e-3;
+    public const float FINE_STRUCTURE = 7.2973525643e-3;
 
     /**
      * Rydberg constant (Rinf) in m-1.
      */
-    public const float RYDBERG = 10973731.568160;
+    public const float RYDBERG = 10973731.568157;
 
     /**
      * Bohr radius (a0) in m.
      */
-    public const float BOHR_RADIUS = 5.29177210903e-11;
+    public const float BOHR_RADIUS = 5.29177210544e-11;
 
     // Thermodynamic constants.
 
     /**
      * Molar gas constant (R = NA*k) in J/(mol*K).
      */
-    public const float MOLAR_GAS = 8.314462618;
+    public const float MOLAR_GAS = self::AVOGADRO * self::BOLTZMANN;
 
     /**
-     * Stefan-Boltzmann constant (sigma) in W/(m2*K4).
+     * Stefan-Boltzmann constant (sigma = 2π⁵k⁴ / (15h³c²)) in W/(m2*K4).
      */
-    public const float STEFAN_BOLTZMANN = 5.670374419e-8;
+    public const float STEFAN_BOLTZMANN =
+        2 * M_PI ** 5 * self::BOLTZMANN ** 4 / (15 * self::PLANCK ** 3 * self::SPEED_OF_LIGHT ** 2);
 
     #endregion
 
@@ -430,7 +436,7 @@ class PhysicalConstant
     /**
      * Vacuum electric permittivity (ε₀).
      *
-     * Value: 8.8541878128 × 10⁻¹² F/m.
+     * Value: 8.8541878188 × 10⁻¹² F/m.
      */
     public static function vacuumPermittivity(): Quantity
     {
@@ -440,7 +446,7 @@ class PhysicalConstant
     /**
      * Vacuum magnetic permeability (μ₀).
      *
-     * Value: 1.25663706212 × 10⁻⁶ H/m.
+     * Value: 1.25663706127 × 10⁻⁶ H/m.
      */
     public static function vacuumPermeability(): Quantity
     {
@@ -454,7 +460,7 @@ class PhysicalConstant
     /**
      * Electron mass (mₑ).
      *
-     * Value: 9.1093837015 × 10⁻³¹ kg.
+     * Value: 9.1093837139 × 10⁻³¹ kg.
      */
     public static function electronMass(): Quantity
     {
@@ -464,7 +470,7 @@ class PhysicalConstant
     /**
      * Proton mass (mₚ).
      *
-     * Value: 1.67262192369 × 10⁻²⁷ kg.
+     * Value: 1.67262192595 × 10⁻²⁷ kg.
      */
     public static function protonMass(): Quantity
     {
@@ -474,7 +480,7 @@ class PhysicalConstant
     /**
      * Neutron mass (mₙ).
      *
-     * Value: 1.67492749804 × 10⁻²⁷ kg.
+     * Value: 1.67492750056 × 10⁻²⁷ kg.
      */
     public static function neutronMass(): Quantity
     {
@@ -484,7 +490,7 @@ class PhysicalConstant
     /**
      * Fine-structure constant (α).
      *
-     * Dimensionless. Value: 7.2973525693 × 10⁻³.
+     * Dimensionless. Value: 7.2973525643 × 10⁻³.
      */
     public static function fineStructure(): Quantity
     {
@@ -494,7 +500,7 @@ class PhysicalConstant
     /**
      * Rydberg constant (R∞).
      *
-     * Value: 10,973,731.568160 m⁻¹.
+     * Value: 10,973,731.568157 m⁻¹.
      */
     public static function rydberg(): Quantity
     {
@@ -504,7 +510,7 @@ class PhysicalConstant
     /**
      * Bohr radius (a₀).
      *
-     * Value: 5.29177210903 × 10⁻¹¹ m.
+     * Value: 5.29177210544 × 10⁻¹¹ m.
      */
     public static function bohrRadius(): Quantity
     {
@@ -518,7 +524,7 @@ class PhysicalConstant
     /**
      * Molar gas constant (R).
      *
-     * Value: 8.314462618 J/(mol·K).
+     * Value: 8.314462618... J/(mol·K) (exact, as NA × k).
      */
     public static function molarGas(): Quantity
     {
@@ -528,7 +534,7 @@ class PhysicalConstant
     /**
      * Stefan-Boltzmann constant (σ).
      *
-     * Value: 5.670374419 × 10⁻⁸ W/(m²·K⁴).
+     * Value: 5.670374419... × 10⁻⁸ W/(m²·K⁴) (exact, derived from k, h and c).
      */
     public static function stefanBoltzmann(): Quantity
     {

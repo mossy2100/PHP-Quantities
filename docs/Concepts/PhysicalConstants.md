@@ -1,6 +1,7 @@
 # Physical Constants
 
-Fundamental physical constants can be accessed as Quantity objects via the PhysicalConstant class:
+Fundamental physical constants can be accessed as Quantity objects via the PhysicalConstant class. Values are from the
+[2022 CODATA adjustment](https://physics.nist.gov/cuu/Constants/).
 
 ```php
 use Mossy2100\Core\Enums\FloatFormat;
@@ -42,14 +43,14 @@ $c = PhysicalConstant::get('c');
 | [Luminous efficacy](https://en.wikipedia.org/wiki/Luminous_efficacy)                         | K<sub>cd</sub>  | Kcd          | 683                   | *lm/W*            |
 | [Standard gravity](https://en.wikipedia.org/wiki/Standard_gravity)                           | g               | g            | 9.80665               | *m/s²*            |
 | [Gravitational constant](https://en.wikipedia.org/wiki/Gravitational_constant)               | G               | G            | 6.67430 × 10⁻¹¹       | *m³/(kg·s²)*      |
-| [Vacuum permittivity](https://en.wikipedia.org/wiki/Vacuum_permittivity)                     | ε₀              | epsilon0     | 8.8541878128 × 10⁻¹²  | *F/m*             |
-| [Vacuum permeability](https://en.wikipedia.org/wiki/Vacuum_permeability)                     | μ₀              | mu0          | 1.25663706212 × 10⁻⁶  | *H/m*             |
-| [Electron mass](https://en.wikipedia.org/wiki/Electron_mass)                                 | mₑ              | me           | 9.1093837015 × 10⁻³¹  | *kg*              |
-| [Proton mass](https://en.wikipedia.org/wiki/Proton)                                          | mₚ              | mp           | 1.67262192369 × 10⁻²⁷ | *kg*              |
-| [Neutron mass](https://en.wikipedia.org/wiki/Neutron)                                        | mₙ              | mn           | 1.67492749804 × 10⁻²⁷ | *kg*              |
-| [Fine-structure constant](https://en.wikipedia.org/wiki/Fine-structure_constant)             | α               | alpha        | 7.2973525693 × 10⁻³   | *(dimensionless)* |
-| [Rydberg constant](https://en.wikipedia.org/wiki/Rydberg_constant)                           | R<sub>∞</sub>   | Rinf         | 10,973,731.568160     | *m⁻¹*             |
-| [Bohr radius](https://en.wikipedia.org/wiki/Bohr_radius)                                     | a₀              | a0           | 5.29177210903 × 10⁻¹¹ | *m*               |
+| [Vacuum permittivity](https://en.wikipedia.org/wiki/Vacuum_permittivity)                     | ε₀              | epsilon0     | 8.8541878188 × 10⁻¹²  | *F/m*             |
+| [Vacuum permeability](https://en.wikipedia.org/wiki/Vacuum_permeability)                     | μ₀              | mu0          | 1.25663706127 × 10⁻⁶  | *H/m*             |
+| [Electron mass](https://en.wikipedia.org/wiki/Electron_mass)                                 | mₑ              | me           | 9.1093837139 × 10⁻³¹  | *kg*              |
+| [Proton mass](https://en.wikipedia.org/wiki/Proton)                                          | mₚ              | mp           | 1.67262192595 × 10⁻²⁷ | *kg*              |
+| [Neutron mass](https://en.wikipedia.org/wiki/Neutron)                                        | mₙ              | mn           | 1.67492750056 × 10⁻²⁷ | *kg*              |
+| [Fine-structure constant](https://en.wikipedia.org/wiki/Fine-structure_constant)             | α               | alpha        | 7.2973525643 × 10⁻³   | *(dimensionless)* |
+| [Rydberg constant](https://en.wikipedia.org/wiki/Rydberg_constant)                           | R<sub>∞</sub>   | Rinf         | 10,973,731.568157     | *m⁻¹*             |
+| [Bohr radius](https://en.wikipedia.org/wiki/Bohr_radius)                                     | a₀              | a0           | 5.29177210544 × 10⁻¹¹ | *m*               |
 | [Molar gas constant](https://en.wikipedia.org/wiki/Gas_constant)                             | R               | R            | 8.314462618           | *J/(mol·K)*       |
 | [Stefan-Boltzmann constant](https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant) | σ               | sigma        | 5.670374419 × 10⁻⁸    | *W/(m²·K⁴)*       |
 

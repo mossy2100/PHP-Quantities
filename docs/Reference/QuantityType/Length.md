@@ -130,7 +130,7 @@ $inKm = $voyage->to('km');  // 185.2 km
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::bohrRadius()`** (a₀) — Bohr radius, 5.29177210903 × 10⁻¹¹ m.
+- **`PhysicalConstant::bohrRadius()`** (a₀) — Bohr radius, 5.29177210544 × 10⁻¹¹ m.
 
 ---
 

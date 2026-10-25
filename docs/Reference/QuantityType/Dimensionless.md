@@ -109,7 +109,7 @@ $total = $discount->add($additional);     // 30%
 
 The following physical constants have this quantity type. See [`PhysicalConstant`](../PhysicalConstant.md) for the full list.
 
-- **`PhysicalConstant::fineStructure()`** (α) — Fine-structure constant, 7.2973525693 × 10⁻³.
+- **`PhysicalConstant::fineStructure()`** (α) — Fine-structure constant, 7.2973525643 × 10⁻³.
 
 ---
 
