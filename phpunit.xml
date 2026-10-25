@@ -35,5 +35,8 @@
         <include>
             <directory>src</directory>
         </include>
+        <exclude>
+            <directory>src/Currencies/snapshot</directory>
+        </exclude>
     </source>
 </phpunit>

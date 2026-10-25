@@ -14,11 +14,13 @@ use Mossy2100\Quantities\QuantityType\Power;
 use Mossy2100\Quantities\QuantityType\Resistance;
 use Mossy2100\Quantities\QuantityType\Time;
 use Mossy2100\Quantities\QuantityType\Voltage;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Electromagnetism examples demonstrating electrical circuit calculations.
  */
+#[CoversNothing]
 class ElectromagnetismTest extends TestCase
 {
     use FloatAssertions;

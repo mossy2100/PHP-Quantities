@@ -11,11 +11,13 @@ use Mossy2100\Quantities\QuantityType\Frequency;
 use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Velocity;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Light and wave examples demonstrating photon energy, wavelength, and mass-energy equivalence.
  */
+#[CoversNothing]
 class LightAndWavesTest extends TestCase
 {
     use FloatAssertions;

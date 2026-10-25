@@ -10,11 +10,13 @@ use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Time;
 use Mossy2100\Quantities\QuantityType\Velocity;
 use Mossy2100\Quantities\QuantityType\Volume;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Aviation examples demonstrating calculations with mixed Imperial, Nautical, and SI units.
  */
+#[CoversNothing]
 class AviationTest extends TestCase
 {
     use FloatAssertions;

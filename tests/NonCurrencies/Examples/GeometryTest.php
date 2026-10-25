@@ -8,11 +8,13 @@ use Mossy2100\Core\Traits\Asserts\FloatAssertions;
 use Mossy2100\Quantities\QuantityType\Area;
 use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Volume;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Geometry examples demonstrating area and volume calculations using the Quantities package.
  */
+#[CoversNothing]
 class GeometryTest extends TestCase
 {
     use FloatAssertions;

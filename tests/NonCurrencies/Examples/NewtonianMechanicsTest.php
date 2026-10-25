@@ -13,11 +13,13 @@ use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Power;
 use Mossy2100\Quantities\QuantityType\Time;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Newtonian mechanics examples demonstrating force, work, and power calculations.
  */
+#[CoversNothing]
 class NewtonianMechanicsTest extends TestCase
 {
     use FloatAssertions;

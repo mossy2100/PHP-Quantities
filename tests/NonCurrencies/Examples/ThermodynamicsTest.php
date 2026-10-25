@@ -13,11 +13,13 @@ use Mossy2100\Quantities\QuantityType\Power;
 use Mossy2100\Quantities\QuantityType\Pressure;
 use Mossy2100\Quantities\QuantityType\Temperature;
 use Mossy2100\Quantities\QuantityType\Volume;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Thermodynamics examples demonstrating gas laws and thermal radiation calculations.
  */
+#[CoversNothing]
 class ThermodynamicsTest extends TestCase
 {
     use FloatAssertions;

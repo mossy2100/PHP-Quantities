@@ -1768,6 +1768,31 @@ class CompoundUnitTest extends TestCase
 
     #endregion
 
+    #region includesMetricUnit() tests
+
+    /**
+     * Test includesMetricUnit() returns true when any term uses an SI or Metric unit.
+     */
+    public function testIncludesMetricUnitReturnsTrueForMetricUnits(): void
+    {
+        foreach (['km', 'L', 'ft/m', 'kW*h'] as $symbol) {
+            $this->assertTrue(CompoundUnit::parse($symbol)->includesMetricUnit(), $symbol);
+        }
+    }
+
+    /**
+     * Test includesMetricUnit() returns false for English units, SI base units shared with English units, and units
+     * accepted for use with SI.
+     */
+    public function testIncludesMetricUnitReturnsFalseForNonMetricUnits(): void
+    {
+        foreach (['ft', 's', 'mol', 'ft*s', 'lb/s', 'deg', 'h'] as $symbol) {
+            $this->assertFalse(CompoundUnit::parse($symbol)->includesMetricUnit(), $symbol);
+        }
+    }
+
+    #endregion
+
     #region toEnglishBase() tests
 
     /**

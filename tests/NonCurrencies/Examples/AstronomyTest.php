@@ -11,11 +11,13 @@ use Mossy2100\Quantities\QuantityType\Force;
 use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Time;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Astronomy examples demonstrating gravitational and light-travel calculations.
  */
+#[CoversNothing]
 class AstronomyTest extends TestCase
 {
     use FloatAssertions;

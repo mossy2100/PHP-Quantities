@@ -12,11 +12,13 @@ use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Time;
 use Mossy2100\Quantities\QuantityType\Velocity;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Kinematics examples demonstrating motion equations using the Quantities package.
  */
+#[CoversNothing]
 class KinematicsTest extends TestCase
 {
     use FloatAssertions;

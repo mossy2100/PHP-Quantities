@@ -12,11 +12,13 @@ use Mossy2100\Quantities\QuantityType\Force;
 use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Pressure;
 use Mossy2100\Quantities\QuantityType\Volume;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Fluid mechanics examples demonstrating pressure and buoyancy calculations.
  */
+#[CoversNothing]
 class FluidMechanicsTest extends TestCase
 {
     use FloatAssertions;

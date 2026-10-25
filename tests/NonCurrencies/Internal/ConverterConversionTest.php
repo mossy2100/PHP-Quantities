@@ -69,6 +69,25 @@ final class ConverterConversionTest extends TestCase
     }
 
     /**
+     * Test a non-integer combined offset converts via the zero units: add the source offset, then apply the factor.
+     */
+    public function testConvertNonIntegerOffsetViaZeroUnits(): void
+    {
+        // The combined offset is 0.25 * 2 = 0.5, so this can't use m*x + c with an integer c.
+        $this->assertSame(10.5, Quantity::convert(5, 'ftu', 'm4'));
+    }
+
+    /**
+     * Test converting via the zero units divides by the reverse factor when it's more exact.
+     */
+    public function testConvertViaZeroUnitsDividesByMoreExactReverseFactor(): void
+    {
+        // The ztu to ttu factor is 1/3, which is inexact, but the ttu to ztu factor of 3 is exact.
+        $this->assertSame((1.3 + 0.25) / 3, Quantity::convert(1.3, 'ftu', 'ttu'));
+        $this->assertNotSame((1.3 + 0.25) * (1 / 3), Quantity::convert(1.3, 'ftu', 'ttu'));
+    }
+
+    /**
      * Test offsets aren't applied when the offset unit is part of a compound unit.
      */
     public function testConvertCompoundUnitIgnoresOffset(): void

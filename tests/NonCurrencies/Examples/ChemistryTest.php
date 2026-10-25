@@ -12,11 +12,13 @@ use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Pressure;
 use Mossy2100\Quantities\QuantityType\Temperature;
 use Mossy2100\Quantities\QuantityType\Volume;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Chemistry examples demonstrating molar and gas law calculations.
  */
+#[CoversNothing]
 class ChemistryTest extends TestCase
 {
     use FloatAssertions;
