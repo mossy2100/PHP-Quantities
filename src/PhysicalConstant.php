@@ -143,8 +143,8 @@ class PhysicalConstant
      *
      * Each entry contains:
      * - 'method' — The static accessor method name.
-     * - 'value' — The numeric value (null for derived constants computed at runtime).
-     * - 'unit' — The unit symbol (null for dimensionless or derived).
+     * - 'value' - The numeric value.
+     * - 'unit' - The unit symbol, or '' if dimensionless.
      *
      * @var array<string, array{method: string, value: float, unit: string}>
      */

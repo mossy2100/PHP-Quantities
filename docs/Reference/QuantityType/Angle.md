@@ -166,7 +166,7 @@ $zero->cot();    // INF
 ### wrap()
 
 ```php
-public function wrap(bool $signed = true): Quantity
+public function wrap(bool $signed = true): static
 ```
 
 Normalize an angle to a standard range.

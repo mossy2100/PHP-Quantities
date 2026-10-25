@@ -45,10 +45,10 @@ use Mossy2100\Quantities\QuantityType\Voltage;
 use Mossy2100\Quantities\QuantityType\Volume;
 
 /**
- * Registry of quantity types keyed by dimension code.
+ * Registry of quantity types keyed by name.
  *
- * Provides mapping between dimension codes (e.g. 'L', 'M', 'L2') and their associated quantity information including
- * name and PHP class.
+ * Maps quantity type names (e.g. 'length', 'area') to their dimension codes (e.g. 'L', 'L2') and PHP classes, and
+ * finds quantity types by name, dimension or class.
  */
 class QuantityTypeService
 {

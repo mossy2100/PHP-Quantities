@@ -709,7 +709,7 @@ class Quantity implements Stringable
      * @throws ArithmeticException If the value is zero.
      * @example
      *   $length = new Length(10, 'm');
-     *   $recip = $length->recip();  // Length(0.1, 'm^-1')
+     *   $recip = $length->recip();  // Quantity(0.1, 'm-1')
      */
     public function recip(): self
     {
@@ -808,7 +808,7 @@ class Quantity implements Stringable
         // Start by multiplying the values.
         $newValue = $this->value * $other->value;
 
-        // Combine the unit terms from both operands. The CompoundUnit constructor collapses same-dimension terms.
+        // Combine the unit terms from both operands. The CompoundUnit constructor collapses same-unit terms.
         $newUnitTerms = array_merge(
             array_values($this->compoundUnit->unitTerms),
             array_values($other->compoundUnit->unitTerms)

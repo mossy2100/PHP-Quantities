@@ -26,7 +26,7 @@ class Unit implements UnitInterface
 {
     use Equatable;
 
-    #region Private constants
+    #region Constants
 
     /**
      * Letters that can appear in unit symbols.
@@ -563,9 +563,9 @@ class Unit implements UnitInterface
      * Helper method to add one symbol variant to the unit's symbol list.
      *
      * If $prefix is null, the unit symbol is added as-is, keyed by itself.
-     * If $prefix is non-null, the prefix symbol is added only if the unit is dimensionless and the unit symbol contains
-     * only letters. Unit symbols containing non-letter characters (e.g. '°C', '"') are silently skipped, since prefixes
-     * can't meaningfully combine with them.
+     * If $prefix is non-null, the prefix symbol is added only if the unit isn't dimensionless and the unit symbol
+     * contains only letters. Unit symbols containing non-letter characters (e.g. '°C', '"') are silently skipped,
+     * since prefixes can't meaningfully combine with them.
      *
      * @param array<string, array{string, ?string}> &$symbols The array to add the symbol to.
      * @param string $symbol The unit symbol to add.

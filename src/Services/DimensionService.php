@@ -35,8 +35,8 @@ class DimensionService
      *
      * The dimension 'A' is not part of the ISQ, being considered a ratio of lengths, but we need it for this system.
      *
-     * The dimension 'C' is reserved for a future currency extension. 'XAU' (which means gold troy ounces) is used as
-     * the base unit, being the least biased and most widely accepted currency.
+     * The dimension 'C' is used for currencies (Money). 'XAU' (which means gold troy ounces) is used as the base unit,
+     * being the least biased and most widely accepted currency.
      *
      * The ISQ uses 'Θ' (Greek capital theta) for temperature. 'H' is used here because ASCII characters are easier to
      * type. 'H' is chosen because capital theta has a horizontal bar, like 'H', plus 'H' suggests heat.

@@ -197,7 +197,7 @@ These classes are predominantly internal, except for adding custom units via `Un
 | [ConversionService](docs/Reference/Services/ConversionService.md)       | Manages unit conversions and converters.                                                       |
 | [DimensionService](docs/Reference/Services/DimensionService.md)         | Utilities for working with physical dimension codes (validation, composition, transformation). |
 | [PrefixService](docs/Reference/Services/PrefixService.md)               | Manages SI and binary prefixes (lookup, filtering by group).                                   |
-| [QuantityTypeService](docs/Reference/Services/QuantityTypeService.md)   | Registry of quantity types keyed by dimension code.                                            |
+| [QuantityTypeService](docs/Reference/Services/QuantityTypeService.md)   | Registry of quantity types keyed by name.                                                      |
 | [QuantityType](docs/Reference/QuantityType.md)                          | Data class for a registered quantity type: name, dimension and class.                          |
 | [UnitService](docs/Reference/Services/UnitService.md)                   | Registry of units with lookup, filtering, and loading by system.                               |
 

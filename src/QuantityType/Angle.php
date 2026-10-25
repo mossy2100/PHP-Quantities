@@ -238,13 +238,13 @@ class Angle extends Quantity
      * For degrees, this is [0, 360)
      *
      * @param bool $signed If true, wrap to the signed range; otherwise wrap to the unsigned range.
-     * @return Quantity A new angle with the wrapped value.
+     * @return static A new angle with the wrapped value.
      *
      * @example
      * $alpha = new Angle(270, 'deg');
      * $wrapped = $alpha->wrap(); // now $wrapped->value == -90
      */
-    public function wrap(bool $signed = true): Quantity
+    public function wrap(bool $signed = true): static
     {
         // Get the units per turn for the current unit.
         $unitsPerTurn = self::convert(1, 'turn', $this->compoundUnit);
@@ -253,7 +253,7 @@ class Angle extends Quantity
         $r = Floats::wrap($this->value, $unitsPerTurn, $signed);
 
         // Return a new Angle with the wrapped value.
-        return self::create($r, $this->compoundUnit);
+        return new static($r, $this->compoundUnit);
     }
 
     #endregion

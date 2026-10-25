@@ -1,6 +1,6 @@
 # QuantityTypeService
 
-Registry of quantity types keyed by dimension code.
+Registry of quantity types keyed by name.
 
 **Namespace:** `Mossy2100\Quantities\Services`
 
