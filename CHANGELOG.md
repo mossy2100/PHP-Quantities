@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   `OceanMoon\Quantities` to `Mossy2100\Quantities` (breaking),** matching the author's GitHub and Packagist name. Update
   `composer.json` and any `use` statements. It depends on `mossy2100/core`.
 - **Requires `mossy2100/core` ^4.0**, up from ^2.0.
+- **Requires the `intl` extension,** which `Money` uses to format amounts.
 - **`Quantity::format()` takes the same parameters as Core's `Floats::format()` (breaking),** plus `$includeSpace` and
   `$ascii`:
   - The `string $specifier` is replaced by `FloatFormat $format` (`FixedPoint`, `Scientific` or `Auto`, the default).
@@ -75,6 +76,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Physical constants are updated to the 2022 CODATA adjustment,** from 2018. The measured values change slightly, e.g.
   the electron mass and the fine-structure constant. The molar gas constant and the Stefan-Boltzmann constant are now
   derived exactly from the SI defining constants.
+- **`Angle::wrap()` returns `static` rather than `Quantity`,** so static analysis knows the result is an `Angle`.
 - **Moved the public types out of the `Internal` namespace (breaking).** Users need these to add units and conversions,
   load unit systems, and read a quantity's unit. Update any `use` statements as shown below. `Converter` and
   `FloatWithError` stay in `Internal`, and are now marked `@internal`.
@@ -110,6 +112,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **`Quantity::parse()` failed on multi-part strings,** e.g. `Quantity::parse('12° 34′ 56″')` threw "Quantity type
   cannot be null". The quantity type now comes from the first part's unit. Malformed input, e.g. `'+5 m'`, now throws
   `FormatException` rather than `LogicException`.
+- **`QuantityTypeService::remove()` ignored a name that wasn't lowercase,** e.g. `remove('Length')`. It now matches
+  names case-insensitively, like `add()` and `getByName()`.
 - **Exchange rates from Open Exchange Rates or ExchangeRate-API were never reused,** because their response includes the
   base currency at a rate of `1`, which was saved as an integer and made the whole rates file fail to load. Rates are
   now saved as floats, the base currency is skipped, and existing files with integer rates load.
