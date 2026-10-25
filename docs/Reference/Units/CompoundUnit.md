@@ -456,7 +456,7 @@ $newton = new CompoundUnit([
 
 echo $newton->asciiSymbol;   // 'kg*m/s2'
 echo $newton->unicodeSymbol; // 'kg⋅m⋅s⁻²'
-echo $newton->dimension;     // 'T-2LM'
+echo $newton->dimension;     // 'MLT-2'
 ```
 
 ### Parsing and validation

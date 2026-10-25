@@ -35,9 +35,9 @@ The *steradian* (`sr`) is the SI unit of solid angle. A complete sphere subtends
 
 In the SI system, the steradian, like the radian, is considered dimensionless and therefore normally has a code of `1`. For the purpose of this package, however, it was preferable to have a dedicated `Angle` class, which necessitated a dedicated dimension code, which was allocated the letter `A`.
 
-By extension, the dimension code for the steradian became `A2`. Some other quantity types were also affected; for example, the dimension code for *luminous flux*, normally `J`, is `JA2` within this package. This is arguably an improvement, since it differentiates *luminous intensity* (`J`) from *luminous flux*, which are related but different quantity types.
+By extension, the dimension code for the steradian became `A2`. Some other quantity types were also affected; for example, the dimension code for *luminous flux*, normally `J`, is `A2J` within this package. This is arguably an improvement, since it differentiates *luminous intensity* (`J`) from *luminous flux*, which are related but different quantity types.
 
-Similarly, the dimension code for *illuminance*, normally `L-2J`, is `L-2JA2` within this package. 
+Similarly, the dimension code for *illuminance*, normally `L-2J`, is `L-2A2J` within this package. 
 
 See [Dimensions and Base Units](../../Concepts/DimensionsAndBaseUnits.md) for more information.
 

@@ -10,7 +10,7 @@ Registry of quantity types keyed by name.
 
 The `QuantityTypeService` provides mapping between:
 
-- Dimension codes (e.g. `'L'`, `'M'`, `'T-2L2M'`)
+- Dimension codes (e.g. `'L'`, `'M'`, `'ML2T-2'`)
 - Quantity names (e.g. `'length'`, `'mass'`, `'energy'`)
 - PHP classes (e.g. `Length::class`, `Mass::class`, `Energy::class`)
 
@@ -42,25 +42,25 @@ Built-in quantity type definitions keyed by name. Each entry contains a dimensio
 | solid angle | A2 | `SolidAngle` |
 | area | L2 | `Area` |
 | volume | L3 | `Volume` |
-| velocity | T-1L | `Velocity` |
-| acceleration | T-2L | `Acceleration` |
-| density | L-3M | `Density` |
+| velocity | LT-1 | `Velocity` |
+| acceleration | LT-2 | `Acceleration` |
+| density | ML-3 | `Density` |
 | frequency | T-1 | `Frequency` |
-| force | T-2LM | `Force` |
-| pressure | T-2L-1M | `Pressure` |
-| energy | T-2L2M | `Energy` |
-| power | T-3L2M | `Power` |
+| force | MLT-2 | `Force` |
+| pressure | ML-1T-2 | `Pressure` |
+| energy | ML2T-2 | `Energy` |
+| power | ML2T-3 | `Power` |
 | electric charge | TI | `ElectricCharge` |
-| voltage | T-3L2MI-1 | `Voltage` |
-| capacitance | T4L-2M-1I2 | `Capacitance` |
-| resistance | T-3L2MI-2 | `Resistance` |
-| conductance | T3L-2M-1I2 | `Conductance` |
-| magnetic flux | T-2L2MI-1 | `MagneticFlux` |
-| magnetic flux density | T-2MI-1 | `MagneticFluxDensity` |
-| inductance | T-2L2MI-2 | `Inductance` |
-| luminous flux | JA2 | `LuminousFlux` |
-| illuminance | L-2JA2 | `Illuminance` |
-| absorbed dose | T-2L2 | `RadiationDose` |
+| voltage | ML2T-3I-1 | `Voltage` |
+| capacitance | M-1L-2T4I2 | `Capacitance` |
+| resistance | ML2T-3I-2 | `Resistance` |
+| conductance | M-1L-2T3I2 | `Conductance` |
+| magnetic flux | ML2T-2I-1 | `MagneticFlux` |
+| magnetic flux density | MT-2I-1 | `MagneticFluxDensity` |
+| inductance | ML2T-2I-2 | `Inductance` |
+| luminous flux | A2J | `LuminousFlux` |
+| illuminance | L-2A2J | `Illuminance` |
+| absorbed dose | L2T-2 | `RadiationDose` |
 | catalytic activity | T-1N | `CatalyticActivity` |
 
 ---
@@ -122,7 +122,7 @@ Get the quantity type matching a given name. Case-insensitive.
 
 ```php
 $qtyType = QuantityTypeService::getByName('energy');
-echo $qtyType->dimension;  // 'T-2L2M'
+echo $qtyType->dimension;  // 'ML2T-2'
 
 $qtyType = QuantityTypeService::getByName('Electric Current');  // case-insensitive
 echo $qtyType->dimension;  // 'I'
@@ -143,7 +143,7 @@ Get the quantity type matching a given PHP class.
 ```php
 $qtyType = QuantityTypeService::getByClass(Force::class);
 echo $qtyType->name;       // 'force'
-echo $qtyType->dimension;  // 'T-2LM'
+echo $qtyType->dimension;  // 'MLT-2'
 
 QuantityTypeService::getByClass(Quantity::class);  // null (base class not registered)
 ```
@@ -180,9 +180,9 @@ Register a new quantity type. The name, dimension, and class must all be unique.
 - `LogicException` if the name, dimension, or class is already registered.
 
 ```php
-QuantityTypeService::add('jerk', 'T-3L', Jerk::class);
+QuantityTypeService::add('jerk', 'LT-3', Jerk::class);
 
-// Now Quantity::create() will return Jerk for dimension T-3L.
+// Now Quantity::create() will return Jerk for dimension LT-3.
 $jerk = Quantity::create(1, 'm/s3');
 // $jerk instanceof Jerk === true
 ```

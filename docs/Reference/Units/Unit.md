@@ -162,7 +162,7 @@ $meter = new Unit(
 $ohm = new Unit(
     name: 'ohm',
     asciiSymbol: 'ohm',
-    dimension: 'T-3L2MI-2',
+    dimension: 'ML2T-3I-2',
     systems: [UnitSystem::Si],
     prefixGroup: PrefixService::GROUP_METRIC,
     unicodeSymbol: 'Ω'

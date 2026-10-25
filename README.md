@@ -78,13 +78,13 @@ $dollars = $price->to('USD');        // e.g. 4621 USD
 
 // Convert to SI units
 $force = new Force(28000, 'lbf');
-$force = $force->toSi();      // 124... kN
-$force = $force->toSiBase();  // 124550... kg⋅m/s²
+$siForce = $force->toSi()->autoPrefix();  // 124.55... kN
+$baseForce = $force->toSiBase();          // 124550.2... kg⋅m/s²
 
 // Arithmetic operations
 $total = $distance->add(new Length(500, 'm'));      // 5.5 km
 $doubled = $distance->mul(2.0);                     // 10 km
-$period = new Frequency(2.4, 'GHz')->recip()->toSi(); // 416.7... ps
+$period = new Frequency(2.4, 'GHz')->recip()->toSi()->autoPrefix(); // 416.7... ps
 
 // Physical constants
 $h = PhysicalConstant::planck();
@@ -155,39 +155,39 @@ All quantity type classes extend `Quantity` and define their specific units and 
 
 | Class                                                                     | Dimension  | SI or common base unit | Description                                      |
 | ------------------------------------------------------------------------- | ---------- | ---------------------- | ------------------------------------------------ |
-| [Acceleration](docs/Reference/QuantityType/Acceleration.md)               | T-2L       | m/s²                   | Rate of change of velocity.                      |
+| [Acceleration](docs/Reference/QuantityType/Acceleration.md)               | LT-2       | m/s²                   | Rate of change of velocity.                      |
 | [AmountOfSubstance](docs/Reference/QuantityType/AmountOfSubstance.md)     | N          | mol                    | SI base quantity for counting entities.          |
 | [Angle](docs/Reference/QuantityType/Angle.md)                             | A          | rad                    | Angular measurements with trig functions.        |
 | [Area](docs/Reference/QuantityType/Area.md)                               | L2         | m²                     | Two-dimensional extent.                          |
-| [Capacitance](docs/Reference/QuantityType/Capacitance.md)                 | T4L-2M-1I2 | F                      | Ability to store electric charge.                |
+| [Capacitance](docs/Reference/QuantityType/Capacitance.md)                 | M-1L-2T4I2 | F                      | Ability to store electric charge.                |
 | [CatalyticActivity](docs/Reference/QuantityType/CatalyticActivity.md)     | T-1N       | kat                    | Rate of catalysis.                               |
-| [Conductance](docs/Reference/QuantityType/Conductance.md)                 | T3L-2M-1I2 | S                      | Electrical conductance.                          |
+| [Conductance](docs/Reference/QuantityType/Conductance.md)                 | M-1L-2T3I2 | S                      | Electrical conductance.                          |
 | [Data](docs/Reference/QuantityType/Data.md)                               | D          | B                      | Digital storage with metric and binary prefixes. |
-| [Density](docs/Reference/QuantityType/Density.md)                         | L-3M       | kg/m³                  | Mass per unit volume.                            |
+| [Density](docs/Reference/QuantityType/Density.md)                         | ML-3       | kg/m³                  | Mass per unit volume.                            |
 | [Dimensionless](docs/Reference/QuantityType/Dimensionless.md)             | *empty*    | *empty*                | Ratios, percentages, and pure numbers.           |
 | [ElectricCharge](docs/Reference/QuantityType/ElectricCharge.md)           | TI         | C                      | Quantity of electricity.                         |
 | [ElectricCurrent](docs/Reference/QuantityType/ElectricCurrent.md)         | I          | A                      | SI base quantity for electric current.           |
-| [Energy](docs/Reference/QuantityType/Energy.md)                           | T-2L2M     | J                      | Capacity to do work.                             |
-| [Force](docs/Reference/QuantityType/Force.md)                             | T-2LM      | N                      | Interaction causing acceleration.                |
+| [Energy](docs/Reference/QuantityType/Energy.md)                           | ML2T-2     | J                      | Capacity to do work.                             |
+| [Force](docs/Reference/QuantityType/Force.md)                             | MLT-2      | N                      | Interaction causing acceleration.                |
 | [Frequency](docs/Reference/QuantityType/Frequency.md)                     | T-1        | Hz, Bq                 | Cycles per unit time.                            |
-| [Illuminance](docs/Reference/QuantityType/Illuminance.md)                 | L-2JA2     | lx                     | Luminous flux per area.                          |
-| [Inductance](docs/Reference/QuantityType/Inductance.md)                   | T-2L2MI-2  | H                      | Property opposing current change.                |
+| [Illuminance](docs/Reference/QuantityType/Illuminance.md)                 | L-2A2J     | lx                     | Luminous flux per area.                          |
+| [Inductance](docs/Reference/QuantityType/Inductance.md)                   | ML2T-2I-2  | H                      | Property opposing current change.                |
 | [Length](docs/Reference/QuantityType/Length.md)                           | L          | m                      | SI base quantity for distance.                   |
-| [LuminousFlux](docs/Reference/QuantityType/LuminousFlux.md)               | JA2        | lm                     | Perceived light power.                           |
+| [LuminousFlux](docs/Reference/QuantityType/LuminousFlux.md)               | A2J        | lm                     | Perceived light power.                           |
 | [LuminousIntensity](docs/Reference/QuantityType/LuminousIntensity.md)     | J          | cd                     | SI base quantity for luminous intensity.         |
-| [MagneticFlux](docs/Reference/QuantityType/MagneticFlux.md)               | T-2L2MI-1  | Wb                     | Total magnetic field through surface.            |
-| [MagneticFluxDensity](docs/Reference/QuantityType/MagneticFluxDensity.md) | T-2MI-1    | T                      | Magnetic field strength.                         |
+| [MagneticFlux](docs/Reference/QuantityType/MagneticFlux.md)               | ML2T-2I-1  | Wb                     | Total magnetic field through surface.            |
+| [MagneticFluxDensity](docs/Reference/QuantityType/MagneticFluxDensity.md) | MT-2I-1    | T                      | Magnetic field strength.                         |
 | [Mass](docs/Reference/QuantityType/Mass.md)                               | M          | kg                     | SI base quantity for mass.                       |
 | [Money](docs/Reference/QuantityType/Money.md)                             | C          | XAU                    | Currency conversions and calculations.           |
-| [Power](docs/Reference/QuantityType/Power.md)                             | T-3L2M     | W                      | Rate of energy transfer.                         |
-| [Pressure](docs/Reference/QuantityType/Pressure.md)                       | T-2L-1M    | Pa                     | Force per unit area.                             |
-| [RadiationDose](docs/Reference/QuantityType/RadiationDose.md)             | T-2L2      | Gy, Sv                 | Absorbed and equivalent radiation dose.          |
-| [Resistance](docs/Reference/QuantityType/Resistance.md)                   | T-3L2MI-2  | Ω                      | Opposition to electric current.                  |
+| [Power](docs/Reference/QuantityType/Power.md)                             | ML2T-3     | W                      | Rate of energy transfer.                         |
+| [Pressure](docs/Reference/QuantityType/Pressure.md)                       | ML-1T-2    | Pa                     | Force per unit area.                             |
+| [RadiationDose](docs/Reference/QuantityType/RadiationDose.md)             | L2T-2      | Gy, Sv                 | Absorbed and equivalent radiation dose.          |
+| [Resistance](docs/Reference/QuantityType/Resistance.md)                   | ML2T-3I-2  | Ω                      | Opposition to electric current.                  |
 | [SolidAngle](docs/Reference/QuantityType/SolidAngle.md)                   | A2         | sr                     | Three-dimensional angular extent.                |
 | [Temperature](docs/Reference/QuantityType/Temperature.md)                 | H          | K                      | SI base quantity with affine conversions.        |
 | [Time](docs/Reference/QuantityType/Time.md)                               | T          | s                      | SI base quantity for duration.                   |
-| [Velocity](docs/Reference/QuantityType/Velocity.md)                       | T-1L       | m/s                    | Rate of change of position.                      |
-| [Voltage](docs/Reference/QuantityType/Voltage.md)                         | T-3L2MI-1  | V                      | Electric potential difference.                   |
+| [Velocity](docs/Reference/QuantityType/Velocity.md)                       | LT-1       | m/s                    | Rate of change of position.                      |
+| [Voltage](docs/Reference/QuantityType/Voltage.md)                         | ML2T-3I-1  | V                      | Electric potential difference.                   |
 | [Volume](docs/Reference/QuantityType/Volume.md)                           | L3         | m³                     | Three-dimensional extent.                        |
 
 ### Services
