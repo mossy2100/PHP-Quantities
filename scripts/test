@@ -3,14 +3,32 @@
 # Run phpunit with coverage for a given testsuite.
 #
 # Usage:
-#   scripts/test              # all tests (no suite filter)
-#   scripts/test all          # all tests (no suite filter)
 #   scripts/test unit         # fast offline tests
 #   scripts/test currencies   # live exchange-rate API tests (slow, consumes quota)
+#   scripts/test all          # both suites
+#
+# The suite is required, so live API tests never run by accident.
 #
 set -euo pipefail
 
-suite="${1:-all}"
+usage="Usage: scripts/test unit|currencies|all (via Composer: composer test unit|currencies|all)"
+
+if [[ $# -ne 1 ]]; then
+    echo "$usage" >&2
+    exit 1
+fi
+
+suite="$1"
+case "$suite" in
+    unit | currencies) ;;
+    # phpunit.xml sets defaultTestSuite="unit", so "all" must name both suites.
+    all) suite="unit,currencies" ;;
+    *)
+        echo "Invalid suite: '$suite'." >&2
+        echo "$usage" >&2
+        exit 1
+        ;;
+esac
 
 cd "$(dirname "$0")/.."
 
@@ -20,10 +38,7 @@ args=(
     --coverage-html build/coverage
     --coverage-clover build/logs/clover.xml
     --do-not-cache-result
+    --testsuite="$suite"
 )
-
-if [[ "$suite" != "all" ]]; then
-    args+=(--testsuite="$suite")
-fi
 
 exec php8.4 "${args[@]}"

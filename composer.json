@@ -52,15 +52,13 @@
         "check": "vendor/bin/phpcs -s",
         "report": "vendor/bin/phpcs -q --report=summary",
         "analyze": "scripts/analyze",
-        "test:unit": "scripts/test unit",
-        "test:currencies": "scripts/test currencies",
         "test": "scripts/test",
         "coverage": "php8.4 scripts/coverage-check.php",
         "quality": [
             "@fix",
             "@check",
             "@analyze",
-            "@test",
+            "@test all",
             "@coverage"
         ]
     },

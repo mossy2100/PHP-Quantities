@@ -252,20 +252,27 @@ Classes for currency data management and exchange rate integration.
 
 ## Testing
 
-The library includes comprehensive test coverage:
+There are two test suites:
+
+- `unit` (default): fast, offline tests in `tests/NonCurrencies`.
+- `currencies`: tests in `tests/Currencies` that call live exchange rate APIs. They need API keys in
+  `tests/Currencies/api-keys.json` (see `api-keys.json.example`) and use up request quota.
 
 ```bash
-# Run all tests
+# Run the unit tests
 vendor/bin/phpunit
 
 # Run a specific test file
-vendor/bin/phpunit tests/Quantity/QuantityArithmeticTest.php
+vendor/bin/phpunit tests/NonCurrencies/Quantity/QuantityArithmeticTest.php
 
 # Run tests matching a filter
 vendor/bin/phpunit --filter=testCompare
 
-# Run with coverage (generates HTML report and clover.xml)
-composer test
+# Run the live currency tests
+vendor/bin/phpunit --testsuite currencies
+
+# Run with coverage (generates HTML report and clover.xml): unit, currencies or all
+composer test all
 ```
 
 ---
