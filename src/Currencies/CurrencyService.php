@@ -629,18 +629,25 @@ class CurrencyService
         }
 
         // Check it's an array with the right shape.
-        $ok = is_array($unitData)
-            && array_key_exists('whenFetched', $unitData) && is_string($unitData['whenFetched'])
-            && array_key_exists('currencies', $unitData) && is_array($unitData['currencies']);
-
-        // Check currencies are arrays with the right shape.
-        if ($ok) {
-            foreach ($unitData['currencies'] as $name => $code) {
-                $ok = $ok && is_string($name) && is_string($code);
-            }
+        if (
+            !is_array($unitData) ||
+            !isset($unitData['whenFetched'], $unitData['currencies']) ||
+            !is_string($unitData['whenFetched']) ||
+            !is_array($unitData['currencies'])
+        ) {
+            return null;
         }
 
-        return $ok ? $unitData : null;
+        // Check each currency maps a name to a code.
+        $currencies = [];
+        foreach ($unitData['currencies'] as $name => $code) {
+            if (!is_string($name) || !is_string($code)) {
+                return null;
+            }
+            $currencies[$name] = $code;
+        }
+
+        return ['whenFetched' => $unitData['whenFetched'], 'currencies' => $currencies];
     }
 
     /**
