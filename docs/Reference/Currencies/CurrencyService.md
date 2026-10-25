@@ -8,15 +8,47 @@ Static service for managing currency units and exchange rate conversions.
 
 ## Overview
 
-The `CurrencyService` manages currency data for the Quantities package. It must be initialized before using [`Money`](../QuantityType/Money.md) quantities.
+The `CurrencyService` manages the data behind [`Money`](../QuantityType/Money.md) quantities:
 
-- Currency unit definitions loaded from the official ISO 4217 XML (published by SIX Group)
-- Exchange rate conversion data loaded via a pluggable `ExchangeRateServiceInterface`
-- File-based caching of both datasets as PHP files with configurable TTLs
-- Locale detection for currency formatting
-- A single `init()` entry point that configures the service and triggers data loading
+- Currency units, from the official ISO 4217 list (published by SIX Group).
+- Exchange rates, from a pluggable `ExchangeRateServiceInterface`.
+- The locale used to format money.
 
 Currency units are registered under the `UnitSystem::Financial` unit system.
+
+### Local data, and when it's fetched
+
+Currencies always work from local data. **Nothing is fetched unless you ask for it**, or turn on auto-refresh:
+
+| Data           | Comes from                                                                | Fetched by       |
+| -------------- | ------------------------------------------------------------------------- | ---------------- |
+| Currency units | The data directory if refreshed, else a snapshot bundled with the package | `refreshUnits()` |
+| Exchange rates | The data directory, once fetched                                          | `refreshRates()` |
+
+So `new Money(5, 'USD')` works out of the box. Until rates have been fetched, converting between currencies fails
+like any conversion with no known path (a `LogicException`). The ISO 4217 list changes rarely, so `refreshUnits()`
+only needs calling occasionally.
+
+### Auto-refresh
+
+Auto-refresh is off by default. Turn it on by passing a TTL in seconds to `init()` or `setAutoRefreshTtl()`. A
+currency conversion then refetches the rates first if they're stale, i.e.:
+
+- there are no local rates, or
+- they're older than the TTL, or
+- they came from a different service than the one configured.
+
+If that fetch fails, the conversion throws `RuntimeException` rather than using the old rates. The staleness check
+uses metadata held in memory, so it's cheap. Currency units are never refreshed automatically.
+
+### Data directory
+
+Refreshed data is written to a data directory as PHP files. The default is `mossy2100-quantities` in the system temp
+directory. Temp directories can be cleared, so it's best to call `setDataDir()` in production.
+
+> [!WARNING]
+> The data files are PHP that the service `require`s. Make sure the data directory is not writable by anyone
+> untrusted.
 
 ### Exchange rate services
 
@@ -28,84 +60,13 @@ The package includes adapters for several exchange rate APIs, all of which have 
 | `ExchangeRateApiService`   | Yes              | 160                | [exchangerate-api.com](https://www.exchangerate-api.com/) |
 | `OpenExchangeRatesService` | Yes              | 170                | [openexchangerates.org](https://openexchangerates.org/)   |
 | `CurrencyLayerService`     | Yes              | 170                | [currencylayer.com](https://currencylayer.com/)           |
-| `FixerService`             | Yes              | 170                | [fixer.io](https://fixer.io/)                            |
+| `FixerService`             | Yes              | 170                | [fixer.io](https://fixer.io/)                             |
 
 All services are in the `Mossy2100\Quantities\Currencies\ExchangeRateServices` namespace.
 
-`FrankfurterService` is the simplest option — no API key, no signup. It uses European Central Bank data and covers ~30 major currencies. The other services require a free API key but support 160+ currencies, including precious metals (XAU, XAG) and some cryptocurrencies.
-
-### Caching
-
-Both currency unit definitions and exchange rates are cached as PHP files in a local data directory. The cache TTLs control how often fresh data is fetched:
-
-- **Currency units** (`$currenciesTtl`, default 30 days) — ISO 4217 currency codes change rarely.
-- **Exchange rates** (`$ratesTtl`, default 1 hour) — rates change frequently.
-
-`refresh()` is called automatically when currency conversion is attempted. It checks the cache timestamps and only fetches new data when a cache has expired.
-
----
-
-## Unit data
-
-### getUnits()
-
-```php
-public static function getUnits(bool $bypassCache = false): array
-```
-
-Ensure the currency unit data is up to date. Returns the cached data if it exists and has not expired. Otherwise fetches a fresh copy from the official ISO 4217 XML, regenerates the data file, and returns the new data.
-
-**Parameters:**
-- `$bypassCache` (bool) - If `true`, always fetch fresh data regardless of cache expiry. Default: `false`.
-
-**Returns:**
-- `array` - The current currency unit data, containing:
-  - `whenFetched` (string) - Timestamp of when the data was fetched.
-  - `currencies` (array<string, string>) - Currency names mapped to their ISO 4217 codes.
-
-**Throws:**
-- `RuntimeException` - If a fetch is required but the ISO 4217 XML cannot be fetched or parsed, or if the data directory cannot be created.
-
-### deleteUnits()
-
-```php
-public static function deleteUnits(): void
-```
-
-Delete the currency unit data files (`CurrencyUnits.php` and `CurrencyUnits.xml`) from the configured data directory. Has no effect if the files do not exist. The next call to `getUnits()` or `refresh()` will re-fetch fresh data.
-
----
-
-## Conversion data
-
-### getConversions()
-
-```php
-public static function getConversions(bool $bypassCache = false): array
-```
-
-Ensure the currency conversion data is up to date. Returns the cached data if it exists, has not expired, and was produced by the currently configured exchange rate service. Otherwise fetches fresh data, regenerates the data file, and returns it.
-
-**Parameters:**
-- `$bypassCache` (bool) - If `true`, always fetch fresh data regardless of cache state. Default: `false`.
-
-**Returns:**
-- `array` - The current currency conversion data, containing:
-  - `whenFetched` (string) - Timestamp of when the data was fetched.
-  - `serviceName` (string) - The name of the exchange rate service used.
-  - `definitions` (list<array{string, string, float}>) - Conversion definition tuples.
-
-**Throws:**
-- `LogicException` - If the exchange rate service is not configured.
-- `RuntimeException` - If a fetch is required but the exchange rate service fails or the data directory cannot be created.
-
-### deleteConversions()
-
-```php
-public static function deleteConversions(): void
-```
-
-Delete the currency conversion data file (`CurrencyConversions.php`) from the configured data directory. Has no effect if the file does not exist. The next call to `getConversions()` or `refresh()` will re-fetch fresh data.
+`FrankfurterService` is the simplest option: no API key, no signup. It uses European Central Bank data and covers
+about 30 major currencies. The other services need a free API key, but support 160+ currencies, including precious
+metals (XAU, XAG) and some cryptocurrencies.
 
 ---
 
@@ -117,38 +78,114 @@ Delete the currency conversion data file (`CurrencyConversions.php`) from the co
 public static function init(
     ExchangeRateServiceInterface $exchangeRateService,
     ?string $locale = null,
-    int $ratesTtl = 3600,
-    int $currenciesTtl = 2592000
+    ?int $autoRefreshTtl = null
 ): void
 ```
 
-Initialize the currency service. This is the primary entry point for setting up currency support. Sets all service properties and then calls `refresh()` to load or update data as needed.
+Initialize the currency service. This only sets the configuration; nothing is fetched.
 
 **Parameters:**
 - `$exchangeRateService` (ExchangeRateServiceInterface) - The exchange rate service to use.
 - `$locale` (?string) - The locale for currency formatting. `null` for auto-detection.
-- `$ratesTtl` (int) - Cache lifetime for exchange rates in seconds. Default: 3600 (1 hour).
-- `$currenciesTtl` (int) - Cache lifetime for currency unit data in seconds. Default: 2592000 (30 days).
+- `$autoRefreshTtl` (?int) - The maximum age of the rates in seconds before a currency conversion refetches them,
+  or `null` to turn auto-refresh off (default).
 
 **Throws:**
-- [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If the locale string is invalid.
-- `DomainException` - If either TTL argument is negative.
-- `RuntimeException` - If the ISO 4217 XML or exchange rate API request fails, or if the data directory cannot be created.
+- [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If the
+  locale string is invalid.
+- `DomainException` - If the auto-refresh TTL is negative.
 
-### refresh()
+---
+
+## Unit data
+
+### getUnits()
 
 ```php
-public static function refresh(bool $bypassCache = false): void
+public static function getUnits(): array
 ```
 
-Ensure all currency data is fresh. Calls `getUnits()` and `getConversions()`, each of which fetches new data only if its cache has expired (or if `$bypassCache` is `true`).
+Get the currency unit data: the refreshed copy in the data directory if there is one, otherwise the bundled
+snapshot. Never fetches anything.
 
-**Parameters:**
-- `$bypassCache` (bool) - If `true`, skip checking the cache expiry. Default: `false`.
+**Returns:** `array` - The currency unit data, containing:
+- `whenFetched` (string) - When the data was fetched, in UTC.
+- `currencies` (array<string, string>) - Currency names mapped to their ISO 4217 codes.
+
+### refreshUnits()
+
+```php
+public static function refreshUnits(): array
+```
+
+Fetch the ISO 4217 list from SIX Group now, write it to the data directory, and reload the currency units. Fund
+currencies and a few special codes (e.g. `XTS`, `XXX`) are left out.
+
+**Returns:** `array` - The currency unit data just written, in the same shape as `getUnits()`.
 
 **Throws:**
-- `RuntimeException` - If the ISO 4217 XML or exchange rate API request fails, or if the data directory cannot be created.
+- `RuntimeException` - If the ISO 4217 XML cannot be fetched or parsed, or a data file cannot be written.
+
+### deleteUnits()
+
+```php
+public static function deleteUnits(): void
+```
+
+Delete the refreshed currency unit files (`CurrencyUnits.php` and `CurrencyUnits.xml`) from the data directory, so
+the bundled snapshot is used again. Has no effect if the files don't exist.
+
+---
+
+## Exchange rate data
+
+### getConversions()
+
+```php
+public static function getConversions(): ?array
+```
+
+Get the local exchange rates, as last fetched by `refreshRates()`. Never fetches anything.
+
+**Returns:** `?array` - The currency conversion data, or `null` if there is none. It contains:
+- `whenFetched` (string) - When the rates were fetched, in UTC.
+- `serviceName` (string) - The name of the exchange rate service used.
+- `definitions` (list<array{string, string, float}>) - Conversion definition tuples.
+
+### refreshRates()
+
+```php
+public static function refreshRates(): array
+```
+
+Fetch the exchange rates from the configured service now, write them to the data directory, and reload the currency
+conversions.
+
+**Returns:** `array` - The conversion data just written, in the same shape as `getConversions()`.
+
+**Throws:**
 - `LogicException` - If the exchange rate service is not configured.
+- `RuntimeException` - If the service fails to return valid data, or the data file cannot be written.
+
+### getRatesFetchedAt()
+
+```php
+public static function getRatesFetchedAt(): ?DateTimeImmutable
+```
+
+Get when the local exchange rates were fetched. Useful for deciding when to call `refreshRates()` if auto-refresh
+is off.
+
+**Returns:** `?DateTimeImmutable` - The time the rates were fetched, or `null` if there are no local rates.
+
+### deleteConversions()
+
+```php
+public static function deleteConversions(): void
+```
+
+Delete the exchange rate file (`CurrencyConversions.php`) from the data directory. Has no effect if the file doesn't
+exist.
 
 ---
 
@@ -160,20 +197,35 @@ Ensure all currency data is fresh. Calls `getUnits()` and `getConversions()`, ea
 public static function getExchangeRateService(): ?ExchangeRateServiceInterface
 ```
 
-Get the configured exchange rate service.
-
-**Returns:**
-- `?ExchangeRateServiceInterface` - The exchange rate service, or `null` if not configured.
+**Returns:** `?ExchangeRateServiceInterface` - The exchange rate service, or `null` if not configured.
 
 ### setExchangeRateService()
 
 ```php
-public static function setExchangeRateService(
-    ?ExchangeRateServiceInterface $exchangeRateService
-): void
+public static function setExchangeRateService(?ExchangeRateServiceInterface $exchangeRateService): void
 ```
 
-Set the exchange rate service used to fetch conversion data. Must be set before calling `refresh()` or `getConversions()`. Typically configured via `init()`.
+Set the exchange rate service, or `null` to clear it. It's needed by `refreshRates()` and by auto-refresh. Usually
+set via `init()`.
+
+### getAutoRefreshTtl()
+
+```php
+public static function getAutoRefreshTtl(): ?int
+```
+
+**Returns:** `?int` - The maximum age of the rates in seconds, or `null` if auto-refresh is off.
+
+### setAutoRefreshTtl()
+
+```php
+public static function setAutoRefreshTtl(?int $autoRefreshTtl): void
+```
+
+Set the auto-refresh TTL in seconds, or `null` to turn auto-refresh off. See [Auto-refresh](#auto-refresh).
+
+**Throws:**
+- `DomainException` - If the value is negative.
 
 ### getLocale()
 
@@ -181,10 +233,11 @@ Set the exchange rate service used to fetch conversion data. Must be set before 
 public static function getLocale(): ?string
 ```
 
-Get the locale for currency formatting. Returns the explicitly set locale, or auto-detects from the HTTP `Accept-Language` header, falling back to PHP's default locale. Once determined, the result is cached for subsequent calls.
+Get the locale for currency formatting. Returns the explicitly set locale, or auto-detects from the HTTP
+`Accept-Language` header, falling back to PHP's default locale. Once determined, the result is cached for subsequent
+calls.
 
-**Returns:**
-- `?string` - The locale string, or `null` if none could be determined.
+**Returns:** `?string` - The locale string, or `null` if none could be determined.
 
 ### setLocale()
 
@@ -192,54 +245,12 @@ Get the locale for currency formatting. Returns the explicitly set locale, or au
 public static function setLocale(?string $locale): void
 ```
 
-Set the locale used for currency formatting. Pass `null` to clear an explicitly set locale and revert to auto-detection.
+Set the locale used for currency formatting. Pass `null` to clear an explicitly set locale and revert to
+auto-detection.
 
 **Throws:**
-- [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If the locale string is invalid.
-
-### getCurrenciesTtl()
-
-```php
-public static function getCurrenciesTtl(): int
-```
-
-Get the cache lifetime for currency unit data.
-
-**Returns:**
-- `int` - The TTL in seconds.
-
-### setCurrenciesTtl()
-
-```php
-public static function setCurrenciesTtl(int $currenciesTtl): void
-```
-
-Set the cache lifetime for currency unit data.
-
-**Throws:**
-- `DomainException` - If the value is negative.
-
-### getRatesTtl()
-
-```php
-public static function getRatesTtl(): int
-```
-
-Get the cache lifetime for exchange rate data.
-
-**Returns:**
-- `int` - The TTL in seconds.
-
-### setRatesTtl()
-
-```php
-public static function setRatesTtl(int $ratesTtl): void
-```
-
-Set the cache lifetime for exchange rate data.
-
-**Throws:**
-- `DomainException` - If the value is negative.
+- [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If the
+  locale string is invalid.
 
 ### getDataDir()
 
@@ -247,10 +258,7 @@ Set the cache lifetime for exchange rate data.
 public static function getDataDir(): string
 ```
 
-Get the current data directory path.
-
-**Returns:**
-- `string` - The directory path.
+**Returns:** `string` - The data directory path.
 
 ### setDataDir()
 
@@ -258,7 +266,8 @@ Get the current data directory path.
 public static function setDataDir(string $dataDir): void
 ```
 
-Set the directory where currency data files are stored. Creates the directory if it does not exist. Trailing slashes are trimmed.
+Set the directory where refreshed currency data files are stored. Creates the directory if it doesn't exist.
+Trailing slashes are trimmed.
 
 **Throws:**
 - `DomainException` - If the path is empty.
@@ -270,10 +279,7 @@ Set the directory where currency data files are stored. Creates the directory if
 public static function resetDataDir(): void
 ```
 
-Reset the data directory to its default location (the `data` directory alongside the `CurrencyService` source file). Useful for restoring default state after calling `setDataDir()`.
-
-**Throws:**
-- `RuntimeException` - If the default directory cannot be created.
+Reset the data directory to the default, `mossy2100-quantities` in the system temp directory.
 
 ### getUnitsFilePath()
 
@@ -281,10 +287,7 @@ Reset the data directory to its default location (the `data` directory alongside
 public static function getUnitsFilePath(): string
 ```
 
-Get the path to the currency units data file.
-
-**Returns:**
-- `string` - The file path.
+**Returns:** `string` - The path of the refreshed currency units file.
 
 ### getConversionsFilePath()
 
@@ -292,50 +295,41 @@ Get the path to the currency units data file.
 public static function getConversionsFilePath(): string
 ```
 
-Get the path to the currency conversions data file.
-
-**Returns:**
-- `string` - The file path.
+**Returns:** `string` - The path of the exchange rates file.
 
 ---
 
-## Usage examples
+## Usage Examples
 
 ```php
 use Mossy2100\Quantities\Currencies\CurrencyService;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\OpenExchangeRatesService;
 
-// Initialize with an exchange rate service.
-CurrencyService::init(
-    new OpenExchangeRatesService('your-api-key')
-);
+// Configure the service, and keep the data somewhere persistent.
+CurrencyService::setDataDir('/var/cache/my-app/currencies');
+CurrencyService::init(new OpenExchangeRatesService('your-api-key'));
 
-// Currency units and conversions are now loaded and available.
-// Subsequent calls to refresh() will only fetch new data when the cache expires.
+// Fetch the rates now, e.g. from a cron job.
+CurrencyService::refreshRates();
 
-// Override locale.
-CurrencyService::setLocale('de_DE');
+// Or let conversions refetch the rates when they're more than an hour old.
+CurrencyService::setAutoRefreshTtl(3600);
 
-// Force a fresh download of exchange rates.
-CurrencyService::getConversions(bypassCache: true);
+// Check how old the rates are.
+$fetchedAt = CurrencyService::getRatesFetchedAt();
 
-// Use a custom data directory.
-CurrencyService::setDataDir('/tmp/currency-cache');
-
-// Check what locale is active.
-$locale = CurrencyService::getLocale();
-
-// Clear cached data files to force a re-fetch on next use.
-CurrencyService::deleteUnits();
-CurrencyService::deleteConversions();
+// Occasionally, update the list of currencies.
+CurrencyService::refreshUnits();
 ```
 
 ---
 
-## See also
+## See Also
 
-- **[ExchangeRateServiceInterface](ExchangeRateServices/ExchangeRateServiceInterface.md)** — Interface for exchange rate providers.
-- **[Money](../QuantityType/Money.md)** — Money quantity type.
-- **[UnitService](../Services/UnitService.md)** — Unit registry.
-- **[ConversionService](../Services/ConversionService.md)** — Conversion registry.
-- **[UnitSystem](../Enums/UnitSystem.md)** — Measurement system enum.
+- **[ExchangeRateServiceInterface](ExchangeRateServices/ExchangeRateServiceInterface.md)** - Interface for exchange
+  rate providers.
+- **[Money](../QuantityType/Money.md)** - Money quantity type.
+- **[Currency Calculations](../../WorkingWithQuantities/CurrencyCalculations.md)** - Worked examples.
+- **[UnitService](../Services/UnitService.md)** - Unit registry.
+- **[ConversionService](../Services/ConversionService.md)** - Conversion registry.
+- **[UnitSystem](../Enums/UnitSystem.md)** - Measurement system enum.

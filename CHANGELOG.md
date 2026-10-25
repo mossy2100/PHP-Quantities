@@ -27,6 +27,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **`Quantity::inv()` is renamed `recip()` (breaking),** matching `Complex::recip()` and `Rational::recip()` in
   `mossy2100/math`. So is `inv()` on `CompoundUnit`, `UnitTerm` and the internal `FloatWithError` class.
   `Conversion::inv()` is unchanged, since it inverts the direction of a conversion.
+- **Currencies work from local data, and nothing is fetched unless asked for (breaking).** Previously, loading any
+  unit could fetch the ISO 4217 list, and each currency conversion could fetch exchange rates.
+  - Currency units come from the data directory if refreshed, else from an ISO 4217 snapshot bundled with the
+    package, so `new Money(5, 'USD')` works offline with no setup.
+  - Exchange rates are fetched only by the new `CurrencyService::refreshRates()`, or by auto-refresh. Until then,
+    converting between currencies throws the usual "No conversion path" `LogicException`.
+  - **Auto-refresh** is off by default. Turn it on with `init($service, autoRefreshTtl: 3600)` or
+    `setAutoRefreshTtl()`. A currency conversion then refetches the rates if they're missing, older than the TTL, or
+    from a different service, and throws `RuntimeException` if that fetch fails.
+  - `init()` only sets the configuration. Its `$ratesTtl` and `$currenciesTtl` parameters are replaced by
+    `?int $autoRefreshTtl`.
+  - `refresh()` is replaced by `refreshRates()` and `refreshUnits()`, which always fetch.
+  - `getUnits()` and `getConversions()` lose their `$bypassCache` parameter, and never fetch. `getConversions()`
+    returns null when there are no local rates.
+  - `getRatesTtl()`, `setRatesTtl()`, `getCurrenciesTtl()` and `setCurrenciesTtl()` are removed.
+  - New `getRatesFetchedAt()` returns when the local rates were fetched.
+- **The currency data directory defaults to `mossy2100-quantities` in the system temp directory (breaking),** rather
+  than `src/Currencies/data` inside the package, which is often read-only once installed. Call
+  `CurrencyService::setDataDir()` to keep the data somewhere persistent. Failed writes now throw `RuntimeException`
+  instead of being ignored, and files are written atomically.
 - **Moved the public types out of the `Internal` namespace (breaking).** Users need these to add units and conversions,
   load unit systems, and read a quantity's unit. Update any `use` statements as shown below. `Converter` and
   `FloatWithError` stay in `Internal`, and are now marked `@internal`.

@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\QuantityType;
 
-use LogicException;
 use Mossy2100\Quantities\Currencies\CurrencyService;
 use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Quantity;
 use NumberFormatter;
 use Override;
-use RuntimeException;
 
 /**
  * Represents money quantities.
@@ -22,13 +20,12 @@ class Money extends Quantity
     /**
      * Unit definitions for currencies.
      *
-     * @throws RuntimeException
+     * These come from the local currency data (see CurrencyService::getUnits()). Nothing is fetched.
      */
     #[Override]
     public static function getUnitDefinitions(): array
     {
-        $unitData = CurrencyService::getUnits();
-        $currencies = $unitData['currencies'] ?? [];
+        $currencies = CurrencyService::getUnits()['currencies'];
         return array_map(static fn ($code) => [
             'asciiSymbol' => $code,
             'systems'     => [
@@ -40,16 +37,15 @@ class Money extends Quantity
     /**
      * Conversion factors for currency units.
      *
+     * These come from the local exchange rates (see CurrencyService::getConversions()), or there are none if the
+     * rates haven't been fetched yet. Nothing is fetched.
+     *
      * @return list<array{string, string, float}>
-     * @throws LogicException If the exchange rate service is not configured.
-     * @throws RuntimeException If a fetch is required but the exchange rate service fails or the data directory
-     * cannot be created.
      */
     #[Override]
     public static function getConversionDefinitions(): array
     {
-        $conversionData = CurrencyService::getConversions();
-        return $conversionData['definitions'] ?? [];
+        return CurrencyService::getConversions()['definitions'] ?? [];
     }
 
     /**

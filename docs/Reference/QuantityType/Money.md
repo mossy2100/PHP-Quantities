@@ -9,17 +9,25 @@ Represents money quantities with currency conversion and locale-aware formatting
 
 ## Overview
 
-The `Money` class handles monetary values with support for all [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) currencies. Unlike other quantity types, currency units and conversion rates are loaded dynamically via [`CurrencyService`](../Currencies/CurrencyService.md) rather than being hard-coded.
+The `Money` class handles monetary values with support for all [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+currencies. Unlike other quantity types, its units and conversion rates come from
+[`CurrencyService`](../Currencies/CurrencyService.md) rather than being hard-coded.
 
 All currency units belong to the `Financial` unit system. The base unit is `XAU` (gold troy ounces).
 
-Before using `Money`, you must initialize the `CurrencyService`:
+Currency units work out of the box, e.g. `new Money(5, 'USD')`. Converting between currencies needs exchange rates,
+so configure an exchange rate service, then either fetch the rates or turn on auto-refresh:
 
 ```php
 use Mossy2100\Quantities\Currencies\CurrencyService;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
 
+// Refetch the rates whenever they're more than an hour old.
+CurrencyService::init(new FrankfurterService(), autoRefreshTtl: 3600);
+
+// Or fetch them now, and again whenever you choose.
 CurrencyService::init(new FrankfurterService());
+CurrencyService::refreshRates();
 ```
 
 See [CurrencyService](../Currencies/CurrencyService.md) for setup details.
@@ -28,15 +36,20 @@ See [CurrencyService](../Currencies/CurrencyService.md) for setup details.
 
 ## Unit definitions
 
-Currency units are not hard-coded. They are loaded dynamically from the official [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) XML published by SIX Group, which defines currency names and three-letter codes (e.g. `USD`, `EUR`, `JPY`). The data is cached locally and refreshed when it expires.
+Currency units come from the official [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) list published by SIX
+Group, which defines currency names and three-letter codes (e.g. `USD`, `EUR`, `JPY`). A snapshot of the list is
+bundled with the package, and `CurrencyService::refreshUnits()` fetches a fresh copy.
 
-See [`CurrencyService::getUnits()`](../Currencies/CurrencyService.md) for details on how currency unit data is fetched and cached.
+See [`CurrencyService::getUnits()`](../Currencies/CurrencyService.md#getunits) for details.
 
 ---
 
 ## Conversion definitions
 
-Exchange rate conversions are loaded dynamically from a pluggable exchange rate service. Each service adapter fetches live rates from an external API and returns them as conversion definition tuples, the same format used by other quantity types' `getConversionDefinitions()`.
+Exchange rate conversions come from the local rates, which are fetched from a pluggable exchange rate service by
+`CurrencyService::refreshRates()` or by auto-refresh. Each service adapter returns its rates as conversion definition
+tuples, the same format used by other quantity types' `getConversionDefinitions()`. Until rates have been fetched,
+there are none.
 
 The available exchange rate services are documented in [CurrencyService](../Currencies/CurrencyService.md#exchange-rate-services).
 

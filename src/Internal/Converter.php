@@ -19,6 +19,7 @@ use Mossy2100\Quantities\Units\Conversion;
 use Mossy2100\Quantities\Units\Unit;
 use Mossy2100\Quantities\Units\UnitInterface;
 use Mossy2100\Quantities\Units\UnitTerm;
+use RuntimeException;
 
 /**
  * Manages unit conversions for a measurement type.
@@ -240,6 +241,8 @@ class Converter
      * @return ?Conversion The conversion, or null if no path exists.
      * @throws FormatException If a unit string cannot be parsed.
      * @throws DomainException If either unit is invalid.
+     * @throws LogicException If currencies are involved, auto-refresh is on, and no exchange rate service is set.
+     * @throws RuntimeException If currencies are involved and an auto-refresh of the exchange rates fails.
      * @example
      *   $conversion = $converter->findConversion('m', 'ft');
      */
@@ -257,12 +260,9 @@ class Converter
         $src = $srcUnit->asciiSymbol;
         $dest = $destUnit->asciiSymbol;
 
-        // If currencies are involved, ensure we have fresh data.
-        $dim = $this->dimension;
-        if (str_contains($dim, 'C')) {
-            // @codeCoverageIgnoreStart
-            CurrencyService::refresh();
-            // @codeCoverageIgnoreEnd
+        // If currencies are involved and auto-refresh is on, refetch the exchange rates if they're stale.
+        if (str_contains($this->dimension, 'C')) {
+            CurrencyService::refreshRatesIfStale();
         }
 
         // Make sure both units are in the list.

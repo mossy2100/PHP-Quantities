@@ -2,24 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Tests\Currencies;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\QuantityType;
 
 use Mossy2100\Quantities\Currencies\CurrencyService;
-use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
-use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Internal\Converter;
 use Mossy2100\Quantities\QuantityType\Money;
 use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Tests\NonCurrencies\Fixtures\FakeExchangeRateService;
 use Mossy2100\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the Money quantity type that do NOT trigger any exchange rate API calls.
+ * Offline tests for the Money quantity type.
  *
- * These tests load currency unit definitions from cached fixtures and never instantiate
- * an ExchangeRateService. Tests that require live currency conversion live in
- * tests/Currencies — those are slow and consume API quota.
+ * Currency units come from the snapshot bundled with the package, and rates from a fake exchange rate service, so
+ * these never call a live API. Tests of live currency conversion are in tests/Currencies.
  */
 #[CoversClass(Money::class)]
 final class MoneyTest extends TestCase
@@ -29,28 +27,33 @@ final class MoneyTest extends TestCase
     #region Setup
 
     /**
-     * The test data directory path.
+     * The temporary data directory for the current test.
      */
-    private const string TEST_DATA_DIR = __DIR__ . '/data';
+    private string $dataDir;
 
-    public static function setUpBeforeClass(): void
+    protected function setUp(): void
     {
-        // Initialize the currency service.
-        CurrencyService::init(new FrankfurterService());
-
-        // Point data files to the test fixtures so we don't overwrite production data.
-        CurrencyService::setDataDir(self::TEST_DATA_DIR);
-
-        // Load currency units from the fixture file (no API call).
-        UnitService::loadSystem(UnitSystem::Financial, true);
+        // Use a fresh, empty data directory, so currency units come from the bundled snapshot and there are no rates.
+        $this->dataDir = sys_get_temp_dir() . '/quantities-money-test-' . bin2hex(random_bytes(6));
+        CurrencyService::setDataDir($this->dataDir);
+        UnitService::reset();
+        Converter::removeAllInstances();
     }
 
-    public static function tearDownAfterClass(): void
+    protected function tearDown(): void
     {
         // Reset static state.
+        CurrencyService::setExchangeRateService(null);
         CurrencyService::setLocale(null);
         CurrencyService::resetDataDir();
+        UnitService::reset();
         Converter::removeAllInstances();
+
+        // Remove the temporary data directory.
+        foreach (glob($this->dataDir . '/*') ?: [] as $file) {
+            unlink($file);
+        }
+        rmdir($this->dataDir);
     }
 
     #endregion
@@ -86,50 +89,23 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * Test getConversionDefinitions() returns valid conversion definitions.
+     * Test getConversionDefinitions() returns valid conversion definitions once rates have been fetched.
      */
     public function testGetConversionDefinitionsReturnsValidArray(): void
     {
+        CurrencyService::setExchangeRateService(new FakeExchangeRateService());
+        CurrencyService::refreshRates();
+
         $conversions = Money::getConversionDefinitions();
         $this->assertValidConversionDefinitionsShape($conversions);
     }
 
     /**
-     * Test getUnitDefinitions() returns array when no data file exists.
+     * Test getConversionDefinitions() returns an empty array when there are no local rates.
      */
-    public function testGetUnitDefinitionsReturnsEmptyWhenNoData(): void
+    public function testGetConversionDefinitionsReturnsEmptyWhenNoRates(): void
     {
-        $originalDir = CurrencyService::getDataDir();
-        CurrencyService::setDataDir(self::TEST_DATA_DIR . '/empty');
-
-        try {
-            $units = Money::getUnitDefinitions();
-            // @phpstan-ignore method.alreadyNarrowedType
-            $this->assertIsArray($units);
-        } finally {
-            CurrencyService::deleteUnits();
-            CurrencyService::deleteConversions();
-            CurrencyService::setDataDir($originalDir);
-        }
-    }
-
-    /**
-     * Test getConversionDefinitions() returns empty array when no data file exists.
-     */
-    public function testGetConversionDefinitionsReturnsArrayWhenNoData(): void
-    {
-        $originalDir = CurrencyService::getDataDir();
-        CurrencyService::setDataDir(self::TEST_DATA_DIR . '/empty');
-
-        try {
-            $conversions = Money::getConversionDefinitions();
-            // @phpstan-ignore method.alreadyNarrowedType
-            $this->assertIsArray($conversions);
-        } finally {
-            CurrencyService::deleteUnits();
-            CurrencyService::deleteConversions();
-            CurrencyService::setDataDir($originalDir);
-        }
+        $this->assertSame([], Money::getConversionDefinitions());
     }
 
     #endregion

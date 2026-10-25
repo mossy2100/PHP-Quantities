@@ -48,6 +48,8 @@ composer require mossy2100/quantities
 
 ```php
 use Mossy2100\Core\Enums\FloatFormat;
+use Mossy2100\Quantities\Currencies\CurrencyService;
+use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
 use Mossy2100\Quantities\PhysicalConstant;
 use Mossy2100\Quantities\QuantityType\Angle;
 use Mossy2100\Quantities\QuantityType\Force;
@@ -56,6 +58,9 @@ use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Money;
 use Mossy2100\Quantities\QuantityType\Temperature;
+
+// Fetch exchange rates when needed: on first use, then whenever they're over an hour old
+CurrencyService::init(new FrankfurterService(), autoRefreshTtl: 3600);
 
 // Create measurements
 $distance = new Length(5, 'km');

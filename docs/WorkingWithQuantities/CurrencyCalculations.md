@@ -6,14 +6,18 @@ Because currencies are regular units in the Quantities system, they participate 
 
 ## Prerequisites
 
-All examples on this page assume the currency service has been initialised:
+All examples on this page assume the currency service has been initialised with auto-refresh on, so conversions
+fetch the rates when they're more than an hour old:
 
 ```php
 use Mossy2100\Quantities\Currencies\CurrencyService;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
 
-CurrencyService::init(new FrankfurterService());
+CurrencyService::init(new FrankfurterService(), autoRefreshTtl: 3600);
 ```
+
+Without auto-refresh, call `CurrencyService::refreshRates()` to fetch the rates. See
+[CurrencyService](../Reference/Currencies/CurrencyService.md#local-data-and-when-its-fetched).
 
 ---
 
@@ -59,7 +63,7 @@ Convert a metal price from one mass unit and currency to another. For example, c
 ```php
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\OpenExchangeRatesService;
 
-CurrencyService::init(new OpenExchangeRatesService('your-api-key'));
+CurrencyService::init(new OpenExchangeRatesService('your-api-key'), autoRefreshTtl: 3600);
 
 $silverPerOz = Quantity::create(1, 'XAG/oz t');
 $silverPerKg = $silverPerOz->to('USD/kg');

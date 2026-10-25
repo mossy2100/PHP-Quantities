@@ -174,7 +174,8 @@ Find the conversion between two units, discovering new paths if necessary.
 
 Returns a cached conversion if available, otherwise discovers a path using the strategies described in the overview. Discovered conversions are cached for future use.
 
-For dimensions containing `'C'` (currency), automatically calls `CurrencyService::refresh()` to ensure fresh exchange rate data.
+For dimensions containing `'C'` (currency), first calls `CurrencyService::refreshRatesIfStale()`, which refetches
+the exchange rates if auto-refresh is on and they're stale.
 
 **Parameters:**
 - `$srcUnit` (string|UnitInterface) - The source unit.

@@ -30,9 +30,10 @@ final class CurrencyConversionTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        // Point data files to the test directory so we don't overwrite production data.
+        // Point data files to the test directory so we don't overwrite real data, then fetch live rates.
         CurrencyService::setDataDir(self::TEST_DATA_DIR);
         CurrencyService::init(new FrankfurterService());
+        CurrencyService::refreshRates();
     }
 
     public static function tearDownAfterClass(): void
@@ -45,9 +46,9 @@ final class CurrencyConversionTest extends TestCase
     }
 
     /**
-     * Test that findConversion refreshes currency data when dimension contains 'C'.
+     * Test that a fresh Converter loads the fetched rates when dimension contains 'C'.
      */
-    public function testFindConversionRefreshesCurrencyData(): void
+    public function testFindConversionLoadsFetchedRates(): void
     {
         Converter::removeAllInstances();
 

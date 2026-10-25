@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Currencies;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use DomainException;
 use Locale;
@@ -22,15 +23,24 @@ use SimpleXMLElement;
 
 /**
  * Service for managing currency units and exchange rate conversions.
+ *
+ * Currencies always work from local data, and nothing is fetched unless asked for:
+ * - Currency units come from the data directory if refreshUnits() has been called, or otherwise from a snapshot of
+ *   the ISO 4217 list bundled with the package.
+ * - Exchange rates come from the data directory, once refreshRates() has been called. Until then, currency
+ *   conversions fail like any other conversion with no known path.
+ *
+ * If auto-refresh is enabled (see setAutoRefreshTtl()), a currency conversion refetches the rates first whenever they
+ * are stale.
  */
 class CurrencyService
 {
     #region Private constants
 
     /**
-     * The default data directory path.
+     * The path of the ISO 4217 snapshot bundled with the package, used when no refreshed copy exists.
      */
-    private const string DEFAULT_DATA_DIR = __DIR__ . '/data';
+    private const string SNAPSHOT_UNITS_PATH = __DIR__ . '/snapshot/CurrencyUnits.php';
 
     /**
      * The URL for the official ISO 4217 XML published by SIX Group.
@@ -46,9 +56,10 @@ class CurrencyService
     private const string RX_LOCALE = '[a-z]{2,4}([-_][A-Z][a-z]{3})?([-_]([A-Z]{2}|[0-9]{3}))?';
 
     /**
-     * The date format used for timestamps in generated data files.
+     * The date format used for timestamps in generated data files. Always UTC, written with gmdate(), since time
+     * zone abbreviations are ambiguous when parsed back.
      */
-    private const string DATETIME_FORMAT = 'Y-m-d H:i:s T';
+    private const string DATETIME_FORMAT = 'Y-m-d H:i:s \\U\\T\\C';
 
     #endregion
 
@@ -65,83 +76,77 @@ class CurrencyService
     private static ?string $locale = null;
 
     /**
-     * The TTL for currencies, in seconds. Defaults to 30 days.
+     * The maximum age of the exchange rates in seconds before a currency conversion refetches them, or null if
+     * auto-refresh is off.
      */
-    private static int $currenciesTtl = 2592000;
+    private static ?int $autoRefreshTtl = null;
 
     /**
-     * The TTL for exchange rates, in seconds. Defaults to 1 hour.
+     * The directory where refreshed currency data files are stored, or null for the default.
      */
-    private static int $ratesTtl = 3600;
+    private static ?string $dataDir = null;
 
     /**
-     * The directory where currency data files are stored.
+     * Whether the exchange rate metadata below has been read from the data directory.
      */
-    private static string $dataDir = self::DEFAULT_DATA_DIR;
+    private static bool $ratesStateLoaded = false;
+
+    /**
+     * When the local exchange rates were fetched, as a Unix timestamp, or null if there are none.
+     */
+    private static ?int $ratesFetchedAt = null;
+
+    /**
+     * The name of the service the local exchange rates were fetched from, or null if there are none.
+     */
+    private static ?string $ratesServiceName = null;
 
     #endregion
 
     #region Unit data methods
 
     /**
-     * Load the currency unit data from the generated PHP file, if it exists.
+     * Get the currency unit data.
      *
-     * Returns null if the file is missing, contains a syntax error, or doesn't return an array with the expected
-     * shape. No exceptions are raised — any failure condition yields a null result.
+     * Returns the refreshed copy in the data directory if there is one, or otherwise the ISO 4217 snapshot bundled
+     * with the package. Never fetches anything.
      *
-     * @return ?array{
+     * @return array{
      *     whenFetched: string,
      *     currencies: array<string, string>
-     * } The currency unit data, or null if no valid data is available.
+     * } The currency unit data.
+     * @throws RuntimeException If there is no refreshed copy and the bundled snapshot is missing or invalid.
      */
-    private static function loadUnits(): ?array
+    public static function getUnits(): array
     {
-        // Check the file exists.
-        $path = self::getUnitsFilePath();
-        if (!file_exists($path)) {
-            return null;
+        $unitData = self::loadUnits(self::getUnitsFilePath()) ?? self::loadUnits(self::SNAPSHOT_UNITS_PATH);
+
+        // The snapshot is bundled with the package, so this should never happen.
+        if ($unitData === null) {
+            // @codeCoverageIgnoreStart
+            throw new RuntimeException('The bundled currency snapshot is missing or invalid.');
+            // @codeCoverageIgnoreEnd
         }
 
-        // Try to load the data.
-        try {
-            $unitData = require $path;
-        } catch (ParseError) {
-            return null;
-        }
-
-        // Check it's an array with the right shape.
-        $ok = is_array($unitData)
-            && array_key_exists('whenFetched', $unitData) && is_string($unitData['whenFetched'])
-            && array_key_exists('currencies', $unitData) && is_array($unitData['currencies']);
-
-        // Check currencies are arrays with the right shape.
-        if ($ok) {
-            foreach ($unitData['currencies'] as $name => $code) {
-                $ok = $ok && is_string($name) && is_string($code);
-            }
-        }
-
-        return $ok ? $unitData : null;
+        return $unitData;
     }
 
     /**
-     * Fetch the currencies from an official source (SIX Group) and write them to the data file.
+     * Fetch the currencies from an official source (SIX Group) and write them to the data directory.
      *
      * Downloads the ISO 4217 XML, filters out fund currencies and excluded codes, renames SDR (XDR), writes the
-     * generated PHP data file, and reloads the Financial unit system and currency conversions.
+     * generated PHP data file, and reloads the currency units and conversions.
+     *
+     * The currency list changes rarely, so this only needs calling occasionally.
      *
      * @return array{
      *     whenFetched: string,
      *     currencies: array<string, string>
      * } The currency unit data just written.
-     * @throws RuntimeException If the ISO 4217 XML cannot be fetched or parsed, or if the data directory cannot be
-     * created.
+     * @throws RuntimeException If the ISO 4217 XML cannot be fetched or parsed, or a data file cannot be written.
      */
-    private static function fetchUnits(): array
+    public static function refreshUnits(): array
     {
-        // Ensure the data directory exists.
-        self::ensureDirExists(self::$dataDir);
-
         // Fetch the official ISO 4217 XML.
         $xmlContent = @file_get_contents(self::ISO_4217_URL);
         if ($xmlContent === false) {
@@ -151,7 +156,7 @@ class CurrencyService
         }
 
         // Save the XML for reference, it's useful for debugging.
-        file_put_contents(self::getXmlFilePath(), $xmlContent);
+        self::writeFile(self::getXmlFilePath(), $xmlContent);
 
         // Convert to SimpleXML.
         $xml = @simplexml_load_string($xmlContent);
@@ -192,47 +197,19 @@ class CurrencyService
 
         // Construct the data array.
         ksort($currencies);
+        $now = time();
         $unitData = [
-            'whenFetched' => date(self::DATETIME_FORMAT),
+            'whenFetched' => gmdate(self::DATETIME_FORMAT, $now),
             'currencies'  => $currencies,
         ];
 
-        // Build the PHP file content.
-        $url = self::ISO_4217_URL;
-        $datetime = date(DateTimeInterface::COOKIE);
-        $className = self::class;
-        $methodName = __FUNCTION__;
-        $output = <<<PHP
-            <?php
-
-            /**
-             * Currencies, based off ISO 4217 currency data.
-             *
-             * Fetched from
-             * $url
-             * at $datetime.
-             *
-             * Auto-generated from the official ISO 4217 XML published by SIX Group.
-             *
-             * To regenerate, call $className::$methodName().
-             *
-             * @return array{
-             *     whenFetched: string,
-             *     currencies: array<string, string>
-             * }
-             */
-
-            declare(strict_types=1);
-            PHP;
-        $output .= "\n\nreturn " . Stringify::stringify($unitData, StringifyOptions::pretty()) . ";\n";
-
         // Save it.
-        file_put_contents(self::getUnitsFilePath(), $output);
+        self::writeFile(self::getUnitsFilePath(), self::buildUnitsFile($unitData, $now));
 
         // Refresh the currency units.
         UnitService::loadSystem(UnitSystem::Financial, true);
 
-        // Loading any missing conversions. If new currency codes have been added, some conversion definitions not
+        // Load any missing conversions. If new currency codes have been added, some conversion definitions not
         // loaded before, due to unknown units, may now be loadable.
         Converter::getInstance('C')->loadConversions();
 
@@ -240,50 +217,14 @@ class CurrencyService
     }
 
     /**
-     * Ensure the currency unit data is up to date.
+     * Delete the refreshed currency unit data files from the data directory.
      *
-     * Returns the cached data if it exists and has not expired. Otherwise calls fetchUnits() to download a
-     * fresh copy, regenerate the data file, and return the new data.
-     *
-     * @param bool $bypassCache If true, always fetch fresh data regardless of cache expiry.
-     * @return array{
-     *     whenFetched: string,
-     *     currencies: array<string, string>
-     * } The current currency unit data.
-     * @throws RuntimeException If a fetch is required, but the ISO 4217 XML cannot be fetched or parsed, or if the
-     * data directory cannot be created.
-     */
-    public static function getUnits(bool $bypassCache = false): array
-    {
-        // Load the currency unit data.
-        $unitData = self::loadUnits();
-
-        if ($unitData !== null) {
-            // Get the current unit definitions.
-            $currencies = $unitData['currencies'] ?? null;
-
-            // Get the timestamp when the data was last fetched.
-            $whenFetched = isset($unitData['whenFetched']) ? strtotime($unitData['whenFetched']) : false;
-            $expired = !$whenFetched || time() > $whenFetched + self::$currenciesTtl;
-
-            // See if we can skip the refetch.
-            if (!$bypassCache && !empty($currencies) && !$expired) {
-                return $unitData;
-            }
-        }
-
-        // Fetch the currencies from the official source and write them to the data file.
-        return self::fetchUnits();
-    }
-
-    /**
-     * Delete the currency unit data files.
+     * The bundled snapshot is used again after this.
      */
     public static function deleteUnits(): void
     {
-        $dataDir = self::getDataDir();
-        self::deleteFile("$dataDir/CurrencyUnits.xml");
-        self::deleteFile("$dataDir/CurrencyUnits.php");
+        self::deleteFile(self::getXmlFilePath());
+        self::deleteFile(self::getUnitsFilePath());
     }
 
     #endregion
@@ -291,95 +232,70 @@ class CurrencyService
     #region Conversion data methods
 
     /**
-     * Load the currency conversion data from the generated PHP file, if it exists.
+     * Get the local exchange rate data.
      *
-     * Returns null if the file is missing, contains a syntax error, or doesn't return an array with the expected
-     * shape. No exceptions are raised — any failure condition yields a null result.
+     * Returns the rates last fetched by refreshRates(), or null if there are none. Never fetches anything.
      *
      * @return ?array{
      *     whenFetched: string,
      *     serviceName: string,
      *     definitions: list<array{string, string, float}>
-     * } The currency conversion data, or null if no valid data is available.
+     * } The currency conversion data, or null if there is none.
      */
-    private static function loadConversions(): ?array
+    public static function getConversions(): ?array
     {
-        // Check the file exists.
-        $path = self::getConversionsFilePath();
-        if (!file_exists($path)) {
-            return null;
-        }
+        $conversionData = self::loadConversions();
 
-        // Try to load the data.
-        try {
-            $conversionData = require $path;
-        } catch (ParseError) {
-            return null;
-        }
+        // Remember when and where the rates came from, so staleness checks don't need to read the file.
+        $fetchedAt = $conversionData === null ? false : strtotime($conversionData['whenFetched']);
+        self::$ratesFetchedAt = $fetchedAt === false ? null : $fetchedAt;
+        self::$ratesServiceName = $conversionData['serviceName'] ?? null;
+        self::$ratesStateLoaded = true;
 
-        // Check it's an array with the right shape.
-        $ok = is_array($conversionData)
-            && array_key_exists('whenFetched', $conversionData) && is_string($conversionData['whenFetched'])
-            && array_key_exists('serviceName', $conversionData) && is_string($conversionData['serviceName'])
-            && array_key_exists('definitions', $conversionData) && is_array($conversionData['definitions']);
-
-        // Check definitions are arrays with the right shape.
-        if ($ok) {
-            foreach ($conversionData['definitions'] as $definition) {
-                $ok = $ok && is_array($definition) && count($definition) === 3 && is_string($definition[0])
-                    && is_string($definition[1]) && is_float($definition[2]);
-            }
-        }
-
-        return $ok ? $conversionData : null;
+        return $conversionData;
     }
 
     /**
-     * Fetch exchange rates from the configured service and write them to the data file.
+     * Fetch exchange rates from the configured service and write them to the data directory.
      *
-     * Calls the exchange rate service for current conversion definitions, writes the generated PHP data file,
-     * purges existing Financial-system conversions, and reloads the currency conversions.
+     * Writes the generated PHP data file, purges existing currency conversions, and reloads them.
      *
      * @return array{
      *     whenFetched: string,
      *     serviceName: string,
      *     definitions: list<array{string, string, float}>
      * } The conversion data just written.
-     * @throws RuntimeException If the exchange rate service fails to return valid data, or if the data directory
-     * cannot be created.
+     * @throws LogicException If the exchange rate service is not configured.
+     * @throws RuntimeException If the exchange rate service fails to return valid data, or the data file cannot be
+     * written.
      */
-    private static function fetchConversions(): array
+    public static function refreshRates(): array
     {
-        // Ensure the data directory exists.
-        self::ensureDirExists(self::$dataDir);
-
         // Get the latest exchange rates.
-        assert(self::$exchangeRateService !== null);
-        $conversionDefinitions = self::$exchangeRateService->getConversionDefinitions();
-
-        // Get the configured currency service name.
-        $curServiceName = self::$exchangeRateService->getName();
+        $exchangeRateService = self::getConfiguredExchangeRateService();
+        $conversionDefinitions = $exchangeRateService->getConversionDefinitions();
+        $serviceName = $exchangeRateService->getName();
 
         // Construct the data array.
+        $now = time();
         $conversionData = [
-            'whenFetched' => date(self::DATETIME_FORMAT),
-            'serviceName' => $curServiceName,
+            'whenFetched' => gmdate(self::DATETIME_FORMAT, $now),
+            'serviceName' => $serviceName,
             'definitions' => $conversionDefinitions,
         ];
 
         // Build the PHP file content.
-        $datetime = date(DateTimeInterface::COOKIE);
+        $datetime = gmdate(DateTimeInterface::COOKIE, $now);
         $className = self::class;
-        $methodName = __FUNCTION__;
         $output = <<<PHP
             <?php
 
             /**
              * Conversion definitions for currencies.
              *
-             * Fetched from $curServiceName at $datetime.
+             * Fetched from $serviceName at $datetime.
              *
-             * To regenerate, call $className::$methodName().
+             * To regenerate, call $className::refreshRates().
              *
              * @return array{
              *     whenFetched: string,
@@ -393,7 +309,12 @@ class CurrencyService
         $output .= "\n\nreturn " . Stringify::stringify($conversionData, StringifyOptions::pretty()) . ";\n";
 
         // Save it.
-        file_put_contents(self::getConversionsFilePath(), $output);
+        self::writeFile(self::getConversionsFilePath(), $output);
+
+        // Remember when and where the rates came from.
+        self::$ratesFetchedAt = $now;
+        self::$ratesServiceName = $serviceName;
+        self::$ratesStateLoaded = true;
 
         // Remove all conversions involving currencies. We can't just overwrite the conversions between currencies
         // because conversions involving currencies may have been created for dimensions other than 'C'.
@@ -406,61 +327,63 @@ class CurrencyService
     }
 
     /**
-     * Ensure the currency conversion data is up to date.
+     * Refetch the exchange rates if auto-refresh is on and the local rates are stale.
      *
-     * Returns the cached data if it exists, has not expired, and was produced by the currently configured exchange
-     * rate service. Otherwise calls fetchConversions() to download fresh data, regenerate the data file, and return
-     * it.
+     * The rates are stale if there are none, if they're older than the auto-refresh TTL, or if they came from a
+     * different service than the one configured. Does nothing if auto-refresh is off.
      *
-     * @param bool $bypassCache If true, always fetch fresh data regardless of cache state.
-     * @return array{
-     *     whenFetched: string,
-     *     serviceName: string,
-     *     definitions: list<array{string, string, float}>
-     * } The current currency conversion data.
-     * @throws LogicException If the exchange rate service is not configured.
-     * @throws RuntimeException If a fetch is required but the exchange rate service fails or the data directory
-     * cannot be created.
+     * Called before each currency conversion. The check uses metadata held in memory, so it's cheap.
+     *
+     * @throws LogicException If auto-refresh is on but the exchange rate service is not configured.
+     * @throws RuntimeException If a refetch is needed and fails.
+     * @internal
      */
-    public static function getConversions(bool $bypassCache = false): array
+    public static function refreshRatesIfStale(): void
     {
-        // Check if the exchange rate service is configured.
-        self::ensureExchangeRateServiceConfigured();
-        assert(self::$exchangeRateService !== null);
-
-        // Load the currency conversion data.
-        $conversionData = self::loadConversions();
-
-        if ($conversionData !== null) {
-            // Get the current conversion definitions.
-            $conversionDefinitions = $conversionData['definitions'] ?? null;
-
-            // Get the timestamp when the data was last fetched.
-            $whenFetched = isset($conversionData['whenFetched']) ? strtotime($conversionData['whenFetched']) : false;
-            $expired = !$whenFetched || time() > $whenFetched + self::$ratesTtl;
-
-            // Get the service name, see if it changed.
-            $serviceName = $conversionData['serviceName'] ?? null;
-            $curServiceName = self::$exchangeRateService->getName();
-            $serviceChanged = $serviceName !== $curServiceName;
-
-            // See if we can skip the download.
-            if (!$bypassCache && !empty($conversionDefinitions) && !$expired && !$serviceChanged) {
-                return $conversionData;
-            }
+        // Check if auto-refresh is on.
+        if (self::$autoRefreshTtl === null) {
+            return;
         }
 
-        // Fetch the exchange rates from the official source and write them to the data file.
-        return self::fetchConversions();
+        // Make sure we know when and where the local rates came from.
+        if (!self::$ratesStateLoaded) {
+            self::getConversions();
+        }
+
+        // Refetch if the rates are missing, too old, or from a different service.
+        $serviceName = self::getConfiguredExchangeRateService()->getName();
+        if (
+            self::$ratesFetchedAt === null ||
+            time() > self::$ratesFetchedAt + self::$autoRefreshTtl ||
+            self::$ratesServiceName !== $serviceName
+        ) {
+            self::refreshRates();
+        }
     }
 
     /**
-     * Delete the currency conversion data file.
+     * Get when the local exchange rates were fetched.
+     *
+     * Useful for deciding whether to call refreshRates() when auto-refresh is off.
+     *
+     * @return ?DateTimeImmutable The time the rates were fetched, or null if there are no local rates.
+     */
+    public static function getRatesFetchedAt(): ?DateTimeImmutable
+    {
+        if (!self::$ratesStateLoaded) {
+            self::getConversions();
+        }
+
+        return self::$ratesFetchedAt === null ? null : new DateTimeImmutable('@' . self::$ratesFetchedAt);
+    }
+
+    /**
+     * Delete the exchange rate data file from the data directory.
      */
     public static function deleteConversions(): void
     {
-        $dataDir = self::getDataDir();
-        self::deleteFile("$dataDir/CurrencyConversions.php");
+        self::deleteFile(self::getConversionsFilePath());
+        self::$ratesStateLoaded = false;
     }
 
     #endregion
@@ -470,43 +393,24 @@ class CurrencyService
     /**
      * Initialize the currency service.
      *
+     * This only sets the configuration. Nothing is fetched until refreshRates() or refreshUnits() is called, or a
+     * currency conversion runs with auto-refresh on.
+     *
      * @param ExchangeRateServiceInterface $exchangeRateService The exchange rate service.
      * @param ?string $locale The locale used for currency formatting.
-     * @param int $ratesTtl The rates cache period in seconds.
-     * @param int $currenciesTtl The currencies cache period in seconds.
+     * @param ?int $autoRefreshTtl The maximum age of the rates in seconds before a currency conversion refetches
+     * them, or null to turn auto-refresh off (default).
      * @throws FormatException If the locale string is invalid.
-     * @throws DomainException If either TTL argument is negative.
-     * @throws RuntimeException If the ISO 4217 XML or exchange rate API request fails, or if the data directory
-     * cannot be created.
+     * @throws DomainException If the auto-refresh TTL is negative.
      */
     public static function init(
         ExchangeRateServiceInterface $exchangeRateService,
         ?string $locale = null,
-        int $ratesTtl = 3600,
-        int $currenciesTtl = 2592000
+        ?int $autoRefreshTtl = null
     ): void {
-        // Set the service properties.
         self::setExchangeRateService($exchangeRateService);
         self::setLocale($locale);
-        self::setRatesTtl($ratesTtl);
-        self::setCurrenciesTtl($currenciesTtl);
-
-        // Refresh units and conversions as needed.
-        self::refresh();
-    }
-
-    /**
-     * Ensure we have fresh data.
-     *
-     * @param bool $bypassCache If true, skip checking the cache expiry.
-     * @throws RuntimeException If the ISO 4217 XML or exchange rate API request fails, or if the data directory
-     * cannot be created.
-     * @throws LogicException If the exchange rate service is not configured.
-     */
-    public static function refresh(bool $bypassCache = false): void
-    {
-        self::getUnits($bypassCache);
-        self::getConversions($bypassCache);
+        self::setAutoRefreshTtl($autoRefreshTtl);
     }
 
     #endregion
@@ -587,65 +491,47 @@ class CurrencyService
     }
 
     /**
-     * Get the cache lifetime for currency unit data.
+     * Get the auto-refresh TTL for exchange rates.
      *
-     * @return int The TTL in seconds.
+     * @return ?int The maximum age of the rates in seconds, or null if auto-refresh is off.
      */
-    public static function getCurrenciesTtl(): int
+    public static function getAutoRefreshTtl(): ?int
     {
-        return self::$currenciesTtl;
+        return self::$autoRefreshTtl;
     }
 
     /**
-     * Set the cache lifetime for currency unit data.
+     * Set the auto-refresh TTL for exchange rates.
      *
-     * @param int $currenciesTtl The TTL in seconds. Must be non-negative.
+     * When set, a currency conversion first refetches the rates if they're older than this, missing, or from a
+     * different service than the one configured. When null (the default), rates are only fetched by refreshRates().
+     *
+     * @param ?int $autoRefreshTtl The maximum age of the rates in seconds, or null to turn auto-refresh off.
      * @throws DomainException If the value is negative.
      */
-    public static function setCurrenciesTtl(int $currenciesTtl): void
+    public static function setAutoRefreshTtl(?int $autoRefreshTtl): void
     {
-        if ($currenciesTtl < 0) {
-            throw new DomainException("Currencies TTL must be non-negative, got $currenciesTtl.");
+        if ($autoRefreshTtl !== null && $autoRefreshTtl < 0) {
+            throw new DomainException("Invalid auto-refresh TTL: $autoRefreshTtl. Must be non-negative.");
         }
-        self::$currenciesTtl = $currenciesTtl;
-    }
-
-    /**
-     * Get the cache lifetime for exchange rate data.
-     *
-     * @return int The TTL in seconds.
-     */
-    public static function getRatesTtl(): int
-    {
-        return self::$ratesTtl;
-    }
-
-    /**
-     * Set the cache lifetime for exchange rate data.
-     *
-     * @param int $ratesTtl The TTL in seconds. Must be non-negative.
-     * @throws DomainException If the value is negative.
-     */
-    public static function setRatesTtl(int $ratesTtl): void
-    {
-        if ($ratesTtl < 0) {
-            throw new DomainException("Rates TTL must be non-negative, got $ratesTtl.");
-        }
-        self::$ratesTtl = $ratesTtl;
+        self::$autoRefreshTtl = $autoRefreshTtl;
     }
 
     /**
      * Get the current data directory path.
      *
+     * The default is a directory in the system temp directory. Since temp directories can be cleared, it's best to
+     * call setDataDir() in production.
+     *
      * @return string The directory path.
      */
     public static function getDataDir(): string
     {
-        return self::$dataDir;
+        return self::$dataDir ?? sys_get_temp_dir() . '/mossy2100-quantities';
     }
 
     /**
-     * Set the data directory for currency data files.
+     * Set the data directory for refreshed currency data files.
      *
      * @param string $dataDir The directory path.
      * @throws DomainException If the path is empty.
@@ -659,17 +545,17 @@ class CurrencyService
         }
         self::ensureDirExists($dataDir);
         self::$dataDir = $dataDir;
+        self::$ratesStateLoaded = false;
     }
 
     /**
-     * Reset the data directory for currency data files to the default value (the directory named 'data' in the
-     * current working directory).
-     *
-     * @throws RuntimeException If the directory cannot be created.
+     * Reset the data directory for refreshed currency data files to the default (a directory in the system temp
+     * directory).
      */
     public static function resetDataDir(): void
     {
-        self::setDataDir(self::DEFAULT_DATA_DIR);
+        self::$dataDir = null;
+        self::$ratesStateLoaded = false;
     }
 
     /**
@@ -679,7 +565,7 @@ class CurrencyService
      */
     public static function getUnitsFilePath(): string
     {
-        return self::$dataDir . '/CurrencyUnits.php';
+        return self::getDataDir() . '/CurrencyUnits.php';
     }
 
     /**
@@ -689,7 +575,7 @@ class CurrencyService
      */
     public static function getConversionsFilePath(): string
     {
-        return self::$dataDir . '/CurrencyConversions.php';
+        return self::getDataDir() . '/CurrencyConversions.php';
     }
 
     /**
@@ -700,7 +586,7 @@ class CurrencyService
      */
     public static function getXmlFilePath(): string
     {
-        return self::$dataDir . '/CurrencyUnits.xml';
+        return self::getDataDir() . '/CurrencyUnits.xml';
     }
 
     #endregion
@@ -708,11 +594,137 @@ class CurrencyService
     #region Helper methods
 
     /**
-     * Ensure that the exchange rate service is configured.
+     * Load currency unit data from a generated PHP file, if it exists.
      *
+     * Returns null if the file is missing, contains a syntax error, or doesn't return an array with the expected
+     * shape. No exceptions are raised. Any failure condition yields a null result.
+     *
+     * @param string $path The path of the file to load.
+     * @return ?array{
+     *     whenFetched: string,
+     *     currencies: array<string, string>
+     * } The currency unit data, or null if no valid data is available.
+     */
+    private static function loadUnits(string $path): ?array
+    {
+        // Check the file exists.
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        // Try to load the data.
+        try {
+            $unitData = require $path;
+        } catch (ParseError) {
+            return null;
+        }
+
+        // Check it's an array with the right shape.
+        $ok = is_array($unitData)
+            && array_key_exists('whenFetched', $unitData) && is_string($unitData['whenFetched'])
+            && array_key_exists('currencies', $unitData) && is_array($unitData['currencies']);
+
+        // Check currencies are arrays with the right shape.
+        if ($ok) {
+            foreach ($unitData['currencies'] as $name => $code) {
+                $ok = $ok && is_string($name) && is_string($code);
+            }
+        }
+
+        return $ok ? $unitData : null;
+    }
+
+    /**
+     * Load the exchange rate data from the generated PHP file in the data directory, if it exists.
+     *
+     * Returns null if the file is missing, contains a syntax error, or doesn't return an array with the expected
+     * shape. No exceptions are raised. Any failure condition yields a null result.
+     *
+     * @return ?array{
+     *     whenFetched: string,
+     *     serviceName: string,
+     *     definitions: list<array{string, string, float}>
+     * } The currency conversion data, or null if no valid data is available.
+     */
+    private static function loadConversions(): ?array
+    {
+        // Check the file exists.
+        $path = self::getConversionsFilePath();
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        // Try to load the data.
+        try {
+            $conversionData = require $path;
+        } catch (ParseError) {
+            return null;
+        }
+
+        // Check it's an array with the right shape.
+        $ok = is_array($conversionData)
+            && array_key_exists('whenFetched', $conversionData) && is_string($conversionData['whenFetched'])
+            && array_key_exists('serviceName', $conversionData) && is_string($conversionData['serviceName'])
+            && array_key_exists('definitions', $conversionData) && is_array($conversionData['definitions']);
+
+        // Check definitions are arrays with the right shape.
+        if ($ok) {
+            foreach ($conversionData['definitions'] as $definition) {
+                $ok = $ok && is_array($definition) && count($definition) === 3 && is_string($definition[0])
+                    && is_string($definition[1]) && is_float($definition[2]);
+            }
+        }
+
+        return $ok ? $conversionData : null;
+    }
+
+    /**
+     * Build the content of a generated currency units PHP file.
+     *
+     * @param array{
+     *     whenFetched: string,
+     *     currencies: array<string, string>
+     * } $unitData The currency unit data.
+     * @param int $fetchedAt When the data was fetched, as a Unix timestamp.
+     * @return string The file content.
+     */
+    private static function buildUnitsFile(array $unitData, int $fetchedAt): string
+    {
+        $url = self::ISO_4217_URL;
+        $datetime = gmdate(DateTimeInterface::COOKIE, $fetchedAt);
+        $className = self::class;
+        $output = <<<PHP
+            <?php
+
+            /**
+             * Currencies, based off ISO 4217 currency data.
+             *
+             * Fetched from
+             * $url
+             * at $datetime.
+             *
+             * Auto-generated from the official ISO 4217 XML published by SIX Group.
+             *
+             * To regenerate, call $className::refreshUnits().
+             *
+             * @return array{
+             *     whenFetched: string,
+             *     currencies: array<string, string>
+             * }
+             */
+
+            declare(strict_types=1);
+            PHP;
+        return $output . "\n\nreturn " . Stringify::stringify($unitData, StringifyOptions::pretty()) . ";\n";
+    }
+
+    /**
+     * Get the exchange rate service, ensuring that it's configured.
+     *
+     * @return ExchangeRateServiceInterface The exchange rate service.
      * @throws LogicException If the exchange rate service is not configured.
      */
-    private static function ensureExchangeRateServiceConfigured(): void
+    private static function getConfiguredExchangeRateService(): ExchangeRateServiceInterface
     {
         if (self::$exchangeRateService === null) {
             throw new LogicException(
@@ -720,20 +732,46 @@ class CurrencyService
                 'or `CurrencyService::init()` first.'
             );
         }
+
+        return self::$exchangeRateService;
     }
 
     /**
-     * Ensure that the data directory exists, creating it if necessary.
+     * Write a file atomically, creating its directory if necessary.
+     *
+     * The content is written to a temporary file and then renamed into place, so a concurrent reader never sees a
+     * partially written file.
+     *
+     * @param string $path The file path.
+     * @param string $content The file content.
+     * @throws RuntimeException If the directory cannot be created or the file cannot be written.
+     */
+    private static function writeFile(string $path, string $content): void
+    {
+        self::ensureDirExists(dirname($path));
+
+        $tempPath = $path . '.' . bin2hex(random_bytes(4)) . '.tmp';
+        if (@file_put_contents($tempPath, $content) === false) {
+            throw new RuntimeException("Failed to write file: '$path'.");
+        }
+        if (!@rename($tempPath, $path)) {
+            // @codeCoverageIgnoreStart
+            @unlink($tempPath);
+            throw new RuntimeException("Failed to write file: '$path'.");
+            // @codeCoverageIgnoreEnd
+        }
+    }
+
+    /**
+     * Ensure that a directory exists, creating it if necessary.
      *
      * @param string $dirPath The directory path.
      * @throws RuntimeException If the directory cannot be created.
      */
     private static function ensureDirExists(string $dirPath): void
     {
-        if (!is_dir($dirPath) && !mkdir($dirPath, 0755, true)) {
-            // @codeCoverageIgnoreStart
+        if (!is_dir($dirPath) && !@mkdir($dirPath, 0755, true)) {
             throw new RuntimeException("Failed to create directory: '$dirPath'.");
-            // @codeCoverageIgnoreEnd
         }
     }
 

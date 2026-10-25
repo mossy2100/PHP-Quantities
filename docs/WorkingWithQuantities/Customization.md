@@ -164,14 +164,9 @@ echo $concentration->to('ppm');  // 0.000005 ppm
 **Person unit** — A "person" unit lets you do per-person calculations with quantities. Since "person" isn't a physical unit, we use the amount-of-substance dimension (`N`) as a convenient stand-in for counting. In this example, we don't need to add a conversion linking the new unit to existing ones as we don't need to convert `pers` to `mol` or anything else. You could do something similar with an `ea` unit (for "each") if needed.
 
 ```php
-use Mossy2100\Quantities\Currencies\CurrencyService;
-use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
 use Mossy2100\Quantities\Units\Unit;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\UnitService;
-
-// Set up currency support.
-CurrencyService::init(new FrankfurterService());
 
 // Register a "person" unit.
 UnitService::add(new Unit('person', 'pers', 'N'));
