@@ -63,7 +63,7 @@ Get all units belonging to the given measurement system.
 **Returns:** `list<Unit>`
 
 ```php
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
 
 $siUnits = UnitService::getBySystem(UnitSystem::Si);
 $imperialUnits = UnitService::getBySystem(UnitSystem::Imperial);
@@ -133,7 +133,7 @@ Add a unit to the registry. By default, returns `false` if a unit with the same 
 **Throws:** `DomainException` if any of the new unit's symbols conflict with an existing unit's symbols.
 
 ```php
-use Mossy2100\Quantities\Internal\Unit;use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Units\Unit;use Mossy2100\Quantities\Enums\UnitSystem;
 
 $furlong = new Unit(
     name: 'furlong',
@@ -259,8 +259,8 @@ $n = UnitService::count();
 
 ## See also
 
-- **[Unit](../Internal/Unit.md)** — Unit class documentation
+- **[Unit](../Units/Unit.md)** — Unit class documentation
 - **[ConversionService](ConversionService.md)** — Conversion registry
 - **[QuantityTypeService](QuantityTypeService.md)** — Quantity type registry
-- **[UnitSystem](../Internal/UnitSystem.md)** — Measurement system enum
+- **[UnitSystem](../Enums/UnitSystem.md)** — Measurement system enum
 - **[Units](../../Concepts/Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.

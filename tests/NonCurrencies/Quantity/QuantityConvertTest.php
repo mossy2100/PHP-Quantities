@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
-use Mossy2100\Quantities\Internal\CompoundUnit;
 use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\Units\CompoundUnit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

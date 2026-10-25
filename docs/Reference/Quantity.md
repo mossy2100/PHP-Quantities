@@ -442,7 +442,7 @@ Compare two Quantities for ordering.
 - `int` - -1 if less, 0 if equal, 1 if greater.
 
 **Throws:**
-- `IncomparableTypesException` - If other is not a Quantity.
+- `InvalidArgumentException` - If other is not a Quantity.
 - [`DimensionMismatchException`](Exceptions/DimensionMismatchException.md) - If quantities have different dimensions.
 
 ### approxEqual()
@@ -723,9 +723,11 @@ $ceiled = $length->ceil();  // 2 m
 
 ```php
 public function format(
-    string $specifier = 'g',
-    ?int $precision = null,
-    ?bool $trimZeros = null,
+    int $precision = 6,
+    bool $trimZeros = true,
+    FloatFormat $format = FloatFormat::Auto,
+    ?ExponentFormat $expFormat = null,
+    RoundingMode $roundingMode = RoundingMode::HalfAwayFromZero,
     ?bool $includeSpace = null,
     bool $ascii = false
 ): string
@@ -733,33 +735,39 @@ public function format(
 
 Format the measurement as a string with value and unit.
 
-See [`Floats::format()`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Floats.md#format) for details on the `$specifier`, `$precision`, `$trimZeros`, and `$ascii` parameters.
+The value is formatted by [`Floats::format()`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Floats.md#format),
+which documents `$precision`, `$trimZeros`, `$format`, `$expFormat` and `$roundingMode` in full. `FloatFormat` and
+`ExponentFormat` are in the `Mossy2100\Core\Enums` namespace.
 
 **Parameters:**
-- `$specifier` (string) - The format specifier. See `Floats::format()` for the full list of supported specifiers.
-- `$precision` (?int) - Number of decimal places for `e`/`E`/`f`/`F` or significant digits for `g`/`G`/`h`/`H`. When `null`, defaults to `6` for `e`/`E`/`f`/`F` and `7` for `g`/`G`/`h`/`H` (matching `e`'s effective precision).
-- `$trimZeros` (?bool) - Controls trailing zero trimming. `null` (default) trims when precision is null, preserves when explicit. `true` always trims, `false` never trims.
-- `$includeSpace` (?bool) - Space between value and unit. `null` = auto (no space for symbol-only units like `°`). `true` = always. `false` = never.
-- `$ascii` (bool) - If `true`, use ASCII symbols and `e` notation. If `false` (default), use Unicode symbols and superscript notation.
+- `$precision` (int) - Decimal places for `FixedPoint`, or significant digits for `Scientific` (default 6).
+- `$trimZeros` (bool) - If trailing zeros should be trimmed (default `true`).
+- `$format` (FloatFormat) - `FixedPoint`, `Scientific`, or `Auto` to choose whichever is more useful (default).
+- `$expFormat` (?ExponentFormat) - The exponent format. `null` (default) means `AsciiLowerCaseE` when `$ascii` is
+  `true`, and `UnicodeMath` otherwise.
+- `$roundingMode` (RoundingMode) - The rounding mode (default `HalfAwayFromZero`).
+- `$includeSpace` (?bool) - Space between value and unit. `null` = auto (no space for symbol-only units like `°`).
+  `true` = always. `false` = never.
+- `$ascii` (bool) - If `true`, use ASCII unit symbols, and by default an ASCII exponent. If `false` (default), use
+  Unicode symbols.
 
-**Returns:**
-- `string` - The formatted string.
+**Returns:** `string` - The formatted string.
 
 **Throws:**
-- `DomainException` - If the specifier is invalid or precision is outside 0–17.
+- `DomainException` - If the precision is out of range: 0-17 decimal places, or 1-17 significant digits.
 
 **Examples:**
 ```php
 $length = new Length(1500.0, 'm');
-$length->format();                                // "1500 m"
-$length->format('f', 2);                          // "1500.00 m"
-$length->format('f', 2, trimZeros: true);         // "1500 m"
-$length->format('e', 2);                          // "1.50×10³ m"
-$length->format('e', 2, ascii: true);             // "1.50e+3 m"
+$length->format();                                                     // "1500 m"
+$length->format(2, false, FloatFormat::FixedPoint);                    // "1500.00 m"
+$length->format(2, format: FloatFormat::FixedPoint);                   // "1500 m"
+$length->format(3, false, FloatFormat::Scientific);                    // "1.50×10³ m"
+$length->format(3, false, FloatFormat::Scientific, ascii: true);       // "1.50e+3 m"
 
 $angle = new Angle(90, 'deg');
-$angle->format();                                 // "90°"
-$angle->format(includeSpace: true);               // "90 °"
+$angle->format();                                                      // "90°"
+$angle->format(includeSpace: true);                                    // "90 °"
 ```
 
 ### \_\_toString()
@@ -1096,8 +1104,8 @@ Quantity::isValidQuantity('abc', $m);         // false
 
 ## See also
 
-- **[CompoundUnit](Internal/CompoundUnit.md)** - Unit representation used by Quantity.
+- **[CompoundUnit](Units/CompoundUnit.md)** - Unit representation used by Quantity.
 - **[Converter](Internal/Converter.md)** - Handles unit conversions.
 - **[DimensionService](Services/DimensionService.md)** - Dimension codes and base unit mappings.
-- **[QuantityType](Internal/QuantityType.md)** - Quantity type metadata.
+- **[QuantityType](QuantityType.md)** - Quantity type metadata.
 - **[PhysicalConstant](PhysicalConstant.md)** - Physical constants as Quantities.

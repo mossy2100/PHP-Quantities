@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Internal;
+namespace Mossy2100\Quantities;
 
 use InvalidArgumentException;
 use Mossy2100\Core\Exceptions\FormatException;
-use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\Enums\UnitSystem;
+use Mossy2100\Quantities\Internal\Converter;
 use Mossy2100\Quantities\Services\DimensionService;
 use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Units\Unit;
 
 /**
  * Represents a quantity type.

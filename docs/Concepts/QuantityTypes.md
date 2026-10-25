@@ -90,5 +90,5 @@ Using dedicated subclasses for quantity types improves code readability and type
 - **[Customization](../WorkingWithQuantities/Customization.md)** — How to create your own custom quantity type classes.
 - **[Units](Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
 - **[QuantityTypeService](../Reference/Services/QuantityTypeService.md)** — Service for registering and looking up quantity types.
-- **[QuantityType](../Reference/Internal/QuantityType.md)** — Internal metadata class representing a quantity type.
+- **[QuantityType](../Reference/QuantityType.md)** — Metadata class representing a quantity type.
 

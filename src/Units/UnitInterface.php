@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Internal;
+namespace Mossy2100\Quantities\Units;
 
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;

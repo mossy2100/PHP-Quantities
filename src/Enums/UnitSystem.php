@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Internal;
+namespace Mossy2100\Quantities\Enums;
 
 /**
  * Systems of units.

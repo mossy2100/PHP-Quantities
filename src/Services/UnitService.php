@@ -6,9 +6,9 @@ namespace Mossy2100\Quantities\Services;
 
 use DomainException;
 use InvalidArgumentException;
-use Mossy2100\Quantities\Internal\QuantityType;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
+use Mossy2100\Quantities\QuantityType;
+use Mossy2100\Quantities\Units\Unit;
 
 /**
  * Registry of units with lookup, filtering, and loading by system.

@@ -3,11 +3,12 @@
 Fundamental physical constants can be accessed as Quantity objects via the PhysicalConstant class:
 
 ```php
+use Mossy2100\Core\Enums\FloatFormat;
 use Mossy2100\Quantities\PhysicalConstant;
 
 // Speed of light
 $c = PhysicalConstant::speedOfLight();
-echo $c->to('km/s')->format('f', 3);  // 299792.458 km/s
+echo $c->to('km/s')->format(3, format: FloatFormat::FixedPoint);  // 299792.458 km/s
 
 // Planck constant
 $h = PhysicalConstant::planck();

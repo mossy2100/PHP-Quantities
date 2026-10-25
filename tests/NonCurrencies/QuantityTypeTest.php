@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies;
 
 use InvalidArgumentException;
-use Mossy2100\Quantities\Internal\QuantityType;
 use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType;
 use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Time;

@@ -47,6 +47,7 @@ composer require mossy2100/quantities
 ## Quick start
 
 ```php
+use Mossy2100\Core\Enums\FloatFormat;
 use Mossy2100\Quantities\PhysicalConstant;
 use Mossy2100\Quantities\QuantityType\Angle;
 use Mossy2100\Quantities\QuantityType\Force;
@@ -88,7 +89,7 @@ $earthMass = new Mass(5.972e24, 'kg');
 $moonMass = new Mass(7.342e22, 'kg');
 $earthMoonDistance = new Length(3.844e8, 'm');
 $gravity = $G->mul($earthMass)->mul($moonMass)->div($earthMoonDistance->sqr());
-echo $gravity->to('N')->format('e', 2), "\n"; // 1.98×10²⁰ N
+echo $gravity->to('N')->format(3, format: FloatFormat::Scientific), "\n"; // 1.98×10²⁰ N
 
 // Parse from strings
 $length = Length::parse('123.45 km');
@@ -192,36 +193,37 @@ These classes are predominantly internal, except for adding custom units via `Un
 | [DimensionService](docs/Reference/Services/DimensionService.md)         | Utilities for working with physical dimension codes (validation, composition, transformation). |
 | [PrefixService](docs/Reference/Services/PrefixService.md)               | Manages SI and binary prefixes (lookup, filtering by group).                                   |
 | [QuantityTypeService](docs/Reference/Services/QuantityTypeService.md)   | Registry of quantity types keyed by dimension code.                                            |
+| [QuantityType](docs/Reference/QuantityType.md)                          | Data class for a registered quantity type: name, dimension and class.                          |
 | [UnitService](docs/Reference/Services/UnitService.md)                   | Registry of units with lookup, filtering, and loading by system.                               |
+
+### Units
+
+Classes for units and conversions. You'll use these to add custom units and conversions (see
+[Customization](docs/WorkingWithQuantities/Customization.md)).
+
+| Name                                                   | Description                                                                |
+| ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| [Unit](docs/Reference/Units/Unit.md)                   | Represents a single-symbol measurement unit with optional prefix support.  |
+| [UnitTerm](docs/Reference/Units/UnitTerm.md)           | A unit with optional prefix and exponent (e.g., km², ms⁻¹).                |
+| [CompoundUnit](docs/Reference/Units/CompoundUnit.md)   | Compound unit expression combining unit terms via multiplication/division. |
+| [Prefix](docs/Reference/Units/Prefix.md)               | SI metric and binary prefixes (kilo, mega, kibi, etc.).                    |
+| [Conversion](docs/Reference/Units/Conversion.md)       | Represents a unit conversion with factor and error tracking.               |
+| [UnitInterface](docs/Reference/Units/UnitInterface.md) | Interface implemented by Unit, UnitTerm, and CompoundUnit.                 |
+
+### Enums
+
+| Name                                             | Description                                                   |
+| ------------------------------------------------ | ------------------------------------------------------------- |
+| [UnitSystem](docs/Reference/Enums/UnitSystem.md) | Enum for systems of units (SI, Imperial, US Customary, etc.). |
 
 ### Internal Types
 
-These types provide the core functionality of the library and will typically not be used directly by end-users.
+These classes are used by the conversion engine and aren't part of the public API. They may change without notice.
 
-#### Classes
-
-| Name                                                        | Description                                                                         |
-|-------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| [Unit](docs/Reference/Internal/Unit.md)                     | Represents a single-symbol measurement unit with optional prefix support.           |
-| [UnitTerm](docs/Reference/Internal/UnitTerm.md)             | A unit with optional prefix and exponent (e.g., km², ms⁻¹).                         |
-| [CompoundUnit](docs/Reference/Internal/CompoundUnit.md)       | Compound unit expression combining unit terms via multiplication/division.          |
-| [Prefix](docs/Reference/Internal/Prefix.md)                 | SI metric and binary prefixes (kilo, mega, kibi, etc.).                             |
-| [Conversion](docs/Reference/Internal/Conversion.md)         | Represents a unit conversion with factor and error tracking.                        |
-| [Converter](docs/Reference/Internal/Converter.md)           | Graph-based algorithm for finding conversion paths between units.                   |
-| [FloatWithError](docs/Reference/Internal/FloatWithError.md) | Floating-point numbers with tracked error bounds for precision monitoring.          |
-| [QuantityType](docs/Reference/Internal/QuantityType.md)     | Data class representing a quantity type with its dimension, SI unit, and PHP class. |
-
-#### Interfaces
-
-| Name | Description                                                      |
-|------|------------------------------------------------------------------|
-| [UnitInterface](docs/Reference/Internal/UnitInterface.md)   | Interface implemented by Unit, UnitTerm, and CompoundUnit.        |
-
-#### Enums
-
-| Name                                                 | Description                                                                         |
-|------------------------------------------------------|-------------------------------------------------------------------------------------|
-| [UnitSystem](docs/Reference/Internal/UnitSystem.md) | Enum for systems of units (SI, Imperial, US Customary, etc.).                       |
+| Name                                                        | Description                                                                |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [Converter](docs/Reference/Internal/Converter.md)           | Graph-based algorithm for finding conversion paths between units.          |
+| [FloatWithError](docs/Reference/Internal/FloatWithError.md) | Floating-point numbers with tracked error bounds for precision monitoring. |
 
 ### Exceptions
 

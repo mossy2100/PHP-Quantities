@@ -6,7 +6,7 @@ namespace Mossy2100\Quantities\QuantityType;
 
 use LogicException;
 use Mossy2100\Quantities\Currencies\CurrencyService;
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Quantity;
 use NumberFormatter;
 use Override;

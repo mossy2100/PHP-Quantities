@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
-use Mossy2100\Core\Exceptions\IncomparableTypesException;
+use InvalidArgumentException;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\QuantityType\Length;
@@ -98,7 +98,7 @@ final class QuantityCompareTest extends TestCase
      */
     public function testCompareNonQuantityThrowsException(): void
     {
-        $this->expectException(IncomparableTypesException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $length = new Length(100, 'm');
         $length->compare(100);

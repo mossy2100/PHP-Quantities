@@ -6,17 +6,17 @@ namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
 
 use DomainException;
 use LogicException;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
-use Mossy2100\Quantities\Internal\CompoundUnit;
-use Mossy2100\Quantities\Internal\Conversion;
 use Mossy2100\Quantities\Internal\Converter;
 use Mossy2100\Quantities\Internal\FloatWithError;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitSystem;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\QuantityTypeService;
 use Mossy2100\Quantities\Services\UnitService;
 use Mossy2100\Quantities\Tests\NonCurrencies\Fixtures\UnregisteredQuantity;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\Conversion;
+use Mossy2100\Quantities\Units\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

@@ -235,7 +235,7 @@ Reset the registry to its initial state, forcing re-initialization from the buil
 
 ## See also
 
-- **[QuantityType](../Internal/QuantityType.md)** - QuantityType class documentation
+- **[QuantityType](../QuantityType.md)** - QuantityType class documentation
 - **[Quantity](../Quantity.md)** - Base quantity class
 - **[DimensionService](DimensionService.md)** - Dimension code utilities
 - **[UnitService](UnitService.md)** - Unit registry

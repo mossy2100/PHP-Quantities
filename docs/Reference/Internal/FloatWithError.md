@@ -2,6 +2,9 @@
 
 Represents a floating-point value with tracked numerical error.
 
+> [!NOTE]
+> This class is internal (`@internal`). It isn't part of the public API and may change without notice.
+
 ---
 
 ## Overview
@@ -325,5 +328,5 @@ echo $ydToM->relativeError; // Error from ftToM only (ydToFt was exact)
 
 ## See also
 
-- **[Conversion](Conversion.md)** - Uses FloatWithError for conversion factors
+- **[Conversion](../Units/Conversion.md)** - Uses FloatWithError for conversion factors
 - **[Converter](Converter.md)** - Selects conversion paths based on error

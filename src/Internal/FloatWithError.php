@@ -13,6 +13,8 @@ use Stringable;
  *
  * This class propagates numerical errors through arithmetic operations,
  * providing a way to track precision loss in calculations.
+ *
+ * @internal Used by the conversion engine. Not part of the public API.
  */
 class FloatWithError implements Stringable
 {
@@ -70,7 +72,7 @@ class FloatWithError implements Stringable
 
         // If the error isn't given, compute a source error estimate.
         if ($error === null) {
-            $this->absoluteError = Floats::isExactInt($this->value) ? 0.0 : Floats::ulp($this->value) * self::HALF;
+            $this->absoluteError = Floats::isSafeInt($this->value) ? 0.0 : Floats::ulp($this->value) * self::HALF;
         } else {
             $this->absoluteError = $error;
         }
@@ -87,7 +89,7 @@ class FloatWithError implements Stringable
      */
     public function isExactInt(): bool
     {
-        return Floats::isExactInt($this->value) && $this->absoluteError === 0.0;
+        return Floats::isSafeInt($this->value) && $this->absoluteError === 0.0;
     }
 
     #endregion
@@ -128,7 +130,7 @@ class FloatWithError implements Stringable
 
         // If no error results from the operation (meaning the operand had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isExactInt($newValue)) {
+        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
             $newError += Floats::ulp($newValue) * self::HALF;
         }
 
@@ -162,7 +164,7 @@ class FloatWithError implements Stringable
 
         // If no error results from the operation (meaning both operands had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isExactInt($newValue)) {
+        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
             $newError += Floats::ulp($newValue) * self::HALF;
         }
 
@@ -192,7 +194,7 @@ class FloatWithError implements Stringable
 
         // If no error results from the operation (meaning both operands had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isExactInt($newValue)) {
+        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
             $newError += Floats::ulp($newValue) * self::HALF;
         }
 
@@ -223,7 +225,7 @@ class FloatWithError implements Stringable
 
         // If no error results from the operation (meaning both operands had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isExactInt($newValue)) {
+        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
             $newError += Floats::ulp($newValue) * self::HALF;
         }
 
@@ -260,7 +262,7 @@ class FloatWithError implements Stringable
 
         // If no error results from the operation (meaning both operands had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isExactInt($newValue)) {
+        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
             $newError += Floats::ulp($newValue) * self::HALF;
         }
 
@@ -297,7 +299,7 @@ class FloatWithError implements Stringable
 
         // If no error results from the operation (meaning the operand had zero error), and the result is an exact
         // integer, don't add any rounding error. Otherwise, add half the ULP of the result.
-        if ($newError > 0 || !Floats::isExactInt($newValue)) {
+        if ($newError > 0 || !Floats::isSafeInt($newValue)) {
             $newError += Floats::ulp($newValue) * self::HALF;
         }
 

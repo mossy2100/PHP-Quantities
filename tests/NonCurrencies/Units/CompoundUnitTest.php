@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Units;
 
 use Error;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;
-use Mossy2100\Quantities\Internal\CompoundUnit;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitTerm;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Units\UnitTerm;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

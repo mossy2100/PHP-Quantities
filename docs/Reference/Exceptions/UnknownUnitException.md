@@ -76,6 +76,6 @@ try {
 ## See also
 
 - **[DimensionMismatchException](DimensionMismatchException.md)** — Related exception for dimension mismatches.
-- **[Unit](../Internal/Unit.md)** — Unit class with `parse()` method.
-- **[UnitTerm](../Internal/UnitTerm.md)** — UnitTerm class with `parse()` method.
+- **[Unit](../Units/Unit.md)** — Unit class with `parse()` method.
+- **[UnitTerm](../Units/UnitTerm.md)** — UnitTerm class with `parse()` method.
 - **[UnitService](../Services/UnitService.md)** — Unit registry and loading.

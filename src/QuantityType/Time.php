@@ -8,7 +8,7 @@ use DateInterval;
 use DateMalformedIntervalStringException;
 use Mossy2100\Core\Floats;
 use Mossy2100\Core\Numbers;
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\PrefixService;
 use Override;
@@ -144,7 +144,7 @@ class Time extends Quantity
         // Build the specification string.
         foreach ($parts as $symbol => $value) {
             // Skip sign and 0 values.
-            if ($symbol === 'sign' || Numbers::isZero($value)) {
+            if ($symbol === 'sign' || Numbers::equal($value, 0)) {
                 continue;
             }
 

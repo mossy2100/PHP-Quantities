@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Services;
 
 use DomainException;
-use Mossy2100\Quantities\Internal\Prefix;
 use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Units\Prefix;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

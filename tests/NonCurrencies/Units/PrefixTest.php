@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Units;
 
 use DomainException;
 use Mossy2100\Core\Exceptions\FormatException;
-use Mossy2100\Quantities\Internal\Prefix;
 use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Units\Prefix;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

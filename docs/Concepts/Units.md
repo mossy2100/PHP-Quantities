@@ -75,8 +75,8 @@ When it comes to volume units, certain units represent different amounts in diff
 ## See also
 
 - **[Quantity Types](../Reference/QuantityType/)** — Documentation for all quantity type classes.
-- **[UnitSystem](../Reference/Internal/UnitSystem.md)** - Measurement system classification
-- **[Prefix](../Reference/Internal/Prefix.md)** - SI and binary prefixes
-- **[Unit](../Reference/Internal/Unit.md)** - Unit class documentation
+- **[UnitSystem](../Reference/Enums/UnitSystem.md)** - Measurement system classification
+- **[Prefix](../Reference/Units/Prefix.md)** - SI and binary prefixes
+- **[Unit](../Reference/Units/Unit.md)** - Unit class documentation
 - **[Quantity](../Reference/Quantity.md)** - Quantity class documentation
 

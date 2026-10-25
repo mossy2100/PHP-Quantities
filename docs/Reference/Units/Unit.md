@@ -147,7 +147,7 @@ Create a new Unit instance.
 **Examples:**
 
 ```php
-use Mossy2100\Quantities\Internal\Unit;use Mossy2100\Quantities\Internal\UnitSystem;use Mossy2100\Quantities\Services\PrefixService;
+use Mossy2100\Quantities\Units\Unit;use Mossy2100\Quantities\Enums\UnitSystem;use Mossy2100\Quantities\Services\PrefixService;
 
 // Basic SI unit
 $meter = new Unit(
@@ -329,4 +329,4 @@ $symbols = $meter->symbols;
 - **[Prefix](Prefix.md)** - SI and binary prefix representation.
 - **[UnitService](../Services/UnitService.md)** - Registry for looking up units.
 - **[DimensionService](../Services/DimensionService.md)** - Utilities for working with dimension codes.
-- **[UnitSystem](UnitSystem.md)** - Measurement system classification.
+- **[UnitSystem](../Enums/UnitSystem.md)** - Measurement system classification.

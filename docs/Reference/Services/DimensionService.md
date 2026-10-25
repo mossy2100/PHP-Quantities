@@ -312,6 +312,6 @@ $du = DimensionService::getBaseCompoundUnit('ML2T-2');
 ## See also
 
 - **[QuantityTypeService](QuantityTypeService.md)** - Registry using dimension codes
-- **[CompoundUnit](../Internal/CompoundUnit.md)** - Compound unit representation
-- **[UnitTerm](../Internal/UnitTerm.md)** - Individual unit terms
+- **[CompoundUnit](../Units/CompoundUnit.md)** - Compound unit representation
+- **[UnitTerm](../Units/UnitTerm.md)** - Individual unit terms
 - **[Quantity](../Quantity.md)** - Base quantity class

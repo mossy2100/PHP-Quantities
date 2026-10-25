@@ -7,8 +7,8 @@ namespace Mossy2100\Quantities\Services;
 use LogicException;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Numbers;
-use Mossy2100\Quantities\Internal\CompoundUnit;
-use Mossy2100\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\UnitTerm;
 
 /**
  * Utility class for working with physical dimension codes.

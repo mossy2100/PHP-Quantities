@@ -2,6 +2,9 @@
 
 Manages unit conversions for a measurement dimension.
 
+> [!NOTE]
+> This class is internal (`@internal`). It isn't part of the public API and may change without notice.
+
 ---
 
 ## Overview
@@ -349,8 +352,8 @@ echo "$liters L"; // ~4.546 L (Imperial gallon)
 
 ## See also
 
-- **[Conversion](Conversion.md)** - Represents a single unit conversion.
+- **[Conversion](../Units/Conversion.md)** - Represents a single unit conversion.
 - **[FloatWithError](FloatWithError.md)** - Tracks precision through operations.
 - **[ConversionService](../Services/ConversionService.md)** - Stores registered conversions.
-- **[CompoundUnit](CompoundUnit.md)** - Compound unit representation.
+- **[CompoundUnit](../Units/CompoundUnit.md)** - Compound unit representation.
 - **[Quantity](../Quantity.md)** - Uses Converter for unit conversion.

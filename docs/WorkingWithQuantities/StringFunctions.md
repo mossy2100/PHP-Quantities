@@ -129,32 +129,35 @@ echo $resistance;  // 4700 Ω
 
 ### The `format()` Method
 
-For more control, use `format()` with a specifier, precision, and ASCII mode:
+For more control, use `format()` with a precision, a `FloatFormat` and other options. The parameters match Core's
+[`Floats::format()`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Floats.md#format), plus `$includeSpace` and
+`$ascii`:
 
 ```php
+use Mossy2100\Core\Enums\FloatFormat;
+
 $length = new Length(1234.5678, 'm');
 
-// Significant figures (default)
-echo $length->format();           // 1234.57 m
-echo $length->format('g', 4);    // 1235 m
+// Auto (default): whichever notation is more useful.
+echo $length->format();                                    // 1234.5678 m
 
-// Fixed-point notation
-echo $length->format('f');        // 1234.5678 m
-echo $length->format('f', 2);    // 1234.57 m
+// Fixed-point notation: precision is decimal places.
+echo $length->format(2, format: FloatFormat::FixedPoint);  // 1234.57 m
 
-// Scientific notation
-echo $length->format('e', 3);    // 1.235×10³ m
+// Scientific notation: precision is significant digits.
+echo $length->format(4, format: FloatFormat::Scientific);  // 1.235×10³ m
 ```
 
-**Specifiers:**
+**Formats:**
 
-| Specifier             | Description | Precision means            |
-| --------------------- | ----------- | -------------------------- |
-| `f` / `F`             | Fixed-point | Decimal places             |
-| `e` / `E`             | Scientific  | Decimal places in mantissa |
-| `g` / `G` / `h` / `H` | Shortest    | Significant figures        |
+| `FloatFormat` | Description                        | Precision means            |
+| ------------- | ---------------------------------- | -------------------------- |
+| `FixedPoint`  | Fixed-point                        | Decimal places             |
+| `Scientific`  | Scientific                         | Significant digits         |
+| `Auto`        | Whichever is more useful (default) | As for the notation chosen |
 
-When `$precision` is `null` (the default), trailing zeros are automatically trimmed. When an explicit precision is given, digits are preserved. This behavior can be overridden with the `$trimZeros` parameter (`true` = always trim, `false` = never trim, `null` = auto).
+Trailing zeros are trimmed by default. Pass `trimZeros: false` to keep them, e.g.
+`format(2, false, FloatFormat::FixedPoint)` gives `5.00 m`.
 
 ### ASCII vs. Unicode
 
@@ -188,12 +191,13 @@ echo $energy->format();               // 100 kg·m²/s²
 echo $energy->format(ascii: true);    // 100 kg*m2/s2
 ```
 
-**4. Scientific notation** — Unicode superscripts vs. `e` notation:
+**4. Scientific notation** — Unicode superscripts vs. `e` notation. To choose the exponent format yourself, pass
+`expFormat`, e.g. `ExponentFormat::AsciiUpperCaseE`:
 
 ```php
 $distance = new Length(1.496e11, 'm');
-echo $distance->format('e', 3);               // 1.496×10¹¹ m
-echo $distance->format('e', 3, ascii: true);  // 1.496e+11 m
+echo $distance->format(4, format: FloatFormat::Scientific);               // 1.496×10¹¹ m
+echo $distance->format(4, format: FloatFormat::Scientific, ascii: true);  // 1.496e+11 m
 ```
 
 ### Space between value and unit

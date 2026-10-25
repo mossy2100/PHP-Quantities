@@ -118,7 +118,7 @@ Create a new QuantityType instance.
 
 **Examples:**
 ```php
-use Mossy2100\Quantities\Internal\QuantityType;
+use Mossy2100\Quantities\QuantityType;
 use Mossy2100\Quantities\QuantityType\Length;
 
 $length = new QuantityType('length', 'L', Length::class);
@@ -159,7 +159,7 @@ echo $massType->dimension; // 'M'
 
 ## See also
 
-- **[Quantity](../Quantity.md)** - Uses quantity types for type-safe instantiation.
-- **[QuantityTypeService](../Services/QuantityTypeService.md)** - Registry for quantity types.
-- **[DimensionService](../Services/DimensionService.md)** - Utilities for working with dimension codes.
-- **[Converter](Converter.md)** - Manages conversions for a dimension.
+- **[Quantity](Quantity.md)** - Uses quantity types for type-safe instantiation.
+- **[QuantityTypeService](Services/QuantityTypeService.md)** - Registry for quantity types.
+- **[DimensionService](Services/DimensionService.md)** - Utilities for working with dimension codes.
+- **[Converter](Internal/Converter.md)** - Manages conversions for a dimension.

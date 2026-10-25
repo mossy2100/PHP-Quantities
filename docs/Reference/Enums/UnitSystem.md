@@ -2,7 +2,7 @@
 
 Categorizes units of measurement by their measurement system.
 
-**Namespace:** `Mossy2100\Quantities\Internal`
+**Namespace:** `Mossy2100\Quantities\Enums`
 
 ---
 
@@ -128,5 +128,5 @@ The default system for user-defined units.
 
 ## See also
 
-- **[Unit](Unit.md)** - Units can belong to one or more systems
+- **[Unit](../Units/Unit.md)** - Units can belong to one or more systems
 - **[UnitService](../Services/UnitService.md)** - Load units by measurement system

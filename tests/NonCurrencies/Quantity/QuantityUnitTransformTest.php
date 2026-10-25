@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
 use Mossy2100\Core\Traits\Asserts\FloatAssertions;
-use Mossy2100\Quantities\Internal\QuantityType;
 use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType;
 use Mossy2100\Quantities\QuantityType\Angle;
 use Mossy2100\Quantities\QuantityType\Area;
 use Mossy2100\Quantities\QuantityType\Energy;

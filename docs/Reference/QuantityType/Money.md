@@ -94,4 +94,4 @@ echo $price->format();  // 100 USD
 - **[CurrencyService](../Currencies/CurrencyService.md)** — Currency data management, setup, and locale configuration.
 - **[ExchangeRateServiceInterface](../Currencies/ExchangeRateServices/ExchangeRateServiceInterface.md)** — Contract for exchange rate providers.
 - **[Quantity](../Quantity.md)** — Base class documentation.
-- **[UnitSystem](../Internal/UnitSystem.md)** — Unit system classification (Financial system).
+- **[UnitSystem](../Enums/UnitSystem.md)** — Unit system classification (Financial system).

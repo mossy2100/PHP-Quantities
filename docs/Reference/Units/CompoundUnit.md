@@ -444,8 +444,8 @@ Convert to string using Unicode format.
 ### Building compound units
 
 ```php
-use Mossy2100\Quantities\Internal\CompoundUnit;
-use Mossy2100\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\UnitTerm;
 
 // Build Newton: kg*m/s2
 $newton = new CompoundUnit([
@@ -462,7 +462,7 @@ echo $newton->dimension;     // 'T-2LM'
 ### Parsing and validation
 
 ```php
-use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Units\CompoundUnit;
 
 // Parse various formats
 $unit1 = CompoundUnit::parse('kg*m/s2');
@@ -478,7 +478,7 @@ if ($unit1->isSi()) {
 ### Arithmetic with units
 
 ```php
-use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Units\CompoundUnit;
 
 $length = CompoundUnit::parse('m');
 $time = CompoundUnit::parse('s');
@@ -500,4 +500,4 @@ echo $area->asciiSymbol; // 'm2'
 - **[UnitTerm](UnitTerm.md)** - Unit with prefix and exponent.
 - **[UnitInterface](UnitInterface.md)** - Interface implemented by all unit types.
 - **[Quantity](../Quantity.md)** - Uses CompoundUnit for unit representation.
-- **[Converter](Converter.md)** - Uses CompoundUnit for conversion path discovery.
+- **[Converter](../Internal/Converter.md)** - Uses CompoundUnit for conversion path discovery.

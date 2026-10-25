@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Units;
 
 use DomainException;
 use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;
 use Mossy2100\Quantities\Internal\Converter;
-use Mossy2100\Quantities\Internal\QuantityType;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitSystem;
-use Mossy2100\Quantities\Internal\UnitTerm;
+use Mossy2100\Quantities\QuantityType;
 use Mossy2100\Quantities\Services\PrefixService;
 use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Units\UnitTerm;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;

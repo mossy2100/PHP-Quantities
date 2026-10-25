@@ -167,6 +167,6 @@ $inverse = PrefixService::invert($source);    // micro (10^-6)
 
 ## See also
 
-- **[Prefix](../Internal/Prefix.md)** - Prefix class documentation
-- **[Unit](../Internal/Unit.md)** - Unit class using prefix groups
+- **[Prefix](../Units/Prefix.md)** - Prefix class documentation
+- **[Unit](../Units/Unit.md)** - Unit class using prefix groups
 - **[Units](../../Concepts/Units.md)** - Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.

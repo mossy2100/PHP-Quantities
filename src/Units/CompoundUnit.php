@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Internal;
+namespace Mossy2100\Quantities\Units;
 
 use DomainException;
 use LogicException;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Traits\Comparison\Equatable;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;
 use Mossy2100\Quantities\Quantity;
+use Mossy2100\Quantities\QuantityType;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\DimensionService;
 use Mossy2100\Quantities\Services\QuantityTypeService;

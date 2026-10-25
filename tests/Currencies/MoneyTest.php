@@ -6,8 +6,8 @@ namespace Mossy2100\Quantities\Tests\Currencies;
 
 use Mossy2100\Quantities\Currencies\CurrencyService;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Internal\Converter;
-use Mossy2100\Quantities\Internal\UnitSystem;
 use Mossy2100\Quantities\QuantityType\Money;
 use Mossy2100\Quantities\Services\UnitService;
 use Mossy2100\Quantities\Tests\NonCurrencies\Traits\ArrayShapeTrait;

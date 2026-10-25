@@ -111,6 +111,7 @@ $weight = $m->mul($g);
 Gravitational force between the Earth and the Moon.
 
 ```php
+use Mossy2100\Core\Enums\FloatFormat;
 use Mossy2100\Quantities\PhysicalConstant;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Length;
@@ -121,7 +122,7 @@ $moonMass = new Mass(7.342e22, 'kg');
 $distance = new Length(3.844e8, 'm');
 
 $force = $G->mul($earthMass)->mul($moonMass)->div($distance->sqr());
-echo $force->toDerived()->format('e', 2);
+echo $force->toDerived()->format(3, format: FloatFormat::Scientific);
 // 1.98×10²⁰ N
 ```
 

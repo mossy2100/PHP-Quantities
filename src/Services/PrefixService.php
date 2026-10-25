@@ -7,7 +7,7 @@ namespace Mossy2100\Quantities\Services;
 use DomainException;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Floats;
-use Mossy2100\Quantities\Internal\Prefix;
+use Mossy2100\Quantities\Units\Prefix;
 
 /**
  * Utility class for working with SI and binary prefixes.

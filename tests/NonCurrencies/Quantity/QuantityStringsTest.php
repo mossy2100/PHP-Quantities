@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Quantity;
 
 use DomainException;
+use Mossy2100\Core\Enums\ExponentFormat;
+use Mossy2100\Core\Enums\FloatFormat;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Quantity;
@@ -15,6 +17,7 @@ use Mossy2100\Quantities\QuantityType\Temperature;
 use Mossy2100\Quantities\QuantityType\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use RoundingMode;
 
 /**
  * Tests for parsing and formatting Quantity objects.
@@ -257,14 +260,14 @@ final class QuantityStringsTest extends TestCase
     {
         $length = new Length(12345678.9, 'm');
 
-        // Use 'e' specifier for scientific notation.
-        $this->assertSame('1.234568×10⁷ m', $length->format('e'));
+        // Scientific notation, 6 significant digits by default.
+        $this->assertSame('1.23457×10⁷ m', $length->format(format: FloatFormat::Scientific));
 
-        // Use 'f' specifier for full fixed-point value.
-        $this->assertSame('12345678.9 m', $length->format('f'));
+        // Fixed-point notation with 1 decimal place.
+        $this->assertSame('12345678.9 m', $length->format(1, format: FloatFormat::FixedPoint));
 
-        // Default specifier is 'g', which uses scientific notation for large values.
-        $this->assertSame('1.234568×10⁷ m', $length->format());
+        // Auto (the default) keeps the full value here, since it holds more information than the scientific form.
+        $this->assertSame('12345678.9 m', $length->format());
     }
 
     #endregion
@@ -278,7 +281,7 @@ final class QuantityStringsTest extends TestCase
     {
         $length = new Length(5.0, 'm');
 
-        $this->assertSame('5.00 m', $length->format('f', 2));
+        $this->assertSame('5.00 m', $length->format(2, false, FloatFormat::FixedPoint));
     }
 
     /**
@@ -288,13 +291,13 @@ final class QuantityStringsTest extends TestCase
     {
         $length = new Length(5.7, 'm');
 
-        $this->assertSame('6 m', $length->format('f', 0));
+        $this->assertSame('6 m', $length->format(0, format: FloatFormat::FixedPoint));
     }
 
     /**
-     * Test formatting with null precision trims trailing zeros.
+     * Test default formatting trims trailing zeros.
      */
-    public function testFormatNullPrecisionTrimsZeros(): void
+    public function testFormatTrimsZerosByDefault(): void
     {
         $length = new Length(5.0, 'm');
 
@@ -302,44 +305,47 @@ final class QuantityStringsTest extends TestCase
     }
 
     /**
-     * Test format() with trimZeros true forces trimming despite explicit precision.
+     * Test format() trims zeros by default even with an explicit precision.
      */
-    public function testFormatTrimZerosTrueOverridesPrecision(): void
+    public function testFormatTrimZerosWithExplicitPrecision(): void
     {
         $length = new Length(5.0, 'm');
 
-        $this->assertSame('5 m', $length->format('f', 2, trimZeros: true));
+        $this->assertSame('5 m', $length->format(2, format: FloatFormat::FixedPoint));
     }
 
     /**
-     * Test format() with trimZeros false preserves zeros despite null precision.
+     * Test format() with trimZeros false preserves zeros at the default precision.
      */
-    public function testFormatTrimZerosFalseOverridesNullPrecision(): void
+    public function testFormatTrimZerosFalsePreservesZeros(): void
     {
         $length = new Length(5.0, 'm');
 
-        $this->assertSame('5.000000 m', $length->format('f', null, trimZeros: false));
+        $this->assertSame('5.000000 m', $length->format(trimZeros: false, format: FloatFormat::FixedPoint));
     }
 
     /**
-     * Test format() with g specifier and explicit precision.
+     * Test format() with Scientific format and explicit precision gives that many significant digits.
      */
-    public function testFormatGSpecifierExplicitPrecision(): void
+    public function testFormatSignificantDigits(): void
     {
         $length = new Length(1234.56, 'm');
 
-        // 'g' with precision 6 = 6 significant digits.
-        $this->assertSame('1234.56 m', $length->format('g', 6));
+        $this->assertSame('1.235×10³ m', $length->format(4, format: FloatFormat::Scientific));
     }
 
     /**
-     * Test format() with h specifier (non-locale-aware shortest).
+     * Test format() rounds half away from zero by default, and honors an explicit rounding mode.
      */
-    public function testFormatHSpecifier(): void
+    public function testFormatRoundingMode(): void
     {
-        $length = new Length(1234.5, 'm');
+        $length = new Length(2.5, 'm');
 
-        $this->assertSame('1234.5 m', $length->format('h'));
+        $this->assertSame('3 m', $length->format(0, format: FloatFormat::FixedPoint));
+        $this->assertSame(
+            '2 m',
+            $length->format(0, format: FloatFormat::FixedPoint, roundingMode: RoundingMode::HalfEven)
+        );
     }
 
     /**
@@ -347,11 +353,10 @@ final class QuantityStringsTest extends TestCase
      */
     public function testFormatTrimDoesNotStripIntegerZeros(): void
     {
-        // g specifier on 1500.0 produces "1500" (no decimal point).
-        // Trimming must not strip the trailing zeros.
+        // Trimming must not strip the trailing zeros of an integer value.
         $length = new Length(1500.0, 'm');
 
-        $this->assertSame('1500 m', $length->format('g'));
+        $this->assertSame('1500 m', $length->format());
     }
 
     #endregion
@@ -359,12 +364,12 @@ final class QuantityStringsTest extends TestCase
     #region Format tests - scientific notation
 
     /**
-     * Test formatting with scientific notation.
+     * Test ASCII scientific notation uses lower-case e notation by default.
      */
     public function testFormatScientificNotation(): void
     {
         $length = new Length(1500.0, 'm');
-        $result = $length->format('e', 2, ascii: true);
+        $result = $length->format(3, false, FloatFormat::Scientific, ascii: true);
 
         $this->assertSame('1.50e+3 m', $result);
     }
@@ -375,7 +380,7 @@ final class QuantityStringsTest extends TestCase
     public function testFormatScientificNotationUppercase(): void
     {
         $length = new Length(1500.0, 'm');
-        $result = $length->format('E', 2, ascii: true);
+        $result = $length->format(3, false, FloatFormat::Scientific, ExponentFormat::AsciiUpperCaseE, ascii: true);
 
         $this->assertSame('1.50E+3 m', $result);
     }
@@ -386,20 +391,20 @@ final class QuantityStringsTest extends TestCase
     public function testFormatScientificNotationUnicode(): void
     {
         $length = new Length(1500.0, 'm');
-        $result = $length->format('e', 2);
+        $result = $length->format(3, false, FloatFormat::Scientific);
 
         $this->assertSame('1.50×10³ m', $result);
     }
 
     /**
-     * Test uppercase scientific notation also uses ×10 with superscript when ascii=false.
+     * Test an explicit exponent format overrides the one chosen by $ascii.
      */
-    public function testFormatScientificNotationUppercaseUnicode(): void
+    public function testFormatExplicitExponentFormatOverridesAscii(): void
     {
-        $length = new Length(1500.0, 'm');
-        $result = $length->format('E', 2);
+        $length = new Length(1500.0, 'um');
+        $result = $length->format(3, false, FloatFormat::Scientific, ExponentFormat::UnicodeMath, ascii: true);
 
-        $this->assertSame('1.50×10³ m', $result);
+        $this->assertSame('1.50×10³ um', $result);
     }
 
     /**
@@ -408,29 +413,29 @@ final class QuantityStringsTest extends TestCase
     public function testFormatScientificNotationUnicodeNegativeExponent(): void
     {
         $length = new Length(0.0025, 'm');
-        $result = $length->format('e', 2);
+        $result = $length->format(3, false, FloatFormat::Scientific);
 
         $this->assertSame('2.50×10⁻³ m', $result);
     }
 
     /**
-     * Test scientific notation with null precision trims zeros and uses ×10.
+     * Test scientific notation trims zeros by default and uses ×10.
      */
     public function testFormatScientificNotationUnicodeTrimZeros(): void
     {
         $length = new Length(3000.0, 'm');
-        $result = $length->format('e');
+        $result = $length->format(format: FloatFormat::Scientific);
 
         $this->assertSame('3×10³ m', $result);
     }
 
     /**
-     * Test scientific notation with explicit precision preserves trailing zeros.
+     * Test scientific notation with trimZeros false preserves trailing zeros.
      */
-    public function testFormatScientificNotationPreservesZerosWithPrecision(): void
+    public function testFormatScientificNotationPreservesZeros(): void
     {
         $length = new Length(3000.0, 'm');
-        $result = $length->format('e', 4);
+        $result = $length->format(5, false, FloatFormat::Scientific);
 
         $this->assertSame('3.0000×10³ m', $result);
     }
@@ -565,7 +570,7 @@ final class QuantityStringsTest extends TestCase
     {
         $original = '123.45 km';
         $parsed = Length::parse($original);
-        $formatted = $parsed->format('f', 2, includeSpace: true);
+        $formatted = $parsed->format(2, false, FloatFormat::FixedPoint, includeSpace: true);
 
         $this->assertSame($original, $formatted);
     }
@@ -575,27 +580,15 @@ final class QuantityStringsTest extends TestCase
     #region Format error handling tests
 
     /**
-     * Test format() with invalid specifier throws exception.
-     */
-    public function testFormatInvalidSpecifierThrowsException(): void
-    {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage("Invalid format specifier: 'x'.");
-
-        $length = new Length(10, 'm');
-        $length->format('x');
-    }
-
-    /**
      * Test format() with negative precision throws exception.
      */
     public function testFormatNegativePrecisionThrowsException(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Invalid precision: -1.');
+        $this->expectExceptionMessage('Invalid number of decimal places: -1.');
 
         $length = new Length(10, 'm');
-        $length->format('f', -1);
+        $length->format(-1, format: FloatFormat::FixedPoint);
     }
 
     /**
@@ -604,10 +597,22 @@ final class QuantityStringsTest extends TestCase
     public function testFormatPrecisionTooHighThrowsException(): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Invalid precision: 18.');
+        $this->expectExceptionMessage('Invalid number of decimal places: 18.');
 
         $length = new Length(10, 'm');
-        $length->format('f', 18);
+        $length->format(18, format: FloatFormat::FixedPoint);
+    }
+
+    /**
+     * Test format() with zero significant digits throws exception.
+     */
+    public function testFormatZeroSignificantDigitsThrowsException(): void
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Invalid number of significant figures: 0.');
+
+        $length = new Length(10, 'm');
+        $length->format(0, format: FloatFormat::Scientific);
     }
 
     #endregion

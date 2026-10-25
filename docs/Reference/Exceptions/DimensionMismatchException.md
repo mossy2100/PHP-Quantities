@@ -94,5 +94,5 @@ try {
 
 - **[UnknownUnitException](UnknownUnitException.md)** — Related exception for unknown unit symbols.
 - **[Quantity](../Quantity.md)** — Base class where dimension checks occur during comparison and arithmetic.
-- **[Conversion](../Internal/Conversion.md)** — Conversion class that validates dimension compatibility.
+- **[Conversion](../Units/Conversion.md)** — Conversion class that validates dimension compatibility.
 - **[Converter](../Internal/Converter.md)** — Converter class that validates units against its dimension.

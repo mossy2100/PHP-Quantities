@@ -79,5 +79,5 @@ Prefixes are organised into groups using bitwise flags:
 - **[Units](Units.md)** — Unit symbol conventions, notation rules, and supported non-ASCII and alternate symbols.
 - **[Unit Conversion](../WorkingWithQuantities/UnitConversion.md)** — Auto-prefixing during unit conversion.
 - **[PrefixService](../Reference/Services/PrefixService.md)** — Service class for prefix lookup and matching.
-- **[Prefix](../Reference/Internal/Prefix.md)** — Internal Prefix class reference.
-- **[UnitTerm](../Reference/Internal/UnitTerm.md)** — Represents a unit with optional prefix and exponent.
+- **[Prefix](../Reference/Units/Prefix.md)** — Prefix class reference.
+- **[UnitTerm](../Reference/Units/UnitTerm.md)** — Represents a unit with optional prefix and exponent.

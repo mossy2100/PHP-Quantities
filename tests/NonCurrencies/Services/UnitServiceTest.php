@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Services;
 
 use DomainException;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Services\PrefixService;
 use Mossy2100\Quantities\Services\QuantityTypeService;
 use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Units\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

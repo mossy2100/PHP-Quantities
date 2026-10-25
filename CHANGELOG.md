@@ -13,9 +13,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Renamed the package from `oceanmoon/quantities` to `mossy2100/quantities`, and the namespace from
   `OceanMoon\Quantities` to `Mossy2100\Quantities` (breaking),** matching the author's GitHub and Packagist name.
   Update `composer.json` and any `use` statements. It depends on `mossy2100/core`.
+- **Requires `mossy2100/core` ^4.0**, up from ^2.0.
+- **`Quantity::format()` takes the same parameters as Core's `Floats::format()` (breaking),** plus `$includeSpace` and
+  `$ascii`:
+  - The `string $specifier` is replaced by `FloatFormat $format` (`FixedPoint`, `Scientific` or `Auto`, the default).
+  - `$precision` (default 6) and `$trimZeros` (default `true`) are no longer nullable. Precision is decimal places for
+    `FixedPoint` and significant digits for `Scientific`, so `format('e', 2)` becomes
+    `format(3, false, FloatFormat::Scientific)`.
+  - New `?ExponentFormat $expFormat` and `RoundingMode $roundingMode` parameters, before `$includeSpace`. If
+    `$expFormat` is null, the exponent is ASCII (`e+3`) when `$ascii` is true, and Unicode (`×10³`) otherwise.
+  - Out-of-range precision throws `DomainException` with Core's message, e.g.
+    `'Invalid number of decimal places: 18. Must be between 0 and 17.'`.
 - **`Quantity::inv()` is renamed `recip()` (breaking),** matching `Complex::recip()` and `Rational::recip()` in
-  `mossy2100/math`. So is `inv()` on the internal `CompoundUnit`, `UnitTerm` and `FloatWithError` classes.
+  `mossy2100/math`. So is `inv()` on `CompoundUnit`, `UnitTerm` and the internal `FloatWithError` class.
   `Conversion::inv()` is unchanged, since it inverts the direction of a conversion.
+- **Moved the public types out of the `Internal` namespace (breaking).** Users need these to add units and conversions,
+  load unit systems, and read a quantity's unit. Update any `use` statements as shown below. `Converter` and
+  `FloatWithError` stay in `Internal`, and are now marked `@internal`.
+
+| Old                                           | New                                        |
+| --------------------------------------------- | ------------------------------------------ |
+| `Mossy2100\Quantities\Internal\Unit`          | `Mossy2100\Quantities\Units\Unit`          |
+| `Mossy2100\Quantities\Internal\UnitTerm`      | `Mossy2100\Quantities\Units\UnitTerm`      |
+| `Mossy2100\Quantities\Internal\CompoundUnit`  | `Mossy2100\Quantities\Units\CompoundUnit`  |
+| `Mossy2100\Quantities\Internal\UnitInterface` | `Mossy2100\Quantities\Units\UnitInterface` |
+| `Mossy2100\Quantities\Internal\Prefix`        | `Mossy2100\Quantities\Units\Prefix`        |
+| `Mossy2100\Quantities\Internal\Conversion`    | `Mossy2100\Quantities\Units\Conversion`    |
+| `Mossy2100\Quantities\Internal\UnitSystem`    | `Mossy2100\Quantities\Enums\UnitSystem`    |
+| `Mossy2100\Quantities\Internal\QuantityType`  | `Mossy2100\Quantities\QuantityType`        |
 
 ---
 

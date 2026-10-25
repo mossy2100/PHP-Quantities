@@ -10,9 +10,15 @@ use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Floats;
 use Mossy2100\Quantities\Currencies\CurrencyService;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
+use Mossy2100\Quantities\QuantityType;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\DimensionService;
 use Mossy2100\Quantities\Services\QuantityTypeService;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\Conversion;
+use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Units\UnitInterface;
+use Mossy2100\Quantities\Units\UnitTerm;
 
 /**
  * Manages unit conversions for a measurement type.
@@ -35,6 +41,8 @@ use Mossy2100\Quantities\Services\QuantityTypeService;
  *
  * Error tracking: Each conversion has an error score based on numerical precision.
  * The system prefers shorter conversion paths with lower cumulative error.
+ *
+ * @internal Used by ConversionService. Not part of the public API.
  */
 class Converter
 {

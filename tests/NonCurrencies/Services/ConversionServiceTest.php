@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Services;
 
 use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;
-use Mossy2100\Quantities\Internal\CompoundUnit;
-use Mossy2100\Quantities\Internal\Conversion;
 use Mossy2100\Quantities\Internal\Converter;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitSystem;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\Conversion;
+use Mossy2100\Quantities\Units\Unit;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

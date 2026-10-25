@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities;
 
 use DomainException;
-use Mossy2100\Core\Floats;
+
+use const Mossy2100\Core\M_TAU;
 
 /**
  * Provides access to physical constants as Quantity objects.
@@ -37,7 +38,7 @@ class PhysicalConstant
     /**
      * Reduced Planck constant (ℏ = h / 2π) in J*s.
      */
-    public const float REDUCED_PLANCK = self::PLANCK / Floats::TAU;
+    public const float REDUCED_PLANCK = self::PLANCK / M_TAU;
 
     /**
      * Elementary charge (e) in C.

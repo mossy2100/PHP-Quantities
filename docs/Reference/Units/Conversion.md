@@ -244,6 +244,6 @@ echo $ftToYd->factor->value; // 0.333...
 
 ## See also
 
-- **[Converter](Converter.md)** - Manages conversion paths between units
-- **[FloatWithError](FloatWithError.md)** - Tracks precision through operations
+- **[Converter](../Internal/Converter.md)** - Manages conversion paths between units
+- **[FloatWithError](../Internal/FloatWithError.md)** - Tracks precision through operations
 - **[ConversionService](../Services/ConversionService.md)** - Stores registered conversions

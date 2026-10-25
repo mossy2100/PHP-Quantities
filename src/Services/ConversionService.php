@@ -7,14 +7,14 @@ namespace Mossy2100\Quantities\Services;
 use DomainException;
 use LogicException;
 use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;
-use Mossy2100\Quantities\Internal\CompoundUnit;
-use Mossy2100\Quantities\Internal\Conversion;
 use Mossy2100\Quantities\Internal\Converter;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitInterface;
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\Conversion;
+use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Units\UnitInterface;
 
 /**
  * Services for unit conversions.

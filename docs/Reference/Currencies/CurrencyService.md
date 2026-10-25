@@ -338,4 +338,4 @@ CurrencyService::deleteConversions();
 - **[Money](../QuantityType/Money.md)** — Money quantity type.
 - **[UnitService](../Services/UnitService.md)** — Unit registry.
 - **[ConversionService](../Services/ConversionService.md)** — Conversion registry.
-- **[UnitSystem](../Internal/UnitSystem.md)** — Measurement system enum.
+- **[UnitSystem](../Enums/UnitSystem.md)** — Measurement system enum.

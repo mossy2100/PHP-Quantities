@@ -6,10 +6,12 @@ namespace Mossy2100\Quantities\QuantityType;
 
 use Mossy2100\Core\Floats;
 use Mossy2100\Core\Numbers;
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\PrefixService;
 use Override;
+
+use const Mossy2100\Core\M_TAU;
 
 /**
  * Represents angle quantities.
@@ -78,7 +80,7 @@ class Angle extends Quantity
     public static function getConversionDefinitions(): array
     {
         return [
-            ['turn', 'rad', Floats::TAU],
+            ['turn', 'rad', M_TAU],
             ['turn', 'deg', 360],
             ['deg', 'arcmin', 60],
             ['arcmin', 'arcsec', 60],

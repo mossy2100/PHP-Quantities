@@ -66,7 +66,7 @@ QuantityTypeService::add('entropy', 'ML2T-2H-1', Entropy::class);
 If you don't know the dimension code for a quantity type, but you know the units (and they are registered and loaded), try this:
 
 ```php
-use Mossy2100\Quantities\Internal\CompoundUnit;
+use Mossy2100\Quantities\Units\CompoundUnit;
 
 $dimension = CompoundUnit::parse('J/K')->dimension;
 ```
@@ -90,8 +90,8 @@ echo get_class($entropy); // "Entropy"
 You can add custom units to the `UnitService` without creating a custom class. For example, suppose you want a "chaos" unit (`ch`) for entropy, equivalent to J/K:
 
 ```php
-use Mossy2100\Quantities\Internal\Conversion;
-use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Units\Conversion;
+use Mossy2100\Quantities\Units\Unit;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\UnitService;
@@ -119,9 +119,9 @@ echo $s->to('Btu/degR');  // 0.019746 Btu/°R
 **US legal cup** — The US legal cup (240 mL) is used for nutrition labelling in the United States. The package includes the US customary cup (236.588 mL) but not the legal cup:
 
 ```php
-use Mossy2100\Quantities\Internal\Conversion;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Units\Conversion;
+use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\QuantityType\Volume;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\UnitService;
@@ -143,8 +143,8 @@ echo $recipe->to('L');   // 0.48 L
 **Parts per trillion** — The package includes `ppm` and `ppb` but not parts per trillion. Since `ppt` is already used for parts per thousand, we'll use `ppT`:
 
 ```php
-use Mossy2100\Quantities\Internal\Conversion;
-use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Units\Conversion;
+use Mossy2100\Quantities\Units\Unit;
 use Mossy2100\Quantities\QuantityType\Dimensionless;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\UnitService;
@@ -166,7 +166,7 @@ echo $concentration->to('ppm');  // 0.000005 ppm
 ```php
 use Mossy2100\Quantities\Currencies\CurrencyService;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\FrankfurterService;
-use Mossy2100\Quantities\Internal\Unit;
+use Mossy2100\Quantities\Units\Unit;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\UnitService;
 
@@ -209,7 +209,7 @@ echo $costPerPerson;  // 25 AUD/pers
 For a fully integrated custom quantity type, override `getUnitDefinitions()` and `getConversionDefinitions()` in your class. This is how all built-in quantity types with custom units work (e.g. `Force`, `Pressure`, `Length`):
 
 ```php
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\PrefixService;
 use Override;

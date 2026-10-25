@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\NonCurrencies\Traits;
 
-use Mossy2100\Quantities\Internal\UnitSystem;
+use Mossy2100\Quantities\Enums\UnitSystem;
 
 /**
  * Trait providing assertions for validating unit and conversion definition array shapes.

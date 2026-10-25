@@ -8,23 +8,24 @@ use DivisionByZeroError;
 use DomainException;
 use InvalidArgumentException;
 use LogicException;
+use Mossy2100\Core\Enums\ExponentFormat;
+use Mossy2100\Core\Enums\FloatFormat;
 use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Core\Floats;
 use Mossy2100\Core\Numbers;
 use Mossy2100\Core\Traits\Comparison\ApproxComparable;
+use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Exceptions\UnknownUnitException;
-use Mossy2100\Quantities\Internal\CompoundUnit;
-use Mossy2100\Quantities\Internal\QuantityType;
-use Mossy2100\Quantities\Internal\Unit;
-use Mossy2100\Quantities\Internal\UnitInterface;
-use Mossy2100\Quantities\Internal\UnitSystem;
-use Mossy2100\Quantities\Internal\UnitTerm;
 use Mossy2100\Quantities\Services\ConversionService;
 use Mossy2100\Quantities\Services\DimensionService;
 use Mossy2100\Quantities\Services\PrefixService;
 use Mossy2100\Quantities\Services\QuantityTypeService;
 use Mossy2100\Quantities\Services\UnitService;
+use Mossy2100\Quantities\Units\CompoundUnit;
+use Mossy2100\Quantities\Units\Unit;
+use Mossy2100\Quantities\Units\UnitInterface;
+use Mossy2100\Quantities\Units\UnitTerm;
 use Override;
 use RoundingMode;
 use Stringable;
@@ -55,6 +56,16 @@ use UnexpectedValueException;
 class Quantity implements Stringable
 {
     use ApproxComparable;
+
+    #region Private constants
+
+    /**
+     * Regular expression for a number: an optional minus sign, then digits with an optional fractional part (or a
+     * fractional part alone), then an optional exponent.
+     */
+    private const string RX_NUMBER = '-?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?';
+
+    #endregion
 
     #region Public properties
 
@@ -897,30 +908,51 @@ class Quantity implements Stringable
     /**
      * Format the measurement as a string with control over precision and notation.
      *
-     * See Floats::format() for details on the $specifier, $precision, and $trimZeros parameters.
+     * The value is formatted by Floats::format(), which documents the $precision, $trimZeros, $format, and
+     * $roundingMode parameters.
+     *
+     * If $expFormat is null, the exponent (if any) uses ExponentFormat::AsciiLowerCaseE when $ascii is true, or
+     * ExponentFormat::UnicodeMath otherwise, so the result is all-ASCII when $ascii is true.
      *
      * It's usually best to leave $includeSpace as null, which uses common style rules to determine if a
      * space should be placed between the number and the unit. The rule is: if the unit is a single
      * non-letter symbol (e.g. °, %, "), no space is inserted. Otherwise, a space is inserted, including
      * for units that start with a non-letter such as °C.
      *
-     * @param string $specifier The format specifier.
-     * @param ?int $precision Number of decimal places for e/f, or significant digits for g/h (default null = 6).
-     * @param ?bool $trimZeros If trailing zeros should be trimmed (default null for auto).
+     * For example:
+     * ```php
+     * $length = new Length(1234.5678, 'm');
+     * $length->format();                                                 // '1234.5678 m'
+     * $length->format(2, format: FloatFormat::FixedPoint);               // '1234.57 m'
+     * $length->format(4, format: FloatFormat::Scientific);               // '1.235×10³ m'
+     * $length->format(4, format: FloatFormat::Scientific, ascii: true);  // '1.235e+3 m'
+     * ```
+     *
+     * @param int $precision The maximum number of decimal places (FixedPoint) or significant digits (Scientific), as
+     * for Floats::format() (default 6).
+     * @param bool $trimZeros If trailing zeros should be trimmed (default true).
+     * @param FloatFormat $format FixedPoint, Scientific, or Auto to choose the best one (default).
+     * @param ?ExponentFormat $expFormat The exponent format, or null to choose one based on $ascii (default).
+     * @param RoundingMode $roundingMode The rounding mode (default HalfAwayFromZero).
      * @param ?bool $includeSpace Space between value and unit (null = auto, true = always, false = never).
-     * @param bool $ascii If true, use ASCII symbols and e notation. If false, use Unicode symbols and ×10 notation.
+     * @param bool $ascii If true, use ASCII unit symbols (and, by default, ASCII exponents).
      * @return string The formatted quantity.
-     * @throws DomainException If the specifier or precision is invalid.
+     * @throws DomainException If the precision is outside the valid range.
      */
     public function format(
-        string $specifier = 'g',
-        ?int $precision = null,
-        ?bool $trimZeros = null,
+        int $precision = 6,
+        bool $trimZeros = true,
+        FloatFormat $format = FloatFormat::Auto,
+        ?ExponentFormat $expFormat = null,
+        RoundingMode $roundingMode = RoundingMode::HalfAwayFromZero,
         ?bool $includeSpace = null,
         bool $ascii = false
     ): string {
+        // Choose the exponent format to match $ascii, if not specified.
+        $expFormat ??= $ascii ? ExponentFormat::AsciiLowerCaseE : ExponentFormat::UnicodeMath;
+
         // Format the value.
-        $valueStr = Floats::format($this->value, $specifier, $precision, $trimZeros, $ascii);
+        $valueStr = Floats::format($this->value, $precision, $trimZeros, $format, $expFormat, $roundingMode);
 
         // Get the unit as a string.
         $unitSymbol = $this->compoundUnit->format($ascii);
@@ -1322,9 +1354,9 @@ class Quantity implements Stringable
             } else {
                 // Include the smallest part if non-zero or including all zeroes or no other parts have been added.
                 if ($include || empty($result)) {
-                    // Format with decimals. The $ascii parameter does nothing when the specifier is 'f', but it
-                    // doesn't hurt to pass it anyway, in case format() changes.
-                    $valueStr = Floats::format($value, 'f', $precision, null, $ascii);
+                    // Format with decimals. If the precision is given, keep trailing zeros so every value shows that
+                    // many decimal places. Otherwise, show up to 6 decimal places and trim trailing zeros.
+                    $valueStr = Floats::format($value, $precision ?? 6, $precision === null, FloatFormat::FixedPoint);
                     $smallestUnit = Unit::parse($smallestUnitSymbol);
                     $result[] = $valueStr . $smallestUnit->format($ascii);
                 }
@@ -1488,7 +1520,7 @@ class Quantity implements Stringable
      */
     public static function isValidQuantity(string $qty, ?array &$matches): bool
     {
-        $rxNum = Numbers::REGEX;
+        $rxNum = self::RX_NUMBER;
         $rxCompoundUnit = CompoundUnit::regex();
         return (bool)preg_match("/^($rxNum)\s*($rxCompoundUnit)?$/iu", $qty, $matches);
     }

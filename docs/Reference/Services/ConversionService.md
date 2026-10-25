@@ -160,7 +160,7 @@ Find a conversion between two units, discovering new paths if necessary. Unlike 
 ## Usage examples
 
 ```php
-use Mossy2100\Quantities\Internal\Conversion;
+use Mossy2100\Quantities\Units\Conversion;
 use Mossy2100\Quantities\Services\ConversionService;
 
 // Check for a known conversion
@@ -190,7 +190,7 @@ ConversionService::removeBySystem(UnitSystem::Financial);
 
 ## See also
 
-- **[Conversion](../Internal/Conversion.md)** - Conversion class documentation.
+- **[Conversion](../Units/Conversion.md)** - Conversion class documentation.
 - **[Converter](../Internal/Converter.md)** - Manages conversion paths for a single dimension.
 - **[UnitService](UnitService.md)** - Unit registry.
-- **[UnitSystem](../Internal/UnitSystem.md)** - Measurement system enum.
+- **[UnitSystem](../Enums/UnitSystem.md)** - Measurement system enum.
