@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Quantity::class)]
 final class QuantityConvertTest extends TestCase
 {
-    #region convert() tests
+    #region Method convert() tests.
 
     /**
      * Test basic unit conversion.

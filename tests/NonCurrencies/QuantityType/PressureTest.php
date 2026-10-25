@@ -19,7 +19,7 @@ final class PressureTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -30,6 +30,10 @@ final class PressureTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -43,7 +47,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Metric conversion tests
+    #region Metric conversion tests.
 
     /**
      * Test converting pascals to kilopascals.
@@ -115,7 +119,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Atmosphere conversion tests
+    #region Atmosphere conversion tests.
 
     /**
      * Test converting atmospheres to pascals.
@@ -163,7 +167,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Mercury column conversion tests
+    #region Mercury column conversion tests.
 
     /**
      * Test converting mmHg to pascals.
@@ -259,7 +263,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Pounds per square inch (psi) conversion tests
+    #region Pounds per square inch (psi) conversion tests.
 
     /**
      * Test converting lbf/in² to pascals.
@@ -339,7 +343,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region SI base unit conversion tests
+    #region SI base unit conversion tests.
 
     /**
      * Test converting pascals to base SI units.
@@ -368,7 +372,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding pascals to pascals.
@@ -428,7 +432,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing pascals.
@@ -488,7 +492,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method.
@@ -513,7 +517,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region Practical examples
+    #region Practical example tests.
 
     /**
      * Test standard atmospheric pressure.
@@ -593,7 +597,7 @@ final class PressureTest extends TestCase
 
     #endregion
 
-    #region toBase() tests
+    #region Method toBase() tests.
 
     /**
      * Test toBase() converts pascals to SI base units.

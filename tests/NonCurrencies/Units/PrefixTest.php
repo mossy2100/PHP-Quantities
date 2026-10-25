@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Prefix::class)]
 final class PrefixTest extends TestCase
 {
-    #region Constructor tests
+    #region Method __construct() tests.
 
     /**
      * Test constructor creates prefix with valid parameters.
@@ -85,7 +85,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region Name validation tests
+    #region Name validation tests.
 
     /**
      * Test constructor throws for empty name.
@@ -155,7 +155,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region ASCII symbol validation tests
+    #region ASCII symbol validation tests.
 
     /**
      * Test constructor throws for empty ASCII symbol.
@@ -203,7 +203,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region Unicode symbol validation tests
+    #region Unicode symbol validation tests.
 
     /**
      * Test constructor throws for invalid Unicode symbol.
@@ -229,7 +229,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region Alternate symbol validation tests
+    #region Alternate symbol validation tests.
 
     /**
      * Test constructor throws for invalid alternate symbol.
@@ -255,7 +255,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region Multiplier validation tests
+    #region Multiplier validation tests.
 
     /**
      * Test constructor throws for zero multiplier.
@@ -292,7 +292,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region Group code validation tests
+    #region Group code validation tests.
 
     /**
      * Test constructor throws for invalid group code.
@@ -319,7 +319,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region equal() tests
+    #region Method equal() tests.
 
     /**
      * Test equal() returns true for same name.
@@ -370,7 +370,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region isEngineering() tests
+    #region Method isEngineering() tests.
 
     /**
      * Test isEngineering() returns true for small engineering prefix.
@@ -414,7 +414,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region format() tests
+    #region Method format() tests.
 
     /**
      * Test format() returns Unicode symbol by default.
@@ -449,7 +449,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region __toString() tests
+    #region Method __toString() tests.
 
     /**
      * Test __toString() returns Unicode symbol.
@@ -473,7 +473,7 @@ final class PrefixTest extends TestCase
 
     #endregion
 
-    #region Integration tests with PrefixService prefixes
+    #region PrefixService integration tests.
 
     /**
      * Test equal() works with PrefixService prefixes.

@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ConversionService::class)]
 final class ConversionServiceTest extends TestCase
 {
-    #region has() tests
+    #region Method has() tests.
 
     /**
      * Test has() returns true for existing conversion.
@@ -72,7 +72,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region get() tests
+    #region Method get() tests.
 
     /**
      * Test get() returns Conversion for existing conversion.
@@ -140,7 +140,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region add() tests
+    #region Method add() tests.
 
     /**
      * Test add() stores a conversion.
@@ -210,7 +210,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region remove() tests
+    #region Method remove() tests.
 
     /**
      * Test remove() removes an existing conversion.
@@ -233,7 +233,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region removeByUnit() tests
+    #region Method removeByUnit() tests.
 
     /**
      * Test removeByUnit() removes all conversions involving a given unit.
@@ -264,7 +264,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region unloadBySystem() tests
+    #region Method unloadBySystem() tests.
 
     /**
      * Test unloadBySystem() removes conversions for units in the given system.
@@ -288,7 +288,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region convert() tests
+    #region Method convert() tests.
 
     /**
      * Test convert() converts a value between units.
@@ -345,7 +345,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region find() tests
+    #region Method find() tests.
 
     /**
      * Test find() discovers a conversion via path-finding.
@@ -413,7 +413,7 @@ final class ConversionServiceTest extends TestCase
 
     #endregion
 
-    #region validateUnits() tests (via public methods)
+    #region Method validateUnits() tests.
 
     /**
      * Test that dimension mismatch throws DimensionMismatchException with descriptive message.

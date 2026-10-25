@@ -21,7 +21,7 @@ use stdClass;
 #[CoversClass(QuantityType::class)]
 final class QuantityTypeTest extends TestCase
 {
-    #region Constructor tests
+    #region Method __construct() tests.
 
     /**
      * Test constructor creates QuantityType with all parameters.
@@ -80,9 +80,21 @@ final class QuantityTypeTest extends TestCase
         $this->assertSame(Time::class, $time->class);
     }
 
+    /**
+     * Test constructor throws for invalid class.
+     */
+    public function testConstructorThrowsForInvalidClass(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Must be a subclass of Quantity.');
+
+        // @phpstan-ignore argument.type
+        new QuantityType('test', 'L9', stdClass::class);
+    }
+
     #endregion
 
-    #region Class property hook tests
+    #region Property $class tests.
 
     /**
      * Test class property accepts valid Quantity subclass.
@@ -138,21 +150,9 @@ final class QuantityTypeTest extends TestCase
         $qtyType->class = 'NonExistent\\FakeClass';
     }
 
-    /**
-     * Test constructor throws for invalid class.
-     */
-    public function testConstructorThrowsForInvalidClass(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Must be a subclass of Quantity.');
-
-        // @phpstan-ignore argument.type
-        new QuantityType('test', 'L9', stdClass::class);
-    }
-
     #endregion
 
-    #region Property readonly tests
+    #region Property $name tests.
 
     /**
      * Test name property is readonly.
@@ -169,6 +169,10 @@ final class QuantityTypeTest extends TestCase
         // as it would be a compile-time/runtime error
     }
 
+    #endregion
+
+    #region Property $dimension tests.
+
     /**
      * Test dimension property is readonly.
      */
@@ -181,7 +185,7 @@ final class QuantityTypeTest extends TestCase
 
     #endregion
 
-    #region Edge case tests
+    #region Edge case tests.
 
     /**
      * Test empty name is allowed.

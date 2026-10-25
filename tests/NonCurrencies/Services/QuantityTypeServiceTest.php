@@ -26,7 +26,7 @@ use ReflectionClass;
 #[CoversClass(QuantityTypeService::class)]
 final class QuantityTypeServiceTest extends TestCase
 {
-    #region getAll() tests
+    #region Method getAll() tests.
 
     /**
      * Test getAll() returns an array.
@@ -83,7 +83,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region getByDimension() tests
+    #region Method getByDimension() tests.
 
     /**
      * Test getByDimension() returns QuantityType for valid dimension.
@@ -150,7 +150,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region getByName() tests
+    #region Method getByName() tests.
 
     /**
      * Test getByName() returns QuantityType for valid name.
@@ -203,7 +203,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region getByClass() tests
+    #region Method getByClass() tests.
 
     /**
      * Test getByClass() returns QuantityType for valid class.
@@ -250,7 +250,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region add() tests
+    #region Method add() tests.
 
     /**
      * Test add() creates a new quantity type.
@@ -314,7 +314,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region remove() tests
+    #region Method remove() tests.
 
     /**
      * Test remove() removes quantity type.
@@ -387,7 +387,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region setClass() tests
+    #region Method setClass() tests.
 
     /**
      * Test setClass() updates class for existing quantity type.
@@ -432,7 +432,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region getClasses() tests
+    #region Method getClasses() tests.
 
     /**
      * Test getClasses() returns array of registered classes.
@@ -483,7 +483,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region removeAll() and reset() tests
+    #region Method removeAll() tests.
 
     /**
      * Test removeAll() removes all quantity types.
@@ -527,7 +527,7 @@ final class QuantityTypeServiceTest extends TestCase
 
     #endregion
 
-    #region Data integrity tests
+    #region Data integrity tests.
 
     /**
      * Test all quantity types have non-empty names.

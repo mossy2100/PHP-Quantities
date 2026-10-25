@@ -24,7 +24,7 @@ final class AngleTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -35,6 +35,10 @@ final class AngleTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -48,7 +52,7 @@ final class AngleTest extends TestCase
 
     #endregion
 
-    #region Conversion tests
+    #region Conversion tests.
 
     /**
      * Test converting degrees to radians.
@@ -208,7 +212,7 @@ final class AngleTest extends TestCase
 
     #endregion
 
-    #region Transformation methods tests
+    #region Method toRadians() tests.
 
     /**
      * Test toRadians for angle already in radians.
@@ -232,7 +236,7 @@ final class AngleTest extends TestCase
 
     #endregion
 
-    #region Parse tests - DMS notation
+    #region Method parse() tests.
 
     /**
      * Test parsing DMS notation with all components.
@@ -323,10 +327,6 @@ final class AngleTest extends TestCase
         $this->assertApproxEqual(M_PI, $angle->value, 1e-5);
     }
 
-    #endregion
-
-    #region Parse error tests
-
     /**
      * Test parsing empty string throws exception.
      */
@@ -372,7 +372,7 @@ final class AngleTest extends TestCase
 
     #endregion
 
-    #region Comparison tests
+    #region Method approxEqual() tests.
 
     /**
      * Test approxEqual for equal angles in same units.
@@ -452,7 +452,7 @@ final class AngleTest extends TestCase
 
     #endregion
 
-    #region Wrap tests
+    #region Method wrap() tests.
 
     /**
      * Test wrap signed range for angle within range.
@@ -536,7 +536,7 @@ final class AngleTest extends TestCase
 
     #endregion
 
-    #region Trigonometric method tests
+    #region Method sin() tests.
 
     /**
      * Test sin of 0 degrees.
@@ -558,6 +558,10 @@ final class AngleTest extends TestCase
         $this->assertApproxEqual(1.0, $angle->sin());
     }
 
+    #endregion
+
+    #region Method cos() tests.
+
     /**
      * Test cos of 0 degrees.
      */
@@ -577,6 +581,10 @@ final class AngleTest extends TestCase
 
         $this->assertApproxEqual(0.0, $angle->cos(), absTol: 1e-15);
     }
+
+    #endregion
+
+    #region Method tan() tests.
 
     /**
      * Test tan of 45 degrees.
@@ -608,6 +616,10 @@ final class AngleTest extends TestCase
         $this->assertSame(-INF, $angle->tan());
     }
 
+    #endregion
+
+    #region Method sec() tests.
+
     /**
      * Test sec of 0 degrees.
      */
@@ -628,6 +640,10 @@ final class AngleTest extends TestCase
         $this->assertSame(INF, $angle->sec());
     }
 
+    #endregion
+
+    #region Method csc() tests.
+
     /**
      * Test csc of 90 degrees.
      */
@@ -647,6 +663,10 @@ final class AngleTest extends TestCase
 
         $this->assertSame(INF, $angle->csc());
     }
+
+    #endregion
+
+    #region Method cot() tests.
 
     /**
      * Test cot of 45 degrees.
@@ -670,7 +690,7 @@ final class AngleTest extends TestCase
 
     #endregion
 
-    #region Parts methods tests
+    #region Method fromParts() tests.
 
     /**
      * Test fromParts with degrees, minutes, and seconds.
@@ -727,6 +747,10 @@ final class AngleTest extends TestCase
         $this->assertSame('deg', $angle->compoundUnit->asciiSymbol);
     }
 
+    #endregion
+
+    #region Method toParts() tests.
+
     /**
      * Test toParts decomposes angle correctly.
      */
@@ -767,6 +791,10 @@ final class AngleTest extends TestCase
         $this->assertSame(0, $parts['arcmin']);
         $this->assertSame(0.0, $parts['arcsec']);
     }
+
+    #endregion
+
+    #region Method formatParts() tests.
 
     /**
      * Test formatParts default (arcseconds).
@@ -811,6 +839,10 @@ final class AngleTest extends TestCase
 
         $this->assertSame('-45° 30′', $result);
     }
+
+    #endregion
+
+    #region Round-trip tests.
 
     /**
      * Test parts round-trip conversion.

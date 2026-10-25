@@ -17,7 +17,7 @@ final class LuminousFluxTest extends TestCase
 {
     use ArrayShapeTrait;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -28,6 +28,10 @@ final class LuminousFluxTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.

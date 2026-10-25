@@ -20,7 +20,7 @@ final class DataTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -31,6 +31,10 @@ final class DataTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -44,7 +48,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Basic conversion tests
+    #region Basic conversion tests.
 
     /**
      * Test converting bytes to bits.
@@ -84,7 +88,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Metric prefix conversion tests
+    #region Metric prefix conversion tests.
 
     /**
      * Test converting kilobytes to bytes.
@@ -187,7 +191,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Binary prefix conversion tests
+    #region Binary prefix conversion tests.
 
     /**
      * Test converting kibibytes to bytes.
@@ -270,7 +274,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Cross-prefix conversion tests
+    #region Cross-prefix conversion tests.
 
     /**
      * Test converting kilobytes to kibibytes.
@@ -349,7 +353,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Bits to bytes with prefixes
+    #region Bit and byte conversion tests.
 
     /**
      * Test converting megabits to megabytes.
@@ -388,7 +392,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding bytes to bytes.
@@ -461,7 +465,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing bytes.
@@ -554,7 +558,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method for bytes to kilobytes.
@@ -588,7 +592,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region Practical examples
+    #region Practical example tests.
 
     /**
      * Test file size conversion (practical example).
@@ -651,7 +655,7 @@ final class DataTest extends TestCase
 
     #endregion
 
-    #region toSi() and autoPrefix() tests
+    #region Method toSi() tests.
 
     /**
      * Test toSi() converts kilobytes to bytes.
@@ -750,6 +754,10 @@ final class DataTest extends TestCase
         $this->assertSame(1073741824.0, $si->value);
         $this->assertSame('B', $si->compoundUnit->asciiSymbol);
     }
+
+    #endregion
+
+    #region Method autoPrefix() tests.
 
     /**
      * Test autoPrefix() on bytes converts to kilobytes.

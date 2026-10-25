@@ -21,7 +21,7 @@ final class FrequencyTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -32,6 +32,10 @@ final class FrequencyTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -45,7 +49,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Metric prefix conversion tests
+    #region Metric prefix conversion tests.
 
     /**
      * Test converting hertz to kilohertz.
@@ -155,7 +159,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Cross-prefix conversion tests
+    #region Cross-prefix conversion tests.
 
     /**
      * Test converting kilohertz to megahertz.
@@ -203,7 +207,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Becquerel tests
+    #region Becquerel tests.
 
     /**
      * Test converting becquerel to kilobecquerel.
@@ -241,7 +245,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region toSi() tests
+    #region Method toSi() tests.
 
     /**
      * Test converting hertz to SI base units.
@@ -295,7 +299,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region toBase() tests
+    #region Method toBase() tests.
 
     /**
      * Test toBase() converts hertz to per-second.
@@ -323,7 +327,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region autoPrefix() tests
+    #region Method autoPrefix() tests.
 
     /**
      * Test auto-prefixing large hertz value.
@@ -380,7 +384,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding hertz to hertz.
@@ -440,7 +444,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing hertz.
@@ -500,7 +504,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert from Hz to kHz.
@@ -534,7 +538,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Frequency-time relationship tests
+    #region Frequency-time relationship tests.
 
     /**
      * Test that frequency times period equals 1.
@@ -587,7 +591,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Practical examples
+    #region Practical example tests.
 
     /**
      * Test concert pitch A4 frequency.
@@ -684,7 +688,7 @@ final class FrequencyTest extends TestCase
 
     #endregion
 
-    #region Format tests
+    #region Method format() tests.
 
     /**
      * Test formatting hertz.

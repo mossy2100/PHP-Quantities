@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(DimensionService::class)]
 final class DimensionServiceTest extends TestCase
 {
-    #region isValid() tests
+    #region Method isValid() tests.
 
     /**
      * Test isValid() returns true for single dimension code.
@@ -122,7 +122,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region decompose() tests
+    #region Method decompose() tests.
 
     /**
      * Test decompose() with single dimension code.
@@ -215,7 +215,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region compose() tests
+    #region Method compose() tests.
 
     /**
      * Test compose() with single dimension term.
@@ -283,7 +283,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region normalize() tests
+    #region Method normalize() tests.
 
     /**
      * Test normalize() with already normalized code.
@@ -323,7 +323,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region pow() tests
+    #region Method pow() tests.
 
     /**
      * Test pow() with exponent of 1 returns unchanged.
@@ -399,7 +399,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region letterToInt() tests
+    #region Method letterToInt() tests.
 
     /**
      * Test letterToInt() returns correct index for each dimension code.
@@ -458,7 +458,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region getBaseUnitTermSymbol() tests
+    #region Method getBaseUnitTermSymbol() tests.
 
     /**
      * Test getBaseUnitTermSymbol() returns correct SI symbol for each dimension code.
@@ -547,7 +547,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region getBaseUnitTerm() tests
+    #region Method getBaseUnitTerm() tests.
 
     /**
      * Test getBaseUnitTerm() returns correct SI UnitTerm for each dimension code.
@@ -630,7 +630,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region getBaseCompoundUnit() tests
+    #region Method getBaseCompoundUnit() tests.
 
     /**
      * Test getBaseCompoundUnit() returns a CompoundUnit for a single dimension.
@@ -748,7 +748,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region Round-trip tests
+    #region Round-trip tests.
 
     /**
      * Test decompose() and compose() are inverse operations.
@@ -769,7 +769,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region countUnits() tests
+    #region Method countUnits() tests.
 
     /**
      * Test countUnits() with a single dimension term.
@@ -812,7 +812,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region lessThanOrEqual() tests
+    #region Method lessThanOrEqual() tests.
 
     /**
      * Test lessThanOrEqual() with equal dimensions.
@@ -886,7 +886,7 @@ final class DimensionServiceTest extends TestCase
 
     #endregion
 
-    #region sub() tests
+    #region Method sub() tests.
 
     /**
      * Test sub() subtracts matching dimension terms.

@@ -21,7 +21,7 @@ final class VelocityTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -32,6 +32,10 @@ final class VelocityTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -45,7 +49,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Metric conversion tests
+    #region Metric conversion tests.
 
     /**
      * Test converting meters per second to kilometers per hour.
@@ -74,7 +78,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Imperial conversion tests
+    #region Imperial conversion tests.
 
     /**
      * Test converting miles per hour to feet per second.
@@ -102,7 +106,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Nautical conversion tests
+    #region Nautical conversion tests.
 
     /**
      * Test converting knots to nautical miles per hour.
@@ -154,7 +158,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Cross-system conversion tests
+    #region Cross-system conversion tests.
 
     /**
      * Test converting kilometers per hour to miles per hour.
@@ -206,7 +210,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Division tests (Length / Time = Velocity)
+    #region Method div() tests.
 
     /**
      * Test dividing meters by seconds.
@@ -273,7 +277,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Multiplication tests (Velocity × Time = Length)
+    #region Method mul() tests.
 
     /**
      * Test multiplying meters per second by seconds.
@@ -325,7 +329,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding velocities in same units.
@@ -373,7 +377,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing meters per second.
@@ -422,7 +426,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method.
@@ -446,7 +450,7 @@ final class VelocityTest extends TestCase
 
     #endregion
 
-    #region Practical examples
+    #region Practical example tests.
 
     /**
      * Test speed of sound conversion.

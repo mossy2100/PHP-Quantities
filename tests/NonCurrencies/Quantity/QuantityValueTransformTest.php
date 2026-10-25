@@ -21,7 +21,7 @@ final class QuantityValueTransformTest extends TestCase
 {
     use FloatAssertions;
 
-    #region withValue() tests
+    #region Method withValue() tests.
 
     /**
      * Test withValue() preserves unit.
@@ -114,7 +114,7 @@ final class QuantityValueTransformTest extends TestCase
 
     #endregion
 
-    #region round() tests
+    #region Method round() tests.
 
     /**
      * Test round() with default precision (0 decimal places).
@@ -187,7 +187,7 @@ final class QuantityValueTransformTest extends TestCase
 
     #endregion
 
-    #region floor() tests
+    #region Method floor() tests.
 
     /**
      * Test floor() on positive value.
@@ -225,7 +225,7 @@ final class QuantityValueTransformTest extends TestCase
 
     #endregion
 
-    #region ceil() tests
+    #region Method ceil() tests.
 
     /**
      * Test ceil() on positive value.

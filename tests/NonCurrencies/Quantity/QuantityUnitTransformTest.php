@@ -27,7 +27,7 @@ final class QuantityUnitTransformTest extends TestCase
 {
     use FloatAssertions;
 
-    #region toSi() tests
+    #region Method toSi() tests.
 
     /**
      * Test toSi() on a length in meters (already SI).
@@ -115,7 +115,7 @@ final class QuantityUnitTransformTest extends TestCase
 
     #endregion
 
-    #region toBase() tests
+    #region Method toBase() tests.
 
     /**
      * Test toBase() on newton converts to SI base units.
@@ -168,7 +168,7 @@ final class QuantityUnitTransformTest extends TestCase
 
     #endregion
 
-    #region merge() tests
+    #region Method merge() tests.
 
     /**
      * Test merge() combines same dimension units.
@@ -208,7 +208,7 @@ final class QuantityUnitTransformTest extends TestCase
 
     #endregion
 
-    #region autoPrefix() tests
+    #region Method autoPrefix() tests.
 
     /**
      * Test autoPrefix() on large value.
@@ -282,9 +282,22 @@ final class QuantityUnitTransformTest extends TestCase
         $this->assertSame('km', $prefixed->compoundUnit->asciiSymbol);
     }
 
+    /**
+     * Test autoPrefix() on dimensionless quantity returns same instance.
+     */
+    public function testAutoPrefixOnDimensionlessReturnsSelf(): void
+    {
+        $qty = Quantity::create(1000, '');
+        $prefixed = $qty->autoPrefix();
+
+        // Dimensionless quantities have no unit to prefix.
+        $this->assertSame(1000.0, $prefixed->value);
+        $this->assertSame('', $prefixed->compoundUnit->asciiSymbol);
+    }
+
     #endregion
 
-    #region toDerived() tests
+    #region Method toDerived() tests.
 
     /**
      * Test toDerived() compacts base units to a named unit.
@@ -510,7 +523,7 @@ final class QuantityUnitTransformTest extends TestCase
 
     #endregion
 
-    #region Round-trip tests
+    #region Round-trip tests.
 
     /**
      * Test toBase() then toDerived() returns equivalent value.
@@ -527,24 +540,7 @@ final class QuantityUnitTransformTest extends TestCase
 
     #endregion
 
-    #region autoPrefix() edge case tests
-
-    /**
-     * Test autoPrefix() on dimensionless quantity returns same instance.
-     */
-    public function testAutoPrefixOnDimensionlessReturnsSelf(): void
-    {
-        $qty = Quantity::create(1000, '');
-        $prefixed = $qty->autoPrefix();
-
-        // Dimensionless quantities have no unit to prefix.
-        $this->assertSame(1000.0, $prefixed->value);
-        $this->assertSame('', $prefixed->compoundUnit->asciiSymbol);
-    }
-
-    #endregion
-
-    #region toEnglishBase() tests
+    #region Method toEnglishBase() tests.
 
     /**
      * Test toEnglishBase() converts force to lb*ft/s2.
@@ -622,7 +618,7 @@ final class QuantityUnitTransformTest extends TestCase
 
     #endregion
 
-    #region toEnglish() tests
+    #region Method toEnglish() tests.
 
     /**
      * Test toEnglish() on force simplifies to lbf.
@@ -700,7 +696,7 @@ final class QuantityUnitTransformTest extends TestCase
 
     #endregion
 
-    #region getQuantityType() tests
+    #region Method getQuantityType() tests.
 
     /**
      * Test getQuantityType() returns QuantityType for a registered subclass.

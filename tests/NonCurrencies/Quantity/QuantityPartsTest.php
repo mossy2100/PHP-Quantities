@@ -28,7 +28,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Quantity::class)]
 final class QuantityPartsTest extends TestCase
 {
-    #region toParts() tests
+    #region Method toParts() tests.
 
     /**
      * Test toParts() with Time quantity.
@@ -87,9 +87,209 @@ final class QuantityPartsTest extends TestCase
         $this->assertSame(30.0, $parts['arcsec']);
     }
 
+    /**
+     * Test toParts() on a quantity type with no part unit symbols configured throws.
+     */
+    public function testToPartsOnBaseQuantityThrowsException(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('No default part unit symbols configured for force quantities');
+
+        // The Force quantity type has no default part unit symbols.
+        $qty = Quantity::create(100, 'kg*m/s2');
+        $qty->toParts();
+    }
+
+    /**
+     * Test toParts() with an empty array falls back to the default part unit symbols.
+     */
+    public function testToPartsEmptyPartUnitSymbolsUsesDefault(): void
+    {
+        $time = new Time(3661, 's');
+
+        // Empty array should behave the same as null (use Time's built-in defaults).
+        $partsDefault = $time->toParts();
+        $partsEmpty = $time->toParts(partUnitSymbols: []);
+
+        $this->assertSame($partsDefault, $partsEmpty);
+    }
+
+    /**
+     * Test toParts() with an empty array throws when no default part unit symbols are configured.
+     */
+    public function testToPartsEmptyPartUnitSymbolsThrowsWhenNoDefault(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('No default part unit symbols configured');
+
+        $force = Force::create(100, 'N');
+        $force->toParts(partUnitSymbols: []);
+    }
+
+    /**
+     * Test toParts() throws when a part unit symbol is not a string.
+     */
+    public function testToPartsNonStringPartUnitSymbolThrowsException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid part unit symbol type: int. Must be string.');
+
+        $time = new Time(60, 's');
+        // @phpstan-ignore argument.type
+        $time->toParts(partUnitSymbols: [1, 'h']);
+    }
+
+    /**
+     * Test toParts() throws when a part unit symbol is not a recognized unit.
+     */
+    public function testToPartsUnknownPartUnitSymbolThrowsException(): void
+    {
+        $this->expectException(UnknownUnitException::class);
+
+        $time = new Time(60, 's');
+        $time->toParts(partUnitSymbols: ['xyz']);
+    }
+
+    /**
+     * Test toParts() with duplicate part unit symbols throws exception.
+     */
+    public function testToPartsDuplicatePartUnitSymbolsThrowsException(): void
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Duplicate part unit');
+
+        $time = new Time(3661, 's');
+        $time->toParts(partUnitSymbols: ['h', 'min', 'h']);
+    }
+
+    /**
+     * Test toParts() with wrong-dimension part unit symbols throws exception.
+     */
+    public function testToPartsDimensionMismatchThrowsException(): void
+    {
+        $this->expectException(DimensionMismatchException::class);
+
+        $time = new Time(3661, 's');
+        $time->toParts(partUnitSymbols: ['ft', 'in']);
+    }
+
+    /**
+     * Test toParts() with zero value produces all-zero parts.
+     */
+    public function testToPartsZero(): void
+    {
+        $time = new Time(0, 's');
+        $parts = $time->toParts();
+
+        $this->assertSame(1, $parts['sign']);
+        $this->assertSame(0, $parts['h']);
+        $this->assertSame(0, $parts['min']);
+        $this->assertSame(0.0, $parts['s']);
+    }
+
+    /**
+     * Test toParts() with custom part unit symbols.
+     */
+    public function testToPartsCustomPartUnitSymbols(): void
+    {
+        $time = new Time(5445, 's');
+        $parts = $time->toParts(partUnitSymbols: ['h', 'min', 's']);
+
+        $this->assertSame(1, $parts['sign']);
+        $this->assertSame(1, $parts['h']);
+        $this->assertSame(30, $parts['min']);
+        $this->assertSame(45.0, $parts['s']);
+        // Custom list should not include default units like 'y', 'mo', etc.
+        $this->assertArrayNotHasKey('y', $parts);
+        $this->assertArrayNotHasKey('d', $parts);
+    }
+
+    /**
+     * Test toParts() with prefixed part unit symbols (e.g. 'km', 'm').
+     */
+    public function testToPartsPrefixedPartUnitSymbols(): void
+    {
+        $length = new Length(5300, 'm');
+        $parts = $length->toParts(partUnitSymbols: ['km', 'm']);
+
+        $this->assertSame(1, $parts['sign']);
+        $this->assertSame(5, $parts['km']);
+        $this->assertSame(300.0, $parts['m']);
+    }
+
+    /**
+     * Test toParts() rounding up smallest unit.
+     */
+    public function testToPartsRoundingUp(): void
+    {
+        // 59 minutes 59.9 seconds → should round to 1h 0min 0s when precision=0.
+        $time = new Time(3599.9, 's');
+        $parts = $time->toParts(precision: 0);
+
+        $this->assertSame(1, $parts['h']);
+        $this->assertSame(0, $parts['min']);
+        $this->assertSame(0.0, $parts['s']);
+    }
+
+    /**
+     * Test toParts() carries a rounded-up smallest part into the next unit, rather than leaving it at 60″.
+     */
+    public function testToPartsRoundingCarriesIntoNextUnit(): void
+    {
+        $angle = new Angle(23.73326, 'deg');
+
+        $this->assertSame(['sign' => 1, 'deg' => 23, 'arcmin' => 44, 'arcsec' => 0.0], $angle->toParts(0));
+        $this->assertSame('23° 44′', $angle->formatParts(0));
+    }
+
+    /**
+     * Test toParts() gives a positive sign when a negative value rounds to zero.
+     */
+    public function testToPartsNegativeValueRoundingToZeroIsPositive(): void
+    {
+        $angle = new Angle(-1e-9, 'deg');
+
+        $this->assertSame(['sign' => 1, 'deg' => 0, 'arcmin' => 0, 'arcsec' => 0.0], $angle->toParts(1));
+        $this->assertSame(-1, $angle->toParts()['sign']);
+    }
+
+    /**
+     * Test toParts() rounds only the smallest part when the part units' ratio isn't a whole number.
+     */
+    public function testToPartsRoundingWithNonIntegerRatio(): void
+    {
+        // 1 oz = 437.5 gr. 57745.9 gr = 8 lb 3 oz 433.4 gr.
+        $mass = new Mass(57745.9, 'gr');
+
+        $this->assertSame(
+            ['sign' => 1, 'tn' => 0, 'lb' => 8, 'oz' => 3, 'gr' => 433.0],
+            $mass->toParts(0, ['tn', 'lb', 'oz', 'gr'])
+        );
+    }
+
+    /**
+     * Test toParts() keeps every part below one of the next larger unit, and round-trips, over a seeded sweep.
+     */
+    public function testToPartsStaysInRangeOverSweep(): void
+    {
+        mt_srand(7);
+        for ($i = 0; $i < 500; $i++) {
+            $value = mt_rand(0, 10 ** 7) / 10 ** mt_rand(0, 6);
+            $parts = new Angle($value, 'deg')->toParts(0);
+
+            $this->assertLessThan(60, $parts['arcmin']);
+            $this->assertLessThan(60.0, $parts['arcsec']);
+            $this->assertEqualsWithDelta(
+                $value * 3600,
+                $parts['deg'] * 3600 + $parts['arcmin'] * 60 + $parts['arcsec'],
+                0.5 + 1e-9 * $value * 3600
+            );
+        }
+    }
+
     #endregion
 
-    #region formatParts() tests
+    #region Method formatParts() tests.
 
     /**
      * Test formatParts() with a Time quantity.
@@ -188,7 +388,7 @@ final class QuantityPartsTest extends TestCase
 
     #endregion
 
-    #region fromParts() tests
+    #region Method fromParts() tests.
 
     /**
      * Test fromParts() with English base result (default).
@@ -337,9 +537,47 @@ final class QuantityPartsTest extends TestCase
         Quantity::fromParts(['m' => 1]);
     }
 
+    /**
+     * Test fromParts() works with Force using SI base.
+     *
+     * Force has no default part unit symbols, but fromParts() still works because we're passing explicit parts.
+     * Using $si = true so the result is in SI base units (kg*m/s2) rather than English (lb*ft/s2).
+     */
+    public function testFromPartsForceSi(): void
+    {
+        $force = Force::fromParts(['N' => 100], si: true);
+
+        $this->assertInstanceOf(Force::class, $force);
+        $this->assertSame('kg*m/s2', $force->compoundUnit->asciiSymbol);
+        $this->assertEqualsWithDelta(100.0, $force->to('N')->value, 1e-10);
+    }
+
+    /**
+     * Test fromParts() with Force uses the SI base unit by default, since the newton is metric.
+     */
+    public function testFromPartsForceSiByDefault(): void
+    {
+        $force = Force::fromParts(['N' => 100]);
+
+        $this->assertInstanceOf(Force::class, $force);
+        $this->assertSame('kg*m/s2', $force->compoundUnit->asciiSymbol);
+        $this->assertEqualsWithDelta(100.0, $force->value, 1e-10);
+    }
+
+    /**
+     * Test fromParts() with $si = false uses the English base unit even for metric parts.
+     */
+    public function testFromPartsExplicitEnglish(): void
+    {
+        $force = Force::fromParts(['N' => 100], false);
+
+        $this->assertSame('lb*ft/s2', $force->compoundUnit->asciiSymbol);
+        $this->assertEqualsWithDelta(100.0, $force->to('N')->value, 1e-10);
+    }
+
     #endregion
 
-    #region validatePrecision() tests
+    #region Method validatePrecision() tests.
 
     /**
      * Test toParts() with negative precision throws exception.
@@ -367,24 +605,7 @@ final class QuantityPartsTest extends TestCase
 
     #endregion
 
-    #region toParts() error tests
-
-    /**
-     * Test toParts() on a quantity type with no part unit symbols configured throws.
-     */
-    public function testToPartsOnBaseQuantityThrowsException(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('No default part unit symbols configured for force quantities');
-
-        // The Force quantity type has no default part unit symbols.
-        $qty = Quantity::create(100, 'kg*m/s2');
-        $qty->toParts();
-    }
-
-    #endregion
-
-    #region parse() tests
+    #region Method parse() tests.
 
     /**
      * Test parse() with a single quantity string (no space).
@@ -451,7 +672,7 @@ final class QuantityPartsTest extends TestCase
 
     #endregion
 
-    #region parseParts() tests
+    #region Method parseParts() tests.
 
     /**
      * Test parseParts() with a time parts string.
@@ -594,48 +815,6 @@ final class QuantityPartsTest extends TestCase
         Time::parseParts('1h 45mi 34s');
     }
 
-    #endregion
-
-    #region validator coverage tests
-
-    /**
-     * Test fromParts() works with Force using SI base.
-     *
-     * Force has no default part unit symbols, but fromParts() still works because we're passing explicit parts.
-     * Using $si = true so the result is in SI base units (kg*m/s2) rather than English (lb*ft/s2).
-     */
-    public function testFromPartsForceSi(): void
-    {
-        $force = Force::fromParts(['N' => 100], si: true);
-
-        $this->assertInstanceOf(Force::class, $force);
-        $this->assertSame('kg*m/s2', $force->compoundUnit->asciiSymbol);
-        $this->assertEqualsWithDelta(100.0, $force->to('N')->value, 1e-10);
-    }
-
-    /**
-     * Test fromParts() with Force uses the SI base unit by default, since the newton is metric.
-     */
-    public function testFromPartsForceSiByDefault(): void
-    {
-        $force = Force::fromParts(['N' => 100]);
-
-        $this->assertInstanceOf(Force::class, $force);
-        $this->assertSame('kg*m/s2', $force->compoundUnit->asciiSymbol);
-        $this->assertEqualsWithDelta(100.0, $force->value, 1e-10);
-    }
-
-    /**
-     * Test fromParts() with $si = false uses the English base unit even for metric parts.
-     */
-    public function testFromPartsExplicitEnglish(): void
-    {
-        $force = Force::fromParts(['N' => 100], false);
-
-        $this->assertSame('lb*ft/s2', $force->compoundUnit->asciiSymbol);
-        $this->assertEqualsWithDelta(100.0, $force->to('N')->value, 1e-10);
-    }
-
     /**
      * Test parseParts() chooses the result unit from the part units.
      *
@@ -674,201 +853,6 @@ final class QuantityPartsTest extends TestCase
 
         $this->assertSame($expectedUnit, $result->compoundUnit->asciiSymbol);
         $this->assertEqualsWithDelta($expectedValue, $result->value, 1e-9 * max(1.0, $expectedValue));
-    }
-
-    /**
-     * Test toParts() with an empty array falls back to the default part unit symbols.
-     */
-    public function testToPartsEmptyPartUnitSymbolsUsesDefault(): void
-    {
-        $time = new Time(3661, 's');
-
-        // Empty array should behave the same as null (use Time's built-in defaults).
-        $partsDefault = $time->toParts();
-        $partsEmpty = $time->toParts(partUnitSymbols: []);
-
-        $this->assertSame($partsDefault, $partsEmpty);
-    }
-
-    /**
-     * Test toParts() with an empty array throws when no default part unit symbols are configured.
-     */
-    public function testToPartsEmptyPartUnitSymbolsThrowsWhenNoDefault(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('No default part unit symbols configured');
-
-        $force = Force::create(100, 'N');
-        $force->toParts(partUnitSymbols: []);
-    }
-
-    /**
-     * Test toParts() throws when a part unit symbol is not a string.
-     */
-    public function testToPartsNonStringPartUnitSymbolThrowsException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid part unit symbol type: int. Must be string.');
-
-        $time = new Time(60, 's');
-        // @phpstan-ignore argument.type
-        $time->toParts(partUnitSymbols: [1, 'h']);
-    }
-
-    /**
-     * Test toParts() throws when a part unit symbol is not a recognized unit.
-     */
-    public function testToPartsUnknownPartUnitSymbolThrowsException(): void
-    {
-        $this->expectException(UnknownUnitException::class);
-
-        $time = new Time(60, 's');
-        $time->toParts(partUnitSymbols: ['xyz']);
-    }
-
-    /**
-     * Test toParts() with duplicate part unit symbols throws exception.
-     */
-    public function testToPartsDuplicatePartUnitSymbolsThrowsException(): void
-    {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Duplicate part unit');
-
-        $time = new Time(3661, 's');
-        $time->toParts(partUnitSymbols: ['h', 'min', 'h']);
-    }
-
-    /**
-     * Test toParts() with wrong-dimension part unit symbols throws exception.
-     */
-    public function testToPartsDimensionMismatchThrowsException(): void
-    {
-        $this->expectException(DimensionMismatchException::class);
-
-        $time = new Time(3661, 's');
-        $time->toParts(partUnitSymbols: ['ft', 'in']);
-    }
-
-    #endregion
-
-    #region toParts() additional tests
-
-    /**
-     * Test toParts() with zero value produces all-zero parts.
-     */
-    public function testToPartsZero(): void
-    {
-        $time = new Time(0, 's');
-        $parts = $time->toParts();
-
-        $this->assertSame(1, $parts['sign']);
-        $this->assertSame(0, $parts['h']);
-        $this->assertSame(0, $parts['min']);
-        $this->assertSame(0.0, $parts['s']);
-    }
-
-    /**
-     * Test toParts() with custom part unit symbols.
-     */
-    public function testToPartsCustomPartUnitSymbols(): void
-    {
-        $time = new Time(5445, 's');
-        $parts = $time->toParts(partUnitSymbols: ['h', 'min', 's']);
-
-        $this->assertSame(1, $parts['sign']);
-        $this->assertSame(1, $parts['h']);
-        $this->assertSame(30, $parts['min']);
-        $this->assertSame(45.0, $parts['s']);
-        // Custom list should not include default units like 'y', 'mo', etc.
-        $this->assertArrayNotHasKey('y', $parts);
-        $this->assertArrayNotHasKey('d', $parts);
-    }
-
-    /**
-     * Test toParts() with prefixed part unit symbols (e.g. 'km', 'm').
-     */
-    public function testToPartsPrefixedPartUnitSymbols(): void
-    {
-        $length = new Length(5300, 'm');
-        $parts = $length->toParts(partUnitSymbols: ['km', 'm']);
-
-        $this->assertSame(1, $parts['sign']);
-        $this->assertSame(5, $parts['km']);
-        $this->assertSame(300.0, $parts['m']);
-    }
-
-    #endregion
-
-    #region toParts() rounding tests
-
-    /**
-     * Test toParts() rounding up smallest unit.
-     */
-    public function testToPartsRoundingUp(): void
-    {
-        // 59 minutes 59.9 seconds → should round to 1h 0min 0s when precision=0.
-        $time = new Time(3599.9, 's');
-        $parts = $time->toParts(precision: 0);
-
-        $this->assertSame(1, $parts['h']);
-        $this->assertSame(0, $parts['min']);
-        $this->assertSame(0.0, $parts['s']);
-    }
-
-    /**
-     * Test toParts() carries a rounded-up smallest part into the next unit, rather than leaving it at 60″.
-     */
-    public function testToPartsRoundingCarriesIntoNextUnit(): void
-    {
-        $angle = new Angle(23.73326, 'deg');
-
-        $this->assertSame(['sign' => 1, 'deg' => 23, 'arcmin' => 44, 'arcsec' => 0.0], $angle->toParts(0));
-        $this->assertSame('23° 44′', $angle->formatParts(0));
-    }
-
-    /**
-     * Test toParts() gives a positive sign when a negative value rounds to zero.
-     */
-    public function testToPartsNegativeValueRoundingToZeroIsPositive(): void
-    {
-        $angle = new Angle(-1e-9, 'deg');
-
-        $this->assertSame(['sign' => 1, 'deg' => 0, 'arcmin' => 0, 'arcsec' => 0.0], $angle->toParts(1));
-        $this->assertSame(-1, $angle->toParts()['sign']);
-    }
-
-    /**
-     * Test toParts() rounds only the smallest part when the part units' ratio isn't a whole number.
-     */
-    public function testToPartsRoundingWithNonIntegerRatio(): void
-    {
-        // 1 oz = 437.5 gr. 57745.9 gr = 8 lb 3 oz 433.4 gr.
-        $mass = new Mass(57745.9, 'gr');
-
-        $this->assertSame(
-            ['sign' => 1, 'tn' => 0, 'lb' => 8, 'oz' => 3, 'gr' => 433.0],
-            $mass->toParts(0, ['tn', 'lb', 'oz', 'gr'])
-        );
-    }
-
-    /**
-     * Test toParts() keeps every part below one of the next larger unit, and round-trips, over a seeded sweep.
-     */
-    public function testToPartsStaysInRangeOverSweep(): void
-    {
-        mt_srand(7);
-        for ($i = 0; $i < 500; $i++) {
-            $value = mt_rand(0, 10 ** 7) / 10 ** mt_rand(0, 6);
-            $parts = new Angle($value, 'deg')->toParts(0);
-
-            $this->assertLessThan(60, $parts['arcmin']);
-            $this->assertLessThan(60.0, $parts['arcsec']);
-            $this->assertEqualsWithDelta(
-                $value * 3600,
-                $parts['deg'] * 3600 + $parts['arcmin'] * 60 + $parts['arcsec'],
-                0.5 + 1e-9 * $value * 3600
-            );
-        }
     }
 
     #endregion

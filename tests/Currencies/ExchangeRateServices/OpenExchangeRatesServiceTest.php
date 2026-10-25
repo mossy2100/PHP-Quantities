@@ -67,7 +67,7 @@ class OpenExchangeRatesServiceTest extends TestCase
         return $apiKey;
     }
 
-    #region getConversionDefinitions
+    #region Method getConversionDefinitions() tests.
 
     public function testGetConversionDefinitionsReturnsArray(): void
     {

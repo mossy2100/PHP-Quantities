@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Quantity::class)]
 final class QuantityCompareTest extends TestCase
 {
-    #region compare() tests - same units
+    #region Method compare() tests.
 
     /**
      * Test compare() returns 0 for equal values.
@@ -53,10 +53,6 @@ final class QuantityCompareTest extends TestCase
 
         $this->assertSame(1, $a->compare($b));
     }
-
-    #endregion
-
-    #region compare() tests - different units
 
     /**
      * Test compare() with different units (same dimension).
@@ -104,9 +100,44 @@ final class QuantityCompareTest extends TestCase
         $length->compare(100);
     }
 
+    /**
+     * Test comparing zero values.
+     */
+    public function testCompareZeroValues(): void
+    {
+        $a = new Length(0, 'm');
+        $b = new Length(0, 'km');
+
+        $this->assertSame(0, $a->compare($b));
+    }
+
+    /**
+     * Test comparing with zero.
+     */
+    public function testCompareWithZero(): void
+    {
+        $pos = new Length(1, 'm');
+        $zero = new Length(0, 'm');
+
+        $this->assertSame(1, $pos->compare($zero));
+        $this->assertSame(-1, $zero->compare($pos));
+    }
+
+    /**
+     * Test comparing negative values.
+     */
+    public function testCompareNegativeValues(): void
+    {
+        $a = new Temperature(-10, 'degC');
+        $b = new Temperature(-20, 'degC');
+
+        $this->assertSame(1, $a->compare($b));
+        $this->assertSame(-1, $b->compare($a));
+    }
+
     #endregion
 
-    #region approxEqual() tests
+    #region Method approxEqual() tests.
 
     /**
      * Test approxEqual() for exactly equal values.
@@ -198,49 +229,6 @@ final class QuantityCompareTest extends TestCase
 
         $length = new Length(100, 'm');
         $length->approxEqual(100);
-    }
-
-    #endregion
-
-    #region Comparison with zero
-
-    /**
-     * Test comparing zero values.
-     */
-    public function testCompareZeroValues(): void
-    {
-        $a = new Length(0, 'm');
-        $b = new Length(0, 'km');
-
-        $this->assertSame(0, $a->compare($b));
-    }
-
-    /**
-     * Test comparing with zero.
-     */
-    public function testCompareWithZero(): void
-    {
-        $pos = new Length(1, 'm');
-        $zero = new Length(0, 'm');
-
-        $this->assertSame(1, $pos->compare($zero));
-        $this->assertSame(-1, $zero->compare($pos));
-    }
-
-    #endregion
-
-    #region Comparison with negative values
-
-    /**
-     * Test comparing negative values.
-     */
-    public function testCompareNegativeValues(): void
-    {
-        $a = new Temperature(-10, 'degC');
-        $b = new Temperature(-20, 'degC');
-
-        $this->assertSame(1, $a->compare($b));
-        $this->assertSame(-1, $b->compare($a));
     }
 
     #endregion

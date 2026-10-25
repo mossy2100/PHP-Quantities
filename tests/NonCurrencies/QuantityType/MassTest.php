@@ -19,7 +19,7 @@ final class MassTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -30,6 +30,10 @@ final class MassTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -43,7 +47,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Metric conversion tests
+    #region Metric conversion tests.
 
     /**
      * Test converting kilograms to grams.
@@ -137,7 +141,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Imperial/US conversion tests
+    #region Imperial/US conversion tests.
 
     /**
      * Test converting pounds to ounces.
@@ -243,7 +247,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Cross-system conversion tests
+    #region Cross-system conversion tests.
 
     /**
      * Test converting pounds to kilograms.
@@ -322,7 +326,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding grams to grams.
@@ -414,7 +418,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing kilograms.
@@ -474,7 +478,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method.
@@ -498,7 +502,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region fromParts tests
+    #region Method fromParts() tests.
 
     /**
      * Test fromParts creates a mass quantity using the default result unit.
@@ -541,7 +545,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Constant tests
+    #region Constant tests.
 
     /**
      * Test the IMP_PART_UNITS constant has the expected symbols.
@@ -561,7 +565,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Imperial parts tests
+    #region Imperial parts tests.
 
     /**
      * Test toParts() with imperial units.
@@ -633,7 +637,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region US customary parts tests
+    #region US customary parts tests.
 
     /**
      * Test toParts() with US customary units.
@@ -716,7 +720,7 @@ final class MassTest extends TestCase
 
     #endregion
 
-    #region Special cases
+    #region Special case tests.
 
     /**
      * Test converting zero mass.

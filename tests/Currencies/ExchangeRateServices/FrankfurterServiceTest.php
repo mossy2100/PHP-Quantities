@@ -36,7 +36,7 @@ class FrankfurterServiceTest extends TestCase
         return self::$definitions;
     }
 
-    #region getConversionDefinitions
+    #region Method getConversionDefinitions() tests.
 
     public function testGetConversionDefinitionsReturnsArray(): void
     {

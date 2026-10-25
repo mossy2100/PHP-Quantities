@@ -21,7 +21,7 @@ final class VolumeTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -32,6 +32,10 @@ final class VolumeTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -45,7 +49,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Metric conversion tests
+    #region Metric conversion tests.
 
     /**
      * Test converting cubic meters to liters.
@@ -119,7 +123,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region US customary conversion tests
+    #region US customary conversion tests.
 
     /**
      * Test converting US gallons to US quarts.
@@ -180,7 +184,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Imperial conversion tests
+    #region Imperial conversion tests.
 
     /**
      * Test converting imperial gallons to imperial quarts.
@@ -242,7 +246,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Cross-system conversion tests
+    #region Cross-system conversion tests.
 
     /**
      * Test converting liters to US gallons.
@@ -314,7 +318,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Compound unit conversion tests
+    #region Compound unit conversion tests.
 
     /**
      * Test converting acre-feet to cubic meters.
@@ -345,7 +349,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Multiplication tests (Area × Length = Volume)
+    #region Method mul() tests.
 
     /**
      * Test multiplying square meters by meters.
@@ -429,7 +433,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding liters to liters.
@@ -521,7 +525,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing liters.
@@ -570,7 +574,7 @@ final class VolumeTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method.

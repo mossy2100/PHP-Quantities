@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(FloatWithError::class)]
 class FloatWithErrorTest extends TestCase
 {
-    #region Constructor tests
+    #region Method __construct() tests.
 
     /**
      * Test constructor with exact integer has zero error.
@@ -66,7 +66,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Property tests
+    #region Property $relativeError tests.
 
     /**
      * Test relativeError property with normal values.
@@ -110,7 +110,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test addition combines values and adds errors.
@@ -187,7 +187,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Subtraction tests
+    #region Method sub() tests.
 
     /**
      * Test subtraction combines values and adds errors.
@@ -262,7 +262,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Negation tests
+    #region Method neg() tests.
 
     /**
      * Test negation flips value sign.
@@ -305,7 +305,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Multiplication tests
+    #region Method mul() tests.
 
     /**
      * Test multiplication combines values and adds relative errors.
@@ -379,7 +379,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Division tests
+    #region Method div() tests.
 
     /**
      * Test division combines values and adds relative errors.
@@ -467,7 +467,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Inverse tests
+    #region Method recip() tests.
 
     /**
      * Test inverse calculates 1/x correctly.
@@ -522,7 +522,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region isExactInt() tests
+    #region Method isExactInt() tests.
 
     /**
      * Test isExactInt returns true for exact integer value with zero error.
@@ -622,7 +622,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region pow() tests
+    #region Method pow() tests.
 
     /**
      * Test pow squares a value correctly.
@@ -752,7 +752,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region String representation tests
+    #region Method __toString() tests.
 
     /**
      * Test __toString format.
@@ -783,7 +783,7 @@ class FloatWithErrorTest extends TestCase
 
     #endregion
 
-    #region Error propagation chain tests
+    #region Error propagation chain tests.
 
     /**
      * Test error accumulation through chain of operations.

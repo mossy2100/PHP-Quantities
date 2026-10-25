@@ -751,7 +751,7 @@ final class CurrencyServiceTest extends TestCase
 
     #endregion
 
-    #region Helpers
+    #region Helper methods
 
     /**
      * Write a PHP data file returning the given data into the data directory.

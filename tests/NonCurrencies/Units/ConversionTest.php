@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Conversion::class)]
 class ConversionTest extends TestCase
 {
-    #region Constructor tests
+    #region Method __construct() tests.
 
     /**
      * Test constructor with string unit terms.
@@ -120,7 +120,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region invert() tests
+    #region Method invert() tests.
 
     /**
      * Test invert swaps units.
@@ -191,7 +191,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region combineSequential() tests
+    #region Method combineSequential() tests.
 
     /**
      * Test combineSequential chains units correctly.
@@ -253,7 +253,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region combineConvergent() tests
+    #region Method combineConvergent() tests.
 
     /**
      * Test combineConvergent chains units correctly.
@@ -301,7 +301,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region combineDivergent() tests
+    #region Method combineDivergent() tests.
 
     /**
      * Test combineDivergent chains units correctly.
@@ -349,7 +349,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region combineOpposite() tests
+    #region Method combineOpposite() tests.
 
     /**
      * Test combineOpposite chains units correctly.
@@ -398,7 +398,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region pow() tests
+    #region Method pow() tests.
 
     /**
      * Test pow squares a conversion.
@@ -492,7 +492,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region removePrefixes() tests
+    #region Method removePrefixes() tests.
 
     /**
      * Test removePrefixes removes prefixes from both units.
@@ -540,7 +540,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region Exponent unit tests
+    #region Exponent unit tests.
 
     /**
      * Test constructor with squared units (L2 dimension).
@@ -573,7 +573,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region isExact() tests
+    #region Method isExact() tests.
 
     /**
      * Test isExact() returns true for a conversion with an exact integer factor.
@@ -622,7 +622,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region involvesUnit() tests
+    #region Method involvesUnit() tests.
 
     /**
      * Test involvesUnit() returns true for the source unit.
@@ -674,7 +674,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region dimension property tests
+    #region Property $dimension tests.
 
     /**
      * Test dimension property returns the source unit's dimension.
@@ -698,7 +698,7 @@ class ConversionTest extends TestCase
 
     #endregion
 
-    #region __toString() tests
+    #region Method __toString() tests.
 
     /**
      * Test toString format.

@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(PrefixService::class)]
 final class PrefixServiceTest extends TestCase
 {
-    #region Constants tests
+    #region Constant tests.
 
     /**
      * Test base prefix group constants have correct values.
@@ -56,7 +56,7 @@ final class PrefixServiceTest extends TestCase
 
     #endregion
 
-    #region getPrefixes() tests
+    #region Method getPrefixes() tests.
 
     /**
      * Test getPrefixes() with zero returns empty array.
@@ -218,7 +218,7 @@ final class PrefixServiceTest extends TestCase
 
     #endregion
 
-    #region getBySymbol() tests
+    #region Method getBySymbol() tests.
 
     /**
      * Test getBySymbol() returns Prefix for valid ASCII symbol.
@@ -313,7 +313,7 @@ final class PrefixServiceTest extends TestCase
 
     #endregion
 
-    #region invert() tests
+    #region Method invert() tests.
 
     /**
      * Test invert() converts kilo to milli.
@@ -484,7 +484,7 @@ final class PrefixServiceTest extends TestCase
 
     #endregion
 
-    #region Prefix object property tests
+    #region Prefix object property tests.
 
     /**
      * Test that prefixes have correct groupCode property.
@@ -541,7 +541,7 @@ final class PrefixServiceTest extends TestCase
 
     #endregion
 
-    #region Prefix definitions tests
+    #region Prefix definitions tests.
 
     /**
      * Test all small metric prefixes are defined.
@@ -600,7 +600,7 @@ final class PrefixServiceTest extends TestCase
 
     #endregion
 
-    #region removeAll() tests
+    #region Method removeAll() tests.
 
     /**
      * Test removeAll() clears the prefix cache.

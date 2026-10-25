@@ -20,7 +20,7 @@ final class AreaTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -31,6 +31,10 @@ final class AreaTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -44,7 +48,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Metric conversion tests
+    #region Metric conversion tests.
 
     /**
      * Test converting square meters to square kilometers.
@@ -127,7 +131,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Imperial/US conversion tests
+    #region Imperial/US conversion tests.
 
     /**
      * Test converting square feet to square inches.
@@ -186,7 +190,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Cross-system conversion tests
+    #region Cross-system conversion tests.
 
     /**
      * Test converting square meters to square feet.
@@ -249,7 +253,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Unicode symbol tests
+    #region Unicode symbol tests.
 
     /**
      * Test creating area with Unicode superscript.
@@ -275,7 +279,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method.
@@ -299,7 +303,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing square meters.
@@ -346,7 +350,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Zero and negative value tests
+    #region Zero and negative value tests.
 
     /**
      * Test converting zero value.
@@ -372,7 +376,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Multiplication tests (Length × Length = Area)
+    #region Method mul() tests.
 
     /**
      * Test multiplying meters by meters.
@@ -486,7 +490,7 @@ final class AreaTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding hectares to hectares.

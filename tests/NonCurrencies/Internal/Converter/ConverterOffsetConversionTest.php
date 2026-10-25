@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal\Converter;
 
 use DomainException;
 use Mossy2100\Quantities\Internal\Converter;
@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  * Tests for the conversion methods of Converter, with offset units from fixture quantity types.
  */
 #[CoversClass(Converter::class)]
-final class ConverterConversionTest extends TestCase
+final class ConverterOffsetConversionTest extends TestCase
 {
     #region Setup
 

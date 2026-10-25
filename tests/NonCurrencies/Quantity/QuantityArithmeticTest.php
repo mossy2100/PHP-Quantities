@@ -25,7 +25,7 @@ final class QuantityArithmeticTest extends TestCase
 {
     use FloatAssertions;
 
-    #region abs() tests
+    #region Method abs() tests.
 
     /**
      * Test abs() on positive value.
@@ -62,7 +62,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region neg() tests
+    #region Method neg() tests.
 
     /**
      * Test neg() on positive value.
@@ -99,7 +99,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region add() tests
+    #region Method add() tests.
 
     /**
      * Test add() with same units.
@@ -168,7 +168,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region sub() tests
+    #region Method sub() tests.
 
     /**
      * Test sub() with same units.
@@ -235,7 +235,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region mul() tests
+    #region Method mul() tests.
 
     /**
      * Test mul() with scalar.
@@ -323,7 +323,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region div() tests
+    #region Method div() tests.
 
     /**
      * Test div() by scalar.
@@ -412,7 +412,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region recip() tests
+    #region Method recip() tests.
 
     /**
      * Test recip() basic case.
@@ -451,7 +451,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region pow() tests
+    #region Method pow() tests.
 
     /**
      * Test pow() with positive exponent.
@@ -575,7 +575,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region Chained operations tests
+    #region Chained operations tests.
 
     /**
      * Test chaining arithmetic operations.
@@ -590,7 +590,7 @@ final class QuantityArithmeticTest extends TestCase
 
     #endregion
 
-    #region Cross-system arithmetic tests
+    #region Cross-system arithmetic tests.
 
     /**
      * Test adding meters and feet.

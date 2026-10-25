@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal;
+namespace Mossy2100\Quantities\Tests\NonCurrencies\Internal\Converter;
 
-use DomainException;
 use LogicException;
 use Mossy2100\Quantities\Enums\UnitSystem;
 use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
@@ -21,131 +20,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for Converter class.
+ * Tests for the conversion methods of Converter.
  */
 #[CoversClass(Converter::class)]
-class ConverterTest extends TestCase
+class ConverterConversionTest extends TestCase
 {
-    #region removeAllInstances() tests
-
-    /**
-     * Test removeAllInstances clears cached instances.
-     */
-    public function testResetClearsCachedInstances(): void
-    {
-        // Get an instance to populate the cache.
-        $converter1 = Converter::getInstance('L');
-
-        // Reset the cache.
-        Converter::removeAllInstances();
-
-        // Get a new instance - should be a different object.
-        $converter2 = Converter::getInstance('L');
-
-        // They should not be the same instance.
-        $this->assertNotSame($converter1, $converter2);
-    }
-
-    #endregion
-
-    #region getInstances() tests
-
-    /**
-     * Test getInstances returns all cached Converter instances.
-     */
-    public function testGetInstancesReturnsAllCachedConverters(): void
-    {
-        Converter::removeAllInstances();
-
-        $this->assertEmpty(Converter::getInstances());
-
-        $length = Converter::getInstance('L');
-        $time = Converter::getInstance('T');
-
-        $instances = Converter::getInstances();
-
-        $this->assertCount(2, $instances);
-        $this->assertSame($length, $instances['L']);
-        $this->assertSame($time, $instances['T']);
-    }
-
-    #endregion
-
-    #region removeInstance() tests
-
-    /**
-     * Test removeInstance removes a single cached Converter.
-     */
-    public function testRemoveInstanceRemovesCachedConverter(): void
-    {
-        Converter::removeAllInstances();
-
-        Converter::getInstance('L');
-        Converter::getInstance('T');
-
-        $this->assertCount(2, Converter::getInstances());
-
-        Converter::removeInstance('L');
-
-        $instances = Converter::getInstances();
-        $this->assertCount(1, $instances);
-        $this->assertArrayHasKey('T', $instances);
-        $this->assertArrayNotHasKey('L', $instances);
-    }
-
-    #endregion
-
-    #region getInstance() tests
-
-    /**
-     * Test getInstance returns instance for valid dimension.
-     */
-    public function testGetInstanceReturnsInstance(): void
-    {
-        $converter = Converter::getInstance('L');
-
-        $this->assertInstanceOf(Converter::class, $converter);
-        $this->assertSame('L', $converter->dimension);
-    }
-
-    /**
-     * Test getInstance throws for invalid dimension.
-     */
-    public function testGetInstanceThrowsForInvalidDimension(): void
-    {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage("Invalid dimension code: 'X'.");
-
-        Converter::getInstance('X');
-    }
-
-    /**
-     * Test getInstance returns same instance for same dimension (singleton).
-     */
-    public function testGetInstanceReturnsSameInstance(): void
-    {
-        $converter1 = Converter::getInstance('L');
-        $converter2 = Converter::getInstance('L');
-
-        $this->assertSame($converter1, $converter2);
-    }
-
-    /**
-     * Test getInstance returns different instances for different dimensions.
-     */
-    public function testGetInstanceReturnsDifferentInstancesForDifferentDimensions(): void
-    {
-        $lengthConverter = Converter::getInstance('L');
-        $timeConverter = Converter::getInstance('T');
-
-        $this->assertNotSame($lengthConverter, $timeConverter);
-        $this->assertSame('L', $lengthConverter->dimension);
-        $this->assertSame('T', $timeConverter->dimension);
-    }
-
-    #endregion
-
-    #region findConversion() tests
+    #region Method findConversion() tests.
 
     /**
      * Test findConversion returns conversion for known units.
@@ -296,7 +176,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region findConversionFactor() tests
+    #region Method findConversionFactor() tests.
 
     /**
      * Test findConversionFactor returns factor for known units.
@@ -369,7 +249,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region convert() tests
+    #region Method convert() tests.
 
     /**
      * Test convert converts value between units.
@@ -490,7 +370,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Graph traversal tests
+    #region Graph traversal tests.
 
     /**
      * Test converter finds indirect conversions via graph traversal.
@@ -526,7 +406,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Exponentiated dimension tests
+    #region Exponentiated dimension tests.
 
     /**
      * Test converter handles L2 (area) dimension.
@@ -588,7 +468,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Time dimension tests
+    #region Time dimension tests.
 
     /**
      * Test converter handles time dimension.
@@ -622,7 +502,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Mass dimension tests
+    #region Mass dimension tests.
 
     /**
      * Test converter handles mass dimension.
@@ -656,7 +536,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Edge cases
+    #region Edge case tests.
 
     /**
      * Test converter handles very small conversion factors.
@@ -686,7 +566,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Compound unit conversion tests
+    #region Compound unit conversion tests.
 
     /**
      * Test conversion of force units (N to lbf).
@@ -704,7 +584,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Multi-hop conversion tests
+    #region Multi-hop conversion tests.
 
     /**
      * Test that findConversion uses generateConversions to find multi-hop paths.
@@ -727,7 +607,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region Combination path coverage tests
+    #region Combination path coverage tests.
 
     /**
      * Test that divergent combination path is used in graph traversal.
@@ -868,48 +748,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region addMerged() tests
-
-    /**
-     * Test that addMerged is triggered when finding conversion with mergeable units.
-     *
-     * This covers addMerged() by going through findConversion() with a mergeable unit.
-     */
-    public function testGetConversionTriggersMergeForMergeableUnits(): void
-    {
-        $converter = Converter::getInstance('L2');
-
-        // m*ft has two length units that should be merged.
-        // Getting a conversion should trigger addMerged internally.
-        $conversion = $converter->findConversion('m*ft', 'm2');
-
-        $this->assertInstanceOf(Conversion::class, $conversion);
-        // 1 m*ft = 0.3048 m² (since 1 ft = 0.3048 m)
-        $this->assertEqualsWithDelta(0.3048, $conversion->factor->value, 1e-4);
-    }
-
-    /**
-     * Test that addExpanded is triggered for compound units during findConversion.
-     *
-     * When a non-base compound unit like N*m is first encountered, its expansion
-     * (N → kg*m/s2, so N*m → kg*m2/s2) is discovered and added as a new conversion.
-     */
-    public function testFindConversionTriggersAddExpanded(): void
-    {
-        Converter::removeAllInstances();
-
-        // N*m is not in the energy (ML2T-2) conversion definitions, but N can be expanded
-        // to kg*m/s2, so N*m expands to kg*m2/s2 = J. This triggers addExpanded().
-        $converter = Converter::getInstance('ML2T-2');
-        $conversion = $converter->findConversion('N*m', 'J');
-
-        $this->assertInstanceOf(Conversion::class, $conversion);
-        $this->assertEqualsWithDelta(1.0, $conversion->factor->value, 1e-10);
-    }
-
-    #endregion
-
-    #region addConversion() tests
+    #region Method addConversion() tests.
 
     /**
      * Test addConversion throws DimensionMismatchException when conversion dimension doesn't match Converter.
@@ -929,7 +768,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region removeConversion() tests
+    #region Method removeConversion() tests.
 
     /**
      * Test removeConversion removes a specific conversion from the matrix.
@@ -957,7 +796,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region removeAllConversions() tests
+    #region Method removeAllConversions() tests.
 
     /**
      * Test removeAllConversions clears the conversion matrix.
@@ -976,7 +815,7 @@ class ConverterTest extends TestCase
 
     #endregion
 
-    #region removeConversionsByUnit() tests
+    #region Method removeConversionsByUnit() tests.
 
     /**
      * Test removeConversionsByUnit removes all conversions involving a given unit.
@@ -1020,103 +859,6 @@ class ConverterTest extends TestCase
             Converter::removeAllInstances();
             QuantityTypeService::reset();
         }
-    }
-
-    #endregion
-
-    #region hasUnit() tests
-
-    /**
-     * Test hasUnit() returns true for a unit that has been added.
-     */
-    public function testHasUnitReturnsTrueForAddedUnit(): void
-    {
-        Converter::removeAllInstances();
-        $converter = Converter::getInstance('L');
-
-        $unit = CompoundUnit::parse('m');
-        $converter->addUnit($unit);
-
-        $this->assertTrue($converter->hasUnit($unit));
-    }
-
-    /**
-     * Test hasUnit() returns false for a unit that has not been added.
-     */
-    public function testHasUnitReturnsFalseForUnknownUnit(): void
-    {
-        Converter::removeAllInstances();
-        $converter = Converter::getInstance('L');
-        $converter->removeAllUnits();
-
-        $unit = CompoundUnit::parse('m');
-
-        $this->assertFalse($converter->hasUnit($unit));
-    }
-
-    #endregion
-
-    #region removeUnit() tests
-
-    /**
-     * Test removeUnit removes a unit from the unit list.
-     */
-    public function testRemoveUnitRemovesFromList(): void
-    {
-        Converter::removeAllInstances();
-        $converter = Converter::getInstance('L');
-
-        $unit = CompoundUnit::parse('m');
-        $converter->addUnit($unit);
-        $this->assertArrayHasKey('m', $converter->units);
-
-        $converter->removeUnit($unit);
-
-        $this->assertArrayNotHasKey('m', $converter->units);
-    }
-
-    #endregion
-
-    #region quantityType property tests
-
-    /**
-     * Test quantityType property returns QuantityType for a registered dimension.
-     */
-    public function testQuantityTypePropertyReturnsQuantityType(): void
-    {
-        $converter = Converter::getInstance('L');
-
-        $this->assertNotNull($converter->quantityType);
-        $this->assertSame('length', $converter->quantityType->name);
-    }
-
-    /**
-     * Test quantityType property returns null for an unregistered dimension.
-     */
-    public function testQuantityTypePropertyReturnsNullForUnregisteredDimension(): void
-    {
-        $converter = Converter::getInstance('L5T3');
-
-        $this->assertNull($converter->quantityType);
-    }
-
-    #endregion
-
-    #region removeAllUnits() tests
-
-    /**
-     * Test removeAllUnits clears the unit list.
-     */
-    public function testRemoveAllUnitsClearsList(): void
-    {
-        Converter::removeAllInstances();
-        $converter = Converter::getInstance('L');
-
-        $this->assertNotEmpty($converter->units);
-
-        $converter->removeAllUnits();
-
-        $this->assertEmpty($converter->units);
     }
 
     #endregion

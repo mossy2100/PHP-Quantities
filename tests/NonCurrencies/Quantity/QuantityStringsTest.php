@@ -26,7 +26,7 @@ use RoundingMode;
 #[CoversClass(Quantity::class)]
 final class QuantityStringsTest extends TestCase
 {
-    #region Parse tests - basic
+    #region Method parse() tests.
 
     /**
      * Test parsing a simple length with space between value and unit.
@@ -88,10 +88,6 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame('ms', $time->compoundUnit->asciiSymbol);
     }
 
-    #endregion
-
-    #region Parse tests - scientific notation
-
     /**
      * Test parsing with scientific notation (lowercase e).
      */
@@ -112,10 +108,6 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame(0.0025, $length->value);
     }
 
-    #endregion
-
-    #region Parse tests - negative values
-
     /**
      * Test parsing negative values.
      */
@@ -126,10 +118,6 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame(-40.0, $temp->value);
         $this->assertSame('degC', $temp->compoundUnit->asciiSymbol);
     }
-
-    #endregion
-
-    #region Parse tests - generic Quantity::parse()
 
     /**
      * Test that Quantity::parse() returns the correct subclass.
@@ -176,10 +164,6 @@ final class QuantityStringsTest extends TestCase
         $this->assertEqualsWithDelta($value, $result->value, 1e-9);
         $this->assertSame($unit, $result->compoundUnit->asciiSymbol);
     }
-
-    #endregion
-
-    #region Parse tests - error handling
 
     /**
      * Test parsing empty string throws exception.
@@ -243,10 +227,6 @@ final class QuantityStringsTest extends TestCase
         Quantity::parse($input);
     }
 
-    #endregion
-
-    #region Parse tests - dimension mismatch
-
     /**
      * Test that parsing a unit with the wrong dimension throws DimensionMismatchException.
      */
@@ -296,7 +276,7 @@ final class QuantityStringsTest extends TestCase
 
     #endregion
 
-    #region Format tests - basic
+    #region Method format() tests.
 
     /**
      * Test default formatting (Unicode, fixed point, trim zeros).
@@ -334,10 +314,6 @@ final class QuantityStringsTest extends TestCase
         // Auto (the default) keeps the full value here, since it holds more information than the scientific form.
         $this->assertSame('12345678.9 m', $length->format());
     }
-
-    #endregion
-
-    #region Format tests - precision control
 
     /**
      * Test formatting with fixed precision.
@@ -424,10 +400,6 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame('1500 m', $length->format());
     }
 
-    #endregion
-
-    #region Format tests - scientific notation
-
     /**
      * Test ASCII scientific notation uses lower-case e notation by default.
      */
@@ -505,10 +477,6 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame('3.0000×10³ m', $result);
     }
 
-    #endregion
-
-    #region Format tests - ASCII vs Unicode
-
     /**
      * Test ASCII formatting.
      */
@@ -556,10 +524,6 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame('25 °C', new Temperature(25, 'degC')->format());
     }
 
-    #endregion
-
-    #region Format tests - space control
-
     /**
      * Test formatting with explicit space.
      */
@@ -580,9 +544,65 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame('100m', $length->format(includeSpace: false));
     }
 
+    /**
+     * Test format() with negative precision throws exception.
+     */
+    public function testFormatNegativePrecisionThrowsException(): void
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Invalid number of decimal places: -1.');
+
+        $length = new Length(10, 'm');
+        $length->format(-1, format: FloatFormat::FixedPoint);
+    }
+
+    /**
+     * Test format() with precision > 17 throws exception.
+     */
+    public function testFormatPrecisionTooHighThrowsException(): void
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Invalid number of decimal places: 18.');
+
+        $length = new Length(10, 'm');
+        $length->format(18, format: FloatFormat::FixedPoint);
+    }
+
+    /**
+     * Test format() with zero significant digits throws exception.
+     */
+    public function testFormatZeroSignificantDigitsThrowsException(): void
+    {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Invalid number of significant figures: 0.');
+
+        $length = new Length(10, 'm');
+        $length->format(0, format: FloatFormat::Scientific);
+    }
+
+    /**
+     * Test formatting a dimensionless quantity.
+     */
+    public function testFormatDimensionless(): void
+    {
+        $qty = Quantity::create(42.5, '');
+
+        $this->assertSame('42.5', $qty->format());
+    }
+
+    /**
+     * Test __toString on dimensionless quantity.
+     */
+    public function testToStringDimensionless(): void
+    {
+        $qty = Quantity::create(3.14159, '');
+
+        $this->assertSame('3.14159', (string) $qty);
+    }
+
     #endregion
 
-    #region __toString tests
+    #region Method __toString() tests.
 
     /**
      * Test __toString uses default format.
@@ -626,7 +646,7 @@ final class QuantityStringsTest extends TestCase
 
     #endregion
 
-    #region Round-trip tests
+    #region Round-trip tests.
 
     /**
      * Test parse-format round trip.
@@ -638,70 +658,6 @@ final class QuantityStringsTest extends TestCase
         $formatted = $parsed->format(2, false, FloatFormat::FixedPoint, includeSpace: true);
 
         $this->assertSame($original, $formatted);
-    }
-
-    #endregion
-
-    #region Format error handling tests
-
-    /**
-     * Test format() with negative precision throws exception.
-     */
-    public function testFormatNegativePrecisionThrowsException(): void
-    {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Invalid number of decimal places: -1.');
-
-        $length = new Length(10, 'm');
-        $length->format(-1, format: FloatFormat::FixedPoint);
-    }
-
-    /**
-     * Test format() with precision > 17 throws exception.
-     */
-    public function testFormatPrecisionTooHighThrowsException(): void
-    {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Invalid number of decimal places: 18.');
-
-        $length = new Length(10, 'm');
-        $length->format(18, format: FloatFormat::FixedPoint);
-    }
-
-    /**
-     * Test format() with zero significant digits throws exception.
-     */
-    public function testFormatZeroSignificantDigitsThrowsException(): void
-    {
-        $this->expectException(DomainException::class);
-        $this->expectExceptionMessage('Invalid number of significant figures: 0.');
-
-        $length = new Length(10, 'm');
-        $length->format(0, format: FloatFormat::Scientific);
-    }
-
-    #endregion
-
-    #region Dimensionless format tests
-
-    /**
-     * Test formatting a dimensionless quantity.
-     */
-    public function testFormatDimensionless(): void
-    {
-        $qty = Quantity::create(42.5, '');
-
-        $this->assertSame('42.5', $qty->format());
-    }
-
-    /**
-     * Test __toString on dimensionless quantity.
-     */
-    public function testToStringDimensionless(): void
-    {
-        $qty = Quantity::create(3.14159, '');
-
-        $this->assertSame('3.14159', (string) $qty);
     }
 
     #endregion

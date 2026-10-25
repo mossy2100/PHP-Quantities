@@ -19,7 +19,7 @@ final class DimensionlessTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -30,6 +30,10 @@ final class DimensionlessTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -43,7 +47,7 @@ final class DimensionlessTest extends TestCase
 
     #endregion
 
-    #region Basic conversion tests
+    #region Basic conversion tests.
 
     /**
      * Test converting percentage to parts per thousand.
@@ -149,7 +153,7 @@ final class DimensionlessTest extends TestCase
 
     #endregion
 
-    #region Multi-step conversion tests
+    #region Multi-step conversion tests.
 
     /**
      * Test converting percentage to parts per million.
@@ -211,7 +215,7 @@ final class DimensionlessTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding percentages.
@@ -271,7 +275,7 @@ final class DimensionlessTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing percentage.
@@ -331,7 +335,7 @@ final class DimensionlessTest extends TestCase
 
     #endregion
 
-    #region Format tests
+    #region Method format() tests.
 
     /**
      * Test formatting percentage.
@@ -388,7 +392,7 @@ final class DimensionlessTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method for percentage to ppm.
@@ -422,7 +426,7 @@ final class DimensionlessTest extends TestCase
 
     #endregion
 
-    #region Practical examples
+    #region Practical example tests.
 
     /**
      * Test alcohol by volume conversion.

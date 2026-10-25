@@ -21,7 +21,7 @@ class AviationTest extends TestCase
 {
     use FloatAssertions;
 
-    #region Tests
+    #region Example tests.
 
     /**
      * Ground speed: v = d/t.

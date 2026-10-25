@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Quantity::class)]
 final class QuantityCreateTest extends TestCase
 {
-    #region Direct constructor tests
+    #region Method __construct() tests.
 
     /**
      * Test creating a Length with the constructor.
@@ -88,7 +88,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region Static create() method tests
+    #region Method create() tests.
 
     /**
      * Test creating a Length with the static create() method.
@@ -118,7 +118,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region Prefixed unit tests
+    #region Prefixed unit tests.
 
     /**
      * Test creating with metric prefixes.
@@ -145,7 +145,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region Negative and zero value tests
+    #region Negative and zero value tests.
 
     /**
      * Test creating with zero value.
@@ -180,7 +180,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region Error handling tests
+    #region Error handling tests.
 
     /**
      * Test that INF throws an exception.
@@ -301,7 +301,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region Unicode symbol tests
+    #region Unicode symbol tests.
 
     /**
      * Test creating with Unicode symbols.
@@ -320,7 +320,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region fromParts() tests
+    #region Method fromParts() tests.
 
     /**
      * Test fromParts() on a subclass returns the correct instance type.
@@ -360,7 +360,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region dimension property tests
+    #region Property $dimension tests.
 
     /**
      * Test dimension property returns the compound unit's dimension.
@@ -384,7 +384,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region getDimension() tests
+    #region Method getDimension() tests.
 
     /**
      * Test getDimension() returns the correct dimension code for a subclass.
@@ -408,7 +408,7 @@ final class QuantityCreateTest extends TestCase
 
     #endregion
 
-    #region Base class method tests
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns empty array by default.
@@ -419,6 +419,10 @@ final class QuantityCreateTest extends TestCase
 
         $this->assertSame([], $result);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns empty array by default.

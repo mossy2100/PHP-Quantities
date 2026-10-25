@@ -19,7 +19,7 @@ final class EnergyTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -30,6 +30,10 @@ final class EnergyTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -43,7 +47,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region Joule conversion tests
+    #region Joule conversion tests.
 
     /**
      * Test converting joules to kilojoules.
@@ -104,7 +108,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region Calorie conversion tests
+    #region Calorie conversion tests.
 
     /**
      * Test converting calories to joules.
@@ -165,7 +169,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region BTU conversion tests
+    #region BTU conversion tests.
 
     /**
      * Test converting BTU to joules.
@@ -227,7 +231,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region Electronvolt conversion tests
+    #region Electronvolt conversion tests.
 
     /**
      * Test converting electronvolts to joules.
@@ -287,7 +291,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region SI base unit conversion tests
+    #region SI base unit conversion tests.
 
     /**
      * Test converting joules to base SI units.
@@ -317,7 +321,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding joules to joules.
@@ -380,7 +384,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing joules.
@@ -440,7 +444,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method.
@@ -464,9 +468,7 @@ final class EnergyTest extends TestCase
 
     #endregion
 
-    #endregion
-
-    #region Practical examples
+    #region Practical example tests.
 
     /**
      * Test food energy conversion (nutrition label): 200 kcal to kJ.

@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests for the Length quantity type.
+ * Tests for the unit definitions and conversions of Length.
  */
 #[CoversClass(Length::class)]
 final class LengthTest extends TestCase
@@ -19,7 +19,7 @@ final class LengthTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -30,6 +30,10 @@ final class LengthTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -43,7 +47,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Metric conversion tests
+    #region Metric conversion tests.
 
     /**
      * Test converting meters to kilometers.
@@ -115,7 +119,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Imperial/US conversion tests
+    #region Imperial/US conversion tests.
 
     /**
      * Test converting feet to inches.
@@ -152,7 +156,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Cross-system conversion tests (metric to imperial)
+    #region Cross-system conversion tests.
 
     /**
      * Test converting meters to feet.
@@ -238,7 +242,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Scientific unit tests
+    #region Scientific unit tests.
 
     /**
      * Test converting astronomical units to meters.
@@ -342,7 +346,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region CSS unit tests
+    #region CSS unit tests.
 
     /**
      * Test converting inches to pixels.
@@ -390,7 +394,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Nautical unit tests
+    #region Nautical unit tests.
 
     /**
      * Test converting nautical miles to meters.
@@ -427,7 +431,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Static convert method tests
+    #region Method convert() tests.
 
     /**
      * Test static convert method.
@@ -451,7 +455,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing meters.
@@ -509,7 +513,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Chained conversion tests
+    #region Chained conversion tests.
 
     /**
      * Test chained conversions.
@@ -526,7 +530,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Same unit conversion tests
+    #region Same unit conversion tests.
 
     /**
      * Test converting to same unit.
@@ -542,182 +546,7 @@ final class LengthTest extends TestCase
 
     #endregion
 
-    #region Parts methods tests
-
-    /**
-     * Test fromParts with feet and inches.
-     */
-    public function testFromPartsFeetInches(): void
-    {
-        $length = Length::fromParts(['ft' => 5, 'in' => 6]);
-
-        // 5 feet + 6 inches = 5.5 feet
-        $this->assertSame(5.5, $length->value);
-        $this->assertSame('ft', $length->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test fromParts with miles and yards.
-     */
-    public function testFromPartsMilesYards(): void
-    {
-        $length = Length::fromParts(['mi' => 1, 'yd' => 880]);
-
-        // 1 mile + 880 yards = 1.5 miles
-        $this->assertSame(7920.0, $length->value);  // in feet (default)
-        $this->assertSame('ft', $length->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test fromParts with negative sign.
-     */
-    public function testFromPartsNegative(): void
-    {
-        $length = Length::fromParts(['ft' => 6, 'sign' => -1]);
-
-        $this->assertSame(-6.0, $length->value);
-    }
-
-    /**
-     * Test fromParts with negative value uses sign key instead.
-     */
-    public function testFromPartsNegativeValueUsesSign(): void
-    {
-        // Negative values in parts are handled via the 'sign' key
-        $length = Length::fromParts(['ft' => 5, 'sign' => -1]);
-
-        $this->assertSame(-5.0, $length->value);
-    }
-
-    /**
-     * Test fromParts uses default result unit from config.
-     */
-    public function testFromPartsDefaultResultUnit(): void
-    {
-        $length = Length::fromParts(['yd' => 1]);
-
-        // Default result unit for Length is 'ft'
-        $this->assertSame('ft', $length->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test toParts decomposes length correctly.
-     */
-    public function testToParts(): void
-    {
-        // 5.5 feet = 1 yard + 2 feet + 6 inches (since 3 ft = 1 yd)
-        $length = new Length(5.5, 'ft');
-        $parts = $length->toParts(precision: 0);
-
-        $this->assertSame(1, $parts['sign']);
-        $this->assertSame(0, $parts['mi']);
-        $this->assertSame(1, $parts['yd']);
-        $this->assertSame(2, $parts['ft']);
-        $this->assertSame(6.0, $parts['in']);
-    }
-
-    /**
-     * Test toParts with negative value.
-     */
-    public function testToPartsNegative(): void
-    {
-        // -5.5 feet = -(1 yard + 2 feet + 6 inches)
-        $length = new Length(-5.5, 'ft');
-        $parts = $length->toParts(precision: 0);
-
-        $this->assertSame(-1, $parts['sign']);
-        $this->assertSame(1, $parts['yd']);
-        $this->assertSame(2, $parts['ft']);
-        $this->assertSame(6.0, $parts['in']);
-    }
-
-    /**
-     * Test toParts with precision causes carry.
-     */
-    public function testToPartsCarry(): void
-    {
-        $length = new Length(2.99999999, 'ft');  // Just under 3 feet = 1 yard
-        $parts = $length->toParts(precision: 0, partUnitSymbols: ['yd', 'ft']);
-
-        // Should round to 3 feet and carry to 1 yard.
-        $this->assertSame(1, $parts['yd']);
-        $this->assertSame(0.0, $parts['ft']);
-    }
-
-    /**
-     * Test formatParts with feet and inches.
-     */
-    public function testFormatPartsFeetInches(): void
-    {
-        // 5.5 feet = 1 yard 2 feet 6 inches
-        $length = new Length(5.5, 'ft');
-        $result = $length->formatParts();
-
-        $this->assertSame('1yd 2ft 6in', $result);
-    }
-
-    /**
-     * Test formatParts with yards, feet, and inches.
-     */
-    public function testFormatPartsYardsFeetInches(): void
-    {
-        // 4.5 feet = 1 yard 1 foot 6 inches
-        $length = new Length(4.5, 'ft');
-        $result = $length->formatParts();
-
-        $this->assertSame('1yd 1ft 6in', $result);
-    }
-
-    /**
-     * Test formatParts with precision.
-     */
-    public function testFormatPartsWithPrecision(): void
-    {
-        // 5.541666... feet = 1 yard 2 feet 6.5 inches
-        $length = new Length(5.541666666666667, 'ft');
-        $result = $length->formatParts(precision: 1);
-
-        $this->assertSame('1yd 2ft 6.5in', $result);
-    }
-
-    /**
-     * Test formatParts for negative length.
-     */
-    public function testFormatPartsNegative(): void
-    {
-        // -5.5 feet = -(1 yard 2 feet 6 inches)
-        $length = new Length(-5.5, 'ft');
-        $result = $length->formatParts();
-
-        $this->assertSame('-1yd 2ft 6in', $result);
-    }
-
-    /**
-     * Test formatParts showZeros option.
-     */
-    public function testFormatPartsShowZeros(): void
-    {
-        $length = new Length(5280, 'ft');  // 1 mile
-        $result = $length->formatParts(showZeros: true);
-
-        // Shows all parts including zeros (default: mi, yd, ft, in).
-        $this->assertSame('1mi 0yd 0ft 0in', $result);
-    }
-
-    /**
-     * Test parts round-trip conversion.
-     */
-    public function testPartsRoundTrip(): void
-    {
-        $length = Length::fromParts(['yd' => 1, 'ft' => 2, 'in' => 6]);
-        $formatted = $length->formatParts();
-
-        $this->assertSame('1yd 2ft 6in', $formatted);
-    }
-
-    #endregion
-
-    #region Zero and negative value tests
+    #region Zero and negative value tests.
 
     /**
      * Test converting zero value.
@@ -739,293 +568,6 @@ final class LengthTest extends TestCase
         $km = $length->to('km');
 
         $this->assertSame(-0.1, $km->value);
-    }
-
-    #endregion
-
-    #region Arithmetic (add) tests
-
-    /**
-     * Test adding SI units (meters + kilometers).
-     */
-    public function testAddMetersAndKilometers(): void
-    {
-        $a = new Length(500, 'm');
-        $b = new Length(1, 'km');
-        $result = $a->add($b);
-
-        $this->assertInstanceOf(Length::class, $result);
-        $this->assertSame(1500.0, $result->value);
-        $this->assertSame('m', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding SI units (kilometers + meters).
-     */
-    public function testAddKilometersAndMeters(): void
-    {
-        $a = new Length(1, 'km');
-        $b = new Length(500, 'm');
-        $result = $a->add($b);
-
-        $this->assertSame(1.5, $result->value);
-        $this->assertSame('km', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding SI units (centimeters + meters).
-     */
-    public function testAddCentimetersAndMeters(): void
-    {
-        $a = new Length(50, 'cm');
-        $b = new Length(1, 'm');
-        $result = $a->add($b);
-
-        $this->assertSame(150.0, $result->value);
-        $this->assertSame('cm', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding Imperial units (feet + inches).
-     */
-    public function testAddFeetAndInches(): void
-    {
-        $a = new Length(2, 'ft');
-        $b = new Length(6, 'in');
-        $result = $a->add($b);
-
-        $this->assertSame(2.5, $result->value);
-        $this->assertSame('ft', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding Imperial units (yards + feet).
-     */
-    public function testAddYardsAndFeet(): void
-    {
-        $a = new Length(1, 'yd');
-        $b = new Length(3, 'ft');
-        $result = $a->add($b);
-
-        $this->assertSame(2.0, $result->value);
-        $this->assertSame('yd', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding Imperial units (miles + yards).
-     */
-    public function testAddMilesAndYards(): void
-    {
-        $a = new Length(1, 'mi');
-        $b = new Length(1760, 'yd');
-        $result = $a->add($b);
-
-        $this->assertSame(2.0, $result->value);
-        $this->assertSame('mi', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding mixed units (meters + feet).
-     */
-    public function testAddMetersAndFeet(): void
-    {
-        $a = new Length(1, 'm');
-        $b = new Length(1, 'ft');
-        $result = $a->add($b);
-
-        // 1 m + 0.3048 m = 1.3048 m
-        $this->assertSame(1.3048, $result->value);
-        $this->assertSame('m', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding mixed units (feet + meters).
-     */
-    public function testAddFeetAndMeters(): void
-    {
-        $a = new Length(1, 'ft');
-        $b = new Length(1, 'm');
-        $result = $a->add($b);
-
-        // 1 ft + (1/0.3048) ft ≈ 4.28 ft
-        $this->assertApproxEqual(1 + 1 / 0.3048, $result->value);
-        $this->assertSame('ft', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding mixed units (kilometers + miles).
-     */
-    public function testAddKilometersAndMiles(): void
-    {
-        $a = new Length(1, 'km');
-        $b = new Length(1, 'mi');
-        $result = $a->add($b);
-
-        // 1 km + 1.609344 km = 2.609344 km
-        $this->assertSame(2.609344, $result->value);
-        $this->assertSame('km', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test adding mixed units (inches + centimeters).
-     */
-    public function testAddInchesAndCentimeters(): void
-    {
-        $a = new Length(1, 'in');
-        $b = new Length(2.54, 'cm');
-        $result = $a->add($b);
-
-        // 1 in + 1 in = 2 in
-        $this->assertApproxEqual(2.0, $result->value);
-        $this->assertSame('in', $result->compoundUnit->asciiSymbol);
-    }
-
-    #endregion
-
-    #region Arithmetic (mul) tests
-
-    /**
-     * Test multiplying meters by a scalar.
-     */
-    public function testMulMetersByScalar(): void
-    {
-        $length = new Length(5, 'm');
-        $result = $length->mul(3);
-
-        $this->assertInstanceOf(Length::class, $result);
-        $this->assertSame(15.0, $result->value);
-        $this->assertSame('m', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test multiplying kilometers by a scalar.
-     */
-    public function testMulKilometersByScalar(): void
-    {
-        $length = new Length(2.5, 'km');
-        $result = $length->mul(4);
-
-        $this->assertSame(10.0, $result->value);
-        $this->assertSame('km', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test multiplying feet by a scalar.
-     */
-    public function testMulFeetByScalar(): void
-    {
-        $length = new Length(6, 'ft');
-        $result = $length->mul(2);
-
-        $this->assertSame(12.0, $result->value);
-        $this->assertSame('ft', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test multiplying by zero.
-     */
-    public function testMulByZero(): void
-    {
-        $length = new Length(100, 'm');
-        $result = $length->mul(0);
-
-        $this->assertSame(0.0, $result->value);
-    }
-
-    /**
-     * Test multiplying by a fractional scalar.
-     */
-    public function testMulByFraction(): void
-    {
-        $length = new Length(10, 'm');
-        $result = $length->mul(0.5);
-
-        $this->assertSame(5.0, $result->value);
-    }
-
-    /**
-     * Test multiplying by a negative scalar.
-     */
-    public function testMulByNegative(): void
-    {
-        $length = new Length(5, 'm');
-        $result = $length->mul(-2);
-
-        $this->assertSame(-10.0, $result->value);
-    }
-
-    #endregion
-
-    #region Arithmetic (div) tests
-
-    /**
-     * Test dividing meters by a scalar.
-     */
-    public function testDivMetersByScalar(): void
-    {
-        $length = new Length(15, 'm');
-        $result = $length->div(3);
-
-        $this->assertInstanceOf(Length::class, $result);
-        $this->assertSame(5.0, $result->value);
-        $this->assertSame('m', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test dividing kilometers by a scalar.
-     */
-    public function testDivKilometersByScalar(): void
-    {
-        $length = new Length(10, 'km');
-        $result = $length->div(4);
-
-        $this->assertSame(2.5, $result->value);
-        $this->assertSame('km', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test dividing feet by a scalar.
-     */
-    public function testDivFeetByScalar(): void
-    {
-        $length = new Length(12, 'ft');
-        $result = $length->div(3);
-
-        $this->assertSame(4.0, $result->value);
-        $this->assertSame('ft', $result->compoundUnit->asciiSymbol);
-    }
-
-    /**
-     * Test dividing by a fractional scalar.
-     */
-    public function testDivByFraction(): void
-    {
-        $length = new Length(10, 'm');
-        $result = $length->div(0.5);
-
-        $this->assertSame(20.0, $result->value);
-    }
-
-    /**
-     * Test dividing by a negative scalar.
-     */
-    public function testDivByNegative(): void
-    {
-        $length = new Length(10, 'm');
-        $result = $length->div(-2);
-
-        $this->assertSame(-5.0, $result->value);
-    }
-
-    /**
-     * Test dividing results in non-integer value.
-     */
-    public function testDivNonInteger(): void
-    {
-        $length = new Length(10, 'm');
-        $result = $length->div(3);
-
-        $this->assertApproxEqual(10.0 / 3.0, $result->value);
     }
 
     #endregion

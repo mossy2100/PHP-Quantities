@@ -21,7 +21,7 @@ final class PhysicalConstantTest extends TestCase
 {
     use FloatAssertions;
 
-    #region SI defining constants
+    #region SI defining constant tests.
 
     /**
      * Test getting the speed of light.
@@ -121,7 +121,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region Gravitational constants
+    #region Gravitational constant tests.
 
     /**
      * Test getting the standard gravity.
@@ -149,7 +149,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region Electromagnetic constants
+    #region Electromagnetic constant tests.
 
     /**
      * Test getting the vacuum permittivity.
@@ -177,7 +177,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region Atomic and nuclear constants
+    #region Atomic and nuclear constant tests.
 
     /**
      * Test getting the electron mass.
@@ -253,7 +253,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region Thermodynamic constants
+    #region Thermodynamic constant tests.
 
     /**
      * Test getting the molar gas constant.
@@ -281,7 +281,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region Caching tests
+    #region Caching tests.
 
     /**
      * Test that repeated calls return the same cached instance.
@@ -331,7 +331,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region get() method tests
+    #region Method get() tests.
 
     /**
      * Test get() with speed of light symbol.
@@ -393,7 +393,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region getAll() method tests
+    #region Method getAll() tests.
 
     /**
      * Test getAll() returns a non-empty array of Quantity objects keyed by symbol.
@@ -428,7 +428,7 @@ final class PhysicalConstantTest extends TestCase
 
     #endregion
 
-    #region Practical usage tests
+    #region Practical usage tests.
 
     /**
      * Test using constants in calculations (E = mc²).

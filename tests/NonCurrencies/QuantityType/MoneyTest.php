@@ -58,7 +58,7 @@ final class MoneyTest extends TestCase
 
     #endregion
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -88,6 +88,10 @@ final class MoneyTest extends TestCase
         $this->assertContains('JPY', $symbols);
     }
 
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
+
     /**
      * Test getConversionDefinitions() returns valid conversion definitions once rates have been fetched.
      */
@@ -110,7 +114,7 @@ final class MoneyTest extends TestCase
 
     #endregion
 
-    #region Construction tests
+    #region Method __construct() tests.
 
     /**
      * Test constructing a Money quantity with USD.
@@ -157,7 +161,7 @@ final class MoneyTest extends TestCase
 
     #endregion
 
-    #region __toString() tests
+    #region Method __toString() tests.
 
     /**
      * Test __toString() with an explicit locale.
@@ -242,7 +246,7 @@ final class MoneyTest extends TestCase
 
     #endregion
 
-    #region Addition tests
+    #region Method add() tests.
 
     /**
      * Test adding money in the same currency.
@@ -260,7 +264,7 @@ final class MoneyTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing a USD string.

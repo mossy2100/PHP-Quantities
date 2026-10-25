@@ -20,7 +20,7 @@ final class TimeTest extends TestCase
     use ArrayShapeTrait;
     use FloatAssertions;
 
-    #region Overridden methods
+    #region Method getUnitDefinitions() tests.
 
     /**
      * Test getUnitDefinitions() returns valid unit definitions.
@@ -31,6 +31,10 @@ final class TimeTest extends TestCase
 
         $this->assertValidUnitDefinitionsShape($units);
     }
+
+    #endregion
+
+    #region Method getConversionDefinitions() tests.
 
     /**
      * Test getConversionDefinitions() returns valid conversion definitions.
@@ -44,7 +48,7 @@ final class TimeTest extends TestCase
 
     #endregion
 
-    #region Conversion tests
+    #region Conversion tests.
 
     /**
      * Test converting seconds to minutes.
@@ -149,7 +153,7 @@ final class TimeTest extends TestCase
 
     #endregion
 
-    #region DateInterval conversion tests
+    #region Method fromDateInterval() tests.
 
     /**
      * Test fromDateInterval with simple interval.
@@ -215,6 +219,10 @@ final class TimeTest extends TestCase
         // 1.5 seconds
         $this->assertSame(1.5, $time->value);
     }
+
+    #endregion
+
+    #region Method toDateInterval() tests.
 
     /**
      * Test toDateInterval with simple time.
@@ -319,6 +327,10 @@ final class TimeTest extends TestCase
         $this->assertSame(0.0, $interval->f);
     }
 
+    #endregion
+
+    #region Method toDateIntervalSpecifier() tests.
+
     /**
      * Test toDateIntervalSpecifier with simple time.
      */
@@ -365,7 +377,7 @@ final class TimeTest extends TestCase
 
     #endregion
 
-    #region Parts methods tests
+    #region Method fromParts() tests.
 
     /**
      * Test fromParts with hours and minutes.
@@ -424,6 +436,10 @@ final class TimeTest extends TestCase
         $this->assertSame('s', $time->compoundUnit->asciiSymbol);
     }
 
+    #endregion
+
+    #region Method toParts() tests.
+
     /**
      * Test toParts decomposes time correctly.
      */
@@ -469,6 +485,10 @@ final class TimeTest extends TestCase
         $this->assertSame(0, $parts['min']);
         $this->assertSame(0.0, $parts['s']);
     }
+
+    #endregion
+
+    #region Method formatParts() tests.
 
     /**
      * Test formatParts default.
@@ -530,7 +550,7 @@ final class TimeTest extends TestCase
 
     #endregion
 
-    #region Parse tests
+    #region Method parse() tests.
 
     /**
      * Test parsing time with seconds unit.
@@ -579,7 +599,7 @@ final class TimeTest extends TestCase
 
     #endregion
 
-    #region Round-trip tests
+    #region Round-trip tests.
 
     /**
      * Test DateInterval round-trip conversion.
