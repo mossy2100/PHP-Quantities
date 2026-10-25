@@ -332,7 +332,7 @@ public function toBase(): self
 
 Convert to SI or English base units, whichever is the better fit for the current unit.
 
-Units like `lbf`, `mi`, and `ac` will convert to English base units (`lb`, `ft`, `s`), while units like `km`, `N`, and `Hz` will convert to SI base units (`kg`, `m`, `s`). Uses `CompoundUnit::siExpansionPreferred()` to determine the best fit.
+Units like `lbf`, `mi`, and `ac` will convert to English base units (`lb`, `ft`, `s`), while units like `km`, `N`, and `Hz` will convert to SI base units (`kg`, `m`, `s`). Uses `CompoundUnit::siPreferred()` to determine the best fit.
 
 **Returns:**
 - `Quantity` - A new Quantity in the most appropriate base units.
@@ -902,19 +902,22 @@ Subclasses provide their built-in defaults by overriding [`getPartUnitSymbols()`
 ```php
 public static function fromParts(
     array $parts,
-    bool $si = false
+    ?bool $si = null
 ): static
 ```
 
 Create a Quantity from component parts.
 
-The result is expressed in the base unit for the quantity type's dimension. By default this is the English base unit (e.g. `'ft'` for lengths, `'°'` for angles). Pass `$si = true` to use the SI base unit instead (e.g. `'m'` for lengths, `'rad'` for angles).
+The result is expressed in the base unit for the quantity type's dimension. By default, that's the SI base unit
+(e.g. `'m'`, `'kg'`) if any part uses a metric unit, and otherwise the English base unit (e.g. `'ft'`, `'lb'`). Time
+and angle parts give `'s'` and `'°'`. Pass `$si = true` or `$si = false` to choose explicitly.
 
 Part unit symbols can be base, prefixed, or compound (e.g. `'m'`, `'km'`, and `'km/h'` are all accepted).
 
 **Parameters:**
 - `$parts` (`array<string, int|float>`) - Array of unit symbol => value pairs, optionally with a `'sign'` key (integer 1 or -1).
-- `$si` (bool) - If true, use the SI base unit for the result; if false (default), use the English base unit.
+- `$si` (?bool) - True for the SI base unit, false for the English base unit, or null (default) to choose based on
+  the part units.
 
 **Returns:**
 - `static` - The combined Quantity.
@@ -935,8 +938,11 @@ $angle = Angle::fromParts(['deg' => 45, 'arcmin' => 30, 'arcsec' => 15]);
 // Time from components — result in English base (seconds).
 $duration = Time::fromParts(['h' => 2, 'min' => 30, 's' => 45]);
 
-// Force with SI base result (kg·m/s²).
-$force = Force::fromParts(['N' => 100], si: true);
+// Force from newtons: a metric part, so the result is in SI base units (kg·m/s²).
+$force = Force::fromParts(['N' => 100]);
+
+// Force with an English base result (lb·ft/s²).
+$force = Force::fromParts(['N' => 100], si: false);
 
 // Prefixed symbols are accepted.
 $length = Length::fromParts(['km' => 5, 'm' => 300]);
@@ -1005,7 +1011,7 @@ $parts = $length->toParts(partUnitSymbols: ['km', 'm']);
 ```php
 public static function parseParts(
     string $input,
-    bool $si = false
+    ?bool $si = null
 ): static
 ```
 
@@ -1019,7 +1025,8 @@ Only the first part may be negative.
 
 **Parameters:**
 - `$input` (string) - The string to parse.
-- `$si` (bool) - If true, use the SI base unit for the result; if false (default), use the English base unit.
+- `$si` (?bool) - True for the SI base unit, false for the English base unit, or null (default) to choose based on
+  the part units, as for `fromParts()`.
 
 **Returns:**
 - `static` - A new Quantity representing the sum of the parts.
@@ -1039,13 +1046,17 @@ echo $time;  // 5445 s
 
 // Angle from DMS.
 $angle = Angle::parseParts('45deg 30arcmin 30arcsec');
-echo $angle;  // 45.50833°
+echo $angle;  // 45.508333°
 
 // Negative value — only the first part may carry the sign.
 $time = Time::parseParts('-2h 15min');
 echo $time;  // -8100 s
 
-// SI base result.
+// Metric parts give an SI base result.
+$length = Length::parseParts('5m 3cm');
+echo $length;  // 5.03 m
+
+// English parts give an English base result, unless $si says otherwise.
 $length = Length::parseParts('5ft 6in', si: true);
 echo $length;  // 1.6764 m
 

@@ -1058,12 +1058,14 @@ class Quantity implements Stringable
      * The dimensions of the class quantity type (if not Quantity and registered), and the input and result units must
      * all match.
      *
-     * By default, the result quantity will use the base English unit for the quantity type (e.g. 's', '°', 'ft', 'lb'),
-     * as parts are typically used with English units. However, $si can be set to true to override this and use the base
-     * SI unit for the result. Of course, to() can be called on the result to convert it to whatever unit you want.
+     * By default ($si is null), the result uses the SI base unit if any part uses a metric unit, and otherwise the
+     * English base unit. For example, '5m 3cm' gives metres, and '5ft 3in' gives feet. Parts with neither, such as
+     * time ('1h 30min') or angle ('12° 34′ 56″') parts, use the English base unit ('s' or 'deg'). Set $si to true or
+     * false to choose explicitly. Of course, to() can be called on the result to convert it to whatever unit you want.
      *
      * @param array<string, int|float> $parts The parts, with the part unit symbols as keys, and part values as values.
-     * @param bool $si If true, use the SI base unit for the result; if false (default), use the English base unit.
+     * @param ?bool $si True to use the SI base unit for the result, false for the English base unit, or null (default)
+     * to choose based on the part units.
      * @return static A new Quantity representing the sum of the parts.
      * @throws InvalidArgumentException If the sign is not an integer, or if any of the keys in the parts array are not
      * strings, or if any of the values in the parts array are not numbers.
@@ -1075,7 +1077,7 @@ class Quantity implements Stringable
      * @throws FormatException If any of the part unit symbols cannot be parsed.
      * @throws UnknownUnitException If any of the part unit symbols are not recognized.
      */
-    public static function fromParts(array $parts, bool $si = false): static
+    public static function fromParts(array $parts, ?bool $si = null): static
     {
         // Validate the sign.
         $sign = 1;
@@ -1105,12 +1107,9 @@ class Quantity implements Stringable
         $quantityType = self::validateQuantityType();
         // Get the dimension.
         $dimension = $quantityType->dimension;
-        // Set the result unit to the SI or English base unit matching the dimension.
-        $resultUnit = DimensionService::getBaseCompoundUnit($dimension, $si);
-        // Initialize the result to 0.
-        $result = self::create(0, $resultUnit);
 
-        // Validate and add the parts.
+        // Validate the parts and parse their units.
+        $partQuantities = [];
         foreach ($parts as $unitSymbol => $value) {
             // Validate key and value.
             if (!is_string($unitSymbol)) {
@@ -1131,8 +1130,17 @@ class Quantity implements Stringable
                 throw new DimensionMismatchException($dimension, $unit->dimension);
             }
 
-            // Add the part. It will be converted to the result unit automatically.
-            $result = $result->add(self::create($value, $unit));
+            $partQuantities[] = self::create($value, $unit);
+        }
+
+        // Use the SI base unit if requested, or if not specified and any part uses a metric unit.
+        $si ??= array_any($partQuantities, static fn (self $part) => $part->compoundUnit->includesMetricUnit());
+        $resultUnit = DimensionService::getBaseCompoundUnit($dimension, $si);
+
+        // Add the parts. They will be converted to the result unit automatically.
+        $result = self::create(0, $resultUnit);
+        foreach ($partQuantities as $part) {
+            $result = $result->add($part);
         }
 
         // Make negative if necessary.
@@ -1209,8 +1217,8 @@ class Quantity implements Stringable
             // If the rounding increases the remainder, rounding up one or more larger parts may be necessary.
             if ($rem2 > $rem) {
                 // To account for non-integer conversion factors, rebuild the parts array.
-                // The fromParts() method is called with $si = false, matching the usual case for parts methods;
-                // however, this doesn't actually matter since the quantity is immediately decomposed to parts again.
+                // The result unit fromParts() chooses doesn't matter, since the quantity is immediately decomposed
+                // to parts again.
                 // We call toParts() with $precision = null to avoid infinite recursion.
                 $parts = static::fromParts($parts)->toParts(null, $partUnitSymbols);
 
@@ -1234,16 +1242,17 @@ class Quantity implements Stringable
      * - There cannot be spaces between values and units.
      * - Units containing spaces (e.g. 'US gal') are not supported.
      *
-     * By default, the result quantity will use the base English unit for the quantity type (e.g. 's', '°', 'ft', 'lb'),
-     * as parts are typically used with these units. However, $si can be set to true to override this and use the base
-     * SI unit for the result. Of course, to() can be called on the result to convert it to whatever unit is desired.
+     * The result unit is chosen as for fromParts(): by default, the SI base unit if any part uses a metric unit, and
+     * otherwise the English base unit. Of course, to() can be called on the result to convert it to whatever unit is
+     * desired.
      *
      * Examples:
      *     - "4y 5mo 6d 12h 34min 56.789s"
      *     - "12° 34′ 56.789″"
      *
      * @param string $input The string to parse.
-     * @param bool $si If true, use the SI base unit for the result; if false (default), use the English base unit.
+     * @param ?bool $si True to use the SI base unit for the result, false for the English base unit, or null (default)
+     * to choose based on the part units.
      * @return static A new Quantity representing the sum of the parts.
      * @throws FormatException If the input string is empty, malformed, contains a non-first negative part, or contains
      * duplicate unit symbols.
@@ -1253,7 +1262,7 @@ class Quantity implements Stringable
      * @throws UnknownUnitException If any units are not recognized.
      * @throws DimensionMismatchException If units have incompatible dimensions.
      */
-    public static function parseParts(string $input, bool $si = false): static
+    public static function parseParts(string $input, ?bool $si = null): static
     {
         // Ensure the input string is not empty.
         $input = trim($input);

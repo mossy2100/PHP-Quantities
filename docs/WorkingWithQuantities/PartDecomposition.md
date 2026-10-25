@@ -78,7 +78,13 @@ $time = Time::fromParts(['h' => 1, 'min' => 30, 'sign' => -1]);
 echo $time;  // -5400 s
 ```
 
-By default, the result is expressed in the base English unit for the quantity type's dimension (e.g. `'s'` for Time, `'°'` for Angle, `'ft'` for Length). Pass `$si = true` to use the SI base unit instead:
+The result unit depends on the part units:
+
+- **SI base unit** if any part uses a metric unit, e.g. `5m 3cm` gives `m`, and `1ft 50cm` gives `m`.
+- **English base unit** otherwise, e.g. `5ft 6in` gives `ft`. Time and angle parts use `s` and `°`, since `h`,
+  `min` and `°` are neither metric nor English.
+
+Pass `$si = true` or `$si = false` to choose explicitly:
 
 ```php
 // Result in SI base unit (meters) instead of English (feet).
@@ -126,7 +132,8 @@ $qty = Dimensionless::parseParts('1000 45% 76ppm');
 echo $qty;  // 1000.450076
 ```
 
-As with `fromParts()`, the result is expressed in the base English unit by default. Pass `$si = true` to use the SI base unit:
+The result unit is chosen as for `fromParts()`: the SI base unit if any part is metric, otherwise the English base
+unit. Pass `$si` to choose explicitly:
 
 ```php
 $length = Length::parseParts('5ft 6in', si: true);
@@ -182,7 +189,8 @@ The parts methods use these baked-in defaults when called without an explicit `$
 | Time          | `y`, `mo`, `w`, `d`, `h`, `min`, `s` |
 | Length        | `mi`, `yd`, `ft`, `in`               |
 
-The result unit for `fromParts()` and `parseParts()` is determined by the `$si` parameter: the English base unit by default (e.g. `ft`, `s`, `°`, `lb`) or the SI base unit if `$si = true` (e.g. `m`, `s`, `rad`, `kg`).
+By default, `fromParts()` and `parseParts()` give the SI base unit (e.g. `m`, `kg`) if any part is metric, and
+otherwise the English base unit (e.g. `ft`, `lb`, `s`, `°`). Pass `$si` to choose explicitly.
 
 Other quantity types have no built-in part units; calling a parts method on them without an explicit list throws `LogicException`.
 

@@ -47,6 +47,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   than `src/Currencies/data` inside the package, which is often read-only once installed. Call
   `CurrencyService::setDataDir()` to keep the data somewhere persistent. Failed writes now throw `RuntimeException`
   instead of being ignored, and files are written atomically.
+- **`fromParts()` and `parseParts()` choose the result unit from the parts (breaking).** `$si` is now `?bool`,
+  defaulting to `null`: the SI base unit if any part uses a metric unit, and otherwise the English base unit. So
+  `Length::parseParts('5m 3cm')` gives `5.03 m` rather than `16.50262 ft`. Time and angle parts still give `s` and `°`.
+  Pass `$si = false` for the old behaviour.
 - **`toDerived()`, `toSi()` and `toEnglish()` no longer substitute gray or sievert** for `m²/s²`, which may be a
   squared velocity or a specific energy rather than a radiation dose. Becquerel was already excluded. Convert to them
   explicitly, e.g. `$q->to('Gy')`.

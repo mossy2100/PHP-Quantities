@@ -213,7 +213,7 @@ echo $angle->formatParts(precision: 2);
 // 45° 30′ 15.12″
 
 $restored = Angle::fromParts(['deg' => 45, 'arcmin' => 30, 'arcsec' => 15]);
-echo $restored;  // 45.50417°
+echo $restored;  // 45.504167°
 
 // Decompose into degrees and arcminutes only.
 echo $angle->formatParts(precision: 2, partUnitSymbols: ['deg', 'arcmin']);

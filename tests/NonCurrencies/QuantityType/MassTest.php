@@ -528,9 +528,9 @@ final class MassTest extends TestCase
         ]);
 
         $this->assertInstanceOf(Mass::class, $mass);
-        // 1 lb + 1 kg (= 2.20462262... lb) ≈ 3.20462262... lb.
-        $this->assertSame('lb', $mass->compoundUnit->asciiSymbol);
-        $this->assertEqualsWithDelta(3.20462262, $mass->value, 1e-5);
+        // A metric part means the result is in kg: 1 lb (= 0.45359237 kg) + 1 kg = 1.45359237 kg.
+        $this->assertSame('kg', $mass->compoundUnit->asciiSymbol);
+        $this->assertEqualsWithDelta(1.45359237, $mass->value, 1e-12);
     }
 
     /**

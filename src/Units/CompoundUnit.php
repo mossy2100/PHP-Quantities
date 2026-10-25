@@ -49,6 +49,11 @@ class CompoundUnit implements UnitInterface
      */
     private const string RX_CLASS_MUL_DIV_OPS = '[' . self::RX_MUL_OPS . '\/]';
 
+    /**
+     * SI base units that are also used with English units, so they don't indicate whether a compound unit is SI.
+     */
+    private const array COMMON_BASE_UNITS = ['s', 'mol', 'A', 'cd', 'B', 'XAU'];
+
     #endregion
 
     #region UnitInterface properties
@@ -310,9 +315,6 @@ class CompoundUnit implements UnitInterface
      */
     public function siPreferred(): bool
     {
-        // These SI units can't be used to determine SI compatibility, as they can be used with English units.
-        $commonBaseUnits = ['s', 'mol', 'A', 'cd', 'B', 'XAU'];
-
         // Count the number of unambiguously SI vs. English units.
         $nSiUnits = 0;
         $nEnglishUnits = 0;
@@ -320,7 +322,7 @@ class CompoundUnit implements UnitInterface
         // Check each unit term.
         foreach ($this->unitTerms as $unitTerm) {
             // Check if the unit is SI (discounting those can be used with English units).
-            if ($unitTerm->unit->isSi() && !in_array($unitTerm->unit->asciiSymbol, $commonBaseUnits, true)) {
+            if ($unitTerm->unit->isSi() && !in_array($unitTerm->unit->asciiSymbol, self::COMMON_BASE_UNITS, true)) {
                 $nSiUnits++;
             }
 
@@ -336,6 +338,25 @@ class CompoundUnit implements UnitInterface
         // If there are no English units, or if there's at least one unambiguously SI unit, it would be preferable to
         // expand to SI base units.
         return $nEnglishUnits === 0 || $nSiUnits > 0;
+    }
+
+    /**
+     * Check if any unit term uses a metric unit, i.e. one in the SI or Metric system.
+     *
+     * SI base units that are also used with English units (e.g. 's', 'mol') don't count. Nor do units that are only
+     * accepted for use with SI (e.g. 'deg', 'h'), since they're used with English units too.
+     *
+     * @return bool True if at least one unit term uses a metric unit.
+     */
+    public function includesMetricUnit(): bool
+    {
+        return array_any(
+            $this->unitTerms,
+            static fn (UnitTerm $unitTerm) => (
+                $unitTerm->unit->belongsToSystem(UnitSystem::Si) ||
+                $unitTerm->unit->belongsToSystem(UnitSystem::Metric)
+            ) && !in_array($unitTerm->unit->asciiSymbol, self::COMMON_BASE_UNITS, true)
+        );
     }
 
     /**

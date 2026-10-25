@@ -17,7 +17,9 @@ use Mossy2100\Quantities\QuantityType\Force;
 use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Time;
+use Mossy2100\Quantities\QuantityType\Volume;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -625,17 +627,110 @@ final class QuantityPartsTest extends TestCase
     }
 
     /**
-     * Test fromParts() works with Force using English base (default).
+     * Test fromParts() with Force uses the SI base unit by default, since the newton is metric.
      */
-    public function testFromPartsForceEnglish(): void
+    public function testFromPartsForceSiByDefault(): void
     {
         $force = Force::fromParts([
             'N' => 100,
         ]);
 
         $this->assertInstanceOf(Force::class, $force);
+        $this->assertSame('kg*m/s2', $force->compoundUnit->asciiSymbol);
+        $this->assertEqualsWithDelta(100.0, $force->value, 1e-10);
+    }
+
+    /**
+     * Test fromParts() with $si = false uses the English base unit even for metric parts.
+     */
+    public function testFromPartsExplicitEnglish(): void
+    {
+        $force = Force::fromParts([
+            'N' => 100,
+        ], false);
+
         $this->assertSame('lb*ft/s2', $force->compoundUnit->asciiSymbol);
         $this->assertEqualsWithDelta(100.0, $force->to('N')->value, 1e-10);
+    }
+
+    /**
+     * Test parseParts() chooses the result unit from the part units.
+     *
+     * @return array<string, array{string, class-string<Quantity>, string, float}>
+     */
+    public static function providerParsePartsResultUnit(): array
+    {
+        return [
+            'metric length'         => [
+                '5m 3cm',
+                Length::class,
+                'm',
+                5.03,
+            ],
+            'English length'        => [
+                '5ft 6in',
+                Length::class,
+                'ft',
+                5.5,
+            ],
+            'mixed metric, English' => [
+                '1ft 50cm',
+                Length::class,
+                'm',
+                0.8048,
+            ],
+            'metric volume'         => [
+                '1L 200mL',
+                Volume::class,
+                'm3',
+                0.0012,
+            ],
+            'metric mass'           => [
+                '1kg 200g',
+                Mass::class,
+                'kg',
+                1.2,
+            ],
+            'English mass'          => [
+                '5st 7lb',
+                Mass::class,
+                'lb',
+                77.0,
+            ],
+            'time only'             => [
+                '1h 30min',
+                Time::class,
+                's',
+                5400.0,
+            ],
+            'angle only'            => [
+                '12° 30′',
+                Angle::class,
+                'deg',
+                12.5,
+            ],
+        ];
+    }
+
+    /**
+     * Test parseParts() uses the SI base unit if any part is metric, and otherwise the English base unit.
+     *
+     * @param string $input The parts string.
+     * @param class-string<Quantity> $class The quantity type class.
+     * @param string $expectedUnit The expected result unit.
+     * @param float $expectedValue The expected result value.
+     */
+    #[DataProvider('providerParsePartsResultUnit')]
+    public function testParsePartsResultUnit(
+        string $input,
+        string $class,
+        string $expectedUnit,
+        float $expectedValue
+    ): void {
+        $result = $class::parseParts($input);
+
+        $this->assertSame($expectedUnit, $result->compoundUnit->asciiSymbol);
+        $this->assertEqualsWithDelta($expectedValue, $result->value, 1e-9 * max(1.0, $expectedValue));
     }
 
     /**
