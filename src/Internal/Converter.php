@@ -74,6 +74,18 @@ class Converter
 
     #endregion
 
+    #region Private properties
+
+    /**
+     * Offset units for this Converter's dimension, keyed by ASCII symbol, with their zero unit and offset. Loaded on
+     * first use.
+     *
+     * @var ?array<string, array{CompoundUnit, float}>
+     */
+    private ?array $offsets = null;
+
+    #endregion
+
     #region Private static properties
 
     /**
@@ -340,12 +352,15 @@ class Converter
      * Validates both unit symbols, retrieves or computes the conversion, and applies it to the value using the formula
      * y = m*x.
      *
+     * If both units are a single unit term, and either is an offset unit (see Quantity::getOffsetDefinitions()), the
+     * offsets are applied too, so the formula is y = m*x + c. For example, 0 °C converts to 32 °F.
+     *
      * @param float $value The value to convert.
      * @param string|UnitInterface $srcUnit The source unit.
      * @param string|UnitInterface $destUnit The destination unit.
      * @return float The converted value.
      * @throws FormatException If a unit string cannot be parsed.
-     * @throws DomainException If either unit symbol is invalid.
+     * @throws DomainException If either unit symbol is invalid, or an offset definition is invalid.
      * @throws LogicException If no conversion path exists between the units.
      * @example
      *   $meters = 100;
@@ -353,18 +368,54 @@ class Converter
      */
     public function convert(float $value, string|UnitInterface $srcUnit, string|UnitInterface $destUnit): float
     {
-        // Get the conversion factor.
-        $factor = $this->findConversionFactor($srcUnit, $destUnit);
+        // Validate the units and convert to CompoundUnit objects.
+        $srcUnit = $this->validateUnit($srcUnit);
+        $destUnit = $this->validateUnit($destUnit);
+
+        // Get the zero units and offsets. Offsets apply only if both units are a single unit term.
+        $srcOffset = $this->getOffset($srcUnit);
+        $destOffset = $this->getOffset($destUnit);
+        if ($srcOffset === null || $destOffset === null) {
+            $srcOffset = [$srcUnit, 0.0];
+            $destOffset = [$destUnit, 0.0];
+        }
+        [$srcZeroUnit, $srcOffsetValue] = $srcOffset;
+        [$destZeroUnit, $destOffsetValue] = $destOffset;
+
+        // Get the conversion between the zero units.
+        $conversion = $this->findConversion($srcZeroUnit, $destZeroUnit);
 
         // If no conversion was found, throw an exception.
-        if ($factor === null) {
+        if ($conversion === null) {
             throw new LogicException(
                 "No conversion path found between '$srcUnit' and '$destUnit' (dimension: $this->dimension)."
             );
         }
 
-        // Multiply by the conversion factor.
-        return $value * $factor;
+        // Without offsets, just multiply by the conversion factor.
+        $factor = $conversion->factor;
+        if ($srcOffsetValue === 0.0 && $destOffsetValue === 0.0) {
+            return $value * $factor->value;
+        }
+
+        // With offsets, y = m*x + c, where c = srcOffset*m - destOffset. Offsets are usually defined as exact decimals,
+        // so if an integer lies within c's tracked error, c is that integer, and y = m*x + c is the most accurate
+        // form. For example, c for °C to °F evaluates to 31.999999999999943 rather than 32.
+        $c = new FloatWithError($srcOffsetValue)->mul($factor)->sub($destOffsetValue);
+        $constant = round($c->value);
+        if (abs($c->value - $constant) <= $c->absoluteError) {
+            return $value * $factor->value + $constant;
+        }
+
+        // Otherwise, convert via the zero units: add the source offset, convert, and subtract the destination offset.
+        // If the reverse conversion has a more exact factor, divide by it instead of multiplying by its inverse. For
+        // example, °R to K divides by 1.8 rather than multiplying by 0.5555555555555556.
+        $absoluteValue = $value + $srcOffsetValue;
+        $reverse = $this->findConversion($destZeroUnit, $srcZeroUnit);
+        $absoluteValue = $reverse !== null && $reverse->factor->relativeError < $factor->relativeError
+            ? $absoluteValue / $reverse->factor->value
+            : $absoluteValue * $factor->value;
+        return $absoluteValue - $destOffsetValue;
     }
 
     /**
@@ -495,6 +546,62 @@ class Converter
     #endregion
 
     #region Validation methods
+
+    /**
+     * Get the zero unit and offset to use for a unit when converting.
+     *
+     * Returns null if the unit isn't a single unit term, since offsets don't apply then. Otherwise, returns the zero
+     * unit and offset from the unit's offset definition, or the unit itself and an offset of 0 if it has none. Offset
+     * units are matched by their exact symbol, so e.g. 'degC2' doesn't match the definition for 'degC'.
+     *
+     * @param CompoundUnit $unit The unit.
+     * @return ?array{CompoundUnit, float} The zero unit and offset, or null if offsets don't apply.
+     * @throws DomainException If an offset definition is invalid.
+     */
+    private function getOffset(CompoundUnit $unit): ?array
+    {
+        // Offsets apply only to a single unit term.
+        if (count($unit->unitTerms) !== 1) {
+            return null;
+        }
+
+        // Load the offset definitions on first use.
+        if ($this->offsets === null) {
+            $this->offsets = $this->loadOffsets();
+        }
+
+        return $this->offsets[$unit->asciiSymbol] ?? [$unit, 0.0];
+    }
+
+    /**
+     * Load and validate the offset definitions for this Converter's dimension.
+     *
+     * @return array<string, array{CompoundUnit, float}> The offset units, keyed by ASCII symbol, with their zero unit
+     * and offset.
+     * @throws FormatException If a unit symbol cannot be parsed.
+     * @throws DimensionMismatchException If a unit has the wrong dimension for this Converter.
+     * @throws DomainException If a unit isn't the same size as its zero unit.
+     */
+    private function loadOffsets(): array
+    {
+        $offsets = [];
+        foreach ($this->quantityType->offsetDefinitions ?? [] as [$unitSymbol, $zeroUnitSymbol, $offset]) {
+            $unit = $this->validateUnit($unitSymbol);
+            $zeroUnit = $this->validateUnit($zeroUnitSymbol);
+
+            // Check the units are the same size.
+            $factor = $this->findConversionFactor($unit, $zeroUnit);
+            if ($factor === null || !Floats::approxEqual($factor, 1.0)) {
+                throw new DomainException(
+                    "Invalid offset definition for '$unitSymbol'. It must be the same size as '$zeroUnitSymbol'."
+                );
+            }
+
+            $offsets[$unit->asciiSymbol] = [$zeroUnit, $offset];
+        }
+
+        return $offsets;
+    }
 
     /**
      * Validate a string or object representing a unit.

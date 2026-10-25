@@ -48,6 +48,28 @@ final class TemperatureTest extends TestCase
         $this->assertValidConversionDefinitionsShape($conversions);
     }
 
+    /**
+     * Test getOffsetDefinitions() defines the Celsius and Fahrenheit offsets.
+     */
+    public function testGetOffsetDefinitions(): void
+    {
+        $this->assertSame(
+            [
+                [
+                    'degC',
+                    'K',
+                    Temperature::CELSIUS_OFFSET,
+                ],
+                [
+                    'degF',
+                    'degR',
+                    Temperature::FAHRENHEIT_OFFSET,
+                ],
+            ],
+            Temperature::getOffsetDefinitions()
+        );
+    }
+
     #endregion
 
     #region Constants tests
@@ -362,6 +384,50 @@ final class TemperatureTest extends TestCase
         $value = Temperature::convert(25, 'degC', 'degC');
 
         $this->assertSame(25.0, $value);
+    }
+
+    /**
+     * Test Quantity::convert() and ConversionService::convert() apply the offsets, like Temperature::convert().
+     */
+    public function testGenericConvertMethodsApplyOffsets(): void
+    {
+        $this->assertSame(32.0, Quantity::convert(0, 'degC', 'degF'));
+        $this->assertSame(212.0, Quantity::convert(100, 'degC', 'degF'));
+        $this->assertSame(373.15, ConversionService::convert(100, 'degC', 'K'));
+        $this->assertSame(0.0, ConversionService::convert(32, 'degF', 'degC'));
+    }
+
+    /**
+     * Test °C to °F is exact for whole-number temperatures.
+     */
+    public function testConvertCelsiusToFahrenheitIsExact(): void
+    {
+        foreach ([-40, 0, 37, 100] as $celsius) {
+            $this->assertSame($celsius * 1.8 + 32, Quantity::convert($celsius, 'degC', 'degF'));
+        }
+    }
+
+    /**
+     * Test every pair of temperature units round-trips via to().
+     */
+    public function testEveryUnitPairRoundTrips(): void
+    {
+        $units = ['K', 'mK', 'degC', 'degF', 'degR'];
+        foreach ($units as $src) {
+            foreach ($units as $dest) {
+                $temp = new Temperature(300, $src);
+                $this->assertApproxEqual(300.0, $temp->to($dest)->to($src)->value, absTol: 1e-9);
+            }
+        }
+    }
+
+    /**
+     * Test offsets aren't applied in compound units, where a temperature unit means a difference.
+     */
+    public function testCompoundUnitsIgnoreOffsets(): void
+    {
+        $this->assertSame(1.0, Quantity::convert(1, 'J/degC', 'J/K'));
+        $this->assertEqualsWithDelta(1.8, Quantity::convert(1, 'J/degF', 'J/degC'), 1e-12);
     }
 
     #endregion

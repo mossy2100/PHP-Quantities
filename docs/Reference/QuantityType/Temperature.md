@@ -22,7 +22,8 @@ The `Temperature` class handles the complexity of temperature conversions, which
 | fahrenheit | `degF`       | `°F`           |            | Imperial, US Customary |
 | rankine    | `degR`       | `°R`           |            | Imperial, US Customary |
 
-**Note:** Temperature conversions between Celsius/Fahrenheit and Kelvin/Rankine include offsets and are handled specially.
+**Note:** Conversions to or from Celsius and Fahrenheit include offsets, which are defined in
+[Offset definitions](#offset-definitions).
 
 ---
 
@@ -33,6 +34,20 @@ The `Temperature` class handles the complexity of temperature conversions, which
 | `degC` | `K`    | 1      |
 | `degF` | `degR` | 1      |
 | `K`    | `degR` | 1.8    |
+
+---
+
+## Offset definitions
+
+Celsius and Fahrenheit are measured from a point other than absolute zero, so `getOffsetDefinitions()` defines their
+offsets from the absolute scale of the same size:
+
+| Unit   | Zero unit | Offset   | Meaning                         |
+| ------ | --------- | -------- | ------------------------------- |
+| `degC` | `K`       | `273.15` | `x degC` is `(x + 273.15) K`    |
+| `degF` | `degR`    | `459.67` | `x degF` is `(x + 459.67) degR` |
+
+See [`Quantity::getOffsetDefinitions()`](../Quantity.md#getoffsetdefinitions).
 
 ---
 
@@ -62,17 +77,10 @@ The package supports four temperature scales:
 
 ---
 
-## Overridden methods
+## Converting temperatures
 
-### convert()
-
-```php
-public static function convert(float $value, string|UnitInterface $srcUnit, string|UnitInterface $destUnit): float
-```
-
-Convert temperature between units, correctly handling offset-based scales.
-
-This method overrides the parent `convert()` because temperature conversions require adding/subtracting offsets, not just multiplying by a factor.
+Every conversion method applies the offsets: `Temperature::convert()`, `Quantity::convert()`,
+`ConversionService::convert()` and `to()`.
 
 ```php
 // Freezing point of water
@@ -96,9 +104,12 @@ Temperature::convert(0, 'degR', 'degF');   // -459.67
 
 The conversion process:
 
-1. **Convert to absolute scale** - Apply offset if starting from Celsius or Fahrenheit
-2. **Convert between systems** - Multiply/divide by 1.8 if crossing SI/Imperial boundary
-3. **Convert to destination** - Apply offset if ending in Celsius or Fahrenheit
+1. **Convert to absolute scale** - Add the offset if starting from Celsius or Fahrenheit.
+2. **Convert between systems** - Multiply or divide by 1.8 if crossing between kelvin and Rankine.
+3. **Convert to destination** - Subtract the offset if ending in Celsius or Fahrenheit.
+
+Where the combined offset is a whole number, as for Celsius to Fahrenheit, the result is computed as `1.8 × x + 32`,
+so whole-number temperatures convert exactly.
 
 ### Important notes
 
@@ -111,7 +122,7 @@ echo $t->to('K');  // 293.15 K (not 20 K)
 
 // Rate of change — only scale factor, no offset.
 $rate = Quantity::create(5, 'J/K');
-echo $rate->to('J/degR');  // 2.7778 J/°R
+echo $rate->to('J/degR');  // 2.777778 J/°R
 ```
 
 - **Prefixed Kelvin is supported** — Units like `mK` (*millikelvin*) work correctly:

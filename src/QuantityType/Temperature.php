@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\QuantityType;
 
-use Mossy2100\Core\Exceptions\FormatException;
 use Mossy2100\Quantities\Enums\UnitSystem;
-use Mossy2100\Quantities\Exceptions\DimensionMismatchException;
 use Mossy2100\Quantities\Quantity;
 use Mossy2100\Quantities\Services\PrefixService;
-use Mossy2100\Quantities\Units\CompoundUnit;
-use Mossy2100\Quantities\Units\UnitInterface;
-use Mossy2100\Quantities\Units\UnitTerm;
 use Override;
 
 /**
@@ -39,119 +34,6 @@ class Temperature extends Quantity
     #endregion
 
     #region Overridden methods
-
-    /**
-     * Convert temperature from one unit to another.
-     *
-     * This override is necessary because Celsius and Fahrenheit are offset from absolute zero, but the conversion
-     * engine used by the package only supports conversion by multiplying.
-     *
-     * The offset (e.g. 273.15 for Celsius→Kelvin) only applies when converting actual temperatures - that is,
-     * quantities with dimension H and no other unit terms or exponents. For compound units containing temperature
-     * (e.g. J/°C → J/K), the standard conversion engine is used, which applies only the conversion factor (1),
-     * not the offset. This is correct because such quantities represent rates of change, not absolute temperatures.
-     *
-     * @param float $value The temperature value to convert.
-     * @param string|UnitInterface $srcUnit The source temperature unit.
-     * @param string|UnitInterface $destUnit The destination temperature unit.
-     * @return float The converted temperature value.
-     * @throws FormatException If a string cannot be parsed.
-     * @throws DimensionMismatchException If a unit is not a temperature unit.
-     */
-    #[Override]
-    public static function convert(float $value, string|UnitInterface $srcUnit, string|UnitInterface $destUnit): float
-    {
-        // Get the units as CompoundUnit objects. These calls could throw exceptions.
-        $srcUnit = CompoundUnit::toCompoundUnit($srcUnit);
-        $destUnit = CompoundUnit::toCompoundUnit($destUnit);
-
-        // Validate units.
-        if ($srcUnit->dimension !== 'H') {
-            throw new DimensionMismatchException('H', $srcUnit->dimension);
-        }
-        if ($destUnit->dimension !== 'H') {
-            throw new DimensionMismatchException('H', $destUnit->dimension);
-        }
-
-        // If either unit is not a known temperature unit, delegate to parent immediately.
-        // This avoids partial transformations that would corrupt the value for custom units.
-        if (!self::isKnownTemperatureUnit($srcUnit) || !self::isKnownTemperatureUnit($destUnit)) {
-            return parent::convert($value, $srcUnit, $destUnit);
-        }
-
-        // Get the ASCII symbols.
-        $srcSymbol = $srcUnit->asciiSymbol;
-        $destSymbol = $destUnit->asciiSymbol;
-
-        // We done?
-        if ($srcSymbol === $destSymbol) {
-            return $value;
-        }
-
-        // ----------------------------------------------------------------------------------------
-        // Get the source unit as a value from absolute zero (i.e. either K or degR).
-
-        // Check for a source unit of Kelvin with SI prefix.
-        if (self::isPrefixedKelvin($srcUnit)) {
-            // Convert to unprefixed Kelvin.
-            $value *= $srcUnit->multiplier;
-            $srcSymbol = 'K';
-        }
-
-        // Apply offset as needed.
-        if ($srcSymbol === 'degC') {
-            // Convert Celsius to Kelvin.
-            $value += self::CELSIUS_OFFSET;
-            $srcSymbol = 'K';
-        } elseif ($srcSymbol === 'degF') {
-            // Convert Fahrenheit to Rankine.
-            $value += self::FAHRENHEIT_OFFSET;
-            $srcSymbol = 'degR';
-        }
-
-        // We done?
-        if ($srcSymbol === $destSymbol) {
-            return $value;
-        }
-
-        // ----------------------------------------------------------------------------------------
-        // Convert SI to English or vice-versa.
-
-        $destIsEnglish = in_array($destSymbol, ['degR', 'degF'], true);
-
-        // Scale only if crossing sides.
-        if ($srcSymbol === 'K' && $destIsEnglish) {
-            // Convert Kelvin to Rankine.
-            $value *= self::RANKINE_PER_KELVIN;
-            $srcSymbol = 'degR';
-        } elseif ($srcSymbol === 'degR' && !$destIsEnglish) {
-            // Convert Rankine to Kelvin.
-            $value /= self::RANKINE_PER_KELVIN;
-            $srcSymbol = 'K';
-        }
-
-        // We done?
-        if ($srcSymbol === $destSymbol) {
-            return $value;
-        }
-
-        // ----------------------------------------------------------------------------------------
-        // The source unit is now in the same system as the destination unit and will be a
-        // value from absolute zero (i.e. in K or degR). Convert it to the destination unit.
-
-        // Convert Kelvin to Celsius.
-        if ($destSymbol === 'degC') {
-            return $value - self::CELSIUS_OFFSET;
-        }
-
-        // Convert Rankine to Fahrenheit.
-        if ($destSymbol === 'degF') {
-            return $value - self::FAHRENHEIT_OFFSET;
-        }
-
-        // Destination unit must be Kelvin with an SI prefix.
-        return $value / $destUnit->multiplier;
-    }
 
     /**
      * Unit definitions for temperature.
@@ -198,8 +80,7 @@ class Temperature extends Quantity
     /**
      * Conversion factors for temperature units.
      *
-     * Note: Temperature conversions are special because Celsius and Fahrenheit have offsets.
-     * The convert() method is overridden to handle these correctly.
+     * These are the sizes of the units. The offsets for Celsius and Fahrenheit are in getOffsetDefinitions().
      *
      * @return list<array{string, string, float}>
      */
@@ -213,6 +94,31 @@ class Temperature extends Quantity
                 'K',
                 'degR',
                 self::RANKINE_PER_KELVIN,
+            ],
+        ];
+    }
+
+    /**
+     * Offset definitions for temperature units.
+     *
+     * Celsius and Fahrenheit are measured from a point other than absolute zero, so converting a temperature in them
+     * needs an offset as well as a factor. For example, x °C is (x + 273.15) K.
+     *
+     * @return list<array{string, string, float}>
+     */
+    #[Override]
+    public static function getOffsetDefinitions(): array
+    {
+        return [
+            [
+                'degC',
+                'K',
+                self::CELSIUS_OFFSET,
+            ],
+            [
+                'degF',
+                'degR',
+                self::FAHRENHEIT_OFFSET,
             ],
         ];
     }
@@ -237,38 +143,6 @@ class Temperature extends Quantity
             'degF' => $this->to('degR'),
             default => clone $this,
         };
-    }
-
-    #endregion
-
-    #region Private helper methods
-
-    /**
-     * Check if a unit is a prefixed Kelvin (e.g. mK, μK).
-     */
-    private static function isPrefixedKelvin(CompoundUnit $unit): bool
-    {
-        $unitTerm = $unit->firstUnitTerm;
-        assert($unitTerm instanceof UnitTerm);
-        return $unitTerm->unit->asciiSymbol === 'K' && $unitTerm->prefix !== null;
-    }
-
-    /**
-     * Check if a unit is a known temperature unit that this class can convert.
-     *
-     * Known units are: K, degC, degF, degR, and prefixed Kelvin (mK, μK, etc.).
-     * Custom temperature units are not handled by this class and should be
-     * delegated to the parent convert() method.
-     */
-    private static function isKnownTemperatureUnit(CompoundUnit $unit): bool
-    {
-        // Check for prefixed Kelvin first.
-        if (self::isPrefixedKelvin($unit)) {
-            return true;
-        }
-
-        // Check for the four base temperature units.
-        return in_array($unit->asciiSymbol, ['K', 'degC', 'degF', 'degR'], true);
     }
 
     #endregion

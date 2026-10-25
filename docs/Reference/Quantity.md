@@ -829,6 +829,28 @@ These definitions are loaded by `ConversionService` when a unit system is initia
 **Returns:**
 - `list<array{string, string, float}>` - A list of conversion definition tuples.
 
+### getOffsetDefinitions()
+
+```php
+public static function getOffsetDefinitions(): array
+```
+
+Get the offset definitions for this quantity type, for units whose zero isn't a true zero, like degrees Celsius.
+
+Returns an empty array in the base `Quantity` class. Overridden in subclasses to define offset units. Each entry is a
+tuple of `[unit, zeroUnit, offset]`, meaning a value in the unit plus the offset is the same value in the zero unit.
+The two units must be the same size. For example, `Temperature` defines `['degC', 'K', 273.15]`, so x °C is
+(x + 273.15) K.
+
+Offsets are applied when converting between two units that are each a single unit term, e.g. °C to °F. In a compound
+unit such as `J/degC`, the unit means a difference, so only its size is used.
+
+**Returns:**
+- `list<array{string, string, float}>` - A list of offset definition tuples.
+
+**Throws (when the definitions are first used):**
+- `DomainException` - If a unit isn't the same size as its zero unit.
+
 ### getPartUnitSymbols()
 
 ```php

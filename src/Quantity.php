@@ -1530,6 +1530,23 @@ class Quantity implements Stringable
         return [];
     }
 
+    /**
+     * Offset definitions, for units whose zero isn't a true zero, like degrees Celsius.
+     *
+     * This method can be overridden in subclasses to define offset units. Each definition is a tuple of [unit symbol,
+     * zero unit symbol, offset], meaning a value in the unit plus the offset is the same value in the zero unit. The
+     * two units must be the same size, e.g. ['degC', 'K', 273.15] means x °C is (x + 273.15) K.
+     *
+     * Offsets are applied when converting between two units that are each a single unit term, e.g. °C to °F. In
+     * compound units, e.g. J/°C, the unit means a difference, so only the size of the unit matters.
+     *
+     * @return list<array{string, string, float}>
+     */
+    public static function getOffsetDefinitions(): array
+    {
+        return [];
+    }
+
     #endregion
 
     #region Validation methods

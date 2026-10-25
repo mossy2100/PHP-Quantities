@@ -40,6 +40,10 @@ Get a known conversion from the matrix without attempting to discover new paths.
 
 **Returns:** `?Conversion` - The conversion, or `null` if not in the matrix.
 
+> [!NOTE]
+> A `Conversion` is a factor only, so it doesn't include offsets (e.g. for °C to °F). Use `convert()` to convert
+> temperatures.
+
 **Throws:**
 - [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If a unit string cannot be parsed.
 - [`UnknownUnitException`](../Exceptions/UnknownUnitException.md) - If a unit string contains unknown units.
@@ -149,6 +153,10 @@ public static function find(
 Find a conversion between two units, discovering new paths if necessary. Unlike `get()`, this method will attempt path-finding if no direct conversion exists.
 
 **Returns:** `?Conversion` - The conversion, or `null` if no path exists.
+
+> [!NOTE]
+> A `Conversion` is a factor only, so it doesn't include offsets (e.g. for °C to °F). Use `convert()` to convert
+> temperatures.
 
 **Throws:**
 - [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If a unit string cannot be parsed.

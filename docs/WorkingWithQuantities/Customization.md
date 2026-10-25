@@ -244,7 +244,7 @@ The built-in quantity type classes demonstrate various patterns for extending th
 
 - **Minimal implementation** — [`Acceleration`](../Reference/QuantityType/Acceleration.md) and [`Density`](../Reference/QuantityType/Density.md) are empty subclasses with no custom units or conversions, included for type safety and as templates.
 - **Extended functionality** — [`Time`](../Reference/QuantityType/Time.md) and [`Angle`](../Reference/QuantityType/Angle.md) add domain-specific methods such as trigonometric functions and DateInterval conversion.
-- **Overriding conversion** — [`Temperature`](../Reference/QuantityType/Temperature.md) overrides `convert()` to handle offset-based conversions (e.g. Celsius to Fahrenheit).
+- **Offset units** - [`Temperature`](../Reference/QuantityType/Temperature.md) overrides `getOffsetDefinitions()` to define units with an offset zero (e.g. Celsius and Fahrenheit).
 - **Configuring parts** — [`Mass`](../Reference/QuantityType/Mass.md) demonstrates configuring part unit symbols for imperial and US customary decomposition.
 - **Dynamic units and conversions** — [`Money`](../Reference/QuantityType/Money.md) loads currency units and exchange rates at runtime via the CurrencyService.
 

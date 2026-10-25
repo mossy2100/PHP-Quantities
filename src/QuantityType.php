@@ -101,6 +101,15 @@ class QuantityType
     }
 
     /**
+     * The offset definitions for this quantity type.
+     *
+     * @var list<array{string, string, float}>
+     */
+    public array $offsetDefinitions {
+        get => $this->class::getOffsetDefinitions();
+    }
+
+    /**
      * The units compatible with this quantity type.
      *
      * @var list<Unit>

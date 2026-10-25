@@ -79,6 +79,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 | `Mossy2100\Quantities\Internal\UnitSystem`    | `Mossy2100\Quantities\Enums\UnitSystem`    |
 | `Mossy2100\Quantities\Internal\QuantityType`  | `Mossy2100\Quantities\QuantityType`        |
 
+
+### Fixed
+
+- **`Quantity::convert()` and `ConversionService::convert()` ignored temperature offsets,** e.g. 0 °C converted to
+  0 °F. Every conversion method now applies them, via the new overridable `Quantity::getOffsetDefinitions()`.
+  Offsets aren't applied in compound units, e.g. `J/degC` to `J/K`. `Temperature` no longer overrides `convert()`.
+- **0 °C converted to 31.999999999999943 °F.** Whole-number Celsius temperatures now convert to Fahrenheit exactly.
+
 ---
 
 ## [2.0.0] - 2026-06-18
