@@ -16,6 +16,7 @@ use Mossy2100\Quantities\QuantityType\Mass;
 use Mossy2100\Quantities\QuantityType\Temperature;
 use Mossy2100\Quantities\QuantityType\Time;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RoundingMode;
 
@@ -144,6 +145,38 @@ final class QuantityStringsTest extends TestCase
         $this->assertInstanceOf(Time::class, $time);
     }
 
+    /**
+     * Test that Quantity::parse() parses a multi-part string, getting the quantity type from the first part's unit.
+     *
+     * @return array<string, array{string, class-string<Quantity>, float, string}>
+     */
+    public static function providerGenericParseMultiPart(): array
+    {
+        return [
+            'angle'  => ['12° 30′ 36″', Angle::class, 12.51, 'deg'],
+            'time'   => ['1h 30min 15s', Time::class, 5415.0, 's'],
+            'length' => ['5ft 6in', Length::class, 5.5, 'ft'],
+        ];
+    }
+
+    /**
+     * Test that Quantity::parse() parses a multi-part string, getting the quantity type from the first part's unit.
+     *
+     * @param string $input The string to parse.
+     * @param class-string<Quantity> $class The expected class.
+     * @param float $value The expected value.
+     * @param string $unit The expected unit.
+     */
+    #[DataProvider('providerGenericParseMultiPart')]
+    public function testGenericParseMultiPart(string $input, string $class, float $value, string $unit): void
+    {
+        $result = Quantity::parse($input);
+
+        $this->assertInstanceOf($class, $result);
+        $this->assertEqualsWithDelta($value, $result->value, 1e-9);
+        $this->assertSame($unit, $result->compoundUnit->asciiSymbol);
+    }
+
     #endregion
 
     #region Parse tests - error handling
@@ -176,6 +209,38 @@ final class QuantityStringsTest extends TestCase
         $this->expectException(FormatException::class);
 
         Length::parse('not a valid quantity');
+    }
+
+    /**
+     * Test Quantity::parse() throws FormatException for malformed input, rather than LogicException.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function providerGenericParseMalformed(): array
+    {
+        return [
+            'plus sign'           => ['+5 m'],
+            'thousands separator' => ['1,000 m'],
+            'double slash'        => ['1 m//s'],
+            'mixed dimensions'    => ['3 h 2 kg'],
+            'space in a part'     => ['5 m 3 cm'],
+            'no units'            => ['5 3'],
+            'unregistered type'   => ['1m*kg 2m*kg'],
+        ];
+    }
+
+    /**
+     * Test Quantity::parse() throws FormatException for malformed input, rather than LogicException.
+     *
+     * @param string $input The string to parse.
+     */
+    #[DataProvider('providerGenericParseMalformed')]
+    public function testGenericParseMalformedThrowsFormatException(string $input): void
+    {
+        $this->expectException(FormatException::class);
+        $this->expectExceptionMessage("The provided string '$input' does not represent a valid quantity.");
+
+        Quantity::parse($input);
     }
 
     #endregion

@@ -86,6 +86,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   0 °F. Every conversion method now applies them, via the new overridable `Quantity::getOffsetDefinitions()`.
   Offsets aren't applied in compound units, e.g. `J/degC` to `J/K`. `Temperature` no longer overrides `convert()`.
 - **0 °C converted to 31.999999999999943 °F.** Whole-number Celsius temperatures now convert to Fahrenheit exactly.
+- **`Quantity::parse()` failed on multi-part strings,** e.g. `Quantity::parse('12° 34′ 56″')` threw "Quantity type
+  cannot be null". The quantity type now comes from the first part's unit. Malformed input, e.g. `'+5 m'`, now throws
+  `FormatException` rather than `LogicException`.
 - **Exchange rates from Open Exchange Rates or ExchangeRate-API were never reused,** because their response includes
   the base currency at a rate of `1`, which was saved as an integer and made the whole rates file fail to load. Rates
   are now saved as floats, the base currency is skipped, and existing files with integer rates load.

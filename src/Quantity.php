@@ -223,19 +223,19 @@ class Quantity implements Stringable
      *
      * Accepts formats like "123.45 km", "90deg", "1.5e3 ms". Whitespace between value and unit is allowed.
      *
-     * The string may have multiple parts, which must be separated by whitespace.
+     * The string may have multiple parts, which must be separated by whitespace, with no whitespace between each value
+     * and its unit (see parseParts()). On the base Quantity class, the quantity type comes from the first part's unit.
      * Examples:
      *    - "4y 5mo 6d 12h 34min 56.789s"
      *    - "12° 34′ 56.789″"
-     *    - "12 mi 34 yd 567 ft 8.9 in"
+     *    - "12mi 34yd 567ft 8.9in"
      *
      * @param string $input The string to parse.
      * @return static A new Quantity parsed from the string.
      * @throws FormatException If the input is empty, the string format is invalid, or a unit symbol cannot be parsed.
      * @throws UnknownUnitException If any unit symbol is not recognized.
      * @throws DomainException If a value is non-finite (single-value input only).
-     * @throws LogicException If the input contains multiple parts and the quantity type is not registered, or no
-     * conversion path exists between a part unit and the result unit.
+     * @throws LogicException If no conversion path exists between a part unit and the result unit.
      * @throws DimensionMismatchException If called on a subclass and the parsed unit's dimension doesn't match.
      * @throws UnexpectedValueException If an unexpected error occurs during parsing.
      * @example
@@ -261,6 +261,18 @@ class Quantity implements Stringable
         if (self::isValidQuantity($input, $m)) {
             assert(isset($m[1]));
             $result = self::create((float) $m[1], $m[2] ?? null);
+        } elseif (self::class === static::class) {
+            // On the base class, get the quantity type from the first part's unit, then parse the string as multiple
+            // parts of that type, as if output from formatParts().
+            $firstPart = explode(' ', (string) preg_replace('/\s+/', ' ', $input), 2)[0];
+            if (!self::isValidQuantity($firstPart, $m) || !isset($m[2]) || $m[2] === '') {
+                throw new FormatException($err);
+            }
+            $class = CompoundUnit::parse($m[2])->quantityType?->class;
+            if ($class === null) {
+                throw new FormatException($err);
+            }
+            $result = $class::parseParts($input);
         } else {
             // Try to parse the string as multiple parts, as if output from formatParts().
             $result = static::parseParts($input);

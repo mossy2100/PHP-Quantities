@@ -142,7 +142,7 @@ Parse a string representation into a Quantity.
 
 Supports single-value strings (e.g. `123.45 km`) and multi-part strings (e.g. `5h 30min 45s`).
 
-When called from a subclass (e.g. `Length::parse()`), the parsed unit's dimension must match the subclass's dimension. When called as `Quantity::parse()`, any valid unit is accepted.
+When called from a subclass (e.g. `Length::parse()`), the parsed unit's dimension must match the subclass's dimension. When called as `Quantity::parse()`, any valid unit is accepted, and for a multi-part string the quantity type comes from the first part's unit.
 
 **Parameters:**
 - `$input` (string) - The string to parse.
@@ -154,7 +154,7 @@ When called from a subclass (e.g. `Length::parse()`), the parsed unit's dimensio
 - [`FormatException`](https://github.com/mossy2100/PHP-Core/blob/main/docs/Exceptions/FormatException.md) - If the input is empty, the string format is invalid, or a unit symbol cannot be parsed.
 - [`UnknownUnitException`](Exceptions/UnknownUnitException.md) - If any unit symbol is not recognized.
 - `DomainException` - If a value is non-finite (single-value input only).
-- `LogicException` - If the input contains multiple parts and the quantity type is not registered, or no conversion path exists between a part unit and the result unit.
+- `LogicException` - If no conversion path exists between a part unit and the result unit.
 - [`DimensionMismatchException`](Exceptions/DimensionMismatchException.md) - If called on a subclass and the parsed unit has a different dimension.
 
 **Examples:**
@@ -166,6 +166,7 @@ $duration = Time::parse('5h 30min 45s');
 
 // Quantity::parse() accepts any unit.
 $mass = Quantity::parse('50 kg');  // Mass object
+$angle = Quantity::parse('12° 30′ 36″');  // Angle object, 12.51°
 
 // Subclass parse rejects wrong dimensions.
 Length::parse('123 kg');  // DimensionMismatchException
