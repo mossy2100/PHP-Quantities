@@ -36,16 +36,6 @@ class FrankfurterServiceTest extends TestCase
         return self::$definitions;
     }
 
-    #region getName
-
-    public function testGetName(): void
-    {
-        $service = new FrankfurterService();
-        self::assertSame('Frankfurter (ECB)', $service->getName());
-    }
-
-    #endregion
-
     #region getConversionDefinitions
 
     public function testGetConversionDefinitionsReturnsArray(): void

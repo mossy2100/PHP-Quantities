@@ -5,18 +5,16 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Currencies\ExchangeRateServices;
 
 use DomainException;
-use Mossy2100\Core\Numbers;
 use Override;
-use RuntimeException;
 
 /**
  * Exchange rate service using the ExchangeRate-API.
  *
- * The free tier supports any base currency with 1,500 requests per month.
+ * The free tier supports any base currency with 1,500 requests per month. This service fetches rates relative to USD.
  *
  * @see https://www.exchangerate-api.com/
  */
-class ExchangeRateApiService implements ExchangeRateServiceInterface
+class ExchangeRateApiService extends AbstractExchangeRateService
 {
     #region Private constants
 
@@ -70,65 +68,26 @@ class ExchangeRateApiService implements ExchangeRateServiceInterface
         return 'ExchangeRate-API';
     }
 
-    /**
-     * Fetch fresh exchange rates from the ExchangeRate-API and generate the conversion definitions.
-     *
-     * Rates are relative to USD by default.
-     *
-     * @return list<array{string, string, float}> Currency conversion definitions.
-     * @throws RuntimeException If the API request fails or returns invalid data.
-     */
     #[Override]
-    public function getConversionDefinitions(): array
+    protected function getUrl(): string
     {
-        $url = self::API_URL . '/' . urlencode($this->apiKey) . '/latest/USD';
+        return self::API_URL . '/' . urlencode($this->apiKey) . '/latest/USD';
+    }
 
-        $response = @file_get_contents($url);
-        if ($response === false) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Failed to fetch exchange rates from ExchangeRate-API.');
-            // @codeCoverageIgnoreEnd
+    #[Override]
+    protected function getErrorMessage(array $data): ?string
+    {
+        if (!isset($data['result']) || $data['result'] !== 'error') {
+            return null;
         }
 
-        $data = json_decode($response, true);
-        if (!is_array($data)) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Invalid JSON response from ExchangeRate-API.');
-            // @codeCoverageIgnoreEnd
-        }
+        return isset($data['error-type']) && is_string($data['error-type']) ? $data['error-type'] : 'Unknown error';
+    }
 
-        // Check for API error response.
-        if (isset($data['result']) && $data['result'] === 'error') {
-            // @codeCoverageIgnoreStart
-            $message = isset($data['error-type']) && is_string($data['error-type'])
-                ? $data['error-type']
-                : 'Unknown error';
-            throw new RuntimeException("ExchangeRate-API error: $message");
-            // @codeCoverageIgnoreEnd
-        }
-
-        if (!isset($data['conversion_rates']) || !is_array($data['conversion_rates'])) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Missing or invalid rates in ExchangeRate-API response.');
-            // @codeCoverageIgnoreEnd
-        }
-
-        $base = isset($data['base_code']) && is_string($data['base_code']) ? $data['base_code'] : 'USD';
-
-        /** @var array<array-key, mixed> $rates */
-        $rates = $data['conversion_rates'];
-
-        // Convert to conversion definitions.
-        $conversionDefinitions = [];
-        foreach ($rates as $currencyCode => $rate) {
-            // Skip the base currency, and any rate that isn't a positive number. JSON decodes a whole-number rate as
-            // an int, so cast it to float.
-            if ($currencyCode === $base || !Numbers::isNumber($rate) || $rate <= 0) {
-                continue;
-            }
-            $conversionDefinitions[] = [$base, (string) $currencyCode, (float) $rate];
-        }
-        return $conversionDefinitions;
+    #[Override]
+    protected function getRates(array $data): array
+    {
+        return [$this->getStringField($data, 'base_code', 'USD'), $this->getArrayField($data, 'conversion_rates')];
     }
 
     #endregion

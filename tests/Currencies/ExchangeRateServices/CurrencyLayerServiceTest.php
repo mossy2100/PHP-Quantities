@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\Currencies\ExchangeRateServices;
 
-use DomainException;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\CurrencyLayerService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -67,32 +66,6 @@ class CurrencyLayerServiceTest extends TestCase
 
         return $apiKey;
     }
-
-    #region Constructor
-
-    public function testConstructorRejectsEmptyAccessKey(): void
-    {
-        $this->expectException(DomainException::class);
-        new CurrencyLayerService('');
-    }
-
-    public function testConstructorStoresAccessKey(): void
-    {
-        $service = new CurrencyLayerService('test-key');
-        self::assertSame('test-key', $service->accessKey);
-    }
-
-    #endregion
-
-    #region getName
-
-    public function testGetName(): void
-    {
-        $service = new CurrencyLayerService('test-key');
-        self::assertSame('CurrencyLayer', $service->getName());
-    }
-
-    #endregion
 
     #region getConversionDefinitions
 

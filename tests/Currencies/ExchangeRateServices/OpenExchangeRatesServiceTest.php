@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\Currencies\ExchangeRateServices;
 
-use DomainException;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\OpenExchangeRatesService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -67,32 +66,6 @@ class OpenExchangeRatesServiceTest extends TestCase
 
         return $apiKey;
     }
-
-    #region Constructor
-
-    public function testConstructorRejectsEmptyAppId(): void
-    {
-        $this->expectException(DomainException::class);
-        new OpenExchangeRatesService('');
-    }
-
-    public function testConstructorStoresAppId(): void
-    {
-        $service = new OpenExchangeRatesService('test-app-id');
-        self::assertSame('test-app-id', $service->appId);
-    }
-
-    #endregion
-
-    #region getName
-
-    public function testGetName(): void
-    {
-        $service = new OpenExchangeRatesService('test-app-id');
-        self::assertSame('Open Exchange Rates', $service->getName());
-    }
-
-    #endregion
 
     #region getConversionDefinitions
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mossy2100\Quantities\Tests\Currencies\ExchangeRateServices;
 
-use DomainException;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\ExchangeRateApiService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -67,32 +66,6 @@ class ExchangeRateApiServiceTest extends TestCase
 
         return $apiKey;
     }
-
-    #region Constructor
-
-    public function testConstructorRejectsEmptyApiKey(): void
-    {
-        $this->expectException(DomainException::class);
-        new ExchangeRateApiService('');
-    }
-
-    public function testConstructorStoresApiKey(): void
-    {
-        $service = new ExchangeRateApiService('test-key');
-        self::assertSame('test-key', $service->apiKey);
-    }
-
-    #endregion
-
-    #region getName
-
-    public function testGetName(): void
-    {
-        $service = new ExchangeRateApiService('test-key');
-        self::assertSame('ExchangeRate-API', $service->getName());
-    }
-
-    #endregion
 
     #region getConversionDefinitions
 

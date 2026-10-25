@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Currencies\ExchangeRateServices;
 
 use DomainException;
-use Mossy2100\Core\Numbers;
 use Override;
-use RuntimeException;
 
 /**
  * Exchange rate service using the Open Exchange Rates API.
@@ -16,7 +14,7 @@ use RuntimeException;
  *
  * @see https://openexchangerates.org/
  */
-class OpenExchangeRatesService implements ExchangeRateServiceInterface
+class OpenExchangeRatesService extends AbstractExchangeRateService
 {
     #region Private constants
 
@@ -69,60 +67,26 @@ class OpenExchangeRatesService implements ExchangeRateServiceInterface
         return 'Open Exchange Rates';
     }
 
-    /**
-     * Fetch fresh exchange rates from the API and generate the conversion definitions.
-     *
-     * @return list<array{string, string, float}> Currency conversion definitions.
-     * @throws RuntimeException If the API request fails or returns invalid data.
-     */
     #[Override]
-    public function getConversionDefinitions(): array
+    protected function getUrl(): string
     {
-        $url = self::API_URL . '?app_id=' . urlencode($this->appId);
+        return self::API_URL . '?app_id=' . urlencode($this->appId);
+    }
 
-        $response = @file_get_contents($url);
-        if ($response === false) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Failed to fetch exchange rates from Open Exchange Rates API.');
-            // @codeCoverageIgnoreEnd
+    #[Override]
+    protected function getErrorMessage(array $data): ?string
+    {
+        if (!isset($data['error']) || $data['error'] !== true) {
+            return null;
         }
 
-        $data = json_decode($response, true);
-        if (!is_array($data)) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Invalid JSON response from Open Exchange Rates API.');
-            // @codeCoverageIgnoreEnd
-        }
+        return isset($data['message']) && is_string($data['message']) ? $data['message'] : 'Unknown error';
+    }
 
-        // Check for API error response.
-        if (isset($data['error']) && $data['error'] === true) {
-            // @codeCoverageIgnoreStart
-            $message = isset($data['message']) && is_string($data['message']) ? $data['message'] : 'Unknown error';
-            throw new RuntimeException("Open Exchange Rates API error: $message");
-            // @codeCoverageIgnoreEnd
-        }
-
-        if (!isset($data['rates']) || !is_array($data['rates'])) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Missing or invalid rates in Open Exchange Rates API response.');
-            // @codeCoverageIgnoreEnd
-        }
-
-        /** @var array<array-key, mixed> $rates */
-        $rates = $data['rates'];
-
-        // Convert to conversion definitions.
-        $conversionDefinitions = [];
-        $base = 'USD';
-        foreach ($rates as $currencyCode => $rate) {
-            // Skip the base currency, and any rate that isn't a positive number. JSON decodes a whole-number rate as
-            // an int, so cast it to float.
-            if ($currencyCode === $base || !Numbers::isNumber($rate) || $rate <= 0) {
-                continue;
-            }
-            $conversionDefinitions[] = [$base, (string) $currencyCode, (float) $rate];
-        }
-        return $conversionDefinitions;
+    #[Override]
+    protected function getRates(array $data): array
+    {
+        return ['USD', $this->getArrayField($data, 'rates')];
     }
 
     #endregion

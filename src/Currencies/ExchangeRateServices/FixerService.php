@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Currencies\ExchangeRateServices;
 
 use DomainException;
-use Mossy2100\Core\Numbers;
 use Override;
-use RuntimeException;
 
 /**
  * Exchange rate service using the Fixer.io API.
@@ -16,7 +14,7 @@ use RuntimeException;
  *
  * @see https://fixer.io/
  */
-class FixerService implements ExchangeRateServiceInterface
+class FixerService extends AbstractExchangeRateService
 {
     #region Private constants
 
@@ -66,65 +64,28 @@ class FixerService implements ExchangeRateServiceInterface
         return 'Fixer.io';
     }
 
-    /**
-     * Fetch fresh exchange rates from the Fixer.io API and generate the conversion definitions.
-     *
-     * Rates are relative to EUR on the free tier.
-     *
-     * @return list<array{string, string, float}> Currency conversion definitions.
-     * @throws RuntimeException If the API request fails or returns invalid data.
-     */
     #[Override]
-    public function getConversionDefinitions(): array
+    protected function getUrl(): string
     {
-        $url = self::API_URL . '?access_key=' . urlencode($this->accessKey);
+        return self::API_URL . '?access_key=' . urlencode($this->accessKey);
+    }
 
-        $response = @file_get_contents($url);
-        if ($response === false) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Failed to fetch exchange rates from Fixer.io API.');
-            // @codeCoverageIgnoreEnd
+    #[Override]
+    protected function getErrorMessage(array $data): ?string
+    {
+        if (!isset($data['success']) || $data['success'] !== false) {
+            return null;
         }
 
-        $data = json_decode($response, true);
-        if (!is_array($data)) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Invalid JSON response from Fixer.io API.');
-            // @codeCoverageIgnoreEnd
-        }
+        $error = $data['error'] ?? null;
+        $info = is_array($error) ? ($error['info'] ?? null) : null;
+        return is_string($info) ? $info : 'Unknown error';
+    }
 
-        // Check for API error response.
-        if (isset($data['success']) && $data['success'] === false) {
-            // @codeCoverageIgnoreStart
-            $message = is_array($data['error']) && isset($data['error']['info']) && is_string($data['error']['info'])
-                ? $data['error']['info']
-                : 'Unknown error';
-            throw new RuntimeException("Fixer.io API error: $message");
-            // @codeCoverageIgnoreEnd
-        }
-
-        if (!isset($data['rates']) || !is_array($data['rates'])) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Missing or invalid rates in Fixer.io API response.');
-            // @codeCoverageIgnoreEnd
-        }
-
-        $base = isset($data['base']) && is_string($data['base']) ? $data['base'] : 'EUR';
-
-        /** @var array<array-key, mixed> $rates */
-        $rates = $data['rates'];
-
-        // Convert to conversion definitions.
-        $conversionDefinitions = [];
-        foreach ($rates as $currencyCode => $rate) {
-            // Skip the base currency, and any rate that isn't a positive number. JSON decodes a whole-number rate as
-            // an int, so cast it to float.
-            if ($currencyCode === $base || !Numbers::isNumber($rate) || $rate <= 0) {
-                continue;
-            }
-            $conversionDefinitions[] = [$base, (string) $currencyCode, (float) $rate];
-        }
-        return $conversionDefinitions;
+    #[Override]
+    protected function getRates(array $data): array
+    {
+        return [$this->getStringField($data, 'base', 'EUR'), $this->getArrayField($data, 'rates')];
     }
 
     #endregion

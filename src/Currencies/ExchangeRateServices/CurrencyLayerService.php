@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Currencies\ExchangeRateServices;
 
 use DomainException;
-use Mossy2100\Core\Numbers;
 use Override;
 use RuntimeException;
 
@@ -16,7 +15,7 @@ use RuntimeException;
  *
  * @see https://currencylayer.com/
  */
-class CurrencyLayerService implements ExchangeRateServiceInterface
+class CurrencyLayerService extends AbstractExchangeRateService
 {
     #region Private constants
 
@@ -74,68 +73,43 @@ class CurrencyLayerService implements ExchangeRateServiceInterface
         return 'CurrencyLayer';
     }
 
+    #[Override]
+    protected function getUrl(): string
+    {
+        return self::API_URL . '?access_key=' . urlencode($this->accessKey);
+    }
+
+    #[Override]
+    protected function getErrorMessage(array $data): ?string
+    {
+        if (!isset($data['success']) || $data['success'] !== false) {
+            return null;
+        }
+
+        $error = $data['error'] ?? null;
+        $info = is_array($error) ? ($error['info'] ?? null) : null;
+        return is_string($info) ? $info : 'Unknown error';
+    }
+
     /**
-     * Fetch fresh exchange rates from the CurrencyLayer API and generate the conversion definitions.
+     * Get the base currency code and the rates from an API response.
      *
-     * Rates are relative to USD on the free tier. Quote keys use concatenated currency codes
-     * (e.g. "USDEUR"), so the target code is extracted by stripping the 3-character source prefix.
+     * Quote keys are concatenated currency codes (e.g. "USDEUR"), so the source code prefix is stripped to get the
+     * target code.
      *
-     * @return list<array{string, string, float}> Currency conversion definitions.
-     * @throws RuntimeException If the API request fails or returns invalid data.
+     * @param array<array-key, mixed> $data The decoded response.
+     * @return array{string, array<array-key, mixed>} The base currency code, and the rates keyed by currency code.
+     * @throws RuntimeException If the quotes are missing or invalid.
      */
     #[Override]
-    public function getConversionDefinitions(): array
+    protected function getRates(array $data): array
     {
-        $url = self::API_URL . '?access_key=' . urlencode($this->accessKey);
-
-        $response = @file_get_contents($url);
-        if ($response === false) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Failed to fetch exchange rates from CurrencyLayer API.');
-            // @codeCoverageIgnoreEnd
+        $rates = [];
+        foreach ($this->getArrayField($data, 'quotes') as $quoteKey => $rate) {
+            $rates[substr((string) $quoteKey, self::SOURCE_CODE_LENGTH)] = $rate;
         }
 
-        $data = json_decode($response, true);
-        if (!is_array($data)) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Invalid JSON response from CurrencyLayer API.');
-            // @codeCoverageIgnoreEnd
-        }
-
-        // Check for API error response.
-        if (isset($data['success']) && $data['success'] === false) {
-            // @codeCoverageIgnoreStart
-            $message = is_array($data['error']) && isset($data['error']['info']) && is_string($data['error']['info'])
-                ? $data['error']['info']
-                : 'Unknown error';
-            throw new RuntimeException("CurrencyLayer API error: $message");
-            // @codeCoverageIgnoreEnd
-        }
-
-        if (!isset($data['quotes']) || !is_array($data['quotes'])) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('Missing or invalid quotes in CurrencyLayer API response.');
-            // @codeCoverageIgnoreEnd
-        }
-
-        $base = isset($data['source']) && is_string($data['source']) ? $data['source'] : 'USD';
-
-        /** @var array<array-key, mixed> $quotes */
-        $quotes = $data['quotes'];
-
-        // Convert to conversion definitions.
-        // Quote keys are concatenated like "USDEUR", so strip the source code to get the target.
-        $conversionDefinitions = [];
-        foreach ($quotes as $quoteKey => $rate) {
-            $targetCode = substr((string) $quoteKey, self::SOURCE_CODE_LENGTH);
-            // Skip the base currency, and any rate that isn't a positive number. JSON decodes a whole-number rate as
-            // an int, so cast it to float.
-            if ($targetCode === $base || !Numbers::isNumber($rate) || $rate <= 0) {
-                continue;
-            }
-            $conversionDefinitions[] = [$base, $targetCode, (float) $rate];
-        }
-        return $conversionDefinitions;
+        return [$this->getStringField($data, 'source', 'USD'), $rates];
     }
 
     #endregion
