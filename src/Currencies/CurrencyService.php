@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Currencies;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use DomainException;
 use Locale;
 use LogicException;
@@ -69,6 +68,11 @@ class CurrencyService
      * zone abbreviations are ambiguous when parsed back.
      */
     private const string DATETIME_FORMAT = 'Y-m-d H:i:s \\U\\T\\C';
+
+    /**
+     * The date format for a generated data file's header comment, e.g. 'Sunday, 25-Oct-2026 10:38:25 UTC'.
+     */
+    private const string HEADER_DATETIME_FORMAT = 'l, d-M-Y H:i:s \\U\\T\\C';
 
     #endregion
 
@@ -300,7 +304,7 @@ class CurrencyService
         ];
 
         // Build the PHP file content.
-        $datetime = gmdate(DateTimeInterface::COOKIE, $now);
+        $datetime = gmdate(self::HEADER_DATETIME_FORMAT, $now);
         $className = self::class;
         $output = <<<PHP
             <?php
@@ -726,7 +730,7 @@ class CurrencyService
     private static function buildUnitsFile(array $unitData, int $fetchedAt): string
     {
         $url = self::$iso4217Url;
-        $datetime = gmdate(DateTimeInterface::COOKIE, $fetchedAt);
+        $datetime = gmdate(self::HEADER_DATETIME_FORMAT, $fetchedAt);
         $className = self::class;
         $output = <<<PHP
             <?php

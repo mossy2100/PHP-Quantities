@@ -5,7 +5,7 @@
  *
  * Fetched from
  * https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml
- * at Sunday, 25-Oct-2026 10:37:10 GMT.
+ * at Sunday, 25-Oct-2026 10:39:17 UTC.
  *
  * Auto-generated from the official ISO 4217 XML published by SIX Group.
  *
@@ -20,7 +20,7 @@
 declare(strict_types=1);
 
 return [
-    'whenFetched' => '2026-10-25 10:37:10 UTC',
+    'whenFetched' => '2026-10-25 10:39:17 UTC',
     'currencies' => [
         'AED' => 'UAE Dirham',
         'AFN' => 'Afghani',
