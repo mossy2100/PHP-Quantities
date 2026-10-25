@@ -168,6 +168,24 @@ final class QuantityPartsTest extends TestCase
         $this->assertSame('45deg 30arcmin 30arcsec', $result);
     }
 
+    /**
+     * Test formatParts() omits the minus sign when a negative value rounds to zero.
+     */
+    public function testFormatPartsNegativeValueRoundingToZeroHasNoSign(): void
+    {
+        $this->assertSame('0.0″', new Angle(-1e-9, 'deg')->formatParts(1));
+        $this->assertSame('0″', new Angle(-1e-12, 'deg')->formatParts());
+    }
+
+    /**
+     * Test formatParts() without a precision carries a smallest part that rounds up to a whole unit.
+     */
+    public function testFormatPartsWithoutPrecisionCarriesIntoNextUnit(): void
+    {
+        // 23.7166666666° is 23° 42′ 59.99999976″, which shows as 60″ when rounded to 6 decimal places.
+        $this->assertSame('23° 43′', new Angle(23.7166666666, 'deg')->formatParts());
+    }
+
     #endregion
 
     #region fromParts() tests
@@ -881,6 +899,17 @@ final class QuantityPartsTest extends TestCase
 
         $this->assertSame(['sign' => 1, 'deg' => 23, 'arcmin' => 44, 'arcsec' => 0.0], $angle->toParts(0));
         $this->assertSame('23° 44′', $angle->formatParts(0));
+    }
+
+    /**
+     * Test toParts() gives a positive sign when a negative value rounds to zero.
+     */
+    public function testToPartsNegativeValueRoundingToZeroIsPositive(): void
+    {
+        $angle = new Angle(-1e-9, 'deg');
+
+        $this->assertSame(['sign' => 1, 'deg' => 0, 'arcmin' => 0, 'arcsec' => 0.0], $angle->toParts(1));
+        $this->assertSame(-1, $angle->toParts()['sign']);
     }
 
     /**

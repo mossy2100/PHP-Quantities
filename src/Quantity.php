@@ -1228,6 +1228,11 @@ class Quantity implements Stringable
             $rem = round($rem, $precision);
         }
 
+        // If every part is zero, the sign is positive. This avoids a negative zero, e.g. from rounding -0.01″ to 0″.
+        if ($rem === 0.0 && array_all($integerParts, static fn (int $value): bool => $value === 0)) {
+            $parts['sign'] = 1;
+        }
+
         // Add the parts to the result.
         $parts += $integerParts;
         $parts[$partUnits[count($partUnits) - 1]->asciiSymbol] = $rem;
@@ -1360,8 +1365,8 @@ class Quantity implements Stringable
         ?array $partUnitSymbols = null
     ): string {
         // Get the quantity as parts. This array has the sign as the first item, followed by the parts in descending
-        // order by unit size.
-        $parts = $this->toParts($precision, $partUnitSymbols);
+        // order by unit size. Without a precision, round to the 6 decimal places shown, so the parts carry correctly.
+        $parts = $this->toParts($precision ?? 6, $partUnitSymbols);
 
         // Extract the sign.
         $sign = $parts['sign'];
