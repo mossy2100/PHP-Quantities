@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Currencies\ExchangeRateServices;
 
 use DomainException;
+use Mossy2100\Core\Numbers;
 use Override;
 use RuntimeException;
 
@@ -110,13 +111,18 @@ class FixerService implements ExchangeRateServiceInterface
 
         $base = isset($data['base']) && is_string($data['base']) ? $data['base'] : 'EUR';
 
-        /** @var array<string, float> $rates */
+        /** @var array<array-key, mixed> $rates */
         $rates = $data['rates'];
 
         // Convert to conversion definitions.
         $conversionDefinitions = [];
         foreach ($rates as $currencyCode => $rate) {
-            $conversionDefinitions[] = [$base, $currencyCode, $rate];
+            // Skip the base currency, and any rate that isn't a positive number. JSON decodes a whole-number rate as
+            // an int, so cast it to float.
+            if ($currencyCode === $base || !Numbers::isNumber($rate) || $rate <= 0) {
+                continue;
+            }
+            $conversionDefinitions[] = [$base, (string) $currencyCode, (float) $rate];
         }
         return $conversionDefinitions;
     }

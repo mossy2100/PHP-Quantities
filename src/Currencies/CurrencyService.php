@@ -10,6 +10,7 @@ use DomainException;
 use Locale;
 use LogicException;
 use Mossy2100\Core\Exceptions\FormatException;
+use Mossy2100\Core\Numbers;
 use Mossy2100\Core\Stringify;
 use Mossy2100\Core\StringifyOptions;
 use Mossy2100\Quantities\Currencies\ExchangeRateServices\ExchangeRateServiceInterface;
@@ -667,15 +668,28 @@ class CurrencyService
             && array_key_exists('serviceName', $conversionData) && is_string($conversionData['serviceName'])
             && array_key_exists('definitions', $conversionData) && is_array($conversionData['definitions']);
 
-        // Check definitions are arrays with the right shape.
-        if ($ok) {
-            foreach ($conversionData['definitions'] as $definition) {
-                $ok = $ok && is_array($definition) && count($definition) === 3 && is_string($definition[0])
-                    && is_string($definition[1]) && is_float($definition[2]);
-            }
+        if (!$ok) {
+            return null;
         }
 
-        return $ok ? $conversionData : null;
+        // Check definitions are arrays with the right shape. A whole-number rate may have been written as an int, so
+        // accept that too, and cast it to float.
+        $definitions = [];
+        foreach ($conversionData['definitions'] as $definition) {
+            if (
+                !is_array($definition) || count($definition) !== 3 || !is_string($definition[0]) ||
+                !is_string($definition[1]) || !Numbers::isNumber($definition[2])
+            ) {
+                return null;
+            }
+            $definitions[] = [$definition[0], $definition[1], (float) $definition[2]];
+        }
+
+        return [
+            'whenFetched' => $conversionData['whenFetched'],
+            'serviceName' => $conversionData['serviceName'],
+            'definitions' => $definitions,
+        ];
     }
 
     /**

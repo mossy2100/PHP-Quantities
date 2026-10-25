@@ -263,6 +263,49 @@ final class CurrencyServiceTest extends TestCase
         $this->assertNull(CurrencyService::getConversions());
     }
 
+    /**
+     * Test getConversions() accepts a whole-number rate written as an int, and returns it as a float.
+     */
+    public function testGetConversionsAcceptsIntegerRate(): void
+    {
+        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [
+            ['USD', 'JPY', 150],
+            ['USD', 'EUR', 0.9],
+        ]);
+
+        $data = CurrencyService::getConversions();
+
+        $this->assertNotNull($data);
+        $this->assertSame([['USD', 'JPY', 150.0], ['USD', 'EUR', 0.9]], $data['definitions']);
+    }
+
+    /**
+     * Test getConversions() returns null when a rate isn't a number.
+     */
+    public function testGetConversionsReturnsNullWhenRateNotNumber(): void
+    {
+        $this->writeConversionsFile('2026-10-25 00:00:00 UTC', 'Fake', [
+            ['USD', 'EUR', '0.9'],
+        ]);
+
+        $this->assertNull(CurrencyService::getConversions());
+    }
+
+    /**
+     * Test rates with a whole-number rate stay fresh, so auto-refresh doesn't refetch them on every conversion.
+     */
+    public function testAutoRefreshKeepsRatesWithIntegerRate(): void
+    {
+        $this->writeConversionsFile(gmdate('Y-m-d H:i:s') . ' UTC', 'Fake', [
+            ['USD', 'JPY', 150],
+        ]);
+        $service = new FakeExchangeRateService();
+        CurrencyService::init($service, autoRefreshTtl: 3600);
+
+        $this->assertSame(1500.0, new Money(10, 'USD')->to('JPY')->value);
+        $this->assertSame(0, $service->fetchCount);
+    }
+
     #endregion
 
     #region Method refreshRates() tests.

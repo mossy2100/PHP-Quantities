@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mossy2100\Quantities\Currencies\ExchangeRateServices;
 
 use DomainException;
+use Mossy2100\Core\Numbers;
 use Override;
 use RuntimeException;
 
@@ -119,15 +120,20 @@ class CurrencyLayerService implements ExchangeRateServiceInterface
 
         $base = isset($data['source']) && is_string($data['source']) ? $data['source'] : 'USD';
 
-        /** @var array<string, float> $quotes */
+        /** @var array<array-key, mixed> $quotes */
         $quotes = $data['quotes'];
 
         // Convert to conversion definitions.
         // Quote keys are concatenated like "USDEUR", so strip the source code to get the target.
         $conversionDefinitions = [];
         foreach ($quotes as $quoteKey => $rate) {
-            $targetCode = substr($quoteKey, self::SOURCE_CODE_LENGTH);
-            $conversionDefinitions[] = [$base, $targetCode, $rate];
+            $targetCode = substr((string) $quoteKey, self::SOURCE_CODE_LENGTH);
+            // Skip the base currency, and any rate that isn't a positive number. JSON decodes a whole-number rate as
+            // an int, so cast it to float.
+            if ($targetCode === $base || !Numbers::isNumber($rate) || $rate <= 0) {
+                continue;
+            }
+            $conversionDefinitions[] = [$base, $targetCode, (float) $rate];
         }
         return $conversionDefinitions;
     }
