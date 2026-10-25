@@ -109,7 +109,7 @@ So after a package upgrade, a newer snapshot replaces an older refresh. Never fe
 
 **Returns:** `array` - The currency unit data, containing:
 - `whenFetched` (string) - When the data was fetched, in UTC.
-- `currencies` (array<string, string>) - Currency names mapped to their ISO 4217 codes.
+- `currencies` (array<string, string>) - ISO 4217 codes mapped to their currency names, sorted by code.
 
 ### refreshUnits()
 
@@ -118,7 +118,9 @@ public static function refreshUnits(): array
 ```
 
 Fetch the ISO 4217 list from SIX Group now, write it to the data directory, and reload the currency units. Fund
-currencies and a few special codes (e.g. `XTS`, `XXX`) are left out.
+currencies and a few special codes (e.g. `XTS`, `XXX`) are left out. Two currencies are renamed, since unit names must
+be unique and contain only letters and spaces: `XDR` is "Special Drawing Right", and `VED` is "Bolívar Digital" (ISO
+4217 gives it the same name as `VES`).
 
 **Returns:** `array` - The currency unit data just written, in the same shape as `getUnits()`.
 

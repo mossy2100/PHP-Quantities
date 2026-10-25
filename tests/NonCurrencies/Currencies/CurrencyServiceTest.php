@@ -144,9 +144,11 @@ final class CurrencyServiceTest extends TestCase
         $data = CurrencyService::getUnits();
 
         $this->assertSame(self::snapshotWhenFetched(), $data['whenFetched']);
-        $this->assertContains('USD', $data['currencies']);
-        $this->assertContains('EUR', $data['currencies']);
-        $this->assertSame('XDR', $data['currencies']['Special Drawing Right']);
+        $this->assertArrayHasKey('USD', $data['currencies']);
+        $this->assertArrayHasKey('EUR', $data['currencies']);
+        $this->assertSame('Special Drawing Right', $data['currencies']['XDR']);
+        $this->assertSame('Bolívar Digital', $data['currencies']['VED']);
+        $this->assertSame('Bolívar Soberano', $data['currencies']['VES']);
     }
 
     /**
@@ -156,13 +158,13 @@ final class CurrencyServiceTest extends TestCase
     {
         $this->writeDataFile('CurrencyUnits.php', [
             'whenFetched' => '2999-01-01 00:00:00 UTC',
-            'currencies' => ['US Dollar' => 'USD'],
+            'currencies' => ['USD' => 'US Dollar'],
         ]);
 
         $data = CurrencyService::getUnits();
 
         $this->assertSame('2999-01-01 00:00:00 UTC', $data['whenFetched']);
-        $this->assertSame(['US Dollar' => 'USD'], $data['currencies']);
+        $this->assertSame(['USD' => 'US Dollar'], $data['currencies']);
     }
 
     /**
@@ -172,7 +174,7 @@ final class CurrencyServiceTest extends TestCase
     {
         $this->writeDataFile('CurrencyUnits.php', [
             'whenFetched' => '2000-01-01 00:00:00 UTC',
-            'currencies' => ['US Dollar' => 'USD'],
+            'currencies' => ['USD' => 'US Dollar'],
         ]);
 
         $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
@@ -205,7 +207,21 @@ final class CurrencyServiceTest extends TestCase
     {
         $this->writeDataFile('CurrencyUnits.php', [
             'whenFetched' => '2026-10-25 00:00:00 UTC',
-            'currencies' => ['US Dollar' => 42],
+            'currencies' => ['USD' => 42],
+        ]);
+
+        $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
+    }
+
+    /**
+     * Test getUnits() falls back to the snapshot when the refreshed copy isn't keyed by currency code, e.g. a file in
+     * the old name => code layout.
+     */
+    public function testGetUnitsFallsBackToSnapshotWhenNotKeyedByCode(): void
+    {
+        $this->writeDataFile('CurrencyUnits.php', [
+            'whenFetched' => '2999-01-01 00:00:00 UTC',
+            'currencies' => ['US Dollar' => 'USD'],
         ]);
 
         $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
@@ -546,14 +562,16 @@ final class CurrencyServiceTest extends TestCase
 
         $data = CurrencyService::refreshUnits();
 
-        // Funds, XB* bond units, XTS, XXX and entries without a code are skipped, each currency appears once, and SDR
-        // is renamed.
+        // Funds, XB* bond units, XTS, XXX and entries without a code are skipped, each currency appears once, sorted
+        // by code, and SDR and VED are renamed.
         $this->assertSame([
-            'Australian Dollar' => 'AUD',
-            'Boliviano' => 'BOB',
-            'Euro' => 'EUR',
-            'Special Drawing Right' => 'XDR',
-            'Test Currency' => 'XQZ',
+            'AUD' => 'Australian Dollar',
+            'BOB' => 'Boliviano',
+            'EUR' => 'Euro',
+            'VED' => 'Bolívar Digital',
+            'VES' => 'Bolívar Soberano',
+            'XDR' => 'Special Drawing Right',
+            'XQZ' => 'Test Currency',
         ], $data['currencies']);
         $this->assertFileExists(CurrencyService::getXmlFilePath());
         $this->assertSame($data, CurrencyService::getUnits());
@@ -597,7 +615,7 @@ final class CurrencyServiceTest extends TestCase
         file_put_contents(CurrencyService::getXmlFilePath(), '<ISO_4217/>');
         $this->writeDataFile('CurrencyUnits.php', [
             'whenFetched' => '2026-10-25 00:00:00 UTC',
-            'currencies' => ['US Dollar' => 'USD'],
+            'currencies' => ['USD' => 'US Dollar'],
         ]);
 
         CurrencyService::deleteUnits();

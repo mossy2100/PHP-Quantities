@@ -25,11 +25,12 @@ class Money extends Quantity
     #[Override]
     public static function getUnitDefinitions(): array
     {
-        $currencies = CurrencyService::getUnits()['currencies'];
-        return array_map(static fn ($code) => [
-            'asciiSymbol' => $code,
-            'systems' => [UnitSystem::Financial],
-        ], $currencies);
+        // The currencies are keyed by code, but unit definitions are keyed by name.
+        $definitions = [];
+        foreach (CurrencyService::getUnits()['currencies'] as $code => $name) {
+            $definitions[$name] = ['asciiSymbol' => $code, 'systems' => [UnitSystem::Financial]];
+        }
+        return $definitions;
     }
 
     /**

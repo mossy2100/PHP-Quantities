@@ -33,7 +33,7 @@ try {
     exit(1);
 }
 
-// Compare name => code pairs, so a renamed currency shows as removed and added.
+// Compare code => name pairs, so a renamed currency shows as removed and added.
 $added = array_diff_assoc($new['currencies'], $old['currencies']);
 $removed = array_diff_assoc($old['currencies'], $new['currencies']);
 
@@ -48,10 +48,10 @@ echo 'Refreshed the bundled currency list (' . count($new['currencies']) . ' cur
 if ($added === [] && $removed === []) {
     echo '  No currencies were added, removed or renamed.' . PHP_EOL;
 }
-foreach ($added as $name => $code) {
+foreach ($added as $code => $name) {
     echo "  Added:   $code ($name)" . PHP_EOL;
 }
-foreach ($removed as $name => $code) {
+foreach ($removed as $code => $name) {
     echo "  Removed: $code ($name)" . PHP_EOL;
 }
 

@@ -112,6 +112,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **`Quantity::parse()` failed on multi-part strings,** e.g. `Quantity::parse('12° 34′ 56″')` threw "Quantity type
   cannot be null". The quantity type now comes from the first part's unit. Malformed input, e.g. `'+5 m'`, now throws
   `FormatException` rather than `LogicException`.
+- **The Venezuelan digital bolívar (`VED`) was missing from the currencies,** because ISO 4217 gives it the same name
+  as `VES`, "Bolívar Soberano". Currencies are now keyed by code, and `VED` is named "Bolívar Digital".
 - **`QuantityTypeService::remove()` ignored a name that wasn't lowercase,** e.g. `remove('Length')`. It now matches
   names case-insensitively, like `add()` and `getByName()`.
 - **Exchange rates from Open Exchange Rates or ExchangeRate-API were never reused,** because their response includes the

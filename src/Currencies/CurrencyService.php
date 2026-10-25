@@ -52,6 +52,14 @@ class CurrencyService
         'https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml';
 
     /**
+     * Names to use instead of the ISO 4217 names, keyed by currency code.
+     *
+     * The ISO 4217 name of SDR is parenthesized, and VED shares its name, "Bolívar Soberano", with VES. Unit names must
+     * be unique and contain only letters, spaces and '’'.
+     */
+    private const array RENAMED_CURRENCIES = ['XDR' => 'Special Drawing Right', 'VED' => 'Bolívar Digital'];
+
+    /**
      * The regular expression for matching a locale string.
      */
     private const string RX_LOCALE = '[a-z]{2,4}([-_][A-Z][a-z]{3})?([-_]([A-Z]{2}|[0-9]{3}))?';
@@ -194,17 +202,15 @@ class CurrencyService
                 continue;
             }
 
-            // Rename SDR so the generated data doesn't carry the parenthesized form from ISO 4217.
-            if ($code === 'XDR') {
-                $name = 'Special Drawing Right';
-            }
+            // Rename currencies whose ISO 4217 name is parenthesized or shared with another code.
+            $name = self::RENAMED_CURRENCIES[$code] ?? $name;
 
             // Skip if already added (multiple countries can share a currency).
-            if (isset($currencies[$name])) {
+            if (isset($currencies[$code])) {
                 continue;
             }
 
-            $currencies[$name] = $code;
+            $currencies[$code] = $name;
         }
 
         // Construct the data array.
@@ -638,13 +644,13 @@ class CurrencyService
             return null;
         }
 
-        // Check each currency maps a name to a code.
+        // Check each currency maps a three-letter code to a name.
         $currencies = [];
-        foreach ($unitData['currencies'] as $name => $code) {
-            if (!is_string($name) || !is_string($code)) {
+        foreach ($unitData['currencies'] as $code => $name) {
+            if (!is_string($code) || !preg_match('/^[A-Z]{3}$/', $code) || !is_string($name)) {
                 return null;
             }
-            $currencies[$name] = $code;
+            $currencies[$code] = $name;
         }
 
         return ['whenFetched' => $unitData['whenFetched'], 'currencies' => $currencies];

@@ -67,7 +67,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testRefreshUnitsContainsCommonCurrencies(): void
     {
-        $codes = array_values(CurrencyService::refreshUnits()['currencies']);
+        $codes = array_keys(CurrencyService::refreshUnits()['currencies']);
 
         foreach (['USD', 'EUR', 'GBP', 'AUD', 'JPY'] as $code) {
             $this->assertContains($code, $codes);
@@ -81,8 +81,8 @@ final class CurrencyServiceTest extends TestCase
     {
         $currencies = CurrencyService::refreshUnits()['currencies'];
 
-        $this->assertSame('XDR', $currencies['Special Drawing Right']);
-        $this->assertArrayNotHasKey('SDR (Special Drawing Right)', $currencies);
+        $this->assertSame('Special Drawing Right', $currencies['XDR']);
+        $this->assertNotContains('SDR (Special Drawing Right)', $currencies);
     }
 
     #endregion
