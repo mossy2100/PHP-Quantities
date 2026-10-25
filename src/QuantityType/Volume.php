@@ -20,6 +20,7 @@ class Volume extends Quantity
      * Unit definitions for volume.
      */
     #[Override]
+    // phpcs:ignore SlevomatCodingStandard.Functions.FunctionLength
     public static function getUnitDefinitions(): array
     {
         return [
