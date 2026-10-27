@@ -754,9 +754,7 @@ class CurrencyService
 
             declare(strict_types=1);
             PHP;
-        // Remove the padding that aligns the '=>' operators, as the coding standard doesn't align them.
-        $array = preg_replace('/ +=> /', ' => ', Stringify::stringify($unitData, StringifyOptions::pretty()));
-        return $output . "\n\nreturn " . $array . ";\n";
+        return $output . "\n\nreturn " . Stringify::stringify($unitData, StringifyOptions::pretty()) . ";\n";
     }
 
     /**
