@@ -119,6 +119,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **Exchange rates from Open Exchange Rates or ExchangeRate-API were never reused,** because their response includes the
   base currency at a rate of `1`, which was saved as an integer and made the whole rates file fail to load. Rates are
   now saved as floats, the base currency is skipped, and existing files with integer rates load.
+- **`parseParts()` and `parse()` lost the sign of a negative value whose first part is zero,** e.g. `'-0° 30′'`, as
+  written by `formatParts(showZeros: true)`.
 
 ---
 

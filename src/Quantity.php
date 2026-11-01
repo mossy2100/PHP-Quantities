@@ -1300,10 +1300,10 @@ class Quantity implements Stringable
                 throw new FormatException($err);
             }
 
-            // Check the sign.
+            // Check the sign. Check the text, not the value: '-0' parses to -0.0, which isn't less than zero.
             assert(isset($m[1]));
             $partValue = (float) $m[1];
-            if ($partValue < 0) {
+            if (str_starts_with($m[1], '-')) {
                 if (!$firstPartSeen) {
                     $sign = -1;
                 } else {

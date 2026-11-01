@@ -855,5 +855,64 @@ final class QuantityPartsTest extends TestCase
         $this->assertEqualsWithDelta($expectedValue, $result->value, 1e-9 * max(1.0, $expectedValue));
     }
 
+    /**
+     * Test parseParts() keeps the sign of a negative value whose first part is zero.
+     */
+    public function testParsePartsNegativeZeroFirstPart(): void
+    {
+        $this->assertEqualsWithDelta(-0.5, Angle::parseParts('-0° 30′')->value, 1e-9);
+        $this->assertEqualsWithDelta(-0.5, Quantity::parse('-0° 30′ 0″')->to('deg')->value, 1e-9);
+    }
+
+    /**
+     * Test parseParts() throws for a negative zero in a part other than the first.
+     */
+    public function testParsePartsNegativeZeroNonFirstPartThrowsException(): void
+    {
+        $this->expectException(FormatException::class);
+        Angle::parseParts('1° -0′');
+    }
+
+    /**
+     * Data provider for testFormatPartsRoundTrip().
+     *
+     * @return array<string, array{class-string<Quantity>, float, string, bool}>
+     */
+    public static function providerFormatPartsRoundTrip(): array
+    {
+        $cases = [
+            'positive angle' => [Angle::class, 12.5, 'deg'],
+            'negative angle' => [Angle::class, -0.5, 'deg'],
+            'positive time' => [Time::class, 5445.0, 's'],
+            'negative time' => [Time::class, -5.0, 'h'],
+            'positive length' => [Length::class, 5.5, 'ft'],
+            'negative length' => [Length::class, -0.5, 'ft'],
+        ];
+
+        $result = [];
+        foreach ($cases as $name => [$class, $value, $unit]) {
+            $result["$name, zeros hidden"] = [$class, $value, $unit, false];
+            $result["$name, zeros shown"] = [$class, $value, $unit, true];
+        }
+        return $result;
+    }
+
+    /**
+     * Test parseParts() reads back what formatParts() writes, with zeros shown or hidden.
+     *
+     * @param class-string<Quantity> $class The quantity type class.
+     * @param float $value The value.
+     * @param string $unit The unit of the value.
+     * @param bool $showZeros Whether formatParts() shows zero parts.
+     */
+    #[DataProvider('providerFormatPartsRoundTrip')]
+    public function testFormatPartsRoundTrip(string $class, float $value, string $unit, bool $showZeros): void
+    {
+        $formatted = new $class($value, $unit)->formatParts(6, $showZeros);
+        $parsed = $class::parseParts($formatted);
+
+        $this->assertEqualsWithDelta($value, $parsed->to($unit)->value, 1e-9 * max(1.0, abs($value)));
+    }
+
     #endregion
 }
