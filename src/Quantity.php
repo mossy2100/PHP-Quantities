@@ -127,7 +127,7 @@ class Quantity implements Stringable
      * Creates a new measurement with the specified value and unit. If the unit is omitted, the quantity is
      * dimensionless.
      *
-     * Direct instantiation of the base `Quantity` class is forbidden — use `Quantity::create()` or
+     * Direct instantiation of the base `Quantity` class is forbidden. Use `Quantity::create()` or
      * `Quantity::parse()` instead. Subclasses (e.g. `Length`, `Mass`) should be instantiated directly with their
      * respective constructors.
      *

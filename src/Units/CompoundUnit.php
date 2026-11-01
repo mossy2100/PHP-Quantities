@@ -79,7 +79,7 @@ class CompoundUnit implements UnitInterface
      *
      * The interface requires a non-nullable string, so we can't back this property directly with a nullable cache.
      * Instead, we keep the cache in the separate $dimensionCache field and populate it lazily here. That makes this
-     * property virtual — which is why it can't declare private(set).
+     * property virtual, which is why it can't declare private(set).
      */
     public string $dimension {
         get => $this->dimensionCache ??= $this->getDimension();

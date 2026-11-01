@@ -186,7 +186,7 @@ class Prefix
     #region Validation methods
 
     /**
-     * Check if a string is a valid prefix name (3–6 ASCII letters).
+     * Check if a string is a valid prefix name (3-6 ASCII letters).
      *
      * @param string $name The string to check.
      * @return bool True if the string is a valid prefix name.

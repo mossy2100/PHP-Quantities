@@ -142,7 +142,7 @@ class PhysicalConstant
      * Map of symbols to their definitions.
      *
      * Each entry contains:
-     * - 'method' — The static accessor method name.
+     * - 'method' - The static accessor method name.
      * - 'value' - The numeric value.
      * - 'unit' - The unit symbol, or '' if dimensionless.
      *

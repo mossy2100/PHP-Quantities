@@ -34,7 +34,7 @@ class QuantityType
     /**
      * The fully-qualified class name of the Quantity subclass for this quantity type.
      *
-     * Writable so callers can substitute their own Quantity subclass at runtime — the set hook validates that
+     * Writable so callers can substitute their own Quantity subclass at runtime. The set hook validates that
      * any assigned value is a subclass of Quantity.
      *
      * @var class-string<Quantity>
