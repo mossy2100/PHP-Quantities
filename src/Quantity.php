@@ -1433,8 +1433,9 @@ class Quantity implements Stringable
             $curUnitValue = (int) floor($rem / $factor);
             $rem -= $curUnitValue * $factor;
 
-            // If float error leaves a whole unit, or almost one, in the remainder, count it in this part instead.
-            if ($rem >= $factor || Floats::approxEqual($rem, $factor)) {
+            // If float error leaves a whole unit, or a hair under one, in the remainder, count it in this part
+            // instead. A few ulps of the total covers float error, without absorbing a real shortfall.
+            if ($rem >= $factor || $factor - $rem <= 4 * Floats::ulp($total)) {
                 $curUnitValue++;
                 $rem -= $factor;
             }

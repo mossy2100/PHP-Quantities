@@ -121,6 +121,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   now saved as floats, the base currency is skipped, and existing files with integer rates load.
 - **`parseParts()` and `parse()` lost the sign of a negative value whose first part is zero,** e.g. `'-0° 30′'`, as
   written by `formatParts(showZeros: true)`.
+- **`toParts()` and `formatParts()` rounded a value up to a whole unit when it was within a relative 1e-9 of one,**
+  e.g. 1 y - 0.02 s became `1y`. Only float error is absorbed now.
 
 ---
 

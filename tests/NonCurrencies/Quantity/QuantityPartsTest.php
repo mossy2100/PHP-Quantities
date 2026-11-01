@@ -287,6 +287,21 @@ final class QuantityPartsTest extends TestCase
         }
     }
 
+    /**
+     * Test toParts() keeps a small shortfall from a whole unit, rather than rounding up to the whole unit.
+     */
+    public function testToPartsKeepsSmallShortfallFromWholeUnit(): void
+    {
+        // 1 year less 0.02 seconds.
+        $time = new Time(new Time(1, 'y')->to('s')->value - 0.02, 's');
+        $parts = $time->toParts();
+
+        $this->assertSame(0, $parts['y']);
+        $this->assertSame(11, $parts['mo']);
+        $this->assertEqualsWithDelta(5.98, $parts['s'], 1e-6);
+        $this->assertSame('11mo 4w 2d 10h 29min 5.980s', $time->formatParts(3));
+    }
+
     #endregion
 
     #region Method formatParts() tests.
