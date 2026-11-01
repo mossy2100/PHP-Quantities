@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+### Added
+
+- **`parse()` and `parseParts()` accept a leading `+`,** e.g. `'+5 °C'`. As with `-`, only the first part of a parts
+  string can have a sign.
+
 ### Changed
 
 - **Renamed the package from `oceanmoon/quantities` to `mossy2100/quantities`, and the namespace from

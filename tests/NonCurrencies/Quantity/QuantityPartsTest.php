@@ -815,9 +815,30 @@ final class QuantityPartsTest extends TestCase
     public function testParsePartsNegativeNonFirstPartThrowsException(): void
     {
         $this->expectException(FormatException::class);
-        $this->expectExceptionMessage('Only the first part can be negative.');
+        $this->expectExceptionMessage('Only the first part can have a sign.');
 
         Time::parseParts('1h -30min 45s');
+    }
+
+    /**
+     * Test parseParts() accepts a leading plus sign on the first part.
+     */
+    public function testParsePartsPositiveSign(): void
+    {
+        $time = Time::parseParts('+1h 30min');
+
+        $this->assertEqualsWithDelta(5400.0, $time->to('s')->value, 1e-9);
+    }
+
+    /**
+     * Test parseParts() with a plus sign in a non-first part throws exception.
+     */
+    public function testParsePartsPositiveSignNonFirstPartThrowsException(): void
+    {
+        $this->expectException(FormatException::class);
+        $this->expectExceptionMessage('Only the first part can have a sign.');
+
+        Angle::parseParts('1° +30′');
     }
 
     /**

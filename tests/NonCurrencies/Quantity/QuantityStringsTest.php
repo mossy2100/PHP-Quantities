@@ -120,6 +120,17 @@ final class QuantityStringsTest extends TestCase
     }
 
     /**
+     * Test parsing values with a leading plus sign.
+     */
+    public function testParsePositiveSignValue(): void
+    {
+        $temp = Temperature::parse('+5 degC');
+
+        $this->assertSame(5.0, $temp->value);
+        $this->assertSame('degC', $temp->compoundUnit->asciiSymbol);
+    }
+
+    /**
      * Test that Quantity::parse() returns the correct subclass.
      */
     public function testGenericParseReturnsCorrectSubclass(): void
@@ -203,7 +214,7 @@ final class QuantityStringsTest extends TestCase
     public static function providerGenericParseMalformed(): array
     {
         return [
-            'plus sign' => ['+5 m'],
+            'double sign' => ['+-5 m'],
             'thousands separator' => ['1,000 m'],
             'double slash' => ['1 m//s'],
             'mixed dimensions' => ['3 h 2 kg'],

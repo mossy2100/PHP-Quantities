@@ -18,6 +18,7 @@ use Mossy2100\Quantities\QuantityType\Length;
 use Mossy2100\Quantities\QuantityType\Angle;
 use Mossy2100\Quantities\QuantityType\Time;
 use Mossy2100\Quantities\QuantityType\Mass;
+use Mossy2100\Quantities\QuantityType\Temperature;
 
 // Simple quantities
 $length = Length::parse('42.195 km');   // Length(42.195, 'km')
@@ -25,6 +26,9 @@ $mass = Mass::parse('70kg');            // Mass(70, 'kg')
 
 // Scientific notation
 $wavelength = Length::parse('5.5e-7 m');  // Length(5.5e-7, 'm')
+
+// A leading sign
+$temp = Temperature::parse('+5 degC');  // Temperature(5, 'degC')
 
 // Angles - single value or parts notation
 $angle = Angle::parse('45.5 deg');                // Angle(45.5, 'deg')

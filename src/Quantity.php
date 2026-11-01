@@ -66,7 +66,7 @@ class Quantity implements Stringable
      * Regular expression for a number: an optional minus sign, then digits with an optional fractional part (or a
      * fractional part alone), then an optional exponent.
      */
-    private const string RX_NUMBER = '-?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?';
+    private const string RX_NUMBER = '[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?';
 
     /**
      * Derived units that toDerived() never substitutes for base units, because they measure something more specific
@@ -1303,11 +1303,12 @@ class Quantity implements Stringable
             // Check the sign. Check the text, not the value: '-0' parses to -0.0, which isn't less than zero.
             assert(isset($m[1]));
             $partValue = (float) $m[1];
-            if (str_starts_with($m[1], '-')) {
-                if (!$firstPartSeen) {
+            if ($m[1][0] === '-' || $m[1][0] === '+') {
+                if ($firstPartSeen) {
+                    throw new FormatException("Invalid parts string: '$input'. Only the first part can have a sign.");
+                }
+                if ($m[1][0] === '-') {
                     $sign = -1;
-                } else {
-                    throw new FormatException("Invalid parts string: '$input'. Only the first part can be negative.");
                 }
             }
 
