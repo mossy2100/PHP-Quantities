@@ -121,7 +121,7 @@ final class UnitTermValidationTest extends TestCase
         $this->assertSame('°C', $m[1]);
 
         // Unicode superscript exponent.
-        $this->assertTrue(UnitTerm::isValidSymbol("m\u{00B2}", $m));  // m²
+        $this->assertTrue(UnitTerm::isValidSymbol("m\u{00B2}", $m)); // m²
         $this->assertIsArray($m);
         $this->assertArrayHasKey(1, $m);
         $this->assertSame('m', $m[1]);

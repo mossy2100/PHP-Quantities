@@ -526,7 +526,7 @@ final class CurrencyServiceTest extends TestCase
 
         $this->assertEquals(
             new DateTimeImmutable('2026-10-25 01:02:03 UTC'),
-            CurrencyService::getRatesFetchedAt()
+            CurrencyService::getRatesFetchedAt(),
         );
     }
 

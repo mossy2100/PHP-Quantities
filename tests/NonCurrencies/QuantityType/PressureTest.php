@@ -348,7 +348,7 @@ final class PressureTest extends TestCase
     /**
      * Test converting pascals to base SI units.
      */
-    public function testConvertPascalsToBaseSI(): void
+    public function testConvertPascalsToBaseSi(): void
     {
         $pressure = new Pressure(1000, 'Pa');
         $si = $pressure->toSiBase();
@@ -361,7 +361,7 @@ final class PressureTest extends TestCase
     /**
      * Test converting atmospheres to base SI units.
      */
-    public function testConvertAtmospheresToBaseSI(): void
+    public function testConvertAtmospheresToBaseSi(): void
     {
         $pressure = new Pressure(1, 'atm');
         $si = $pressure->toSiBase();

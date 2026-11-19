@@ -296,7 +296,7 @@ final class EnergyTest extends TestCase
     /**
      * Test converting joules to base SI units.
      */
-    public function testConvertJoulesToBaseSI(): void
+    public function testConvertJoulesToBaseSi(): void
     {
         $energy = new Energy(10, 'J');
         $si = $energy->toSiBase();
@@ -309,7 +309,7 @@ final class EnergyTest extends TestCase
     /**
      * Test converting kilocalories to base SI units.
      */
-    public function testConvertKilocaloriesToBaseSI(): void
+    public function testConvertKilocaloriesToBaseSi(): void
     {
         $energy = new Energy(1, 'kcal');
         $si = $energy->toSiBase();

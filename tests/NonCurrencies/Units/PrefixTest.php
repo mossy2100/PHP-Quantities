@@ -28,7 +28,7 @@ final class PrefixTest extends TestCase
 
         $this->assertSame('kilo', $prefix->name);
         $this->assertSame('k', $prefix->asciiSymbol);
-        $this->assertSame('k', $prefix->unicodeSymbol);  // Falls back to ASCII
+        $this->assertSame('k', $prefix->unicodeSymbol); // Falls back to ASCII
         $this->assertNull($prefix->alternateSymbol);
         $this->assertSame(1000.0, $prefix->multiplier);
         $this->assertSame(PrefixService::GROUP_LARGE_METRIC, $prefix->groupCode);

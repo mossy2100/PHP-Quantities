@@ -396,7 +396,7 @@ final class QuantityStringsTest extends TestCase
         $this->assertSame('3 m', $length->format(0, format: FloatFormat::FixedPoint));
         $this->assertSame(
             '2 m',
-            $length->format(0, format: FloatFormat::FixedPoint, roundingMode: RoundingMode::HalfEven)
+            $length->format(0, format: FloatFormat::FixedPoint, roundingMode: RoundingMode::HalfEven),
         );
     }
 

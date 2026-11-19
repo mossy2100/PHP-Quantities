@@ -56,7 +56,7 @@ trait ArrayShapeTrait
                 $this->assertInstanceOf(
                     UnitSystem::class,
                     $system,
-                    "Unit '$key' systems must contain only UnitSystem instances."
+                    "Unit '$key' systems must contain only UnitSystem instances.",
                 );
             }
         }
@@ -87,7 +87,7 @@ trait ArrayShapeTrait
             $this->assertIsString($value[1], "Conversion at index $key: second element must be a string.");
             $this->assertTrue(
                 is_float($value[2]) || is_int($value[2]),
-                "Conversion at index $key: third element must be a float or int."
+                "Conversion at index $key: third element must be a float or int.",
             );
         }
     }

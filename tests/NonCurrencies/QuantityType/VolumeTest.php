@@ -128,7 +128,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US gallons to US quarts.
      */
-    public function testConvertUSGallonsToUSQuarts(): void
+    public function testConvertUsGallonsToUsQuarts(): void
     {
         $vol = new Volume(1, 'US gal');
         $qt = $vol->to('US qt');
@@ -140,7 +140,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US quarts to US pints.
      */
-    public function testConvertUSQuartsToUSPints(): void
+    public function testConvertUsQuartsToUsPints(): void
     {
         $vol = new Volume(1, 'US qt');
         $pt = $vol->to('US pt');
@@ -151,7 +151,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US pints to US fluid ounces.
      */
-    public function testConvertUSPintsToUSFluidOunces(): void
+    public function testConvertUsPintsToUsFluidOunces(): void
     {
         $vol = new Volume(1, 'US pt');
         $floz = $vol->to('US fl oz');
@@ -162,7 +162,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US gallons to US fluid ounces.
      */
-    public function testConvertUSGallonsToUSFluidOunces(): void
+    public function testConvertUsGallonsToUsFluidOunces(): void
     {
         $vol = new Volume(1, 'US gal');
         $floz = $vol->to('US fl oz');
@@ -174,7 +174,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US gallons to cubic inches.
      */
-    public function testConvertUSGallonsToCubicInches(): void
+    public function testConvertUsGallonsToCubicInches(): void
     {
         $vol = new Volume(1, 'US gal');
         $in3 = $vol->to('in3');
@@ -251,7 +251,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting liters to US gallons.
      */
-    public function testConvertLitresToUSGallons(): void
+    public function testConvertLitresToUsGallons(): void
     {
         $vol = new Volume(1, 'L');
         $gal = $vol->to('US gal');
@@ -265,7 +265,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US gallons to liters.
      */
-    public function testConvertUSGallonsToLitres(): void
+    public function testConvertUsGallonsToLitres(): void
     {
         $vol = new Volume(1, 'US gal');
         $l = $vol->to('L');
@@ -277,7 +277,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US gallons to imperial gallons.
      */
-    public function testConvertUSGallonsToImperialGallons(): void
+    public function testConvertUsGallonsToImperialGallons(): void
     {
         $vol = new Volume(1, 'US gal');
         $impGal = $vol->to('imp gal');
@@ -291,7 +291,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting imperial gallons to US gallons.
      */
-    public function testConvertImperialGallonsToUSGallons(): void
+    public function testConvertImperialGallonsToUsGallons(): void
     {
         $vol = new Volume(1, 'imp gal');
         $usGal = $vol->to('US gal');
@@ -303,7 +303,7 @@ final class VolumeTest extends TestCase
     /**
      * Test converting US fluid ounces to imperial fluid ounces.
      */
-    public function testConvertUSFluidOuncesToImperialFluidOunces(): void
+    public function testConvertUsFluidOuncesToImperialFluidOunces(): void
     {
         $vol = new Volume(1, 'US fl oz');
         $impFloz = $vol->to('imp fl oz');
@@ -466,7 +466,7 @@ final class VolumeTest extends TestCase
     /**
      * Test adding US pints to US gallons.
      */
-    public function testAddUSPintsToUSGallons(): void
+    public function testAddUsPintsToUsGallons(): void
     {
         $a = new Volume(1, 'US gal');
         $b = new Volume(4, 'US pt');
@@ -496,7 +496,7 @@ final class VolumeTest extends TestCase
     /**
      * Test adding liters to US gallons (cross-system).
      */
-    public function testAddLitresToUSGallons(): void
+    public function testAddLitresToUsGallons(): void
     {
         $a = new Volume(1, 'US gal');
         $b = new Volume(1, 'L');
@@ -511,7 +511,7 @@ final class VolumeTest extends TestCase
     /**
      * Test adding US gallons to imperial gallons (cross-system).
      */
-    public function testAddUSGallonsToImperialGallons(): void
+    public function testAddUsGallonsToImperialGallons(): void
     {
         $a = new Volume(1, 'imp gal');
         $b = new Volume(1, 'US gal');
@@ -564,7 +564,7 @@ final class VolumeTest extends TestCase
     /**
      * Test parsing US gallons.
      */
-    public function testParseUSGallons(): void
+    public function testParseUsGallons(): void
     {
         $vol = Volume::parse('5 US gal');
 

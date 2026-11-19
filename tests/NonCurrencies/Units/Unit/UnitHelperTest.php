@@ -72,7 +72,7 @@ final class UnitHelperTest extends TestCase
             name: 'no expand test',
             asciiSymbol: 'Xne',
             dimension: 'ML2T-2',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         UnitService::add($unit);
 

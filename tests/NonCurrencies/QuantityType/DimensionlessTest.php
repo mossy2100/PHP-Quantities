@@ -457,7 +457,7 @@ final class DimensionlessTest extends TestCase
     /**
      * Test atmospheric CO2 concentration.
      */
-    public function testAtmosphericCO2(): void
+    public function testAtmosphericCo2(): void
     {
         // Atmospheric CO2 is about 420 ppm
         $co2 = new Dimensionless(420, 'ppm');

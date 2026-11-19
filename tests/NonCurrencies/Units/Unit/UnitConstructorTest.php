@@ -31,7 +31,7 @@ final class UnitConstructorTest extends TestCase
             asciiSymbol: 'm',
             dimension: 'L',
             systems: [UnitSystem::Si],
-            prefixGroup: PrefixService::GROUP_METRIC
+            prefixGroup: PrefixService::GROUP_METRIC,
         );
 
         $this->assertSame('meter', $unit->name);
@@ -52,7 +52,7 @@ final class UnitConstructorTest extends TestCase
             asciiSymbol: 'Hz',
             dimension: 'T-1',
             systems: [UnitSystem::Si],
-            prefixGroup: PrefixService::GROUP_METRIC
+            prefixGroup: PrefixService::GROUP_METRIC,
         );
 
         $this->assertSame('hertz', $unit->name);
@@ -72,7 +72,7 @@ final class UnitConstructorTest extends TestCase
             dimension: 'T-3L2MI-2',
             systems: [UnitSystem::Si],
             prefixGroup: PrefixService::GROUP_METRIC,
-            unicodeSymbol: 'Ω'
+            unicodeSymbol: 'Ω',
         );
 
         $this->assertSame('ohm', $unit->asciiSymbol);
@@ -88,7 +88,7 @@ final class UnitConstructorTest extends TestCase
             name: 'hectare',
             asciiSymbol: 'ha',
             dimension: 'L2',
-            systems: [UnitSystem::SiAccepted]
+            systems: [UnitSystem::SiAccepted],
         );
 
         $this->assertSame(0, $unit->prefixGroup);
@@ -103,7 +103,7 @@ final class UnitConstructorTest extends TestCase
             name: 'newton',
             asciiSymbol: 'N',
             dimension: 'MLT-2',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
 
         // Dimension should be normalized.
@@ -122,7 +122,7 @@ final class UnitConstructorTest extends TestCase
             name: 'test',
             asciiSymbol: 'm²',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
     }
 
@@ -139,7 +139,7 @@ final class UnitConstructorTest extends TestCase
             asciiSymbol: 'm',
             dimension: 'L',
             systems: [UnitSystem::Si],
-            unicodeSymbol: '123'
+            unicodeSymbol: '123',
         );
     }
 
@@ -261,7 +261,7 @@ final class UnitConstructorTest extends TestCase
             name: 'test',
             asciiSymbol: 'tst',
             dimension: 'L',
-            systems: []
+            systems: [],
         );
     }
 
@@ -277,7 +277,7 @@ final class UnitConstructorTest extends TestCase
             name: 'test',
             asciiSymbol: 'tst',
             dimension: 'L',
-            systems: ['SI', 'Imperial'] // @phpstan-ignore argument.type
+            systems: ['SI', 'Imperial'], // @phpstan-ignore argument.type
         );
     }
 
@@ -290,7 +290,7 @@ final class UnitConstructorTest extends TestCase
             name: 'test',
             asciiSymbol: 'tst',
             dimension: 'L',
-            systems: [UnitSystem::Si, UnitSystem::Si, UnitSystem::Imperial]
+            systems: [UnitSystem::Si, UnitSystem::Si, UnitSystem::Imperial],
         );
 
         $this->assertCount(2, $unit->systems);

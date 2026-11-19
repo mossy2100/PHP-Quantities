@@ -36,15 +36,14 @@ final class PrefixServiceTest extends TestCase
     {
         // Metric = small metric + medium metric + large metric.
         $this->assertSame(
-            PrefixService::GROUP_SMALL_METRIC | PrefixService::GROUP_MEDIUM_METRIC |
-            PrefixService::GROUP_LARGE_METRIC,
-            PrefixService::GROUP_METRIC
+            PrefixService::GROUP_SMALL_METRIC | PrefixService::GROUP_MEDIUM_METRIC | PrefixService::GROUP_LARGE_METRIC,
+            PrefixService::GROUP_METRIC,
         );
 
         // Engineering = small metric + large metric.
         $this->assertSame(
             PrefixService::GROUP_SMALL_METRIC | PrefixService::GROUP_LARGE_METRIC,
-            PrefixService::GROUP_ENGINEERING
+            PrefixService::GROUP_ENGINEERING,
         );
 
         // Large = large metric + binary.
@@ -88,15 +87,15 @@ final class PrefixServiceTest extends TestCase
     {
         $result = PrefixService::getPrefixes(PrefixService::GROUP_SMALL_METRIC);
 
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
-        $this->assertContains('m', $symbols);  // milli
-        $this->assertContains('u', $symbols);  // micro
-        $this->assertContains('n', $symbols);  // nano
-        $this->assertContains('p', $symbols);  // pico
-        $this->assertContains('q', $symbols);  // quecto
-        $this->assertNotContains('c', $symbols);  // centi (non-engineering)
-        $this->assertNotContains('k', $symbols);  // kilo (large)
+        $this->assertContains('m', $symbols); // milli
+        $this->assertContains('u', $symbols); // micro
+        $this->assertContains('n', $symbols); // nano
+        $this->assertContains('p', $symbols); // pico
+        $this->assertContains('q', $symbols); // quecto
+        $this->assertNotContains('c', $symbols); // centi (non-engineering)
+        $this->assertNotContains('k', $symbols); // kilo (large)
     }
 
     /**
@@ -106,11 +105,11 @@ final class PrefixServiceTest extends TestCase
     {
         $result = PrefixService::getPrefixes(PrefixService::GROUP_MEDIUM_METRIC);
 
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
-        $this->assertContains('c', $symbols);  // centi
-        $this->assertContains('h', $symbols);  // hecto
-        $this->assertNotContains('m', $symbols);  // milli (engineering)
+        $this->assertContains('c', $symbols); // centi
+        $this->assertContains('h', $symbols); // hecto
+        $this->assertNotContains('m', $symbols); // milli (engineering)
     }
 
     /**
@@ -120,15 +119,15 @@ final class PrefixServiceTest extends TestCase
     {
         $result = PrefixService::getPrefixes(PrefixService::GROUP_LARGE_METRIC);
 
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
-        $this->assertContains('k', $symbols);   // kilo
-        $this->assertContains('M', $symbols);   // mega
-        $this->assertContains('G', $symbols);   // giga
-        $this->assertContains('T', $symbols);   // tera
-        $this->assertContains('Q', $symbols);   // quetta
-        $this->assertNotContains('h', $symbols);  // hecto (non-engineering)
-        $this->assertNotContains('m', $symbols);  // milli (small)
+        $this->assertContains('k', $symbols); // kilo
+        $this->assertContains('M', $symbols); // mega
+        $this->assertContains('G', $symbols); // giga
+        $this->assertContains('T', $symbols); // tera
+        $this->assertContains('Q', $symbols); // quetta
+        $this->assertNotContains('h', $symbols); // hecto (non-engineering)
+        $this->assertNotContains('m', $symbols); // milli (small)
     }
 
     /**
@@ -138,13 +137,13 @@ final class PrefixServiceTest extends TestCase
     {
         $result = PrefixService::getPrefixes(PrefixService::GROUP_BINARY);
 
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
-        $this->assertContains('Ki', $symbols);  // kibi
-        $this->assertContains('Mi', $symbols);  // mebi
-        $this->assertContains('Gi', $symbols);  // gibi
-        $this->assertContains('Ti', $symbols);  // tebi
-        $this->assertNotContains('k', $symbols);  // no metric
+        $this->assertContains('Ki', $symbols); // kibi
+        $this->assertContains('Mi', $symbols); // mebi
+        $this->assertContains('Gi', $symbols); // gibi
+        $this->assertContains('Ti', $symbols); // tebi
+        $this->assertNotContains('k', $symbols); // no metric
     }
 
     /**
@@ -154,7 +153,7 @@ final class PrefixServiceTest extends TestCase
     {
         $result = PrefixService::getPrefixes(PrefixService::GROUP_METRIC);
 
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         // Small engineering.
         $this->assertContains('m', $symbols);
@@ -179,7 +178,7 @@ final class PrefixServiceTest extends TestCase
     {
         $result = PrefixService::getPrefixes(PrefixService::GROUP_ALL);
 
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         // Metric.
         $this->assertContains('m', $symbols);
@@ -207,7 +206,7 @@ final class PrefixServiceTest extends TestCase
     {
         $result = PrefixService::getPrefixes(PrefixService::GROUP_METRIC);
 
-        $multipliers = array_map(static fn (Prefix $p) => $p->multiplier, $result);
+        $multipliers = array_map(static fn(Prefix $p) => $p->multiplier, $result);
 
         // Check ascending order.
         $sorted = $multipliers;
@@ -550,7 +549,7 @@ final class PrefixServiceTest extends TestCase
     {
         $expected = ['q', 'r', 'y', 'z', 'a', 'f', 'p', 'n', 'u', 'm'];
         $result = PrefixService::getPrefixes(PrefixService::GROUP_SMALL_METRIC);
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         foreach ($expected as $symbol) {
             $this->assertContains($symbol, $symbols, "Expected prefix '$symbol' not found");
@@ -564,7 +563,7 @@ final class PrefixServiceTest extends TestCase
     {
         $expected = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y', 'R', 'Q'];
         $result = PrefixService::getPrefixes(PrefixService::GROUP_LARGE_METRIC);
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         foreach ($expected as $symbol) {
             $this->assertContains($symbol, $symbols, "Expected prefix '$symbol' not found");
@@ -578,7 +577,7 @@ final class PrefixServiceTest extends TestCase
     {
         $expected = ['Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi', 'Yi', 'Ri', 'Qi'];
         $result = PrefixService::getPrefixes(PrefixService::GROUP_BINARY);
-        $symbols = array_map(static fn (Prefix $p) => $p->asciiSymbol, $result);
+        $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         foreach ($expected as $symbol) {
             $this->assertContains($symbol, $symbols, "Expected prefix '$symbol' not found");

@@ -33,9 +33,7 @@ class FrankfurterServiceTest extends TestCase
             /**
              * @param array<array-key, mixed> $response The decoded API response.
              */
-            public function __construct(private readonly array $response)
-            {
-            }
+            public function __construct(private readonly array $response) {}
 
             #[Override]
             protected function fetchJson(string $url): array
@@ -71,7 +69,7 @@ class FrankfurterServiceTest extends TestCase
 
         $this->assertSame(
             'https://api.frankfurter.dev/v1/latest',
-            new ReflectionMethod($service, 'getUrl')->invoke($service)
+            new ReflectionMethod($service, 'getUrl')->invoke($service),
         );
     }
 

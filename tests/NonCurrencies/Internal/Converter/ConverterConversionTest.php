@@ -138,7 +138,7 @@ class ConverterConversionTest extends TestCase
             name: 'isolated length',
             asciiSymbol: 'Xu',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         UnitService::add($unit);
 
@@ -226,7 +226,7 @@ class ConverterConversionTest extends TestCase
             name: 'isolated length two',
             asciiSymbol: 'Yu',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         UnitService::add($unit);
 
@@ -347,7 +347,7 @@ class ConverterConversionTest extends TestCase
             name: 'isolated length three',
             asciiSymbol: 'Wu',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         UnitService::add($unit);
 

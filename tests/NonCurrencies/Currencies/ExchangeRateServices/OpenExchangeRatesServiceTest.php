@@ -95,7 +95,7 @@ class OpenExchangeRatesServiceTest extends TestCase
 
         $this->assertSame(
             'https://openexchangerates.org/api/latest.json?app_id=id%261',
-            new ReflectionMethod($service, 'getUrl')->invoke($service)
+            new ReflectionMethod($service, 'getUrl')->invoke($service),
         );
     }
 

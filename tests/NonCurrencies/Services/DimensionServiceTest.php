@@ -95,10 +95,10 @@ final class DimensionServiceTest extends TestCase
      */
     public function testIsValidInvalidFormat(): void
     {
-        $this->assertFalse(DimensionService::isValid('2L'));    // Exponent before letter
-        $this->assertFalse(DimensionService::isValid('L*M'));   // Invalid character
-        $this->assertFalse(DimensionService::isValid('L M'));   // Space
-        $this->assertFalse(DimensionService::isValid('L-'));    // Minus without digit
+        $this->assertFalse(DimensionService::isValid('2L')); // Exponent before letter
+        $this->assertFalse(DimensionService::isValid('L*M')); // Invalid character
+        $this->assertFalse(DimensionService::isValid('L M')); // Space
+        $this->assertFalse(DimensionService::isValid('L-')); // Minus without digit
     }
 
     /**

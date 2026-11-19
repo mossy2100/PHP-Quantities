@@ -36,7 +36,7 @@ final class LengthPartsTest extends TestCase
         $length = Length::fromParts(['mi' => 1, 'yd' => 880]);
 
         // 1 mile + 880 yards = 1.5 miles
-        $this->assertSame(7920.0, $length->value);  // in feet (default)
+        $this->assertSame(7920.0, $length->value); // in feet (default)
         $this->assertSame('ft', $length->compoundUnit->asciiSymbol);
     }
 
@@ -112,7 +112,7 @@ final class LengthPartsTest extends TestCase
      */
     public function testToPartsCarry(): void
     {
-        $length = new Length(2.99999999, 'ft');  // Just under 3 feet = 1 yard
+        $length = new Length(2.99999999, 'ft'); // Just under 3 feet = 1 yard
         $parts = $length->toParts(precision: 0, partUnitSymbols: ['yd', 'ft']);
 
         // Should round to 3 feet and carry to 1 yard.
@@ -177,7 +177,7 @@ final class LengthPartsTest extends TestCase
      */
     public function testFormatPartsShowZeros(): void
     {
-        $length = new Length(5280, 'ft');  // 1 mile
+        $length = new Length(5280, 'ft'); // 1 mile
         $result = $length->formatParts(showZeros: true);
 
         // Shows all parts including zeros (default: mi, yd, ft, in).

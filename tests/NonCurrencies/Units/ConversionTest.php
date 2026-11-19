@@ -260,7 +260,7 @@ class ConversionTest extends TestCase
      */
     public function testCombineConvergentChainsUnits(): void
     {
-        $conv1 = new Conversion('m', 'ft', 3.28084);  // m -> ft
+        $conv1 = new Conversion('m', 'ft', 3.28084); // m -> ft
         $conv2 = new Conversion('in', 'ft', 1.0 / 12.0); // in -> ft
 
         $combined = $conv1->combineConvergent($conv2);
@@ -308,8 +308,8 @@ class ConversionTest extends TestCase
      */
     public function testCombineDivergentChainsUnits(): void
     {
-        $conv1 = new Conversion('ft', 'm', 0.3048);   // ft -> m
-        $conv2 = new Conversion('ft', 'in', 12.0);    // ft -> in
+        $conv1 = new Conversion('ft', 'm', 0.3048); // ft -> m
+        $conv2 = new Conversion('ft', 'in', 12.0); // ft -> in
 
         $combined = $conv1->combineDivergent($conv2);
 
@@ -356,7 +356,7 @@ class ConversionTest extends TestCase
      */
     public function testCombineOppositeChainsUnits(): void
     {
-        $conv1 = new Conversion('ft', 'm', 0.3048);   // ft -> m
+        $conv1 = new Conversion('ft', 'm', 0.3048); // ft -> m
         $conv2 = new Conversion('in', 'ft', 1.0 / 12.0); // in -> ft
 
         $combined = $conv1->combineOpposite($conv2);

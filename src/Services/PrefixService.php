@@ -125,7 +125,7 @@ class PrefixService
 
         // Get the prefixes for the given group code.
         return array_values(
-            array_filter(self::$prefixes, static fn (Prefix $prefix) => (bool) ($prefix->groupCode & $prefixGroup))
+            array_filter(self::$prefixes, static fn(Prefix $prefix) => (bool) ($prefix->groupCode & $prefixGroup)),
         );
     }
 
@@ -143,9 +143,8 @@ class PrefixService
 
         return array_find(
             self::$prefixes,
-            static fn (Prefix $prefix) => $prefix->asciiSymbol === $symbol
-                || $prefix->unicodeSymbol === $symbol
-                || $prefix->alternateSymbol === $symbol
+            static fn(Prefix $prefix) => $prefix->asciiSymbol === $symbol || $prefix->unicodeSymbol === $symbol
+                || $prefix->alternateSymbol === $symbol,
         );
     }
 
@@ -188,7 +187,7 @@ class PrefixService
         // Find the reciprocal multiplier and matching prefix.
         $inversePrefix = array_find(
             self::$prefixes,
-            static fn (Prefix $p) => Floats::approxEqual($p->multiplier, 1.0 / $prefix->multiplier)
+            static fn(Prefix $p) => Floats::approxEqual($p->multiplier, 1.0 / $prefix->multiplier),
         );
 
         // Throw an exception if no inverse could be found.
@@ -240,7 +239,7 @@ class PrefixService
                     $definition['prefixGroup'],
                     $definition['asciiSymbol'],
                     $definition['unicodeSymbol'] ?? null,
-                    $definition['alternateSymbol'] ?? null
+                    $definition['alternateSymbol'] ?? null,
                 );
             }
         }

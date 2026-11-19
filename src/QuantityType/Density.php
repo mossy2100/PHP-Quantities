@@ -9,6 +9,4 @@ use Mossy2100\Quantities\Quantity;
 /**
  * Represents density quantities.
  */
-class Density extends Quantity
-{
-}
+class Density extends Quantity {}

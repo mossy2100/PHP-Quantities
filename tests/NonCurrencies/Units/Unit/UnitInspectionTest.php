@@ -30,7 +30,7 @@ final class UnitInspectionTest extends TestCase
             asciiSymbol: 'm',
             dimension: 'L',
             systems: [UnitSystem::Si],
-            prefixGroup: PrefixService::GROUP_METRIC
+            prefixGroup: PrefixService::GROUP_METRIC,
         );
 
         $this->assertTrue($unit->acceptsPrefix(self::prefix('k')));
@@ -50,7 +50,7 @@ final class UnitInspectionTest extends TestCase
             asciiSymbol: 'm',
             dimension: 'L',
             systems: [UnitSystem::Si],
-            prefixGroup: PrefixService::GROUP_METRIC
+            prefixGroup: PrefixService::GROUP_METRIC,
         );
 
         $this->assertTrue($unit->acceptsPrefix(self::prefix("\u{00B5}")));
@@ -66,7 +66,7 @@ final class UnitInspectionTest extends TestCase
             asciiSymbol: 'm',
             dimension: 'L',
             systems: [UnitSystem::Si],
-            prefixGroup: PrefixService::GROUP_METRIC
+            prefixGroup: PrefixService::GROUP_METRIC,
         );
 
         // Binary prefix not in METRIC group.
@@ -82,7 +82,7 @@ final class UnitInspectionTest extends TestCase
             name: 'hectare',
             asciiSymbol: 'ha',
             dimension: 'L2',
-            systems: [UnitSystem::SiAccepted]
+            systems: [UnitSystem::SiAccepted],
         );
 
         $this->assertFalse($unit->acceptsPrefix(self::prefix('k')));
@@ -101,7 +101,7 @@ final class UnitInspectionTest extends TestCase
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
 
         $this->assertTrue($unit->belongsToSystem(UnitSystem::Si));
@@ -116,7 +116,7 @@ final class UnitInspectionTest extends TestCase
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
 
         $this->assertFalse($unit->belongsToSystem(UnitSystem::Imperial));
@@ -131,7 +131,7 @@ final class UnitInspectionTest extends TestCase
             name: 'second',
             asciiSymbol: 's',
             dimension: 'T',
-            systems: [UnitSystem::Si, UnitSystem::Imperial]
+            systems: [UnitSystem::Si, UnitSystem::Imperial],
         );
 
         $this->assertTrue($unit->belongsToSystem(UnitSystem::Si));

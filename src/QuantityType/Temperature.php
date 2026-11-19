@@ -112,7 +112,7 @@ class Temperature extends Quantity
         return match ($this->compoundUnit->asciiSymbol) {
             'degC' => $this->to('K'),
             'degF' => $this->to('degR'),
-            default => clone $this,
+            default => clone($this),
         };
     }
 

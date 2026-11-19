@@ -9,6 +9,4 @@ use Mossy2100\Quantities\Quantity;
 /**
  * Represents acceleration quantities.
  */
-class Acceleration extends Quantity
-{
-}
+class Acceleration extends Quantity {}

@@ -47,8 +47,8 @@ class CurrencyService
      *
      * Note: "currrency" with three r's is SIX Group's actual URL, not a typo in our code.
      */
-    private const string ISO_4217_URL =
-        'https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml';
+    private const string ISO_4217_URL
+        = 'https://www.six-group.com/dam/download/financial-information/data-center/iso-currrency/lists/list-one.xml';
 
     /**
      * Names to use instead of the ISO 4217 names, keyed by currency code.
@@ -143,8 +143,8 @@ class CurrencyService
 
         // Use the refreshed copy if it's at least as new as the snapshot.
         if (
-            $refreshed !== null &&
-            ($snapshot === null || strtotime($refreshed['whenFetched']) >= strtotime($snapshot['whenFetched']))
+            $refreshed !== null
+            && ($snapshot === null || strtotime($refreshed['whenFetched']) >= strtotime($snapshot['whenFetched']))
         ) {
             return $refreshed;
         }
@@ -372,9 +372,8 @@ class CurrencyService
         // Refetch if the rates are missing, too old, or from a different service.
         $serviceName = self::getConfiguredExchangeRateService()->getName();
         if (
-            self::$ratesFetchedAt === null ||
-            time() > self::$ratesFetchedAt + self::$autoRefreshTtl ||
-            self::$ratesServiceName !== $serviceName
+            self::$ratesFetchedAt === null || time() > self::$ratesFetchedAt + self::$autoRefreshTtl
+            || self::$ratesServiceName !== $serviceName
         ) {
             self::refreshRates();
         }
@@ -425,7 +424,7 @@ class CurrencyService
     public static function init(
         ExchangeRateServiceInterface $exchangeRateService,
         ?string $locale = null,
-        ?int $autoRefreshTtl = null
+        ?int $autoRefreshTtl = null,
     ): void {
         self::setExchangeRateService($exchangeRateService);
         self::setLocale($locale);
@@ -640,10 +639,8 @@ class CurrencyService
 
         // Check it's an array with the right shape.
         if (
-            !is_array($unitData) ||
-            !isset($unitData['whenFetched'], $unitData['currencies']) ||
-            !is_string($unitData['whenFetched']) ||
-            !is_array($unitData['currencies'])
+            !is_array($unitData) || !isset($unitData['whenFetched'], $unitData['currencies'])
+            || !is_string($unitData['whenFetched']) || !is_array($unitData['currencies'])
         ) {
             return null;
         }
@@ -688,10 +685,10 @@ class CurrencyService
         }
 
         // Check it's an array with the right shape.
-        $ok = is_array($conversionData)
-            && array_key_exists('whenFetched', $conversionData) && is_string($conversionData['whenFetched'])
-            && array_key_exists('serviceName', $conversionData) && is_string($conversionData['serviceName'])
-            && array_key_exists('definitions', $conversionData) && is_array($conversionData['definitions']);
+        $ok = is_array($conversionData) && array_key_exists('whenFetched', $conversionData)
+            && is_string($conversionData['whenFetched']) && array_key_exists('serviceName', $conversionData)
+            && is_string($conversionData['serviceName']) && array_key_exists('definitions', $conversionData)
+            && is_array($conversionData['definitions']);
 
         if (!$ok) {
             return null;
@@ -702,8 +699,8 @@ class CurrencyService
         $definitions = [];
         foreach ($conversionData['definitions'] as $definition) {
             if (
-                !is_array($definition) || count($definition) !== 3 || !is_string($definition[0]) ||
-                !is_string($definition[1]) || !Numbers::isNumber($definition[2])
+                !is_array($definition) || count($definition) !== 3 || !is_string($definition[0])
+                || !is_string($definition[1]) || !Numbers::isNumber($definition[2])
             ) {
                 return null;
             }

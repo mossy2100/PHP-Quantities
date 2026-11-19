@@ -421,7 +421,7 @@ final class PhysicalConstantTest extends TestCase
             $this->assertSame(
                 PhysicalConstant::get($symbol),
                 $all[$symbol],
-                "getAll()['$symbol'] should match get('$symbol')."
+                "getAll()['$symbol'] should match get('$symbol').",
             );
         }
     }

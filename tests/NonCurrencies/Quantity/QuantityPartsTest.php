@@ -263,7 +263,7 @@ final class QuantityPartsTest extends TestCase
 
         $this->assertSame(
             ['sign' => 1, 'tn' => 0, 'lb' => 8, 'oz' => 3, 'gr' => 433.0],
-            $mass->toParts(0, ['tn', 'lb', 'oz', 'gr'])
+            $mass->toParts(0, ['tn', 'lb', 'oz', 'gr']),
         );
     }
 
@@ -282,7 +282,7 @@ final class QuantityPartsTest extends TestCase
             $this->assertEqualsWithDelta(
                 $value * 3600,
                 $parts['deg'] * 3600 + $parts['arcmin'] * 60 + $parts['arcsec'],
-                0.5 + 1e-9 * $value * 3600
+                0.5 + 1e-9 * $value * 3600,
             );
         }
     }
@@ -883,7 +883,7 @@ final class QuantityPartsTest extends TestCase
         string $input,
         string $class,
         string $expectedUnit,
-        float $expectedValue
+        float $expectedValue,
     ): void {
         $result = $class::parseParts($input);
 

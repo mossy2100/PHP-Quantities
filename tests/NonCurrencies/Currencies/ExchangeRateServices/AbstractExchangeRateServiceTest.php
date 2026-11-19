@@ -32,9 +32,7 @@ class AbstractExchangeRateServiceTest extends TestCase
     private static function createService(string $url): AbstractExchangeRateService
     {
         return new class ($url) extends AbstractExchangeRateService {
-            public function __construct(private readonly string $url)
-            {
-            }
+            public function __construct(private readonly string $url) {}
 
             #[Override]
             public function getName(): string
@@ -245,7 +243,7 @@ class AbstractExchangeRateServiceTest extends TestCase
     public function testBuildDefinitionsSkipsInvalidRates(): void
     {
         $service = self::createServiceWithJson(
-            '{"rates": {"AAA": 0, "BBB": -1.5, "CCC": "1.2", "DDD": null, "EEE": [], "EUR": 0.9}}'
+            '{"rates": {"AAA": 0, "BBB": -1.5, "CCC": "1.2", "DDD": null, "EEE": [], "EUR": 0.9}}',
         );
 
         $this->assertSame([['USD', 'EUR', 0.9]], $service->getConversionDefinitions());

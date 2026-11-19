@@ -272,7 +272,7 @@ final class UnitTermPropertiesTest extends TestCase
             name: 'unregistered test',
             asciiSymbol: 'Xur',
             dimension: 'L5T3',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
         UnitService::add($unit);
 

@@ -51,7 +51,7 @@ final class UnitServiceLookupTest extends TestCase
         $result = UnitService::getAll();
 
         $this->assertArrayHasKey('meter', $result);
-        $this->assertArrayHasKey('gram', $result);  // SI uses kilogram, but gram is the base unit
+        $this->assertArrayHasKey('gram', $result); // SI uses kilogram, but gram is the base unit
         $this->assertArrayHasKey('second', $result);
         $this->assertArrayHasKey('ampere', $result);
         $this->assertArrayHasKey('kelvin', $result);
@@ -211,7 +211,7 @@ final class UnitServiceLookupTest extends TestCase
         foreach ($result as $unit) {
             $this->assertTrue(
                 $unit->belongsToSystem(UnitSystem::Si),
-                "Unit '$unit->name' does not belong to SI system."
+                "Unit '$unit->name' does not belong to SI system.",
             );
         }
     }
@@ -222,7 +222,7 @@ final class UnitServiceLookupTest extends TestCase
     public function testGetBySystemIncludesSiBaseUnits(): void
     {
         $result = UnitService::getBySystem(UnitSystem::Si);
-        $symbols = array_map(static fn (Unit $u) => $u->asciiSymbol, $result);
+        $symbols = array_map(static fn(Unit $u) => $u->asciiSymbol, $result);
 
         $this->assertContains('m', $symbols);
         $this->assertContains('g', $symbols);
@@ -239,7 +239,7 @@ final class UnitServiceLookupTest extends TestCase
     public function testGetBySystemIncludesNamedDerivedSiUnits(): void
     {
         $result = UnitService::getBySystem(UnitSystem::Si);
-        $symbols = array_map(static fn (Unit $u) => $u->asciiSymbol, $result);
+        $symbols = array_map(static fn(Unit $u) => $u->asciiSymbol, $result);
 
         $this->assertContains('N', $symbols);
         $this->assertContains('J', $symbols);
@@ -254,7 +254,7 @@ final class UnitServiceLookupTest extends TestCase
     public function testGetBySystemExcludesOtherSystems(): void
     {
         $result = UnitService::getBySystem(UnitSystem::Si);
-        $symbols = array_map(static fn (Unit $u) => $u->asciiSymbol, $result);
+        $symbols = array_map(static fn(Unit $u) => $u->asciiSymbol, $result);
 
         $this->assertNotContains('ft', $symbols);
         $this->assertNotContains('lb', $symbols);
@@ -267,7 +267,7 @@ final class UnitServiceLookupTest extends TestCase
     public function testGetBySystemReturnsImperialUnits(): void
     {
         $result = UnitService::getBySystem(UnitSystem::Imperial);
-        $symbols = array_map(static fn (Unit $u) => $u->asciiSymbol, $result);
+        $symbols = array_map(static fn(Unit $u) => $u->asciiSymbol, $result);
 
         $this->assertContains('ft', $symbols);
         $this->assertContains('lb', $symbols);
@@ -282,8 +282,8 @@ final class UnitServiceLookupTest extends TestCase
         $si = UnitService::getBySystem(UnitSystem::Si);
         $imperial = UnitService::getBySystem(UnitSystem::Imperial);
 
-        $siSymbols = array_map(static fn (Unit $u) => $u->asciiSymbol, $si);
-        $imperialSymbols = array_map(static fn (Unit $u) => $u->asciiSymbol, $imperial);
+        $siSymbols = array_map(static fn(Unit $u) => $u->asciiSymbol, $si);
+        $imperialSymbols = array_map(static fn(Unit $u) => $u->asciiSymbol, $imperial);
 
         $this->assertNotEquals($siSymbols, $imperialSymbols);
     }
@@ -332,7 +332,7 @@ final class UnitServiceLookupTest extends TestCase
             $this->assertSame(
                 $timeType->dimension,
                 $unit->dimension,
-                "Unit '$unit->name' has dimension '$unit->dimension', expected '$timeType->dimension'."
+                "Unit '$unit->name' has dimension '$unit->dimension', expected '$timeType->dimension'.",
             );
         }
     }
@@ -346,7 +346,7 @@ final class UnitServiceLookupTest extends TestCase
         $this->assertNotNull($timeType);
 
         $result = UnitService::getByQuantityType($timeType);
-        $symbols = array_map(static fn (Unit $u) => $u->asciiSymbol, $result);
+        $symbols = array_map(static fn(Unit $u) => $u->asciiSymbol, $result);
 
         $this->assertContains('s', $symbols);
         $this->assertContains('min', $symbols);
@@ -405,11 +405,11 @@ final class UnitServiceLookupTest extends TestCase
         $result = UnitService::getAllSymbols();
 
         // Meter should have metric prefixes.
-        $this->assertContains('km', $result);   // kilo
-        $this->assertContains('cm', $result);   // centi
-        $this->assertContains('mm', $result);   // milli
-        $this->assertContains('μm', $result);   // micro (Unicode)
-        $this->assertContains('nm', $result);   // nano
+        $this->assertContains('km', $result); // kilo
+        $this->assertContains('cm', $result); // centi
+        $this->assertContains('mm', $result); // milli
+        $this->assertContains('μm', $result); // micro (Unicode)
+        $this->assertContains('nm', $result); // nano
     }
 
     /**
@@ -481,7 +481,7 @@ final class UnitServiceLookupTest extends TestCase
     public function testAsciiSymbolsAreUnique(): void
     {
         $all = UnitService::getAll();
-        $symbols = array_map(static fn ($unit) => $unit->asciiSymbol, $all);
+        $symbols = array_map(static fn($unit) => $unit->asciiSymbol, $all);
         $uniqueSymbols = array_unique($symbols);
 
         $this->assertCount(count($symbols), $uniqueSymbols, 'Duplicate ASCII symbols found.');

@@ -75,7 +75,7 @@ class Prefix
         int $groupCode,
         string $asciiSymbol,
         ?string $unicodeSymbol = null,
-        ?string $alternateSymbol = null
+        ?string $alternateSymbol = null,
     ) {
         // Validate the name.
         if (!self::isValidName($name)) {

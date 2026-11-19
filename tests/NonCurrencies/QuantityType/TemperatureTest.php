@@ -63,7 +63,7 @@ final class TemperatureTest extends TestCase
     {
         $this->assertSame(
             [['degC', 'K', Temperature::CELSIUS_OFFSET], ['degF', 'degR', Temperature::FAHRENHEIT_OFFSET]],
-            Temperature::getOffsetDefinitions()
+            Temperature::getOffsetDefinitions(),
         );
     }
 
@@ -718,7 +718,7 @@ final class TemperatureTest extends TestCase
             name: 'dummy temp',
             asciiSymbol: 'degX',
             dimension: 'H',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         UnitService::add($unit);
 

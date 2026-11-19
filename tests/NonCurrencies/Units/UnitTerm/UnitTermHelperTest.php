@@ -121,7 +121,7 @@ final class UnitTermHelperTest extends TestCase
             name: 'unexpandable test',
             asciiSymbol: 'Xut',
             dimension: 'ML2T-2',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         UnitService::add($unit);
 

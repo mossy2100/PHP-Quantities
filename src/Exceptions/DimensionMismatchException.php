@@ -30,7 +30,7 @@ class DimensionMismatchException extends DomainException
         public readonly ?string $dimension2,
         string $message = '',
         int $code = 0,
-        ?Throwable $previous = null
+        ?Throwable $previous = null,
     ) {
         if ($message === '') {
             $message = self::buildMessage($dimension1, $dimension2);

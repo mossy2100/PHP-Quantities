@@ -388,7 +388,7 @@ class Converter
         // If no conversion was found, throw an exception.
         if ($conversion === null) {
             throw new LogicException(
-                "No conversion path found between '$srcUnit' and '$destUnit' (dimension: $this->dimension)."
+                "No conversion path found between '$srcUnit' and '$destUnit' (dimension: $this->dimension).",
             );
         }
 
@@ -593,7 +593,7 @@ class Converter
             $factor = $this->findConversionFactor($unit, $zeroUnit);
             if ($factor === null || !Floats::approxEqual($factor, 1.0)) {
                 throw new DomainException(
-                    "Invalid offset definition for '$unitSymbol'. It must be the same size as '$zeroUnitSymbol'."
+                    "Invalid offset definition for '$unitSymbol'. It must be the same size as '$zeroUnitSymbol'.",
                 );
             }
 
@@ -703,9 +703,8 @@ class Converter
 
         // Check they have the same exponent, and it's not equal to 1.
         if (
-            $srcUnitTerm->exponent === 1 ||
-            $destUnitTerm->exponent === 1 ||
-            $srcUnitTerm->exponent !== $destUnitTerm->exponent
+            $srcUnitTerm->exponent === 1 || $destUnitTerm->exponent === 1
+            || $srcUnitTerm->exponent !== $destUnitTerm->exponent
         ) {
             return null;
         }
@@ -1078,8 +1077,7 @@ class Converter
     {
         $colWidth = 20;
         $nUnits = count($this->units);
-        $line = '+' . str_repeat('-', $colWidth) . '+' .
-            str_repeat(str_repeat('-', $colWidth) . '+', $nUnits) . "\n";
+        $line = '+' . str_repeat('-', $colWidth) . '+' . str_repeat(str_repeat('-', $colWidth) . '+', $nUnits) . "\n";
 
         echo $line;
         echo '|' . str_repeat(' ', $colWidth) . '|';

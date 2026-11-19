@@ -131,8 +131,8 @@ class PhysicalConstant
     /**
      * Stefan-Boltzmann constant (sigma = 2π⁵k⁴ / (15h³c²)) in W/(m2*K4).
      */
-    public const float STEFAN_BOLTZMANN =
-        2 * M_PI ** 5 * self::BOLTZMANN ** 4 / (15 * self::PLANCK ** 3 * self::SPEED_OF_LIGHT ** 2);
+    public const float STEFAN_BOLTZMANN
+        = 2 * M_PI ** 5 * self::BOLTZMANN ** 4 / (15 * self::PLANCK ** 3 * self::SPEED_OF_LIGHT ** 2);
 
     #endregion
 
@@ -201,7 +201,7 @@ class PhysicalConstant
     {
         return self::$cache[$symbol] ??= Quantity::create(
             self::SYMBOL_MAP[$symbol]['value'],
-            self::SYMBOL_MAP[$symbol]['unit']
+            self::SYMBOL_MAP[$symbol]['unit'],
         );
     }
 

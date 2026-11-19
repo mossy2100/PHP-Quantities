@@ -70,7 +70,7 @@ class Conversion implements Stringable
     public function __construct(
         string|UnitInterface $srcUnit,
         string|UnitInterface $destUnit,
-        float|FloatWithError $factor
+        float|FloatWithError $factor,
     ) {
         // Ensure the units are CompoundUnit objects.
         $srcUnit = CompoundUnit::toCompoundUnit($srcUnit);
@@ -89,7 +89,7 @@ class Conversion implements Stringable
         // Ensure the factor is positive.
         if ($factor->value <= 0.0) {
             throw new DomainException(
-                Stringify::prepEx('Invalid conversion factor: ?. Must be positive.', $factor->value)
+                Stringify::prepEx('Invalid conversion factor: ?. Must be positive.', $factor->value),
             );
         }
 

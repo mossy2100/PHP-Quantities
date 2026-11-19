@@ -433,7 +433,7 @@ final class AngleTest extends TestCase
             } catch (InvalidArgumentException $e) {
                 $this->assertSame(
                     'Cannot compare Angle with ' . get_debug_type($other) . '. Must be Quantity.',
-                    $e->getMessage()
+                    $e->getMessage(),
                 );
             }
         }
@@ -783,7 +783,7 @@ final class AngleTest extends TestCase
      */
     public function testToPartsCarry(): void
     {
-        $angle = new Angle(44.99999999, 'deg');  // Just under 45 degrees
+        $angle = new Angle(44.99999999, 'deg'); // Just under 45 degrees
         $parts = $angle->toParts(precision: 0);
 
         // Should round and carry to 45 degrees

@@ -166,7 +166,7 @@ final class ForceTest extends TestCase
     /**
      * Test converting newtons to base SI units.
      */
-    public function testConvertNewtonsToBaseSI(): void
+    public function testConvertNewtonsToBaseSi(): void
     {
         $force = new Force(10, 'N');
         $si = $force->toSiBase();
@@ -179,7 +179,7 @@ final class ForceTest extends TestCase
     /**
      * Test converting pound force to base SI units.
      */
-    public function testConvertPoundForceToBaseSI(): void
+    public function testConvertPoundForceToBaseSi(): void
     {
         $force = new Force(1, 'lbf');
         $si = $force->toSiBase();
@@ -196,7 +196,7 @@ final class ForceTest extends TestCase
     /**
      * Test calculating force from mass and acceleration (SI units).
      */
-    public function testForceFromMassAndAccelerationSI(): void
+    public function testForceFromMassAndAccelerationSi(): void
     {
         $mass = new Mass(10, 'kg');
         $acceleration = new Acceleration(5, 'm/s2');

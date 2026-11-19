@@ -25,10 +25,10 @@ final class UnitValidationTest extends TestCase
         // Single letters → true.
         $this->assertTrue(Unit::isValidLetter('a'));
         $this->assertTrue(Unit::isValidLetter('A'));
-        $this->assertTrue(Unit::isValidLetter("\u{03BC}"));   // Greek mu
-        $this->assertTrue(Unit::isValidLetter("\u{00B5}"));   // Micro sign
-        $this->assertTrue(Unit::isValidLetter("\u{03A9}"));   // Greek capital omega
-        $this->assertTrue(Unit::isValidLetter("\u{2126}"));   // Ohm sign (letterlike compatibility char)
+        $this->assertTrue(Unit::isValidLetter("\u{03BC}")); // Greek mu
+        $this->assertTrue(Unit::isValidLetter("\u{00B5}")); // Micro sign
+        $this->assertTrue(Unit::isValidLetter("\u{03A9}")); // Greek capital omega
+        $this->assertTrue(Unit::isValidLetter("\u{2126}")); // Ohm sign (letterlike compatibility char)
 
         // Non-letters → false.
         $this->assertFalse(Unit::isValidLetter('°'));
@@ -87,7 +87,7 @@ final class UnitValidationTest extends TestCase
         // Exactly 7 letters — boundary.
         $this->assertTrue(Unit::isValidWord('abcdefg'));
         // Single Unicode letter.
-        $this->assertTrue(Unit::isValidWord("\u{03BC}"));  // Greek mu
+        $this->assertTrue(Unit::isValidWord("\u{03BC}")); // Greek mu
 
         // 8 letters — exceeds maximum.
         $this->assertFalse(Unit::isValidWord('abcdefgh'));

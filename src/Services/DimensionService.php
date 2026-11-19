@@ -116,7 +116,7 @@ class DimensionService
             $dimTerms[$dim] = ($dimTerms[$dim] ?? 0) + $exp;
         }
 
-        return array_filter($dimTerms, static fn (int $exp) => $exp !== 0);
+        return array_filter($dimTerms, static fn(int $exp) => $exp !== 0);
     }
 
     /**
@@ -131,7 +131,7 @@ class DimensionService
     {
         // Sort the terms.
         $letters = array_flip(self::getLetterCodes());
-        $fn = static fn (string $code1, string $code2) => $letters[$code1] <=> $letters[$code2];
+        $fn = static fn(string $code1, string $code2) => $letters[$code1] <=> $letters[$code2];
         uksort($dimTerms, $fn);
 
         // Assemble into a string.
@@ -300,7 +300,7 @@ class DimensionService
     public static function countUnits(string $dimension): int
     {
         $dimTerms = self::decompose($dimension);
-        return array_reduce($dimTerms, static fn (int $count, int $exp) => $count + abs($exp), 0);
+        return array_reduce($dimTerms, static fn(int $count, int $exp) => $count + abs($exp), 0);
     }
 
     #endregion

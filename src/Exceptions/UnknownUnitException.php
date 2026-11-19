@@ -28,7 +28,7 @@ class UnknownUnitException extends DomainException
         public readonly string $unit,
         string $message = '',
         int $code = 0,
-        ?Throwable $previous = null
+        ?Throwable $previous = null,
     ) {
         if ($message === '') {
             $message = "Unknown unit: '$unit'.";

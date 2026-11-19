@@ -229,7 +229,7 @@ final class TimeTest extends TestCase
      */
     public function testToDateIntervalSimple(): void
     {
-        $time = new Time(5400, 's');  // 1h 30min
+        $time = new Time(5400, 's'); // 1h 30min
         $interval = $time->toDateInterval();
 
         $this->assertInstanceOf(DateInterval::class, $interval);
@@ -266,7 +266,7 @@ final class TimeTest extends TestCase
      */
     public function testToDateIntervalFractionalSeconds(): void
     {
-        $time = new Time(3661.5, 's');  // 1h 1min 1.5s
+        $time = new Time(3661.5, 's'); // 1h 1min 1.5s
         $interval = $time->toDateInterval();
 
         $this->assertSame(1, $interval->h);
@@ -292,7 +292,7 @@ final class TimeTest extends TestCase
      */
     public function testToDateIntervalFractionalDoesNotRoundUp(): void
     {
-        $time = new Time(3599.9, 's');  // Just under 1 hour.
+        $time = new Time(3599.9, 's'); // Just under 1 hour.
         $interval = $time->toDateInterval();
 
         $this->assertSame(0, $interval->h);
@@ -306,7 +306,7 @@ final class TimeTest extends TestCase
      */
     public function testToDateIntervalNegativeFractional(): void
     {
-        $time = new Time(-90.25, 's');  // -1min 30.25s
+        $time = new Time(-90.25, 's'); // -1min 30.25s
         $interval = $time->toDateInterval();
 
         $this->assertSame(1, $interval->invert);
@@ -336,7 +336,7 @@ final class TimeTest extends TestCase
      */
     public function testToDateIntervalSpecifierSimple(): void
     {
-        $time = new Time(5400, 's');  // 1h 30min
+        $time = new Time(5400, 's'); // 1h 30min
         $spec = $time->toDateIntervalSpecifier();
 
         $this->assertSame('PT1H30M', $spec);
@@ -347,7 +347,7 @@ final class TimeTest extends TestCase
      */
     public function testToDateIntervalSpecifierWithDays(): void
     {
-        $time = new Time(90061, 's');  // 1d 1h 1min 1s
+        $time = new Time(90061, 's'); // 1d 1h 1min 1s
         $spec = $time->toDateIntervalSpecifier();
 
         $this->assertSame('P1DT1H1M1S', $spec);
@@ -369,7 +369,7 @@ final class TimeTest extends TestCase
      */
     public function testToDateIntervalSpecifierSmallestUnit(): void
     {
-        $time = new Time(5400, 's');  // 1h 30min
+        $time = new Time(5400, 's'); // 1h 30min
         $spec = $time->toDateIntervalSpecifier();
 
         $this->assertSame('PT1H30M', $spec);
@@ -445,7 +445,7 @@ final class TimeTest extends TestCase
      */
     public function testToParts(): void
     {
-        $time = new Time(90061, 's');  // 1d 1h 1min 1s
+        $time = new Time(90061, 's'); // 1d 1h 1min 1s
         $parts = $time->toParts();
 
         $this->assertSame(1, $parts['sign']);
@@ -463,7 +463,7 @@ final class TimeTest extends TestCase
      */
     public function testToPartsNegative(): void
     {
-        $time = new Time(-3661, 's');  // -1h 1min 1s
+        $time = new Time(-3661, 's'); // -1h 1min 1s
         $parts = $time->toParts();
 
         $this->assertSame(-1, $parts['sign']);
@@ -477,7 +477,7 @@ final class TimeTest extends TestCase
      */
     public function testToPartsCarry(): void
     {
-        $time = new Time(3599.999, 's');  // Just under 1 hour
+        $time = new Time(3599.999, 's'); // Just under 1 hour
         $parts = $time->toParts(precision: 0);
 
         // Should round to 3600s and carry to 1h
@@ -495,7 +495,7 @@ final class TimeTest extends TestCase
      */
     public function testFormatPartsDefault(): void
     {
-        $time = new Time(5400, 's');  // 1h 30min
+        $time = new Time(5400, 's'); // 1h 30min
         $result = $time->formatParts();
 
         $this->assertSame('1h 30min', $result);
@@ -506,7 +506,7 @@ final class TimeTest extends TestCase
      */
     public function testFormatPartsWithDays(): void
     {
-        $time = new Time(90061, 's');  // 1d 1h 1min 1s
+        $time = new Time(90061, 's'); // 1d 1h 1min 1s
         $result = $time->formatParts();
 
         $this->assertSame('1d 1h 1min 1s', $result);
@@ -517,7 +517,7 @@ final class TimeTest extends TestCase
      */
     public function testFormatPartsWithPrecision(): void
     {
-        $time = new Time(3661.5, 's');  // 1h 1min 1.5s
+        $time = new Time(3661.5, 's'); // 1h 1min 1.5s
         $result = $time->formatParts(precision: 1);
 
         $this->assertSame('1h 1min 1.5s', $result);
@@ -528,7 +528,7 @@ final class TimeTest extends TestCase
      */
     public function testFormatPartsNegative(): void
     {
-        $time = new Time(-3661, 's');  // -1h 1min 1s
+        $time = new Time(-3661, 's'); // -1h 1min 1s
         $result = $time->formatParts();
 
         $this->assertSame('-1h 1min 1s', $result);
@@ -541,7 +541,7 @@ final class TimeTest extends TestCase
      */
     public function testFormatPartsShowZeros(): void
     {
-        $time = new Time(3600, 's');  // 1h
+        $time = new Time(3600, 's'); // 1h
         $result = $time->formatParts(showZeros: true);
 
         // Shows all parts including zeros

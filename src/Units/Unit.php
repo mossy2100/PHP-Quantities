@@ -148,7 +148,7 @@ class Unit implements UnitInterface
     /**
      * The quantity type this unit is for, if known.
      */
-    private(set) false|null|QuantityType $quantityType = false {
+    private(set) false|QuantityType|null $quantityType = false {
         get {
             if ($this->quantityType === false) {
                 $this->quantityType = QuantityTypeService::getByDimension($this->dimension);
@@ -182,7 +182,7 @@ class Unit implements UnitInterface
         array $systems = [UnitSystem::Custom],
         int $prefixGroup = 0,
         ?string $unicodeSymbol = null,
-        ?string $alternateSymbol = null
+        ?string $alternateSymbol = null,
     ) {
         // Check the name is non-empty, ASCII, and up to 3 words.
         $name = trim($name);
@@ -203,7 +203,7 @@ class Unit implements UnitInterface
         foreach ($systems as $system) {
             if (!$system instanceof UnitSystem) {
                 throw new InvalidArgumentException(
-                    'Invalid system type: ' . get_debug_type($system) . '. Must be UnitSystem.'
+                    'Invalid system type: ' . get_debug_type($system) . '. Must be UnitSystem.',
                 );
             }
         }
@@ -332,7 +332,7 @@ class Unit implements UnitInterface
     {
         $allowedPrefixes = $this->allowedPrefixes;
         assert($allowedPrefixes !== null);
-        return array_any($allowedPrefixes, static fn (Prefix $allowedPrefix) => $allowedPrefix->equal($prefix));
+        return array_any($allowedPrefixes, static fn(Prefix $allowedPrefix) => $allowedPrefix->equal($prefix));
     }
 
     #endregion
@@ -409,7 +409,7 @@ class Unit implements UnitInterface
     {
         return (bool) preg_match(
             '/^(?:(?:' . self::RX_ASCII_WORDS . ')|[' . self::RX_ASCII_NON_LETTERS . '])$/i',
-            $symbol
+            $symbol,
         );
     }
 
@@ -426,7 +426,7 @@ class Unit implements UnitInterface
     {
         return (bool) preg_match(
             '/^(?:' . self::RX_WORD . '|[' . self::RX_NON_LETTERS . ']|(?:' . self::RX_TEMPERATURE_SYMBOL . '))$/u',
-            $symbol
+            $symbol,
         );
     }
 
@@ -451,9 +451,7 @@ class Unit implements UnitInterface
      */
     private static function isValidSymbol(string $symbol): bool
     {
-        return $symbol === ''
-            || self::isValidAsciiSymbol($symbol)
-            || self::isValidUnicodeSymbol($symbol)
+        return $symbol === '' || self::isValidAsciiSymbol($symbol) || self::isValidUnicodeSymbol($symbol)
             || self::isValidAlternateSymbol($symbol);
     }
 

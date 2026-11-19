@@ -123,7 +123,7 @@ class CompoundUnit implements UnitInterface
      * For example, km²⋅ms⁻¹ would have multiplier 1000² × 0.001⁻¹ = 1e6 × 1000 = 1e9.
      */
     public float $multiplier {
-        get => array_product(array_map(static fn (UnitTerm $unitTerm) => $unitTerm->multiplier, $this->unitTerms));
+        get => array_product(array_map(static fn(UnitTerm $unitTerm) => $unitTerm->multiplier, $this->unitTerms));
     }
 
     /**
@@ -154,7 +154,7 @@ class CompoundUnit implements UnitInterface
      * @param null|Unit|UnitTerm|list<Unit|UnitTerm> $unit The Unit, UnitTerm, or array of Unit or UnitTerm objects
      * to add, or null to create a dimensionless unit.
      */
-    public function __construct(null|Unit|UnitTerm|array $unit = null)
+    public function __construct(Unit|UnitTerm|array|null $unit = null)
     {
         // Allow empty compound units.
         if ($unit === null) {
@@ -186,7 +186,7 @@ class CompoundUnit implements UnitInterface
      * @throws UnknownUnitException If a string is provided, and it contains unknown units.
      * @throws DomainException If a string is provided, and an exponent is zero.
      */
-    public static function toCompoundUnit(null|string|UnitInterface $value): self
+    public static function toCompoundUnit(string|UnitInterface|null $value): self
     {
         // If the value is already a CompoundUnit, return it as is.
         if ($value instanceof self) {
@@ -269,8 +269,8 @@ class CompoundUnit implements UnitInterface
      */
     public function isSi(): bool
     {
-        return !$this->isDimensionless() &&
-            array_all($this->unitTerms, static fn (UnitTerm $unitTerm) => $unitTerm->isSi());
+        return !$this->isDimensionless()
+            && array_all($this->unitTerms, static fn(UnitTerm $unitTerm) => $unitTerm->isSi());
     }
 
     /**
@@ -282,7 +282,7 @@ class CompoundUnit implements UnitInterface
      */
     public function isBase(): bool
     {
-        return array_all($this->unitTerms, static fn (UnitTerm $unitTerm) => $unitTerm->isBase());
+        return array_all($this->unitTerms, static fn(UnitTerm $unitTerm) => $unitTerm->isBase());
     }
 
     /**
@@ -328,8 +328,8 @@ class CompoundUnit implements UnitInterface
 
             // Check if the unit is imperial or US customary.
             if (
-                $unitTerm->unit->belongsToSystem(UnitSystem::Imperial) ||
-                $unitTerm->unit->belongsToSystem(UnitSystem::UsCustomary)
+                $unitTerm->unit->belongsToSystem(UnitSystem::Imperial)
+                || $unitTerm->unit->belongsToSystem(UnitSystem::UsCustomary)
             ) {
                 $nEnglishUnits++;
             }
@@ -352,10 +352,9 @@ class CompoundUnit implements UnitInterface
     {
         return array_any(
             $this->unitTerms,
-            static fn (UnitTerm $unitTerm) => (
-                $unitTerm->unit->belongsToSystem(UnitSystem::Si) ||
-                $unitTerm->unit->belongsToSystem(UnitSystem::Metric)
-            ) && !in_array($unitTerm->unit->asciiSymbol, self::COMMON_BASE_UNITS, true)
+            static fn(UnitTerm $unitTerm) => ($unitTerm->unit->belongsToSystem(UnitSystem::Si)
+                || $unitTerm->unit->belongsToSystem(UnitSystem::Metric))
+                && !in_array($unitTerm->unit->asciiSymbol, self::COMMON_BASE_UNITS, true),
         );
     }
 
@@ -366,7 +365,7 @@ class CompoundUnit implements UnitInterface
      */
     public function hasPrefixes(): bool
     {
-        return array_any($this->unitTerms, static fn (UnitTerm $unitTerm) => $unitTerm->prefix !== null);
+        return array_any($this->unitTerms, static fn(UnitTerm $unitTerm) => $unitTerm->prefix !== null);
     }
 
     /**
@@ -377,7 +376,7 @@ class CompoundUnit implements UnitInterface
      */
     public function includesUnit(Unit $unit): bool
     {
-        return array_any($this->unitTerms, static fn (UnitTerm $unitTerm) => $unitTerm->unit->equal($unit));
+        return array_any($this->unitTerms, static fn(UnitTerm $unitTerm) => $unitTerm->unit->equal($unit));
     }
 
     #endregion
@@ -406,7 +405,7 @@ class CompoundUnit implements UnitInterface
      */
     public function recip(): self
     {
-        $unitTerms = array_values(array_map(static fn (UnitTerm $unitTerm) => $unitTerm->recip(), $this->unitTerms));
+        $unitTerms = array_values(array_map(static fn(UnitTerm $unitTerm) => $unitTerm->recip(), $this->unitTerms));
 
         /** @var list<UnitTerm> $unitTerms */
         return new self($unitTerms);
@@ -426,7 +425,7 @@ class CompoundUnit implements UnitInterface
      */
     public function mul(self $other): self
     {
-        $result = clone $this;
+        $result = clone($this);
         foreach ($other->unitTerms as $unitTerm) {
             $result->addUnitTerm($unitTerm);
         }
@@ -449,7 +448,7 @@ class CompoundUnit implements UnitInterface
     {
         // Get the unit terms raised to the given power.
         $unitTerms = array_values(
-            array_map(static fn (UnitTerm $unitTerm) => $unitTerm->pow($exponent), $this->unitTerms)
+            array_map(static fn(UnitTerm $unitTerm) => $unitTerm->pow($exponent), $this->unitTerms),
         );
 
         /** @var list<UnitTerm> $unitTerms */
@@ -467,7 +466,7 @@ class CompoundUnit implements UnitInterface
      */
     public function __clone(): void
     {
-        $this->unitTerms = array_map(static fn (UnitTerm $unitTerm) => clone $unitTerm, $this->unitTerms);
+        $this->unitTerms = array_map(static fn(UnitTerm $unitTerm) => clone($unitTerm), $this->unitTerms);
     }
 
     /**
@@ -504,7 +503,7 @@ class CompoundUnit implements UnitInterface
     public function removePrefixes(): self
     {
         $unitTerms = array_values(
-            array_map(static fn (UnitTerm $unitTerm) => $unitTerm->removePrefix(), $this->unitTerms)
+            array_map(static fn(UnitTerm $unitTerm) => $unitTerm->removePrefix(), $this->unitTerms),
         );
         return new self($unitTerms);
     }
@@ -527,7 +526,7 @@ class CompoundUnit implements UnitInterface
             // See if there is already a unit term with a unit with this dimension.
             $newUnitTerm1 = array_find(
                 $resultUnit->unitTerms,
-                static fn (UnitTerm $ut) => $ut->unit->dimension === $unitTerm->unit->dimension
+                static fn(UnitTerm $ut) => $ut->unit->dimension === $unitTerm->unit->dimension,
             );
 
             // If no unit exists with this dimension, copy the existing one to the result.
@@ -544,8 +543,9 @@ class CompoundUnit implements UnitInterface
                     if ($conversion === null) {
                         // @codeCoverageIgnoreStart
                         throw new LogicException(
-                            "No conversion path found between '$unexponentiatedThisUnitTerm' and " .
-                            "'$unexponentiatedNewUnitTerm1' (dimension: $unexponentiatedThisUnitTerm->dimension)."
+                            "No conversion path found between '$unexponentiatedThisUnitTerm' and "
+                                . "'$unexponentiatedNewUnitTerm1' (dimension: "
+                                . "$unexponentiatedThisUnitTerm->dimension).",
                         );
                         // @codeCoverageIgnoreEnd
                     }
@@ -600,20 +600,20 @@ class CompoundUnit implements UnitInterface
         if (count($posTerms) === 0) {
             return implode(
                 $ascii ? '*' : '⋅',
-                array_map(static fn (UnitTerm $unitTerm) => $unitTerm->format($ascii), $negTerms)
+                array_map(static fn(UnitTerm $unitTerm) => $unitTerm->format($ascii), $negTerms),
             );
         }
 
         // Get the positive terms as a string.
         $posTermsStr = implode(
             $ascii ? '*' : '⋅',
-            array_map(static fn (UnitTerm $unitTerm) => $unitTerm->format($ascii), $posTerms)
+            array_map(static fn(UnitTerm $unitTerm) => $unitTerm->format($ascii), $posTerms),
         );
 
         // Get the negative terms as a string.
         $negTermsStr = implode(
             $ascii ? '*' : '⋅',
-            array_map(static fn (UnitTerm $unitTerm) => $unitTerm->recip()->format($ascii), $negTerms)
+            array_map(static fn(UnitTerm $unitTerm) => $unitTerm->recip()->format($ascii), $negTerms),
         );
         if (count($negTerms) > 1) {
             $negTermsStr = "($negTermsStr)";

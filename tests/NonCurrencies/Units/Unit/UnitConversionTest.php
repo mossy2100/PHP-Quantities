@@ -26,7 +26,7 @@ final class UnitConversionTest extends TestCase
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
 
         $this->assertSame('m', (string) $unit);
@@ -42,7 +42,7 @@ final class UnitConversionTest extends TestCase
             asciiSymbol: 'ohm',
             dimension: 'T-3L2MI-2',
             systems: [UnitSystem::Si],
-            unicodeSymbol: 'Ω'
+            unicodeSymbol: 'Ω',
         );
 
         $this->assertSame('Ω', (string) $unit);
@@ -62,7 +62,7 @@ final class UnitConversionTest extends TestCase
             asciiSymbol: 'ohm',
             dimension: 'T-3L2MI-2',
             systems: [UnitSystem::Si],
-            unicodeSymbol: 'Ω'
+            unicodeSymbol: 'Ω',
         );
 
         $this->assertSame('Ω', $unit->format());
@@ -79,7 +79,7 @@ final class UnitConversionTest extends TestCase
             asciiSymbol: 'ohm',
             dimension: 'T-3L2MI-2',
             systems: [UnitSystem::Si],
-            unicodeSymbol: 'Ω'
+            unicodeSymbol: 'Ω',
         );
 
         $this->assertSame('ohm', $unit->format(true));
@@ -95,7 +95,7 @@ final class UnitConversionTest extends TestCase
             asciiSymbol: 'deg',
             dimension: 'A',
             systems: [UnitSystem::SiAccepted],
-            unicodeSymbol: '°'
+            unicodeSymbol: '°',
         );
 
         $this->assertSame('°', (string) $unit);

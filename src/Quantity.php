@@ -146,7 +146,7 @@ class Quantity implements Stringable
      * @throws FormatException If the unit is provided as a string, and it cannot be parsed.
      * @throws UnknownUnitException If the unit is provided as a string, and it contains unknown units.
      */
-    final public function __construct(float $value, null|string|UnitInterface $unit = null)
+    final public function __construct(float $value, string|UnitInterface|null $unit = null)
     {
         // Check they aren't calling `new Quantity()`. We only want them to use `new Angle()` (for example),
         // `Quantity::create()` or `Quantity::parse()`.
@@ -204,7 +204,7 @@ class Quantity implements Stringable
      * @throws FormatException If the unit is provided as a string, and it cannot be parsed.
      * @throws UnknownUnitException If the unit is provided as a string, and it contains unknown units.
      */
-    public static function create(float $value, null|string|UnitInterface $unit = null): self
+    public static function create(float $value, string|UnitInterface|null $unit = null): self
     {
         // Get unit as CompoundUnit.
         $unit = CompoundUnit::toCompoundUnit($unit);
@@ -517,7 +517,7 @@ class Quantity implements Stringable
     public function merge(): static
     {
         if (!$this->compoundUnit->isMergeable()) {
-            return clone $this;
+            return clone($this);
         }
 
         // Merge the compound unit.
@@ -574,8 +574,8 @@ class Quantity implements Stringable
 
             // Check if it's an improvement.
             if (
-                ($bestValue < 1.0 && $prefixedValue > $bestValue) ||
-                ($prefixedValue >= 1.0 && $prefixedValue < $bestValue)
+                ($bestValue < 1.0 && $prefixedValue > $bestValue)
+                || ($prefixedValue >= 1.0 && $prefixedValue < $bestValue)
             ) {
                 $bestPrefix = $prefix;
                 $bestValue = $prefixedValue;
@@ -663,7 +663,7 @@ class Quantity implements Stringable
     public function approxEqual(
         mixed $other,
         float $relTol = Floats::DEFAULT_RELATIVE_TOLERANCE,
-        float $absTol = Floats::DEFAULT_ABSOLUTE_TOLERANCE
+        float $absTol = Floats::DEFAULT_ABSOLUTE_TOLERANCE,
     ): bool {
         // Get the other Quantity's value in the same unit. This throws if the other value can't be compared.
         $otherValue = $this->preCompare($other);
@@ -811,7 +811,7 @@ class Quantity implements Stringable
         // Combine the unit terms from both operands. The CompoundUnit constructor collapses same-unit terms.
         $newUnitTerms = array_merge(
             array_values($this->compoundUnit->unitTerms),
-            array_values($other->compoundUnit->unitTerms)
+            array_values($other->compoundUnit->unitTerms),
         );
 
         // Create the result Quantity.
@@ -985,7 +985,7 @@ class Quantity implements Stringable
         ?ExponentFormat $expFormat = null,
         RoundingMode $roundingMode = RoundingMode::HalfAwayFromZero,
         ?bool $includeSpace = null,
-        bool $ascii = false
+        bool $ascii = false,
     ): string {
         // Choose the exponent format to match $ascii, if not specified.
         $expFormat ??= $ascii ? ExponentFormat::AsciiLowerCaseE : ExponentFormat::UnicodeMath;
@@ -1134,12 +1134,12 @@ class Quantity implements Stringable
             // Validate key and value.
             if (!is_string($unitSymbol)) {
                 throw new InvalidArgumentException(
-                    'Invalid part unit symbol type: ' . get_debug_type($unitSymbol) . '. Must be string.'
+                    'Invalid part unit symbol type: ' . get_debug_type($unitSymbol) . '. Must be string.',
                 );
             }
             if (!Numbers::isNumber($value)) {
                 throw new InvalidArgumentException(
-                    'Invalid part value type: ' . get_debug_type($value) . '. Must be int or float.'
+                    'Invalid part value type: ' . get_debug_type($value) . '. Must be int or float.',
                 );
             }
             if (!is_finite($value)) {
@@ -1158,7 +1158,7 @@ class Quantity implements Stringable
         }
 
         // Use the SI base unit if requested, or if not specified and any part uses a metric unit.
-        $si ??= array_any($partQuantities, static fn (self $part) => $part->compoundUnit->includesMetricUnit());
+        $si ??= array_any($partQuantities, static fn(self $part) => $part->compoundUnit->includesMetricUnit());
         $resultUnit = DimensionService::getBaseCompoundUnit($dimension, $si);
 
         // Add the parts. They will be converted to the result unit automatically.
@@ -1227,7 +1227,7 @@ class Quantity implements Stringable
         }
 
         // If every part is zero, the sign is positive. This avoids a negative zero, e.g. from rounding -0.01″ to 0″.
-        if ($rem === 0.0 && array_all($integerParts, static fn (int $value): bool => $value === 0)) {
+        if ($rem === 0.0 && array_all($integerParts, static fn(int $value): bool => $value === 0)) {
             $parts['sign'] = 1;
         }
 
@@ -1361,7 +1361,7 @@ class Quantity implements Stringable
         ?int $precision = null,
         bool $showZeros = false,
         bool $ascii = false,
-        ?array $partUnitSymbols = null
+        ?array $partUnitSymbols = null,
     ): string {
         // Get the quantity as parts. This array has the sign as the first item, followed by the parts in descending
         // order by unit size. Without a precision, round to the 6 decimal places shown, so the parts carry correctly.
@@ -1460,8 +1460,8 @@ class Quantity implements Stringable
         $quantityType = static::getQuantityType();
         if ($quantityType === null) {
             throw new LogicException(
-                'Cannot use parts with ' . new ReflectionClass(static::class)->getShortName() .
-                ". It isn't a registered quantity type."
+                'Cannot use parts with ' . new ReflectionClass(static::class)->getShortName()
+                    . ". It isn't a registered quantity type.",
             );
         }
         return $quantityType;
@@ -1505,7 +1505,7 @@ class Quantity implements Stringable
             // ?array, so a non-string can still arrive here at runtime.
             if (!is_string($partUnitSymbol)) {
                 throw new InvalidArgumentException(
-                    'Invalid part unit symbol type: ' . get_debug_type($partUnitSymbol) . '. Must be string.'
+                    'Invalid part unit symbol type: ' . get_debug_type($partUnitSymbol) . '. Must be string.',
                 );
             }
 
@@ -1530,8 +1530,8 @@ class Quantity implements Stringable
         // Sort units by decreasing size.
         $baseUnit = DimensionService::getBaseCompoundUnit($quantityType->dimension);
         $sizes = array_map(
-            static fn ($unit): float => ConversionService::convert(1, $unit, $baseUnit),
-            $partUnits
+            static fn($unit): float => ConversionService::convert(1, $unit, $baseUnit),
+            $partUnits,
         );
         arsort($sizes);
 
@@ -1658,7 +1658,7 @@ class Quantity implements Stringable
         if (!$other instanceof self) {
             $className = new ReflectionClass($this)->getShortName();
             throw new InvalidArgumentException(
-                "Cannot compare $className with " . get_debug_type($other) . '. Must be Quantity.'
+                "Cannot compare $className with " . get_debug_type($other) . '. Must be Quantity.',
             );
         }
 

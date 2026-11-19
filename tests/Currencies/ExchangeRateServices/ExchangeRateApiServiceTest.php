@@ -103,7 +103,7 @@ class ExchangeRateApiServiceTest extends TestCase
     {
         $definitions = $this->getDefinitions();
 
-        $targetCurrencies = array_map(static fn (array $def) => $def[1], $definitions);
+        $targetCurrencies = array_map(static fn(array $def) => $def[1], $definitions);
 
         self::assertContains('EUR', $targetCurrencies);
         self::assertContains('GBP', $targetCurrencies);

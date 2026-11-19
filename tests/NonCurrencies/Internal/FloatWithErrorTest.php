@@ -387,7 +387,7 @@ class FloatWithErrorTest extends TestCase
     public function testDivCombinesValuesAndAddsRelativeErrors(): void
     {
         $a = new FloatWithError(100.0, 1.0); // Absolute error 1.0 gives 1% relative error
-        $b = new FloatWithError(10.0, 0.1);  // Absolute error 0.1 gives 1% relative error
+        $b = new FloatWithError(10.0, 0.1); // Absolute error 0.1 gives 1% relative error
 
         $result = $a->div($b);
 

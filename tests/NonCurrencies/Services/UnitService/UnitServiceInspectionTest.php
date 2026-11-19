@@ -89,7 +89,7 @@ final class UnitServiceInspectionTest extends TestCase
             name: 'counttest',
             asciiSymbol: 'cnt',
             dimension: 'L',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
 
         try {
@@ -109,7 +109,7 @@ final class UnitServiceInspectionTest extends TestCase
             name: 'countremovetest',
             asciiSymbol: 'crt',
             dimension: 'L',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
         UnitService::add($unit);
         $countBefore = UnitService::count();

@@ -76,7 +76,7 @@ class FrankfurterServiceTest extends TestCase
     {
         $definitions = $this->getDefinitions();
 
-        $targetCurrencies = array_map(static fn (array $def) => $def[1], $definitions);
+        $targetCurrencies = array_map(static fn(array $def) => $def[1], $definitions);
 
         self::assertContains('USD', $targetCurrencies);
         self::assertContains('GBP', $targetCurrencies);

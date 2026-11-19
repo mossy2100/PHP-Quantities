@@ -77,7 +77,7 @@ class UnitService
         self::init();
         assert(self::$units !== null);
 
-        return array_values(array_filter(self::$units, static fn (Unit $unit) => $unit->belongsToSystem($system)));
+        return array_values(array_filter(self::$units, static fn(Unit $unit) => $unit->belongsToSystem($system)));
     }
 
     /**
@@ -92,7 +92,7 @@ class UnitService
         assert(self::$units !== null);
 
         return array_values(
-            array_filter(self::$units, static fn (Unit $unit) => $unit->quantityType === $quantityType)
+            array_filter(self::$units, static fn(Unit $unit) => $unit->quantityType === $quantityType),
         );
     }
 
@@ -155,7 +155,7 @@ class UnitService
         foreach ($symbols as $symbol => $details) {
             if (isset(self::$unitsBySymbol[$symbol])) {
                 throw new DomainException(
-                    "Cannot add unit '$unit->name'. Its symbol '$symbol' is already used by another unit."
+                    "Cannot add unit '$unit->name'. Its symbol '$symbol' is already used by another unit.",
                 );
             }
         }
@@ -195,7 +195,7 @@ class UnitService
             $definition['systems'] ?? [],
             $definition['prefixGroup'] ?? 0,
             $definition['unicodeSymbol'] ?? null,
-            $definition['alternateSymbol'] ?? null
+            $definition['alternateSymbol'] ?? null,
         ), $replaceExisting);
     }
 

@@ -149,7 +149,7 @@ class QuantityTypeService
 
         return array_find(
             self::$quantityTypes,
-            static fn (QuantityType $qtyType): bool => $qtyType->dimension === $dimension
+            static fn(QuantityType $qtyType): bool => $qtyType->dimension === $dimension,
         );
     }
 
@@ -181,7 +181,7 @@ class QuantityTypeService
 
         return array_find(
             self::$quantityTypes,
-            static fn (QuantityType $qtyType): bool => $qtyType->class === $class
+            static fn(QuantityType $qtyType): bool => $qtyType->class === $class,
         );
     }
 

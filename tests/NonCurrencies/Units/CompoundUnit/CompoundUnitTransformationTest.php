@@ -280,7 +280,7 @@ class CompoundUnitTransformationTest extends TestCase
     public function testCloneProducesSeparateInstanceWithSameValue(): void
     {
         $original = CompoundUnit::parse('kg*m/s2');
-        $cloned = clone $original;
+        $cloned = clone($original);
 
         $this->assertTrue($original->equal($cloned));
         $this->assertNotSame($original, $cloned);
@@ -292,7 +292,7 @@ class CompoundUnitTransformationTest extends TestCase
     public function testCloneDeepClonesUnitTerms(): void
     {
         $original = CompoundUnit::parse('m/s');
-        $cloned = clone $original;
+        $cloned = clone($original);
 
         // Unit terms should be different instances.
         foreach ($original->unitTerms as $symbol => $unitTerm) {
@@ -341,7 +341,7 @@ class CompoundUnitTransformationTest extends TestCase
     public function testCloneOfEmptyCompoundUnit(): void
     {
         $original = new CompoundUnit();
-        $cloned = clone $original;
+        $cloned = clone($original);
 
         $this->assertTrue($original->equal($cloned));
         $this->assertNotSame($original, $cloned);

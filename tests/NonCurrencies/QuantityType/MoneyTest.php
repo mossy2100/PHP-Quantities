@@ -77,8 +77,8 @@ final class MoneyTest extends TestCase
         $units = Money::getUnitDefinitions();
 
         $symbols = array_map(
-            static fn (array $def) => $def['asciiSymbol'],
-            $units
+            static fn(array $def) => $def['asciiSymbol'],
+            $units,
         );
 
         $this->assertContains('USD', $symbols);

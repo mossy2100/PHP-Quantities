@@ -112,8 +112,8 @@ class UnitTerm implements UnitInterface
      * This property returns the ASCII version. For the Unicode symbol, cast to string (__toString()).
      */
     private(set) ?string $unprefixedAsciiSymbol = null {
-        get => $this->unprefixedAsciiSymbol ??=
-            $this->unit->asciiSymbol . ($this->exponent === 1 ? '' : $this->exponent);
+        get => $this->unprefixedAsciiSymbol
+            ??= $this->unit->asciiSymbol . ($this->exponent === 1 ? '' : $this->exponent);
     }
 
     /**
@@ -141,7 +141,7 @@ class UnitTerm implements UnitInterface
     /**
      * The quantity type this unit term is for, if known.
      */
-    private(set) false|null|QuantityType $quantityType = false {
+    private(set) false|QuantityType|null $quantityType = false {
         get {
             if ($this->quantityType === false) {
                 $this->quantityType = QuantityTypeService::getByDimension($this->dimension);
@@ -165,7 +165,7 @@ class UnitTerm implements UnitInterface
      * @throws UnknownUnitException If the unit symbol is not recognized.
      * @throws DomainException If the exponent or prefix is invalid.
      */
-    public function __construct(string|Unit $unit = '', null|string|Prefix $prefix = null, int $exponent = 1)
+    public function __construct(string|Unit $unit = '', string|Prefix|null $prefix = null, int $exponent = 1)
     {
         // Allow for the unit to be provided as a symbol.
         if (is_string($unit)) {
@@ -299,14 +299,14 @@ class UnitTerm implements UnitInterface
                     // Check unit symbol contains only letters.
                     if (!Unit::isValidWord($unitSymbol)) {
                         throw new FormatException(
-                            "Invalid unit term symbol: '$symbol'. Units containing non-letters cannot have exponents."
+                            "Invalid unit term symbol: '$symbol'. Units containing non-letters cannot have exponents.",
                         );
                     }
 
                     // Check unit is not dimensionless.
                     if ($unit->dimension === '') {
                         throw new FormatException(
-                            "Invalid unit term symbol: '$symbol'. Dimensionless units cannot have exponents."
+                            "Invalid unit term symbol: '$symbol'. Dimensionless units cannot have exponents.",
                         );
                     }
                 }
@@ -515,10 +515,10 @@ class UnitTerm implements UnitInterface
             $rxExponent = "(?:-?\d)|(?:$superscriptMinus?[$superscriptDigits])";
 
             // Get the regular expression to match the prefixed or unprefixed unit symbol.
-            $rxUnit = '(?:' . Unit::RX_WORD . ')'                   // 1-7 letters (ASCII or Unicode)
-                . '|' . '(?:' . Unit::RX_ASCII_WORDS . ')'          // 1-3 ASCII words
-                . '|' . '(?:[' . Unit::RX_NON_LETTERS . '])'        // 1 non-letter symbol
-                . '|' . '(?:' . Unit::RX_TEMPERATURE_SYMBOL . ')';  // degree symbol plus one letter
+            $rxUnit = '(?:' . Unit::RX_WORD . ')' // 1-7 letters (ASCII or Unicode)
+                . '|' . '(?:' . Unit::RX_ASCII_WORDS . ')' // 1-3 ASCII words
+                . '|' . '(?:[' . Unit::RX_NON_LETTERS . '])' // 1 non-letter symbol
+                . '|' . '(?:' . Unit::RX_TEMPERATURE_SYMBOL . ')'; // degree symbol plus one letter
 
             // Get the full regular expression with two captures.
             self::$rx = "($rxUnit)($rxExponent)?";

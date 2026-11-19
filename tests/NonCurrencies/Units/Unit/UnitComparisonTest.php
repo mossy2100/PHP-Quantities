@@ -27,7 +27,7 @@ final class UnitComparisonTest extends TestCase
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
 
         $this->assertTrue($unit->equal($unit));
@@ -42,13 +42,13 @@ final class UnitComparisonTest extends TestCase
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         $unit2 = new Unit(
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
 
         $this->assertTrue($unit1->equal($unit2));
@@ -63,13 +63,13 @@ final class UnitComparisonTest extends TestCase
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
         $foot = new Unit(
             name: 'foot',
             asciiSymbol: 'ft',
             dimension: 'L',
-            systems: [UnitSystem::Imperial]
+            systems: [UnitSystem::Imperial],
         );
 
         $this->assertFalse($meter->equal($foot));
@@ -84,7 +84,7 @@ final class UnitComparisonTest extends TestCase
             name: 'meter',
             asciiSymbol: 'm',
             dimension: 'L',
-            systems: [UnitSystem::Si]
+            systems: [UnitSystem::Si],
         );
 
         $this->assertFalse($unit->equal('m'));

@@ -95,7 +95,7 @@ class CurrencyLayerServiceTest extends TestCase
 
         $this->assertSame(
             'https://api.currencylayer.com/live?access_key=key%261',
-            new ReflectionMethod($service, 'getUrl')->invoke($service)
+            new ReflectionMethod($service, 'getUrl')->invoke($service),
         );
     }
 
@@ -109,7 +109,7 @@ class CurrencyLayerServiceTest extends TestCase
     public function testGetErrorMessageUsesInfo(): void
     {
         $service = self::createService(
-            ['success' => false, 'error' => ['code' => 101, 'info' => 'Invalid access key.']]
+            ['success' => false, 'error' => ['code' => 101, 'info' => 'Invalid access key.']],
         );
 
         $this->expectException(RuntimeException::class);
@@ -139,7 +139,7 @@ class CurrencyLayerServiceTest extends TestCase
     public function testGetRatesStripsSourceFromQuoteKeys(): void
     {
         $service = self::createService(
-            ['success' => true, 'source' => 'USD', 'quotes' => ['USDUSD' => 1, 'USDEUR' => 0.9, 'USDJPY' => 150]]
+            ['success' => true, 'source' => 'USD', 'quotes' => ['USDUSD' => 1, 'USDEUR' => 0.9, 'USDJPY' => 150]],
         );
 
         $this->assertSame([['USD', 'EUR', 0.9], ['USD', 'JPY', 150.0]], $service->getConversionDefinitions());

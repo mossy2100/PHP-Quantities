@@ -32,7 +32,7 @@ final class UnitServiceRegistryTest extends TestCase
             asciiSymbol: 'tua',
             dimension: 'L',
             systems: [UnitSystem::Custom],
-            unicodeSymbol: 'τ'
+            unicodeSymbol: 'τ',
         );
 
         try {
@@ -59,7 +59,7 @@ final class UnitServiceRegistryTest extends TestCase
             asciiSymbol: 'nuo',
             dimension: 'T-3L2MI-2',
             systems: [UnitSystem::Custom],
-            unicodeSymbol: 'Ω'  // Conflicts with ohm's Unicode symbol.
+            unicodeSymbol: 'Ω', // Conflicts with ohm's Unicode symbol.
         ));
     }
 
@@ -74,7 +74,7 @@ final class UnitServiceRegistryTest extends TestCase
             dimension: 'L',
             systems: [UnitSystem::Custom],
             prefixGroup: PrefixService::GROUP_METRIC,
-            unicodeSymbol: 'φ'
+            unicodeSymbol: 'φ',
         );
 
         try {
@@ -101,7 +101,7 @@ final class UnitServiceRegistryTest extends TestCase
                 name: 'onlyunit',
                 asciiSymbol: 'onu',
                 dimension: 'L',
-                systems: [UnitSystem::Custom]
+                systems: [UnitSystem::Custom],
             );
 
             UnitService::add($unit);
@@ -123,7 +123,7 @@ final class UnitServiceRegistryTest extends TestCase
             name: 'autoinitunit',
             asciiSymbol: 'aiu',
             dimension: 'L',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
 
         try {
@@ -148,7 +148,7 @@ final class UnitServiceRegistryTest extends TestCase
             name: $name,
             asciiSymbol: 'rpt',
             dimension: 'L',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
 
         try {
@@ -160,7 +160,7 @@ final class UnitServiceRegistryTest extends TestCase
                 name: $name,
                 asciiSymbol: 'rpx',
                 dimension: 'L',
-                systems: [UnitSystem::Custom]
+                systems: [UnitSystem::Custom],
             );
             $result = UnitService::add($replacement, true);
 
@@ -184,7 +184,7 @@ final class UnitServiceRegistryTest extends TestCase
             asciiSymbol: 'cft',
             dimension: 'L',
             systems: [UnitSystem::Custom],
-            unicodeSymbol: 'm'
+            unicodeSymbol: 'm',
         );
 
         try {
@@ -207,7 +207,7 @@ final class UnitServiceRegistryTest extends TestCase
             name: $name,
             asciiSymbol: 'skt',
             dimension: 'L',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
 
         try {
@@ -217,7 +217,7 @@ final class UnitServiceRegistryTest extends TestCase
                 name: $name,
                 asciiSymbol: 'skx',
                 dimension: 'L',
-                systems: [UnitSystem::Custom]
+                systems: [UnitSystem::Custom],
             ));
 
             $this->assertFalse($result);
@@ -293,7 +293,7 @@ final class UnitServiceRegistryTest extends TestCase
             name: 'removetest',
             asciiSymbol: 'rmt',
             dimension: 'L',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
         UnitService::add($unit);
         $this->assertTrue(UnitService::has('removetest'));
@@ -357,7 +357,7 @@ final class UnitServiceRegistryTest extends TestCase
             name: 'removestringtest',
             asciiSymbol: 'rst',
             dimension: 'L',
-            systems: [UnitSystem::Custom]
+            systems: [UnitSystem::Custom],
         );
         UnitService::add($unit);
         $this->assertTrue(UnitService::has('removestringtest'));

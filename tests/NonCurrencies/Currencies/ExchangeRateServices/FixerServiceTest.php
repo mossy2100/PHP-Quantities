@@ -95,7 +95,7 @@ class FixerServiceTest extends TestCase
 
         $this->assertSame(
             'https://data.fixer.io/api/latest?access_key=key%261',
-            new ReflectionMethod($service, 'getUrl')->invoke($service)
+            new ReflectionMethod($service, 'getUrl')->invoke($service),
         );
     }
 
@@ -109,7 +109,7 @@ class FixerServiceTest extends TestCase
     public function testGetErrorMessageUsesInfo(): void
     {
         $service = self::createService(
-            ['success' => false, 'error' => ['code' => 101, 'info' => 'Invalid access key.']]
+            ['success' => false, 'error' => ['code' => 101, 'info' => 'Invalid access key.']],
         );
 
         $this->expectException(RuntimeException::class);
@@ -139,7 +139,7 @@ class FixerServiceTest extends TestCase
     public function testGetRatesMapsRates(): void
     {
         $service = self::createService(
-            ['success' => true, 'base' => 'EUR', 'rates' => ['EUR' => 1, 'USD' => 1.1, 'JPY' => 160]]
+            ['success' => true, 'base' => 'EUR', 'rates' => ['EUR' => 1, 'USD' => 1.1, 'JPY' => 160]],
         );
 
         $this->assertSame([['EUR', 'USD', 1.1], ['EUR', 'JPY', 160.0]], $service->getConversionDefinitions());

@@ -95,7 +95,7 @@ class ExchangeRateApiServiceTest extends TestCase
 
         $this->assertSame(
             'https://v6.exchangerate-api.com/v6/key%2F1/latest/USD',
-            new ReflectionMethod($service, 'getUrl')->invoke($service)
+            new ReflectionMethod($service, 'getUrl')->invoke($service),
         );
     }
 
@@ -137,7 +137,7 @@ class ExchangeRateApiServiceTest extends TestCase
     public function testGetRatesMapsRates(): void
     {
         $service = self::createService(
-            ['result' => 'success', 'base_code' => 'USD', 'conversion_rates' => ['USD' => 1, 'EUR' => 0.9]]
+            ['result' => 'success', 'base_code' => 'USD', 'conversion_rates' => ['USD' => 1, 'EUR' => 0.9]],
         );
 
         $this->assertSame([['USD', 'EUR', 0.9]], $service->getConversionDefinitions());

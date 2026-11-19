@@ -11,6 +11,4 @@ use Mossy2100\Quantities\Quantity;
  *
  * This is a minimal Quantity subclass used only for testing purposes.
  */
-class TestQuantity extends Quantity
-{
-}
+class TestQuantity extends Quantity {}

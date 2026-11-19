@@ -258,7 +258,7 @@ final class QuantityTypeServiceTest extends TestCase
     public function testAddCreatesNewQuantityType(): void
     {
         // Use a unique dimension that doesn't exist
-        $dimension = 'L4';  // 4th power of length (unlikely to exist)
+        $dimension = 'L4'; // 4th power of length (unlikely to exist)
 
         // Make sure it doesn't exist first
         $existing = QuantityTypeService::getByDimension($dimension);
