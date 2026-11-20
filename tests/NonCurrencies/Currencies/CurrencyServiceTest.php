@@ -65,7 +65,7 @@ final class CurrencyServiceTest extends TestCase
         // Remove the temporary data directory.
         if (is_dir($this->dataDir)) {
             chmod($this->dataDir, 0755);
-            foreach (glob($this->dataDir . '/*') ?: [] as $file) {
+            foreach (glob("{$this->dataDir}/*") ?: [] as $file) {
                 unlink($file);
             }
             rmdir($this->dataDir);
@@ -84,7 +84,7 @@ final class CurrencyServiceTest extends TestCase
         $length = new Length(1, 'm');
 
         $this->assertEqualsWithDelta(3.28084, $length->to('ft')->value, 1e-5);
-        $this->assertSame([], glob($this->dataDir . '/*'));
+        $this->assertSame([], glob("{$this->dataDir}/*"));
     }
 
     /**
@@ -185,7 +185,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetUnitsFallsBackToSnapshotOnParseError(): void
     {
-        file_put_contents($this->dataDir . '/CurrencyUnits.php', '<?php this is not valid php;');
+        file_put_contents("{$this->dataDir}/CurrencyUnits.php", '<?php this is not valid php;');
 
         $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
     }
@@ -195,7 +195,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetUnitsFallsBackToSnapshotWhenFileReturnsNonArray(): void
     {
-        file_put_contents($this->dataDir . '/CurrencyUnits.php', '<?php return "not an array";');
+        file_put_contents("{$this->dataDir}/CurrencyUnits.php", '<?php return "not an array";');
 
         $this->assertSame(self::snapshotWhenFetched(), CurrencyService::getUnits()['whenFetched']);
     }
@@ -258,7 +258,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetConversionsReturnsNullOnParseError(): void
     {
-        file_put_contents($this->dataDir . '/CurrencyConversions.php', '<?php this is not valid php;');
+        file_put_contents("{$this->dataDir}/CurrencyConversions.php", '<?php this is not valid php;');
 
         $this->assertNull(CurrencyService::getConversions());
     }
@@ -268,7 +268,7 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testGetConversionsReturnsNullWhenFileReturnsNonArray(): void
     {
-        file_put_contents($this->dataDir . '/CurrencyConversions.php', '<?php return 42;');
+        file_put_contents("{$this->dataDir}/CurrencyConversions.php", '<?php return 42;');
 
         $this->assertNull(CurrencyService::getConversions());
     }
@@ -392,7 +392,7 @@ final class CurrencyServiceTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to create directory:');
-        CurrencyService::setDataDir($this->dataDir . '/sub');
+        CurrencyService::setDataDir("{$this->dataDir}/sub");
     }
 
     #endregion
@@ -587,7 +587,7 @@ final class CurrencyServiceTest extends TestCase
         self::setIso4217Url($url);
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage("Failed to fetch ISO 4217 XML from '$url'.");
+        $this->expectExceptionMessage("Failed to fetch ISO 4217 XML from '{$url}'.");
         CurrencyService::refreshUnits();
     }
 
@@ -642,7 +642,7 @@ final class CurrencyServiceTest extends TestCase
         $this->assertSame('de_DE', CurrencyService::getLocale());
         $this->assertSame(600, CurrencyService::getAutoRefreshTtl());
         $this->assertSame(0, $service->fetchCount);
-        $this->assertSame([], glob($this->dataDir . '/*'));
+        $this->assertSame([], glob("{$this->dataDir}/*"));
     }
 
     /**
@@ -690,12 +690,12 @@ final class CurrencyServiceTest extends TestCase
      */
     public function testSetDataDirChangesPaths(): void
     {
-        CurrencyService::setDataDir($this->dataDir . '/');
+        CurrencyService::setDataDir("{$this->dataDir}/");
 
         $this->assertSame($this->dataDir, CurrencyService::getDataDir());
-        $this->assertSame($this->dataDir . '/CurrencyUnits.php', CurrencyService::getUnitsFilePath());
-        $this->assertSame($this->dataDir . '/CurrencyConversions.php', CurrencyService::getConversionsFilePath());
-        $this->assertSame($this->dataDir . '/CurrencyUnits.xml', CurrencyService::getXmlFilePath());
+        $this->assertSame("{$this->dataDir}/CurrencyUnits.php", CurrencyService::getUnitsFilePath());
+        $this->assertSame("{$this->dataDir}/CurrencyConversions.php", CurrencyService::getConversionsFilePath());
+        $this->assertSame("{$this->dataDir}/CurrencyUnits.xml", CurrencyService::getXmlFilePath());
     }
 
     /**
@@ -792,7 +792,7 @@ final class CurrencyServiceTest extends TestCase
      */
     private function writeDataFile(string $fileName, array $data): void
     {
-        file_put_contents($this->dataDir . '/' . $fileName, '<?php return ' . var_export($data, true) . ';');
+        file_put_contents("{$this->dataDir}/{$fileName}", '<?php return ' . var_export($data, true) . ';');
     }
 
     /**

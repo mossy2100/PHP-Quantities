@@ -31,7 +31,7 @@ class UnknownUnitException extends DomainException
         ?Throwable $previous = null,
     ) {
         if ($message === '') {
-            $message = "Unknown unit: '$unit'.";
+            $message = "Unknown unit: '{$unit}'.";
         }
 
         parent::__construct($message, $code, $previous);

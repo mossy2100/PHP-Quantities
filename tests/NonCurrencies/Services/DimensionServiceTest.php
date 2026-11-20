@@ -58,7 +58,7 @@ final class DimensionServiceTest extends TestCase
     public function testIsValidAllCodes(): void
     {
         foreach (array_keys(DimensionService::DIMENSION_CODES) as $code) {
-            $this->assertTrue(DimensionService::isValid($code), "Code '$code' should be valid");
+            $this->assertTrue(DimensionService::isValid($code), "Code '{$code}' should be valid");
         }
     }
 
@@ -408,7 +408,11 @@ final class DimensionServiceTest extends TestCase
     {
         $codes = array_keys(DimensionService::DIMENSION_CODES);
         foreach ($codes as $index => $code) {
-            $this->assertSame($index, DimensionService::letterToInt($code), "Code '$code' should have index $index");
+            $this->assertSame(
+                $index,
+                DimensionService::letterToInt($code),
+                "Code '{$code}' should have index {$index}",
+            );
         }
     }
 
@@ -763,7 +767,7 @@ final class DimensionServiceTest extends TestCase
             $decomposed = DimensionService::decompose($normalized);
             $composed = DimensionService::compose($decomposed);
 
-            $this->assertSame($normalized, $composed, "Round-trip failed for '$code'");
+            $this->assertSame($normalized, $composed, "Round-trip failed for '{$code}'");
         }
     }
 

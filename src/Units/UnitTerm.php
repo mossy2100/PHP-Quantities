@@ -121,7 +121,7 @@ class UnitTerm implements UnitInterface
      * This property returns the ASCII version. For the Unicode symbol, cast to string (__toString()).
      */
     private(set) ?string $unexponentiatedAsciiSymbol = null {
-        get => $this->unexponentiatedAsciiSymbol ??= $this->prefix?->asciiSymbol . $this->unit->asciiSymbol;
+        get => $this->unexponentiatedAsciiSymbol ??= "{$this->prefix?->asciiSymbol}{$this->unit->asciiSymbol}";
     }
 
     /**
@@ -181,18 +181,18 @@ class UnitTerm implements UnitInterface
             $prefixSymbol = $prefix;
             $prefix = PrefixService::getBySymbol($prefix);
             if ($prefix === null) {
-                throw new DomainException("Unknown prefix: '$prefixSymbol'.");
+                throw new DomainException("Unknown prefix: '{$prefixSymbol}'.");
             }
         }
 
         // Validate prefix.
         if ($prefix !== null && !$unit->acceptsPrefix($prefix)) {
-            throw new DomainException("Invalid prefix for unit '$unit->asciiSymbol': '$prefix'.");
+            throw new DomainException("Invalid prefix for unit '{$unit->asciiSymbol}': '{$prefix}'.");
         }
 
         // Validate exponent.
         if ($exponent < -9 || $exponent > 9) {
-            throw new DomainException("Invalid exponent: $exponent. Must be in the range [-9, 9].");
+            throw new DomainException("Invalid exponent: {$exponent}. Must be in the range [-9, 9].");
         }
         if ($exponent === 0) {
             throw new DomainException('Invalid exponent: 0. Cannot be zero.');
@@ -264,7 +264,7 @@ class UnitTerm implements UnitInterface
 
         // Validate the format.
         if (!self::isValidSymbol($symbol, $matches)) {
-            throw new FormatException("Invalid unit term symbol format: '$symbol'.");
+            throw new FormatException("Invalid unit term symbol format: '{$symbol}'.");
         }
 
         // Get the prefixed unit symbol.
@@ -283,7 +283,7 @@ class UnitTerm implements UnitInterface
             // Disallow explicit '1'.
             // NB: Invalid exponents (0, and any outside the range of -9..9) are checked by the constructor.
             if ($exp === 1) {
-                throw new FormatException("Invalid unit term symbol: '$symbol'. An exponent of 1 must be omitted.");
+                throw new FormatException("Invalid unit term symbol: '{$symbol}'. An exponent of 1 must be omitted.");
             }
         }
 
@@ -299,14 +299,15 @@ class UnitTerm implements UnitInterface
                     // Check unit symbol contains only letters.
                     if (!Unit::isValidWord($unitSymbol)) {
                         throw new FormatException(
-                            "Invalid unit term symbol: '$symbol'. Units containing non-letters cannot have exponents.",
+                            "Invalid unit term symbol: '{$symbol}'. Units containing non-letters cannot have "
+                                . 'exponents.',
                         );
                     }
 
                     // Check unit is not dimensionless.
                     if ($unit->dimension === '') {
                         throw new FormatException(
-                            "Invalid unit term symbol: '$symbol'. Dimensionless units cannot have exponents.",
+                            "Invalid unit term symbol: '{$symbol}'. Dimensionless units cannot have exponents.",
                         );
                     }
                 }
@@ -481,7 +482,7 @@ class UnitTerm implements UnitInterface
         }
 
         // Construct the full unit term symbol.
-        return $prefix . $symbol . $exp;
+        return "{$prefix}{$symbol}{$exp}";
     }
 
     /**
@@ -512,7 +513,7 @@ class UnitTerm implements UnitInterface
             $superscriptMinus = $superscriptChars['-'];
             unset($superscriptChars['-']);
             $superscriptDigits = implode('', $superscriptChars);
-            $rxExponent = "(?:-?\d)|(?:$superscriptMinus?[$superscriptDigits])";
+            $rxExponent = "(?:-?\d)|(?:{$superscriptMinus}?[{$superscriptDigits}])";
 
             // Get the regular expression to match the prefixed or unprefixed unit symbol.
             $rxUnit = '(?:' . Unit::RX_WORD . ')' // 1-7 letters (ASCII or Unicode)
@@ -521,7 +522,7 @@ class UnitTerm implements UnitInterface
                 . '|' . '(?:' . Unit::RX_TEMPERATURE_SYMBOL . ')'; // degree symbol plus one letter
 
             // Get the full regular expression with two captures.
-            self::$rx = "($rxUnit)($rxExponent)?";
+            self::$rx = "({$rxUnit})({$rxExponent})?";
         }
 
         return self::$rx;

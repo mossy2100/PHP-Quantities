@@ -263,7 +263,7 @@ final class QuantityTypeServiceTest extends TestCase
         // Make sure it doesn't exist first
         $existing = QuantityTypeService::getByDimension($dimension);
         if ($existing !== null) {
-            $this->markTestSkipped("Dimension '$dimension' already exists");
+            $this->markTestSkipped("Dimension '{$dimension}' already exists");
         }
 
         // Add it
@@ -398,7 +398,7 @@ final class QuantityTypeServiceTest extends TestCase
         $dimension = 'L5';
         $existing = QuantityTypeService::getByDimension($dimension);
         if ($existing !== null) {
-            $this->markTestSkipped("Dimension '$dimension' already exists");
+            $this->markTestSkipped("Dimension '{$dimension}' already exists");
         }
 
         QuantityTypeService::add('pentavolume', $dimension, TestQuantity::class);
@@ -448,8 +448,8 @@ final class QuantityTypeServiceTest extends TestCase
         // Verify all elements are class strings.
         foreach ($classes as $class) {
             $this->assertIsString($class);
-            $this->assertTrue(class_exists($class), "Class $class should exist");
-            $this->assertTrue(is_subclass_of($class, Quantity::class), "Class $class should extend Quantity");
+            $this->assertTrue(class_exists($class), "Class {$class} should exist");
+            $this->assertTrue(is_subclass_of($class, Quantity::class), "Class {$class} should extend Quantity");
         }
     }
 
@@ -537,7 +537,7 @@ final class QuantityTypeServiceTest extends TestCase
         $all = QuantityTypeService::getAll();
 
         foreach ($all as $qtyType) {
-            $this->assertNotEmpty($qtyType->name, "Quantity type $qtyType->dimension has empty name");
+            $this->assertNotEmpty($qtyType->name, "Quantity type {$qtyType->dimension} has empty name");
         }
     }
 
@@ -555,7 +555,7 @@ final class QuantityTypeServiceTest extends TestCase
         foreach ($siBase as $dimension => $expected) {
             $qtyType = QuantityTypeService::getByDimension($dimension);
 
-            $this->assertNotNull($qtyType, "SI base dimension '$dimension' not found");
+            $this->assertNotNull($qtyType, "SI base dimension '{$dimension}' not found");
             $this->assertSame($expected['name'], $qtyType->name);
             $this->assertSame($expected['class'], $qtyType->class);
         }

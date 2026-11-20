@@ -79,27 +79,27 @@ class Prefix
     ) {
         // Validate the name.
         if (!self::isValidName($name)) {
-            throw new FormatException("Invalid prefix name: '$name'.");
+            throw new FormatException("Invalid prefix name: '{$name}'.");
         }
 
         // Validate the ASCII symbol.
         if (!self::isValidAsciiPrefix($asciiSymbol)) {
-            throw new FormatException("Invalid ASCII prefix symbol: '$asciiSymbol'.");
+            throw new FormatException("Invalid ASCII prefix symbol: '{$asciiSymbol}'.");
         }
 
         // Validate the Unicode symbol.
         if ($unicodeSymbol !== null && !Unit::isValidLetter($unicodeSymbol)) {
-            throw new FormatException("Invalid Unicode prefix symbol: '$unicodeSymbol'.");
+            throw new FormatException("Invalid Unicode prefix symbol: '{$unicodeSymbol}'.");
         }
 
         // Validate the alternate symbol. Same constraints as for the Unicode prefix.
         if ($alternateSymbol !== null && !Unit::isValidLetter($alternateSymbol)) {
-            throw new FormatException("Invalid alternate prefix symbol: '$alternateSymbol'.");
+            throw new FormatException("Invalid alternate prefix symbol: '{$alternateSymbol}'.");
         }
 
         // Validate multiplier.
         if ($multiplier <= 0) {
-            throw new DomainException("Invalid multiplier: $multiplier. Must be positive.");
+            throw new DomainException("Invalid multiplier: {$multiplier}. Must be positive.");
         }
         if ($multiplier === 1.0) {
             throw new DomainException('Invalid multiplier: 1. Cannot be one.');
@@ -113,7 +113,7 @@ class Prefix
             PrefixService::GROUP_BINARY,
         ];
         if (!in_array($groupCode, $validGroupCodes, true)) {
-            throw new DomainException("Invalid prefix group code: $groupCode.");
+            throw new DomainException("Invalid prefix group code: {$groupCode}.");
         }
 
         // Set properties.

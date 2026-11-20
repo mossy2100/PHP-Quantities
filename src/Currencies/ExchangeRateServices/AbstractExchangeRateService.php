@@ -34,7 +34,7 @@ abstract class AbstractExchangeRateService implements ExchangeRateServiceInterfa
         // Check for an API error response.
         $message = $this->getErrorMessage($data);
         if ($message !== null) {
-            throw new RuntimeException($this->getName() . " returned an error: $message");
+            throw new RuntimeException("{$this->getName()} returned an error: {$message}");
         }
 
         [$base, $rates] = $this->getRates($data);
@@ -89,12 +89,12 @@ abstract class AbstractExchangeRateService implements ExchangeRateServiceInterfa
     {
         $response = @file_get_contents($url);
         if ($response === false) {
-            throw new RuntimeException('Failed to fetch exchange rates from ' . $this->getName() . '.');
+            throw new RuntimeException("Failed to fetch exchange rates from {$this->getName()}.");
         }
 
         $data = json_decode($response, true);
         if (!is_array($data)) {
-            throw new RuntimeException('Invalid JSON response from ' . $this->getName() . '.');
+            throw new RuntimeException("Invalid JSON response from {$this->getName()}.");
         }
 
         return $data;
@@ -111,7 +111,7 @@ abstract class AbstractExchangeRateService implements ExchangeRateServiceInterfa
     protected function getArrayField(array $data, string $key): array
     {
         if (!isset($data[$key]) || !is_array($data[$key])) {
-            throw new RuntimeException("Missing or invalid $key in " . $this->getName() . ' response.');
+            throw new RuntimeException("Missing or invalid {$key} in {$this->getName()} response.");
         }
 
         return $data[$key];

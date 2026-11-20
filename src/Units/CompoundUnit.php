@@ -243,7 +243,7 @@ class CompoundUnit implements UnitInterface
             return $numUnit;
         }
 
-        throw new FormatException("Invalid compound unit symbol format: '$symbol'.");
+        throw new FormatException("Invalid compound unit symbol format: '{$symbol}'.");
     }
 
     #endregion
@@ -543,9 +543,9 @@ class CompoundUnit implements UnitInterface
                     if ($conversion === null) {
                         // @codeCoverageIgnoreStart
                         throw new LogicException(
-                            "No conversion path found between '$unexponentiatedThisUnitTerm' and "
-                                . "'$unexponentiatedNewUnitTerm1' (dimension: "
-                                . "$unexponentiatedThisUnitTerm->dimension).",
+                            "No conversion path found between '{$unexponentiatedThisUnitTerm}' and "
+                                . "'{$unexponentiatedNewUnitTerm1}' (dimension: "
+                                . "{$unexponentiatedThisUnitTerm->dimension}).",
                         );
                         // @codeCoverageIgnoreEnd
                     }
@@ -616,13 +616,13 @@ class CompoundUnit implements UnitInterface
             array_map(static fn(UnitTerm $unitTerm) => $unitTerm->recip()->format($ascii), $negTerms),
         );
         if (count($negTerms) > 1) {
-            $negTermsStr = "($negTermsStr)";
+            $negTermsStr = "({$negTermsStr})";
         }
 
         // Combine the positive and negative terms.
         $result = $posTermsStr;
         if (count($negTerms) > 0) {
-            $result .= '/' . $negTermsStr;
+            $result .= "/{$negTermsStr}";
         }
 
         return $result;
@@ -651,7 +651,7 @@ class CompoundUnit implements UnitInterface
     private static function regexForm1(): string
     {
         $rxUnitTerm = UnitTerm::regex();
-        return "$rxUnitTerm(?:" . self::RX_CLASS_MUL_DIV_OPS . "$rxUnitTerm)*";
+        return "{$rxUnitTerm}(?:" . self::RX_CLASS_MUL_DIV_OPS . "{$rxUnitTerm})*";
     }
 
     /**
@@ -662,8 +662,8 @@ class CompoundUnit implements UnitInterface
     private static function regexForm2(): string
     {
         $rxUnitTerm = UnitTerm::regex();
-        $mulTerms = "$rxUnitTerm(?:" . self::RX_CLASS_MUL_OPS . "$rxUnitTerm)*";
-        return "(?<num>$mulTerms)\/\\((?<den>$mulTerms)\\)";
+        $mulTerms = "{$rxUnitTerm}(?:" . self::RX_CLASS_MUL_OPS . "{$rxUnitTerm})*";
+        return "(?<num>{$mulTerms})\/\\((?<den>{$mulTerms})\\)";
     }
 
     /**

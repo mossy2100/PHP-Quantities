@@ -192,7 +192,7 @@ class PrefixService
 
         // Throw an exception if no inverse could be found.
         if ($inversePrefix === null) {
-            throw new DomainException("Cannot invert prefix '$prefix'. No prefix has the reciprocal multiplier.");
+            throw new DomainException("Cannot invert prefix '{$prefix}'. No prefix has the reciprocal multiplier.");
         }
 
         return $inversePrefix;
@@ -226,7 +226,7 @@ class PrefixService
                     }
                     if (isset($seen[$sym])) {
                         // @codeCoverageIgnoreStart
-                        throw new DomainException("Duplicate prefix symbol: '$sym'.");
+                        throw new DomainException("Duplicate prefix symbol: '{$sym}'.");
                         // @codeCoverageIgnoreEnd
                     }
                     $seen[$sym] = true;

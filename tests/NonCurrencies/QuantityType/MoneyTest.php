@@ -50,7 +50,7 @@ final class MoneyTest extends TestCase
         Converter::removeAllInstances();
 
         // Remove the temporary data directory.
-        foreach (glob($this->dataDir . '/*') ?: [] as $file) {
+        foreach (glob("{$this->dataDir}/*") ?: [] as $file) {
             unlink($file);
         }
         rmdir($this->dataDir);

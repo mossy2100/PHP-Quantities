@@ -52,16 +52,16 @@ class DimensionMismatchException extends DomainException
             $desc1 = 'null';
         } else {
             $name1 = QuantityTypeService::getByDimension($dimension1)?->name;
-            $desc1 = $name1 !== null ? "'$dimension1' ($name1)" : "'$dimension1'";
+            $desc1 = $name1 !== null ? "'{$dimension1}' ({$name1})" : "'{$dimension1}'";
         }
 
         if ($dimension2 === null) {
             $desc2 = 'null';
         } else {
             $name2 = QuantityTypeService::getByDimension($dimension2)?->name;
-            $desc2 = $name2 !== null ? "'$dimension2' ($name2)" : "'$dimension2'";
+            $desc2 = $name2 !== null ? "'{$dimension2}' ({$name2})" : "'{$dimension2}'";
         }
 
-        return "Dimension mismatch: $desc1 and $desc2.";
+        return "Dimension mismatch: {$desc1} and {$desc2}.";
     }
 }

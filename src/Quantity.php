@@ -173,7 +173,7 @@ class Quantity implements Stringable
             $callingDimension = static::getDimension();
             if ($callingDimension === null) {
                 $className = new ReflectionClass($callingClass)->getShortName();
-                throw new LogicException("Cannot instantiate $className. It isn't a registered quantity type.");
+                throw new LogicException("Cannot instantiate {$className}. It isn't a registered quantity type.");
             }
 
             // Otherwise, the unit has the wrong dimension for the calling class.
@@ -248,8 +248,8 @@ class Quantity implements Stringable
     {
         // Prepare an error message with the original value.
         $quantityType = static::getQuantityType();
-        $name = $quantityType === null ? '' : (' ' . $quantityType->name);
-        $err = "The provided string '$input' does not represent a valid$name quantity.";
+        $name = $quantityType === null ? '' : " {$quantityType->name}";
+        $err = "The provided string '{$input}' does not represent a valid{$name} quantity.";
 
         // Reject empty input.
         $input = trim($input);
@@ -1111,7 +1111,7 @@ class Quantity implements Stringable
 
             // Check the value.
             if ($sign !== -1 && $sign !== 1) {
-                throw new DomainException("Invalid sign: $sign. Must be -1 or 1.");
+                throw new DomainException("Invalid sign: {$sign}. Must be -1 or 1.");
             }
 
             // Remove it from the input array.
@@ -1204,7 +1204,7 @@ class Quantity implements Stringable
 
         // Validate the precision.
         if ($precision !== null && $precision < 0) {
-            throw new DomainException("Invalid precision: $precision. Cannot be negative.");
+            throw new DomainException("Invalid precision: {$precision}. Cannot be negative.");
         }
 
         // Initialize the result array.
@@ -1280,7 +1280,7 @@ class Quantity implements Stringable
         // Ensure we have a QuantityType.
         $quantityType = self::validateQuantityType();
         // Prepare error message.
-        $err = "Cannot parse input string into a $quantityType->name quantity: '$input'.";
+        $err = "Cannot parse input string into a {$quantityType->name} quantity: '{$input}'.";
 
         // Split string on whitespace to get the quantity parts.
         $partStrings = preg_split('/\s+/', $input);
@@ -1305,7 +1305,7 @@ class Quantity implements Stringable
             $partValue = (float) $m[1];
             if ($m[1][0] === '-' || $m[1][0] === '+') {
                 if ($firstPartSeen) {
-                    throw new FormatException("Invalid parts string: '$input'. Only the first part can have a sign.");
+                    throw new FormatException("Invalid parts string: '{$input}'. Only the first part can have a sign.");
                 }
                 if ($m[1][0] === '-') {
                     $sign = -1;
@@ -1316,7 +1316,7 @@ class Quantity implements Stringable
             $partSymbol = $m[2] ?? '';
             // Check the unit is new.
             if (array_key_exists($partSymbol, $parts)) {
-                throw new FormatException("Duplicate unit symbol in input string: '$partSymbol'.");
+                throw new FormatException("Duplicate unit symbol in input string: '{$partSymbol}'.");
             }
             $parts[$partSymbol] = abs($partValue);
 
@@ -1383,7 +1383,7 @@ class Quantity implements Stringable
             if ($unitSymbol !== $smallestUnitSymbol) {
                 if ($include) {
                     $unit = Unit::parse($unitSymbol);
-                    $result[] = $value . $unit->format($ascii);
+                    $result[] = "{$value}{$unit->format($ascii)}";
                 }
             } else {
                 // Include the smallest part if non-zero or including all zeroes or no other parts have been added.
@@ -1392,7 +1392,7 @@ class Quantity implements Stringable
                     // many decimal places. Otherwise, show up to 6 decimal places and trim trailing zeros.
                     $valueStr = Floats::format($value, $precision ?? 6, $precision === null, FloatFormat::FixedPoint);
                     $smallestUnit = Unit::parse($smallestUnitSymbol);
-                    $result[] = $valueStr . $smallestUnit->format($ascii);
+                    $result[] = "{$valueStr}{$smallestUnit->format($ascii)}";
                 }
             }
         }
@@ -1495,7 +1495,7 @@ class Quantity implements Stringable
 
         // Ensure we have some units.
         if (empty($partUnitSymbols)) {
-            throw new LogicException("No default part unit symbols configured for $quantityType->name quantities.");
+            throw new LogicException("No default part unit symbols configured for {$quantityType->name} quantities.");
         }
 
         // Resolve each symbol to a Unit object.
@@ -1520,7 +1520,7 @@ class Quantity implements Stringable
             // Check for duplicate.
             $asciiSymbol = $partUnit->asciiSymbol;
             if (array_key_exists($asciiSymbol, $partUnits)) {
-                throw new DomainException("Duplicate part unit: '$asciiSymbol'.");
+                throw new DomainException("Duplicate part unit: '{$asciiSymbol}'.");
             }
 
             // Add the unit.
@@ -1615,7 +1615,7 @@ class Quantity implements Stringable
     {
         $rxNum = self::RX_NUMBER;
         $rxCompoundUnit = CompoundUnit::regex();
-        return (bool) preg_match("/^($rxNum)\s*($rxCompoundUnit)?$/iu", $qty, $matches);
+        return (bool) preg_match("/^({$rxNum})\s*({$rxCompoundUnit})?$/iu", $qty, $matches);
     }
 
     #endregion
@@ -1658,7 +1658,7 @@ class Quantity implements Stringable
         if (!$other instanceof self) {
             $className = new ReflectionClass($this)->getShortName();
             throw new InvalidArgumentException(
-                "Cannot compare $className with " . get_debug_type($other) . '. Must be Quantity.',
+                "Cannot compare {$className} with " . get_debug_type($other) . '. Must be Quantity.',
             );
         }
 

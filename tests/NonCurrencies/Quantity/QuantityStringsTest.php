@@ -233,7 +233,7 @@ final class QuantityStringsTest extends TestCase
     public function testGenericParseMalformedThrowsFormatException(string $input): void
     {
         $this->expectException(FormatException::class);
-        $this->expectExceptionMessage("The provided string '$input' does not represent a valid quantity.");
+        $this->expectExceptionMessage("The provided string '{$input}' does not represent a valid quantity.");
 
         Quantity::parse($input);
     }

@@ -154,7 +154,7 @@ final class UnitServiceLookupTest extends TestCase
             $symbols = $unit->symbols;
             $this->assertIsArray($symbols);
             foreach (array_keys($symbols) as $symbol) {
-                $this->assertSame($unit, UnitService::getBySymbol($symbol), "Symbol '$symbol'.");
+                $this->assertSame($unit, UnitService::getBySymbol($symbol), "Symbol '{$symbol}'.");
             }
             $nSymbols += count($symbols);
         }
@@ -211,7 +211,7 @@ final class UnitServiceLookupTest extends TestCase
         foreach ($result as $unit) {
             $this->assertTrue(
                 $unit->belongsToSystem(UnitSystem::Si),
-                "Unit '$unit->name' does not belong to SI system.",
+                "Unit '{$unit->name}' does not belong to SI system.",
             );
         }
     }
@@ -332,7 +332,7 @@ final class UnitServiceLookupTest extends TestCase
             $this->assertSame(
                 $timeType->dimension,
                 $unit->dimension,
-                "Unit '$unit->name' has dimension '$unit->dimension', expected '$timeType->dimension'.",
+                "Unit '{$unit->name}' has dimension '{$unit->dimension}', expected '{$timeType->dimension}'.",
             );
         }
     }
@@ -435,8 +435,8 @@ final class UnitServiceLookupTest extends TestCase
         $all = UnitService::getAll();
 
         foreach ($all as $name => $unit) {
-            $this->assertNotEmpty($unit->name, "Unit '$name' has empty name.");
-            $this->assertNotEmpty($unit->systems, "Unit '$name' has empty systems.");
+            $this->assertNotEmpty($unit->name, "Unit '{$name}' has empty name.");
+            $this->assertNotEmpty($unit->systems, "Unit '{$name}' has empty systems.");
         }
     }
 
@@ -458,8 +458,8 @@ final class UnitServiceLookupTest extends TestCase
         $all = UnitService::getAll();
 
         foreach ($expected as $name => $dimension) {
-            $this->assertArrayHasKey($name, $all, "SI base unit '$name' not found.");
-            $this->assertSame($dimension, $all[$name]->dimension, "Unit '$name' has wrong dimension.");
+            $this->assertArrayHasKey($name, $all, "SI base unit '{$name}' not found.");
+            $this->assertSame($dimension, $all[$name]->dimension, "Unit '{$name}' has wrong dimension.");
         }
     }
 

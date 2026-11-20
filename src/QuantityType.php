@@ -44,7 +44,7 @@ class QuantityType
         set {
             // Validate that the value is a subclass of Quantity.
             if (!is_subclass_of($value, Quantity::class)) {
-                throw new InvalidArgumentException("Invalid class: '$value'. Must be a subclass of Quantity.");
+                throw new InvalidArgumentException("Invalid class: '{$value}'. Must be a subclass of Quantity.");
             }
 
             /** @var class-string<Quantity> $value */

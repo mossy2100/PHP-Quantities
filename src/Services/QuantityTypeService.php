@@ -237,7 +237,7 @@ class QuantityTypeService
         // Check we have a quantity type with the specified name.
         $qt = self::$quantityTypes[$name] ?? null;
         if ($qt === null) {
-            throw new DomainException("Unknown quantity type: '$name'.");
+            throw new DomainException("Unknown quantity type: '{$name}'.");
         }
 
         // Update the class.
@@ -267,19 +267,19 @@ class QuantityTypeService
         // Check name is unique.
         $qt = self::getByName($name);
         if ($qt !== null) {
-            throw new LogicException("Cannot add another quantity type with the name '$name'.");
+            throw new LogicException("Cannot add another quantity type with the name '{$name}'.");
         }
 
         // Check dimension is unique.
         $qt = self::getByDimension($dimension);
         if ($qt !== null) {
-            throw new LogicException("Cannot add another quantity type with the dimension '$dimension'.");
+            throw new LogicException("Cannot add another quantity type with the dimension '{$dimension}'.");
         }
 
         // Check class is unique.
         $qt = self::getByClass($class);
         if ($qt !== null) {
-            throw new LogicException("Cannot add another quantity type with the class '$class'.");
+            throw new LogicException("Cannot add another quantity type with the class '{$class}'.");
         }
 
         // Add the new quantity type.

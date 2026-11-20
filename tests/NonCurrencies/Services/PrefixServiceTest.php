@@ -552,7 +552,7 @@ final class PrefixServiceTest extends TestCase
         $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         foreach ($expected as $symbol) {
-            $this->assertContains($symbol, $symbols, "Expected prefix '$symbol' not found");
+            $this->assertContains($symbol, $symbols, "Expected prefix '{$symbol}' not found");
         }
     }
 
@@ -566,7 +566,7 @@ final class PrefixServiceTest extends TestCase
         $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         foreach ($expected as $symbol) {
-            $this->assertContains($symbol, $symbols, "Expected prefix '$symbol' not found");
+            $this->assertContains($symbol, $symbols, "Expected prefix '{$symbol}' not found");
         }
     }
 
@@ -580,7 +580,7 @@ final class PrefixServiceTest extends TestCase
         $symbols = array_map(static fn(Prefix $p) => $p->asciiSymbol, $result);
 
         foreach ($expected as $symbol) {
-            $this->assertContains($symbol, $symbols, "Expected prefix '$symbol' not found");
+            $this->assertContains($symbol, $symbols, "Expected prefix '{$symbol}' not found");
         }
     }
 

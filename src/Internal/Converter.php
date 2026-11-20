@@ -124,7 +124,7 @@ class Converter
     {
         // Check the dimension is valid.
         if (!DimensionService::isValid($dimension)) {
-            throw new FormatException("Invalid dimension code: '$dimension'.");
+            throw new FormatException("Invalid dimension code: '{$dimension}'.");
         }
 
         // Store the dimension code.
@@ -388,7 +388,7 @@ class Converter
         // If no conversion was found, throw an exception.
         if ($conversion === null) {
             throw new LogicException(
-                "No conversion path found between '$srcUnit' and '$destUnit' (dimension: $this->dimension).",
+                "No conversion path found between '{$srcUnit}' and '{$destUnit}' (dimension: {$this->dimension}).",
             );
         }
 
@@ -593,7 +593,7 @@ class Converter
             $factor = $this->findConversionFactor($unit, $zeroUnit);
             if ($factor === null || !Floats::approxEqual($factor, 1.0)) {
                 throw new DomainException(
-                    "Invalid offset definition for '$unitSymbol'. It must be the same size as '$zeroUnitSymbol'.",
+                    "Invalid offset definition for '{$unitSymbol}'. It must be the same size as '{$zeroUnitSymbol}'.",
                 );
             }
 

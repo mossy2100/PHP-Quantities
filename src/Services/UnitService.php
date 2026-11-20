@@ -155,7 +155,7 @@ class UnitService
         foreach ($symbols as $symbol => $details) {
             if (isset(self::$unitsBySymbol[$symbol])) {
                 throw new DomainException(
-                    "Cannot add unit '$unit->name'. Its symbol '$symbol' is already used by another unit.",
+                    "Cannot add unit '{$unit->name}'. Its symbol '{$symbol}' is already used by another unit.",
                 );
             }
         }

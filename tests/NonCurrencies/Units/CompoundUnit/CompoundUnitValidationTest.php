@@ -23,7 +23,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'm'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'm'));
     }
 
     /**
@@ -33,7 +33,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'km2'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'km2'));
     }
 
     /**
@@ -43,7 +43,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'kg*m'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'kg*m'));
     }
 
     /**
@@ -53,7 +53,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'm/s'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'm/s'));
     }
 
     /**
@@ -63,7 +63,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'kg*m/s2'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'kg*m/s2'));
     }
 
     /**
@@ -73,7 +73,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 's-1'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 's-1'));
     }
 
     /**
@@ -83,7 +83,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'm²'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'm²'));
     }
 
     /**
@@ -93,7 +93,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'J/(mol*K)'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'J/(mol*K)'));
     }
 
     /**
@@ -103,7 +103,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(1, preg_match("/^$rx$/iu", 'kg·m'));
+        $this->assertSame(1, preg_match("/^{$rx}$/iu", 'kg·m'));
     }
 
     /**
@@ -113,7 +113,7 @@ class CompoundUnitValidationTest extends TestCase
     {
         $rx = CompoundUnit::regex();
 
-        $this->assertSame(0, preg_match("/^$rx$/iu", ''));
+        $this->assertSame(0, preg_match("/^{$rx}$/iu", ''));
     }
 
     #endregion

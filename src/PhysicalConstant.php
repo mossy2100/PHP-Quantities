@@ -221,7 +221,7 @@ class PhysicalConstant
     public static function get(string $symbol): Quantity
     {
         if (!isset(self::SYMBOL_MAP[$symbol])) {
-            throw new DomainException("Unknown constant symbol: '$symbol'.");
+            throw new DomainException("Unknown constant symbol: '{$symbol}'.");
         }
 
         $method = self::SYMBOL_MAP[$symbol]['method'];

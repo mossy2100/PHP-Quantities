@@ -82,7 +82,7 @@ class DimensionService
     public static function isValid(string $dimension): bool
     {
         $validCodes = self::getLetterCodesString();
-        return (bool) preg_match("/^([$validCodes](-?\d+)?)*$/", $dimension);
+        return (bool) preg_match("/^([{$validCodes}](-?\d+)?)*$/", $dimension);
     }
 
     #endregion
@@ -100,12 +100,12 @@ class DimensionService
     {
         // Check the dimension code is valid.
         if (!self::isValid($dimension)) {
-            throw new FormatException("Invalid dimension code: '$dimension'.");
+            throw new FormatException("Invalid dimension code: '{$dimension}'.");
         }
 
         // Get the matching terms.
         $validCodes = self::getLetterCodesString();
-        preg_match_all("/([$validCodes])(-?\d+)?/", $dimension, $matches, PREG_SET_ORDER);
+        preg_match_all("/([{$validCodes}])(-?\d+)?/", $dimension, $matches, PREG_SET_ORDER);
 
         // Convert to an array of parts. A letter that appears more than once has its exponents added, as when
         // multiplying, e.g. 'LL' is 'L2'. Terms whose exponent is zero are dropped.
@@ -281,7 +281,7 @@ class DimensionService
 
         // If not found, throw an exception.
         if ($x === false) {
-            throw new FormatException("Invalid dimension code letter: '$letter'.");
+            throw new FormatException("Invalid dimension code letter: '{$letter}'.");
         }
 
         return $x;
@@ -322,7 +322,7 @@ class DimensionService
     {
         // Validate the code.
         if (strlen($dimensionLetterCode) !== 1 || !array_key_exists($dimensionLetterCode, self::DIMENSION_CODES)) {
-            throw new FormatException("Invalid dimension code letter: '$dimensionLetterCode'.");
+            throw new FormatException("Invalid dimension code letter: '{$dimensionLetterCode}'.");
         }
 
         // If not SI and there's an English base unit, return it.
@@ -342,7 +342,7 @@ class DimensionService
 
         // Should never happen.
         // @codeCoverageIgnoreStart
-        throw new LogicException("No base unit symbol found for dimension code letter: '$dimensionLetterCode'.");
+        throw new LogicException("No base unit symbol found for dimension code letter: '{$dimensionLetterCode}'.");
         // @codeCoverageIgnoreEnd
     }
 

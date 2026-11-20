@@ -33,30 +33,30 @@ trait ArrayShapeTrait
             $this->assertIsString($key, 'Unit definition key must be a string.');
 
             // Check value is an array.
-            $this->assertIsArray($value, "Unit definition for '$key' must be an array.");
+            $this->assertIsArray($value, "Unit definition for '{$key}' must be an array.");
 
             // Check asciiSymbol is provided and is a string.
-            $this->assertArrayHasKey('asciiSymbol', $value, "Unit '$key' must have 'asciiSymbol'.");
-            $this->assertIsString($value['asciiSymbol'], "Unit '$key' asciiSymbol must be a string.");
+            $this->assertArrayHasKey('asciiSymbol', $value, "Unit '{$key}' must have 'asciiSymbol'.");
+            $this->assertIsString($value['asciiSymbol'], "Unit '{$key}' asciiSymbol must be a string.");
 
             // Check unicodeSymbol is optional and is a string.
             if (array_key_exists('unicodeSymbol', $value)) {
-                $this->assertIsString($value['unicodeSymbol'], "Unit '$key' unicodeSymbol must be a string.");
+                $this->assertIsString($value['unicodeSymbol'], "Unit '{$key}' unicodeSymbol must be a string.");
             }
 
             // Check prefixGroup is optional and is an int.
             if (array_key_exists('prefixGroup', $value)) {
-                $this->assertIsInt($value['prefixGroup'], "Unit '$key' prefixGroup must be an int.");
+                $this->assertIsInt($value['prefixGroup'], "Unit '{$key}' prefixGroup must be an int.");
             }
 
             // Check systems are provided as an array of UnitSystem objects.
-            $this->assertArrayHasKey('systems', $value, "Unit '$key' must have 'systems'.");
-            $this->assertIsArray($value['systems'], "Unit '$key' systems must be an array.");
+            $this->assertArrayHasKey('systems', $value, "Unit '{$key}' must have 'systems'.");
+            $this->assertIsArray($value['systems'], "Unit '{$key}' systems must be an array.");
             foreach ($value['systems'] as $system) {
                 $this->assertInstanceOf(
                     UnitSystem::class,
                     $system,
-                    "Unit '$key' systems must contain only UnitSystem instances.",
+                    "Unit '{$key}' systems must contain only UnitSystem instances.",
                 );
             }
         }
@@ -79,15 +79,15 @@ trait ArrayShapeTrait
             $this->assertIsInt($key, 'Conversion definition key must be an int (list format).');
 
             // Check value is an array of 3 items.
-            $this->assertIsArray($value, "Conversion at index $key must be an array.");
-            $this->assertCount(3, $value, "Conversion at index $key must have exactly 3 elements.");
+            $this->assertIsArray($value, "Conversion at index {$key} must be an array.");
+            $this->assertCount(3, $value, "Conversion at index {$key} must have exactly 3 elements.");
 
             // Check the types of the array items.
-            $this->assertIsString($value[0], "Conversion at index $key: first element must be a string.");
-            $this->assertIsString($value[1], "Conversion at index $key: second element must be a string.");
+            $this->assertIsString($value[0], "Conversion at index {$key}: first element must be a string.");
+            $this->assertIsString($value[1], "Conversion at index {$key}: second element must be a string.");
             $this->assertTrue(
                 is_float($value[2]) || is_int($value[2]),
-                "Conversion at index $key: third element must be a float or int.",
+                "Conversion at index {$key}: third element must be a float or int.",
             );
         }
     }

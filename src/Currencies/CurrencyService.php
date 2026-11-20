@@ -312,9 +312,9 @@ class CurrencyService
             /**
              * Conversion definitions for currencies.
              *
-             * Fetched from $serviceName at $datetime.
+             * Fetched from {$serviceName} at {$datetime}.
              *
-             * To regenerate, call $className::refreshRates().
+             * To regenerate, call {$className}::refreshRates().
              *
              * @return array{
              *     whenFetched: string,
@@ -503,7 +503,7 @@ class CurrencyService
     public static function setLocale(?string $locale): void
     {
         if ($locale !== null && !preg_match('/^' . self::RX_LOCALE . '$/', $locale)) {
-            throw new FormatException("Invalid locale string: '$locale'.");
+            throw new FormatException("Invalid locale string: '{$locale}'.");
         }
         self::$locale = $locale;
     }
@@ -530,7 +530,7 @@ class CurrencyService
     public static function setAutoRefreshTtl(?int $autoRefreshTtl): void
     {
         if ($autoRefreshTtl !== null && $autoRefreshTtl < 0) {
-            throw new DomainException("Invalid auto-refresh TTL: $autoRefreshTtl. Must be non-negative.");
+            throw new DomainException("Invalid auto-refresh TTL: {$autoRefreshTtl}. Must be non-negative.");
         }
         self::$autoRefreshTtl = $autoRefreshTtl;
     }
@@ -736,12 +736,12 @@ class CurrencyService
              * Currencies, based off ISO 4217 currency data.
              *
              * Fetched from
-             * $url
-             * at $datetime.
+             * {$url}
+             * at {$datetime}.
              *
              * Auto-generated from the official ISO 4217 XML published by SIX Group.
              *
-             * To regenerate, call $className::refreshUnits().
+             * To regenerate, call {$className}::refreshUnits().
              *
              * @return array{
              *     whenFetched: string,
@@ -751,7 +751,7 @@ class CurrencyService
 
             declare(strict_types=1);
             PHP;
-        return $output . "\n\nreturn " . Stringify::stringify($unitData, StringifyOptions::pretty()) . ";\n";
+        return "{$output}\n\nreturn " . Stringify::stringify($unitData, StringifyOptions::pretty()) . ";\n";
     }
 
     /**
@@ -783,14 +783,14 @@ class CurrencyService
     {
         self::ensureDirExists(dirname($path));
 
-        $tempPath = $path . '.' . bin2hex(random_bytes(4)) . '.tmp';
+        $tempPath = "{$path}." . bin2hex(random_bytes(4)) . '.tmp';
         if (@file_put_contents($tempPath, $content) === false) {
-            throw new RuntimeException("Failed to write file: '$path'.");
+            throw new RuntimeException("Failed to write file: '{$path}'.");
         }
         if (!@rename($tempPath, $path)) {
             // @codeCoverageIgnoreStart
             @unlink($tempPath);
-            throw new RuntimeException("Failed to write file: '$path'.");
+            throw new RuntimeException("Failed to write file: '{$path}'.");
             // @codeCoverageIgnoreEnd
         }
     }
@@ -804,7 +804,7 @@ class CurrencyService
     private static function ensureDirExists(string $dirPath): void
     {
         if (!is_dir($dirPath) && !@mkdir($dirPath, 0755, true)) {
-            throw new RuntimeException("Failed to create directory: '$dirPath'.");
+            throw new RuntimeException("Failed to create directory: '{$dirPath}'.");
         }
     }
 

@@ -187,12 +187,12 @@ class Unit implements UnitInterface
         // Check the name is non-empty, ASCII, and up to 3 words.
         $name = trim($name);
         if (!self::isValidName($name)) {
-            throw new FormatException("Invalid unit name: '$name'.");
+            throw new FormatException("Invalid unit name: '{$name}'.");
         }
 
         // Check ASCII symbol contains ASCII letters only (empty is allowed for dimensionless/scalar).
         if ($asciiSymbol !== '' && !self::isValidAsciiSymbol($asciiSymbol)) {
-            throw new FormatException("Invalid ASCII unit symbol: '$asciiSymbol'.");
+            throw new FormatException("Invalid ASCII unit symbol: '{$asciiSymbol}'.");
         }
 
         // Make sure the $systems array is a non-empty array of UnitSystem values.
@@ -210,17 +210,17 @@ class Unit implements UnitInterface
 
         // Validate prefix group.
         if ($prefixGroup < 0 || $prefixGroup > PrefixService::GROUP_ALL) {
-            throw new DomainException("Invalid prefix group: $prefixGroup.");
+            throw new DomainException("Invalid prefix group: {$prefixGroup}.");
         }
 
         // Validate Unicode symbol.
         if ($unicodeSymbol !== null && !self::isValidUnicodeSymbol($unicodeSymbol)) {
-            throw new FormatException("Invalid Unicode unit symbol: '$unicodeSymbol'.");
+            throw new FormatException("Invalid Unicode unit symbol: '{$unicodeSymbol}'.");
         }
 
         // Check the alternate symbol is a word or a single non-letter symbol.
         if ($alternateSymbol !== null && !self::isValidAlternateSymbol($alternateSymbol)) {
-            throw new FormatException("Invalid alternate unit symbol: '$alternateSymbol'.");
+            throw new FormatException("Invalid alternate unit symbol: '{$alternateSymbol}'.");
         }
 
         // Set the properties.
@@ -257,7 +257,7 @@ class Unit implements UnitInterface
 
         // Validate the symbol format.
         if (!self::isValidSymbol($symbol)) {
-            throw new FormatException("Invalid unit symbol format: '$symbol'.");
+            throw new FormatException("Invalid unit symbol format: '{$symbol}'.");
         }
 
         // Get the unit from the registry.
@@ -576,7 +576,7 @@ class Unit implements UnitInterface
             $symbols[$symbol] = [$symbol, null];
         } elseif ($this->dimension !== '' && self::isValidWord($symbol)) {
             // Add the symbol with a prefix only if the unit is not dimensionless and the symbol contains letters only.
-            $symbols[$prefix . $symbol] = [$symbol, $prefix];
+            $symbols["{$prefix}{$symbol}"] = [$symbol, $prefix];
         }
     }
 

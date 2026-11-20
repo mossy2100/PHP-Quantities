@@ -213,7 +213,7 @@ final class UnitInspectionTest extends TestCase
     private static function prefix(string $symbol): Prefix
     {
         $prefix = PrefixService::getBySymbol($symbol);
-        self::assertNotNull($prefix, "Prefix '$symbol' not found");
+        self::assertNotNull($prefix, "Prefix '{$symbol}' not found");
         return $prefix;
     }
 

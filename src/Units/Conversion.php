@@ -300,7 +300,7 @@ class Conversion implements Stringable
      */
     public function __toString(): string
     {
-        return "1 $this->srcUnit = {$this->factor->value} $this->destUnit";
+        return "1 {$this->srcUnit} = {$this->factor->value} {$this->destUnit}";
     }
 
     #endregion

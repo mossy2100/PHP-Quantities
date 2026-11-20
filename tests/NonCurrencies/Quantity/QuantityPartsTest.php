@@ -927,8 +927,8 @@ final class QuantityPartsTest extends TestCase
 
         $result = [];
         foreach ($cases as $name => [$class, $value, $unit]) {
-            $result["$name, zeros hidden"] = [$class, $value, $unit, false];
-            $result["$name, zeros shown"] = [$class, $value, $unit, true];
+            $result["{$name}, zeros hidden"] = [$class, $value, $unit, false];
+            $result["{$name}, zeros shown"] = [$class, $value, $unit, true];
         }
         return $result;
     }
