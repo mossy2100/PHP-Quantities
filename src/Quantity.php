@@ -138,7 +138,7 @@ class Quantity implements Stringable
      * - The calling class matches the unit's dimension.
      *
      * @param float $value The numeric value in the given unit.
-     * @param null|string|UnitInterface $unit The unit as a symbol string (e.g. 'kg', 'mm', 'hr'),
+     * @param string|UnitInterface|null $unit The unit as a symbol string (e.g. 'kg', 'mm', 'hr'),
      * object, or null if dimensionless.
      * @throws LogicException If called directly on Quantity, or the wrong subclass constructor is being called
      * for the given unit's dimension.
@@ -198,7 +198,7 @@ class Quantity implements Stringable
      * For unregistered dimensions, falls back to a generic Quantity object.
      *
      * @param float $value The numeric value.
-     * @param null|string|UnitInterface $unit The unit as a symbol string, a unit object, or null for dimensionless.
+     * @param string|UnitInterface|null $unit The unit as a symbol string, a unit object, or null for dimensionless.
      * @return self A Quantity of the appropriate type.
      * @throws DomainException If the value is non-finite (±INF or NAN).
      * @throws FormatException If the unit is provided as a string, and it cannot be parsed.

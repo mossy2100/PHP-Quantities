@@ -160,7 +160,7 @@ class UnitTerm implements UnitInterface
      * The exponent must be in the range -9..9, excluding 0.
      *
      * @param string|Unit $unit The unit or its symbol (e.g. 'm', 'ft', 'N').
-     * @param null|string|Prefix $prefix The prefix symbol or object, or null if none.
+     * @param string|Prefix|null $prefix The prefix symbol or object, or null if none.
      * @param int $exponent The exponent (default 1). Must be in -9..9 and not 0.
      * @throws UnknownUnitException If the unit symbol is not recognized.
      * @throws DomainException If the exponent or prefix is invalid.

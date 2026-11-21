@@ -151,7 +151,7 @@ class CompoundUnit implements UnitInterface
     /**
      * Construct a new CompoundUnit instance.
      *
-     * @param null|Unit|UnitTerm|list<Unit|UnitTerm> $unit The Unit, UnitTerm, or array of Unit or UnitTerm objects
+     * @param Unit|UnitTerm|list<Unit|UnitTerm>|null $unit The Unit, UnitTerm, or array of Unit or UnitTerm objects
      * to add, or null to create a dimensionless unit.
      */
     public function __construct(Unit|UnitTerm|array|null $unit = null)
@@ -180,7 +180,7 @@ class CompoundUnit implements UnitInterface
     /**
      * Convert the argument to a CompoundUnit if necessary.
      *
-     * @param null|string|UnitInterface $value The value to convert.
+     * @param string|UnitInterface|null $value The value to convert.
      * @return self The equivalent CompoundUnit object.
      * @throws FormatException If a string is provided, and it cannot be parsed.
      * @throws UnknownUnitException If a string is provided, and it contains unknown units.
