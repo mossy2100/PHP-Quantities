@@ -635,8 +635,8 @@ class Quantity implements Stringable
      * @throws InvalidArgumentException If $other is not a Quantity.
      * @throws DimensionMismatchException If the Quantities have different dimensions.
      * @throws LogicException If no conversion path exists between the units.
+     * @disregard P1128
      */
-    /** @disregard P1128 */
     #[Override] // Comparable
     public function compare(mixed $other): int
     {
@@ -657,8 +657,8 @@ class Quantity implements Stringable
      * @throws InvalidArgumentException If $other is not a Quantity.
      * @throws DimensionMismatchException If the Quantities have different dimensions.
      * @throws LogicException If no conversion path exists between the units.
+     * @disregard P1128
      */
-    /** @disregard P1128 */
     #[Override] // ApproxEquatable
     public function approxEqual(
         mixed $other,
